@@ -1,4 +1,4 @@
-package no.nav.bidrag.beregn.bpsandelunderholdskostnad.beregning;
+package no.nav.bidrag.beregn.bpsandelsaerbidrag.beregning;
 
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
@@ -11,9 +11,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.GrunnlagBeregningPeriodisert;
-import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.Inntekt;
-import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.ResultatBeregning;
+import no.nav.bidrag.beregn.bpsandelsaerbidrag.bo.GrunnlagBeregningPeriodisert;
+import no.nav.bidrag.beregn.bpsandelsaerbidrag.bo.Inntekt;
+import no.nav.bidrag.beregn.bpsandelsaerbidrag.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.felles.SjablonUtil;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.felles.bo.SjablonNavnVerdi;
