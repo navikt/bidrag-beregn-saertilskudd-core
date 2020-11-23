@@ -1,4 +1,4 @@
-package no.nav.bidrag.beregn.bpsandelsaerbidrag;
+package no.nav.bidrag.beregn.bpsandelsaertilskudd;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -7,24 +7,24 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.TestUtil;
-import no.nav.bidrag.beregn.bpsandelsaerbidrag.beregning.BPsAndelUnderholdskostnadBeregningImpl;
-import no.nav.bidrag.beregn.bpsandelsaerbidrag.bo.GrunnlagBeregningPeriodisert;
-import no.nav.bidrag.beregn.bpsandelsaerbidrag.bo.Inntekt;
-import no.nav.bidrag.beregn.bpsandelsaerbidrag.bo.ResultatBeregning;
+import no.nav.bidrag.beregn.bpsandelsaertilskudd.beregning.BPsAndelSaertilskuddBeregningImpl;
+import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.GrunnlagBeregningPeriodisert;
+import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.Inntekt;
+import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.felles.enums.InntektType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Test av beregning av BPs andel av underholdskostnad")
-public class BPsAndelUnderholdskostnadBeregningTest {
+public class BPsAndelSaertilskuddBeregningTest {
 
     private final List<Sjablon> sjablonListe = TestUtil.byggSjabloner();
 
     @DisplayName("Beregning med inntekter for alle parter")
     @Test
     void testBeregningMedInntekterForAlle() {
-      var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
+      var bPsAndelUnderholdskostnadBeregning = new BPsAndelSaertilskuddBeregningImpl();
 
       var underholdskostnad = BigDecimal.valueOf(10000);
       var inntektBP = new ArrayList<Inntekt>();
@@ -51,7 +51,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
       + "riktig etter fratrekk av 30 * forhøyet forskudd på barnets inntekt")
   @Test
   void testBeregningMedFlereInntekterForAlle() {
-    var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
+    var bPsAndelUnderholdskostnadBeregning = new BPsAndelSaertilskuddBeregningImpl();
 
     var underholdskostnad = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
@@ -86,7 +86,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
   @DisplayName("Beregning der barnets inntekter er høyere enn 100 * forhøyet forskuddssats. Andel skal da bli 0")
   @Test
   void testAndelLikNullVedHoyInntektBarn() {
-    var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
+    var bPsAndelUnderholdskostnadBeregning = new BPsAndelSaertilskuddBeregningImpl();
 
     var underholdskostnad = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
@@ -115,7 +115,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
       + "etter ønske fra John for å få likt resultat som i Bidragskalkulator")
   @Test
   void testAtMaksAndelSettes() {
-    var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
+    var bPsAndelUnderholdskostnadBeregning = new BPsAndelSaertilskuddBeregningImpl();
 
     var underholdskostnad = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
@@ -143,7 +143,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
   @DisplayName("Beregning med 0 i inntekt for barn")
   @Test
   void testBeregningMedNullInntektBarn() {
-    var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
+    var bPsAndelUnderholdskostnadBeregning = new BPsAndelSaertilskuddBeregningImpl();
 
     var underholdskostnad = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
@@ -168,7 +168,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
   @DisplayName("Beregning med gamle regler, beregnet andel skal avrundes til nærmeste sjettedel (maks 5/6)")
   @Test
   void testBeregningGamleReglerAvrundTreSjettedeler() {
-    var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
+    var bPsAndelUnderholdskostnadBeregning = new BPsAndelSaertilskuddBeregningImpl();
 
     var underholdskostnad = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
@@ -193,7 +193,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
   @DisplayName("Beregning med gamle regler, andel skal rundes opp til 1/6")
   @Test
   void testBeregningGamleReglerAvrundEnSjettedel() {
-    var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
+    var bPsAndelUnderholdskostnadBeregning = new BPsAndelSaertilskuddBeregningImpl();
 
     var underholdskostnad = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
@@ -218,7 +218,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
   @DisplayName("Beregning med gamle regler, andel skal rundes ned til maks andel, 5/6")
   @Test
   void testBeregningGamleReglerAvrundFemSjettedeler() {
-    var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
+    var bPsAndelUnderholdskostnadBeregning = new BPsAndelSaertilskuddBeregningImpl();
 
     var underholdskostnad = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
@@ -243,7 +243,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
   @DisplayName("Test fra John")
   @Test
   void testFraJohn() {
-    var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
+    var bPsAndelUnderholdskostnadBeregning = new BPsAndelSaertilskuddBeregningImpl();
 
     var underholdskostnad = BigDecimal.valueOf(9355);
     var inntektBP = new ArrayList<Inntekt>();

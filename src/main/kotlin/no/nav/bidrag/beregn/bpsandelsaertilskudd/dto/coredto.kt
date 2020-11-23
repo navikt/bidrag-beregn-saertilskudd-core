@@ -1,4 +1,4 @@
-package no.nav.bidrag.beregn.bpsandelsaerbidrag.dto
+package no.nav.bidrag.beregn.bpsandelsaertilskudd.dto
 
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
@@ -8,20 +8,14 @@ import java.math.BigDecimal
 import java.time.LocalDate
 
 // Grunnlag periode
-data class BeregnBPsAndelUnderholdskostnadGrunnlagCore(
+data class BeregnBPsAndelSaertilskuddGrunnlagCore(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
     val soknadsbarnPersonId: Int,
-    val underholdskostnadPeriodeListe: List<UnderholdskostnadPeriodeCore>,
     val inntektBPPeriodeListe: List<InntektPeriodeCore>,
     val inntektBMPeriodeListe: List<InntektPeriodeCore>,
     val inntektBBPeriodeListe: List<InntektPeriodeCore>,
     var sjablonPeriodeListe: List<SjablonPeriodeCore>
-)
-
-data class UnderholdskostnadPeriodeCore(
-    val underholdskostnadDatoFraTil: PeriodeCore,
-    val underholdskostnadBelop: BigDecimal
 )
 
 data class InntektPeriodeCore(
@@ -31,7 +25,7 @@ data class InntektPeriodeCore(
 )
 
 // Resultatperiode
-data class BeregnBPsAndelUnderholdskostnadResultatCore(
+data class BeregnBPsAndelSaertilskuddResultatCore(
     val resultatPeriodeListe: List<ResultatPeriodeCore>,
     val avvikListe: List<AvvikCore>
 )
@@ -44,14 +38,11 @@ data class ResultatPeriodeCore(
 )
 
 data class ResultatBeregningCore(
-    val resultatAndelProsent: BigDecimal,
-    val resultatAndelBelop: BigDecimal,
-    val barnetErSelvforsorget: Boolean
+    val resultatAndelProsent: BigDecimal
 )
 
 // Grunnlag beregning
 data class ResultatGrunnlagCore(
-    val underholdskostnadBelop: BigDecimal,
     val inntektBPListe: List<InntektCore>,
     val inntektBMListe: List<InntektCore>,
     val inntektBBListe: List<InntektCore>,
@@ -62,3 +53,4 @@ data class InntektCore(
     val inntektType: String,
     val inntektBelop: BigDecimal
 )
+

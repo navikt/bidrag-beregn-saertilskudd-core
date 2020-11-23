@@ -46,7 +46,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 @DisplayName("BarnebidragCore (dto-test)")
-public class BarnebidragCoreTest {
+public class SaertilskuddCoreTest {
 
   private BarnebidragCore barnebidragCore;
 

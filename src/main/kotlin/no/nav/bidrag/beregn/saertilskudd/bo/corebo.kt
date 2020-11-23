@@ -1,4 +1,4 @@
-package no.nav.bidrag.beregn.saerbidrag.bo
+package no.nav.bidrag.beregn.saertilskudd.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.Sjablon
@@ -8,44 +8,43 @@ import no.nav.bidrag.beregn.felles.enums.ResultatKode
 import java.math.BigDecimal
 import java.time.LocalDate
 
-// Grunnlag periode
-data class BeregnBarnebidragGrunnlag(
+// Grunnlag beregning
+data class BeregnSaertilskuddGrunnlag(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
-    val bidragsevnePeriodeListe: List<BidragsevnePeriode>,
-    val bPsAndelUnderholdskostnadPeriodeListe: List<BPsAndelUnderholdskostnadPeriode>,
-    val samvaersfradragPeriodeListe: List<SamvaersfradragPeriode>,
-    val deltBostedPeriodeListe: List<DeltBostedPeriode>,
-    val barnetilleggBPPeriodeListe: List<BarnetilleggPeriode>,
-    val barnetilleggBMPeriodeListe: List<BarnetilleggPeriode>,
-    val barnetilleggForsvaretPeriodeListe: List<BarnetilleggForsvaretPeriode>,
+    val soknadsbarnPersonId: Int,
+    val bidragsevne: Bidragsevne,
+    val bPsAndelSaertilskudd: BPsAndelSaertilskudd,
+    val lopendeBidrag: LopendeBidrag,
+    val samvaersfradragBelop: BigDecimal,
     val sjablonPeriodeListe: List<SjablonPeriode>
 )
 
-// Resultatperiode
-data class BeregnBarnebidragResultat(
+// Resultat
+data class BeregnSaertilskuddResultat(
     val resultatPeriodeListe: List<ResultatPeriode>
 )
 
+
 data class ResultatPeriode(
+    val soknadsbarnPersonId: Int,
     val resultatDatoFraTil: Periode,
-    val resultatBeregningListe: List<ResultatBeregning>,
-    val resultatGrunnlag: GrunnlagBeregningPeriodisert
+    val resultatBeregning: ResultatBeregning,
+    val resultatGrunnlagBeregning: GrunnlagBeregning
 )
 
 data class ResultatBeregning(
-    val soknadsbarnPersonId: Int,
-    val resultatBarnebidragBelop: BigDecimal,
+    val resultatBelop: BigDecimal,
     val resultatkode: ResultatKode,
     val sjablonListe: List<SjablonNavnVerdi>
 )
 
-
 // Grunnlag beregning
-data class GrunnlagBeregningPeriodisert(
+data class GrunnlagBeregning(
     val bidragsevne: Bidragsevne,
-    val grunnlagPerBarnListe: List<GrunnlagBeregningPerBarn>,
-    val barnetilleggForsvaret: Boolean,
+    val bPsAndelSaertilskudd: BPsAndelSaertilskudd,
+    val lopendeBidrag: LopendeBidrag,
+    val samvaersfradrag: BigDecimal,
     val sjablonListe: List<Sjablon>
 )
 
@@ -54,22 +53,13 @@ data class Bidragsevne(
     val tjuefemProsentInntekt: BigDecimal
 )
 
-data class GrunnlagBeregningPerBarn(
-    val soknadsbarnPersonId: Int,
-    val bPsAndelUnderholdskostnad: BPsAndelUnderholdskostnad,
-    val samvaersfradrag: BigDecimal,
-    val deltBosted: Boolean,
-    val barnetilleggBP: Barnetillegg,
-    val barnetilleggBM: Barnetillegg
-)
-
-data class BPsAndelUnderholdskostnad(
-    val bPsAndelUnderholdskostnadProsent: BigDecimal,
-    val bPsAndelUnderholdskostnadBelop: BigDecimal,
+data class BPsAndelSaertilskudd(
+    val bPsAndelSaertilskuddProsent: BigDecimal,
+    val bPsAndelSaertilskuddBelop: BigDecimal,
     val barnetErSelvforsorget: Boolean
 )
 
-data class Barnetillegg(
-    val barnetilleggBelop: BigDecimal,
-    val barnetilleggSkattProsent: BigDecimal
+data class LopendeBidrag(
+    val lopendeBidragBelop: BigDecimal,
+    val resultatkode: ResultatKode
 )

@@ -30,7 +30,7 @@ import no.nav.bidrag.beregn.felles.enums.SoknadType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class BPsAndelUnderholdskostnadPeriodeTest {
+public class BPsAndelSaertilskuddPeriodeTest {
 
   private BeregnBPsAndelUnderholdskostnadGrunnlag grunnlag;
 

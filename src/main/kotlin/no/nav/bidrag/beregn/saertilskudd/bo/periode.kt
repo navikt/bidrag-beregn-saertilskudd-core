@@ -1,7 +1,8 @@
-package no.nav.bidrag.beregn.saerbidrag.bo
+package no.nav.bidrag.beregn.saertilskudd.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.PeriodisertGrunnlag
+import no.nav.bidrag.beregn.felles.enums.ResultatKode
 import java.math.BigDecimal
 
 data class BidragsevnePeriode(
@@ -17,22 +18,36 @@ data class BidragsevnePeriode(
   }
 }
 
-data class BPsAndelUnderholdskostnadPeriode(
+data class BPsAndelSaertilskuddPeriode(
     val soknadsbarnPersonId: Int,
-    val bPsAndelUnderholdskostnadDatoFraTil: Periode,
-    val bPsAndelUnderholdskostnadProsent: BigDecimal,
-    val bPsAndelUnderholdskostnadBelop: BigDecimal,
+    val bPsAndelSaertilskuddDatoFraTil: Periode,
+    val bPsAndelSaertilskuddProsent: BigDecimal,
+    val bPsAndelSaertilskuddBelop: BigDecimal,
     val barnetErSelvforsorget: Boolean) : PeriodisertGrunnlag {
-  constructor(bPsAndelUnderholdskostnadPeriode: BPsAndelUnderholdskostnadPeriode)
-      : this(
-      bPsAndelUnderholdskostnadPeriode.soknadsbarnPersonId,
-      bPsAndelUnderholdskostnadPeriode.bPsAndelUnderholdskostnadDatoFraTil.justerDatoer(),
-      bPsAndelUnderholdskostnadPeriode.bPsAndelUnderholdskostnadProsent,
-      bPsAndelUnderholdskostnadPeriode.bPsAndelUnderholdskostnadBelop,
-      bPsAndelUnderholdskostnadPeriode.barnetErSelvforsorget,
+  constructor(bPsAndelSaertilskuddPeriode: BPsAndelSaertilskuddPeriode)
+      : this(bPsAndelSaertilskuddPeriode.soknadsbarnPersonId,
+      bPsAndelSaertilskuddPeriode.bPsAndelSaertilskuddDatoFraTil.justerDatoer(),
+      bPsAndelSaertilskuddPeriode.bPsAndelSaertilskuddProsent,
+      bPsAndelSaertilskuddPeriode.bPsAndelSaertilskuddBelop,
+      bPsAndelSaertilskuddPeriode.barnetErSelvforsorget,
   )
   override fun getDatoFraTil(): Periode {
-    return bPsAndelUnderholdskostnadDatoFraTil
+    return bPsAndelSaertilskuddDatoFraTil
+  }
+}
+
+data class LopendeBidragPeriode(
+    val soknadsbarnPersonId: Int,
+    val lopendeBidragDatoFraTil: Periode,
+    val lopendeBidragBelop: BigDecimal,
+    val resultatkode: ResultatKode) : PeriodisertGrunnlag {
+  constructor(lopendeBidragPeriode: LopendeBidragPeriode)
+      : this(lopendeBidragPeriode.soknadsbarnPersonId,
+      lopendeBidragPeriode.lopendeBidragDatoFraTil.justerDatoer(),
+      lopendeBidragPeriode.lopendeBidragBelop,
+      lopendeBidragPeriode.resultatkode)
+  override fun getDatoFraTil(): Periode {
+    return lopendeBidragDatoFraTil
   }
 }
 
@@ -46,42 +61,5 @@ data class SamvaersfradragPeriode(
       samvaersfradragPeriode.samvaersfradragBelop)
   override fun getDatoFraTil(): Periode {
     return samvaersfradragDatoFraTil
-  }
-}
-
-data class DeltBostedPeriode(
-    val soknadsbarnPersonId: Int,
-    val deltBostedDatoFraTil: Periode,
-    val deltBostedIPeriode: Boolean) : PeriodisertGrunnlag {
-  constructor(deltBostedPeriode: DeltBostedPeriode)
-      : this(deltBostedPeriode.soknadsbarnPersonId,
-      deltBostedPeriode.deltBostedDatoFraTil.justerDatoer(),
-      deltBostedPeriode.deltBostedIPeriode)
-  override fun getDatoFraTil(): Periode {
-    return deltBostedDatoFraTil
-  }
-}
-
-data class BarnetilleggPeriode(
-    val soknadsbarnPersonId: Int,
-    val barnetilleggDatoFraTil: Periode,
-    val barnetilleggBelop: BigDecimal,
-    val barnetilleggSkattProsent: BigDecimal) : PeriodisertGrunnlag {
-  constructor(barnetilleggPeriode: BarnetilleggPeriode)
-      : this(barnetilleggPeriode.soknadsbarnPersonId, barnetilleggPeriode.barnetilleggDatoFraTil.justerDatoer(),
-      barnetilleggPeriode.barnetilleggBelop, barnetilleggPeriode.barnetilleggSkattProsent)
-  override fun getDatoFraTil(): Periode {
-    return barnetilleggDatoFraTil
-  }
-}
-
-data class BarnetilleggForsvaretPeriode(
-    val barnetilleggForsvaretDatoFraTil: Periode,
-    val barnetilleggForsvaretIPeriode: Boolean) : PeriodisertGrunnlag {
-  constructor(barnetilleggForsvaretPeriode: BarnetilleggForsvaretPeriode)
-      : this(barnetilleggForsvaretPeriode.barnetilleggForsvaretDatoFraTil.justerDatoer(),
-      barnetilleggForsvaretPeriode.barnetilleggForsvaretIPeriode)
-  override fun getDatoFraTil(): Periode {
-    return barnetilleggForsvaretDatoFraTil
   }
 }

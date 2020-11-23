@@ -1,4 +1,4 @@
-package no.nav.bidrag.beregn.bpsandelsaerbidrag.bo
+package no.nav.bidrag.beregn.bpsandelsaertilskudd.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.Sjablon
@@ -8,8 +8,8 @@ import no.nav.bidrag.beregn.felles.enums.InntektType
 import java.math.BigDecimal
 import java.time.LocalDate
 
-// Grunnlag periode
-data class BeregnBPsAndelSaerbidragGrunnlag(
+// Grunnlag
+data class BeregnBPsAndelSaertilskuddGrunnlag(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
     val soknadsbarnPersonId: Int,
@@ -18,12 +18,12 @@ data class BeregnBPsAndelSaerbidragGrunnlag(
     val inntektBBPeriodeListe: List<InntektPeriode>,
     val sjablonPeriodeListe: List<SjablonPeriode>
 )
-
 // Resultatperiode
-data class BeregnBPsAndelSaerbidragResultat(
+data class BeregnBPsAndelSaertilskuddResultat(
     val resultatPeriodeListe: List<ResultatPeriode>
 )
 
+// Resultat
 data class ResultatPeriode(
     val soknadsbarnPersonId: Int,
     val resultatDatoFraTil: Periode,
@@ -33,7 +33,6 @@ data class ResultatPeriode(
 
 data class ResultatBeregning(
     val resultatAndelProsent: BigDecimal,
-    val resultatAndelBelop: BigDecimal,
     val barnetErSelvforsorget: Boolean,
     val sjablonListe: List<SjablonNavnVerdi>
 )

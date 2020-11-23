@@ -1,4 +1,4 @@
-package no.nav.bidrag.beregn.bpsandelsaerbidrag.beregning;
+package no.nav.bidrag.beregn.bpsandelsaertilskudd.beregning;
 
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
@@ -11,15 +11,15 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import no.nav.bidrag.beregn.bpsandelsaerbidrag.bo.GrunnlagBeregningPeriodisert;
-import no.nav.bidrag.beregn.bpsandelsaerbidrag.bo.Inntekt;
-import no.nav.bidrag.beregn.bpsandelsaerbidrag.bo.ResultatBeregning;
+import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.GrunnlagBeregningPeriodisert;
+import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.Inntekt;
+import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.felles.SjablonUtil;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.felles.bo.SjablonNavnVerdi;
 import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
 
-public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderholdskostnadBeregning {
+public class BPsAndelSaertilskuddBeregningImpl implements BPsAndelSaertilskuddBeregning {
 
   @Override
   public ResultatBeregning beregn(
@@ -29,7 +29,6 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
     var sjablonNavnVerdiMap = hentSjablonVerdier(grunnlagBeregningPeriodisert.getSjablonListe());
 
     var andelProsent = BigDecimal.ZERO;
-    var andelBelop = BigDecimal.ZERO;
     var barnetErSelvforsorget = false;
 
     // Legger sammen inntektene
@@ -83,16 +82,9 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
         andelProsent = BigDecimal.valueOf(83.3333333333);
       }
 
-      andelBelop =
-          grunnlagBeregningPeriodisert.getUnderholdskostnadBelop()
-              .multiply(andelProsent).divide(BigDecimal.valueOf(100),
-              new MathContext(10, RoundingMode.HALF_UP));
-
-      andelBelop = andelBelop.setScale(0, RoundingMode.HALF_UP);
-
     }
 
-    return new ResultatBeregning(andelProsent, andelBelop, barnetErSelvforsorget, byggSjablonResultatListe(sjablonNavnVerdiMap));
+    return new ResultatBeregning(andelProsent, barnetErSelvforsorget, byggSjablonResultatListe(sjablonNavnVerdiMap));
   }
 
   @Override
@@ -172,17 +164,9 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
         andelProsent = andelProsent.setScale(1, RoundingMode.HALF_UP);
       }
 
-      andelBelop =
-          grunnlagBeregningPeriodisert.getUnderholdskostnadBelop()
-              .multiply(andelProsent)
-              .divide(BigDecimal.valueOf(100),
-              new MathContext(10, RoundingMode.HALF_UP));
-
-      andelBelop = andelBelop.setScale(1, RoundingMode.HALF_UP);
-
     }
 
-    return new ResultatBeregning(andelProsent, andelBelop, barnetErSelvforsorget, byggSjablonResultatListe(sjablonNavnVerdiMap));
+    return new ResultatBeregning(andelProsent, barnetErSelvforsorget, byggSjablonResultatListe(sjablonNavnVerdiMap));
     }
 
   // Henter sjablonverdier

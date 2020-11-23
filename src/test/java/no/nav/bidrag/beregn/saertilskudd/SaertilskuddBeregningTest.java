@@ -1,4 +1,4 @@
-package no.nav.bidrag.beregn.saerbidrag;
+package no.nav.bidrag.beregn.saertilskudd;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -6,20 +6,20 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.TestUtil;
-import no.nav.bidrag.beregn.saerbidrag.beregning.BarnebidragBeregningImpl;
-import no.nav.bidrag.beregn.saerbidrag.bo.BPsAndelUnderholdskostnad;
-import no.nav.bidrag.beregn.saerbidrag.bo.Barnetillegg;
-import no.nav.bidrag.beregn.saerbidrag.bo.Bidragsevne;
-import no.nav.bidrag.beregn.saerbidrag.bo.GrunnlagBeregningPerBarn;
-import no.nav.bidrag.beregn.saerbidrag.bo.GrunnlagBeregningPeriodisert;
-import no.nav.bidrag.beregn.saerbidrag.bo.ResultatBeregning;
+import no.nav.bidrag.beregn.saertilskudd.beregning.SaertilskuddBeregningImpl;
+import no.nav.bidrag.beregn.saertilskudd.bo.BPsAndelSaertilskudd;
+import no.nav.bidrag.beregn.saertilskudd.bo.Barnetillegg;
+import no.nav.bidrag.beregn.saertilskudd.bo.Bidragsevne;
+import no.nav.bidrag.beregn.saertilskudd.bo.GrunnlagBeregningPerBarn;
+import no.nav.bidrag.beregn.saertilskudd.bo.GrunnlagBeregning;
+import no.nav.bidrag.beregn.saertilskudd.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.felles.enums.ResultatKode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Test av beregning av barnebidrag")
-public class BarnebidragBeregningTest {
+public class SaertilskuddBeregningTest {
 
   private final List<Sjablon> sjablonListe = TestUtil.byggSjabloner();
   private final List<GrunnlagBeregningPerBarn> grunnlagBeregningPerBarnListe  = new ArrayList<>();
@@ -27,17 +27,17 @@ public class BarnebidragBeregningTest {
   @DisplayName("Beregner ved full evne, ett barn, ingen barnetillegg")
   @Test
   void testBeregningEttBarnMedFullEvneIngenBarnetillegg() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
+    SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var bidragsevne = new Bidragsevne(BigDecimal.valueOf(10000), BigDecimal.valueOf(10000));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false),BigDecimal.ZERO, false,
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
+    var grunnlagBeregningPeriodisert =  new GrunnlagBeregning(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
@@ -50,17 +50,17 @@ public class BarnebidragBeregningTest {
       + "Endelig bidrag skal da settes likt barnetillegg for BP")
   @Test
   void testBeregning1BarnFullEvneBarnetilleggBP() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
+    SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var bidragsevne = new Bidragsevne(BigDecimal.valueOf(10000), BigDecimal.valueOf(10000));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(1000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(1000),
        false), BigDecimal.valueOf(100), false,
         new Barnetillegg(BigDecimal.valueOf(1700), BigDecimal.valueOf(10)),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
+    var grunnlagBeregningPeriodisert =  new GrunnlagBeregning(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
@@ -74,23 +74,23 @@ public class BarnebidragBeregningTest {
   @DisplayName("Beregner ved full evne, to barn")
   @Test
   void testBeregning2BarnFullEvne() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
+    SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var bidragsevne = new Bidragsevne(BigDecimal.valueOf(20000), BigDecimal.valueOf(20000));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false), BigDecimal.ZERO, false,
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(7000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(7000),
             false), BigDecimal.ZERO,false,
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
+    var grunnlagBeregningPeriodisert =  new GrunnlagBeregning(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
@@ -104,30 +104,30 @@ public class BarnebidragBeregningTest {
   @DisplayName("Beregner for tre barn med for lav bidragsevne")
   @Test
   void testBeregning3BarnBegrensetAvBidragsevne() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
+    SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var bidragsevne = new Bidragsevne(BigDecimal.valueOf(8000), BigDecimal.valueOf(12000));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(5000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(5000),
         false), BigDecimal.ZERO,false,
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(3000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(3000),
         false),
         BigDecimal.ZERO,false,
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(3,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(2000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(2000),
             false), BigDecimal.ZERO, false,
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
+    var grunnlagBeregningPeriodisert =  new GrunnlagBeregning(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
@@ -147,17 +147,17 @@ public class BarnebidragBeregningTest {
   @DisplayName("Beregner ved manglende evne, ett barn")
   @Test
   void testBeregning1BarnIkkeFullEvne() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
+    SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var bidragsevne = new Bidragsevne(BigDecimal.valueOf(1000), BigDecimal.valueOf(2000));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false), BigDecimal.ZERO,false,
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
+    var grunnlagBeregningPeriodisert =  new GrunnlagBeregning(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     // Tester mot Doubleverdi her fordi svaret returneres med x.xxE+x
@@ -170,23 +170,23 @@ public class BarnebidragBeregningTest {
   @DisplayName("Beregner ved manglende evne, to barn")
   @Test
   void testBeregning2BarnIkkeFullEvne() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
+    SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var bidragsevne = new Bidragsevne(BigDecimal.valueOf(10000), BigDecimal.valueOf(20000));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false), BigDecimal.ZERO, false,
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(7000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(7000),
             false), BigDecimal.ZERO, false,
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
+    var grunnlagBeregningPeriodisert =  new GrunnlagBeregning(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
@@ -201,29 +201,29 @@ public class BarnebidragBeregningTest {
   @DisplayName("Beregner for tre barn som begrenses av 25%-regel")
   @Test
   void testBeregning3BarnBegrensetAv25ProsentAvInntekt() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
+    SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var bidragsevne = new Bidragsevne(BigDecimal.valueOf(12000), BigDecimal.valueOf(8000));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(5000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(5000),
             false), BigDecimal.ZERO,false,
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(3000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(3000),
             false), BigDecimal.ZERO, false,
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(3,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(2000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(2000),
             false), BigDecimal.ZERO, false,
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
+    var grunnlagBeregningPeriodisert =  new GrunnlagBeregning(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     // Tester mot Doubleverdi her fordi svaret returneres med x.xxE+x
@@ -247,17 +247,17 @@ public class BarnebidragBeregningTest {
       + "Det skal trekkes fra for samvær også her ")
   @Test
   void testBeregningBidragSettesLiktBarnetilleggBM() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
+    SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var bidragsevne = new Bidragsevne(BigDecimal.valueOf(8000), BigDecimal.valueOf(12000));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(1000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(1000),
             false), BigDecimal.valueOf(50), false,
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.valueOf(1000), BigDecimal.valueOf(10d))));
 
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
+    var grunnlagBeregningPeriodisert =  new GrunnlagBeregning(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
@@ -272,18 +272,18 @@ public class BarnebidragBeregningTest {
       + "Barnetillegg for BP overstyrer barnetilleggBM")
   @Test
   void testBeregningBidragSettesLiktBarnetilleggBP() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
+    SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var bidragsevne = new Bidragsevne(BigDecimal.valueOf(8000), BigDecimal.valueOf(12000));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(200),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(200),
             false), BigDecimal.ZERO,false,
         new Barnetillegg(BigDecimal.valueOf(500), BigDecimal.valueOf(10)),
         new Barnetillegg(BigDecimal.valueOf(1000), BigDecimal.valueOf(10))));
 
 
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
+    var grunnlagBeregningPeriodisert =  new GrunnlagBeregning(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
@@ -295,17 +295,17 @@ public class BarnebidragBeregningTest {
   @DisplayName("Beregner at bidrag settes likt BPs andel av underholdskostnad minus samværsfradrag")
   @Test
   void testBeregningFradragSamvaer() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
+    SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var bidragsevne = new Bidragsevne(BigDecimal.valueOf(8000), BigDecimal.valueOf(12000));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(2000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(2000),
             false), BigDecimal.valueOf(200), false,
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
+    var grunnlagBeregningPeriodisert =  new GrunnlagBeregning(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
@@ -320,23 +320,23 @@ public class BarnebidragBeregningTest {
       + "underholdskostnad minus netto barnetillegg for BM")
   @Test
   void testBeregning3BarnBarnetilleggBPogBM() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
+    SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var bidragsevne = new Bidragsevne(BigDecimal.valueOf(12000), BigDecimal.valueOf(8000));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(400),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(400),
             false), BigDecimal.ZERO, false,
         new Barnetillegg(BigDecimal.valueOf(500), BigDecimal.valueOf(10)),
         new Barnetillegg(BigDecimal.valueOf(400), BigDecimal.valueOf(10))));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(300),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(300),
             false), BigDecimal.ZERO, false,
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.valueOf(100), BigDecimal.valueOf(10))));
 
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
+    var grunnlagBeregningPeriodisert =  new GrunnlagBeregning(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
@@ -354,17 +354,17 @@ public class BarnebidragBeregningTest {
       + "alt i beregningen")
   @Test
   void testBeregning1BarnBarnetilleggForsvaret() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
+    SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var bidragsevne = new Bidragsevne(BigDecimal.valueOf(10000), BigDecimal.valueOf(10000));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false),BigDecimal.valueOf(1000), true,
         new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
+    var grunnlagBeregningPeriodisert =  new GrunnlagBeregning(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert);
@@ -379,29 +379,29 @@ public class BarnebidragBeregningTest {
       + "alt i beregningen")
   @Test
   void testBeregning3BarnBarnetilleggForsvaret() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
+    SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var bidragsevne = new Bidragsevne(BigDecimal.valueOf(10000), BigDecimal.valueOf(10000));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false),BigDecimal.ZERO, true,
         new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false), BigDecimal.ZERO, true,
         new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(3,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false), BigDecimal.ZERO, true,
         new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
+    var grunnlagBeregningPeriodisert =  new GrunnlagBeregning(
         bidragsevne, grunnlagBeregningPerBarnListe, true, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert);
@@ -415,29 +415,29 @@ public class BarnebidragBeregningTest {
   @DisplayName("Beregner med barnetillegg fra forsvaret for tre barn. Test på at samværsfradrag trekkes fra endelig bidragsbeløp")
   @Test
   void testBeregningBarnetilleggForsvaretFratrekkSamvaersfradrag() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
+    SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var bidragsevne = new Bidragsevne(BigDecimal.valueOf(10000), BigDecimal.valueOf(10000));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false), BigDecimal.ZERO, true,
         new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false), BigDecimal.valueOf(1000), true,
         new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(3,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false), BigDecimal.ZERO, true,
         new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
+    var grunnlagBeregningPeriodisert =  new GrunnlagBeregning(
         bidragsevne, grunnlagBeregningPerBarnListe, true, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert);
@@ -453,77 +453,77 @@ public class BarnebidragBeregningTest {
   @DisplayName("Beregner med barnetillegg fra forsvaret for elleve barn. Sjekker avrunding")
   @Test
   void testBeregning11BarnBarnetilleggForsvaret() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
+    SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var bidragsevne = new Bidragsevne(BigDecimal.valueOf(10000), BigDecimal.valueOf(10000));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false),BigDecimal.ZERO, true,
         new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false),BigDecimal.ZERO, true,
         new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(3,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false),BigDecimal.ZERO, true,
         new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(4,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false),BigDecimal.ZERO, true,
         new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(5,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false),BigDecimal.ZERO, true,
         new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(6,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false),BigDecimal.ZERO, true,
         new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(7,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false),BigDecimal.ZERO, true,
         new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(8,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false),BigDecimal.ZERO, true,
         new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(9,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false),BigDecimal.ZERO, true,
         new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(10,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false),BigDecimal.ZERO, true,
         new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(11,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false),BigDecimal.ZERO, true,
         new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
+    var grunnlagBeregningPeriodisert =  new GrunnlagBeregning(
         bidragsevne, grunnlagBeregningPerBarnListe, true, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert);
@@ -535,23 +535,23 @@ public class BarnebidragBeregningTest {
   @DisplayName("Beregner der delt bosted og barnetilleggBP er angitt, barnetillegget skal da ikke taes hensyn til")
   @Test
   void testBeregningDeltBostedOgBarnetilleggBP() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
+    SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var bidragsevne = new Bidragsevne(BigDecimal.valueOf(1000), BigDecimal.valueOf(1200));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false), BigDecimal.ZERO, false,
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false), BigDecimal.ZERO, true,
         new Barnetillegg(BigDecimal.valueOf(5000), BigDecimal.valueOf(10)),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
+    var grunnlagBeregningPeriodisert =  new GrunnlagBeregning(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
@@ -567,23 +567,23 @@ public class BarnebidragBeregningTest {
       + "BPs andel skal da være 0, bidrag skal beregnes til 0 og resultatkode BARNET_ER_SELVFORSORGET skal angis")
   @Test
   void testBeregningSelvforsorgetBarn() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
+    SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var bidragsevne = new Bidragsevne(BigDecimal.valueOf(1000), BigDecimal.valueOf(1200));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false), BigDecimal.ZERO, false,
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(BigDecimal.ZERO, BigDecimal.ZERO,
+        new BPsAndelSaertilskudd(BigDecimal.ZERO, BigDecimal.ZERO,
             true), BigDecimal.ZERO, true,
         new Barnetillegg(BigDecimal.valueOf(5000), BigDecimal.valueOf(10)),
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
+    var grunnlagBeregningPeriodisert =  new GrunnlagBeregning(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
@@ -599,17 +599,17 @@ public class BarnebidragBeregningTest {
   @DisplayName("Tester fra John")
   @Test
   void testerFraJohn() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
+    SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var bidragsevne = new Bidragsevne(BigDecimal.valueOf(16536), BigDecimal.valueOf(12500));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(60),BigDecimal.valueOf(5210),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(60),BigDecimal.valueOf(5210),
             false), BigDecimal.valueOf(457), false,
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.valueOf(4000), BigDecimal.valueOf(10))));
 
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
+    var grunnlagBeregningPeriodisert =  new GrunnlagBeregning(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);

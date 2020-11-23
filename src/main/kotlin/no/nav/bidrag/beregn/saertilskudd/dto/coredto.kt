@@ -1,87 +1,51 @@
-package no.nav.bidrag.beregn.saerbidrag.dto
+package no.nav.bidrag.beregn.saertilskudd.dto
 
+import no.nav.bidrag.beregn.felles.bo.SjablonNavnVerdi
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
 import no.nav.bidrag.beregn.felles.dto.SjablonNavnVerdiCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
+import no.nav.bidrag.beregn.felles.enums.ResultatKode
 import java.math.BigDecimal
 import java.time.LocalDate
 
 // Grunnlag periode
-data class BeregnBarnebidragGrunnlagCore(
+data class BeregnSaertilskuddGrunnlagCore(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
-    val bidragsevnePeriodeListe: List<BidragsevnePeriodeCore>,
-    val bPsAndelUnderholdskostnadPeriodeListe: List<BPsAndelUnderholdskostnadPeriodeCore>,
-    val samvaersfradragPeriodeListe: List<SamvaersfradragPeriodeCore>,
-    val deltBostedPeriodeListe: List<DeltBostedPeriodeCore>,
-    val barnetilleggBPPeriodeListe: List<BarnetilleggPeriodeCore>,
-    val barnetilleggBMPeriodeListe: List<BarnetilleggPeriodeCore>,
-    val barnetilleggForsvaretPeriodeListe: List<BarnetilleggForsvaretPeriodeCore>,
+    val soknadsbarnPersonId: Int,
+    val bidragsevne: BidragsevneCore,
+    val bPsAndelSaertilskudd: BPsAndelSaertilskuddCore,
+    val lopendeBidrag: LopendeBidragCore,
+    val samvaersfradragBelop: BigDecimal,
     val sjablonPeriodeListe: List<SjablonPeriodeCore>
 )
 
-data class BidragsevnePeriodeCore(
-    val bidragsevneDatoFraTil: PeriodeCore,
-    val bidragsevneBelop: BigDecimal,
-    val tjuefemProsentInntekt: BigDecimal
-)
-
-data class BPsAndelUnderholdskostnadPeriodeCore(
-    val soknadsbarnPersonId: Int,
-    val bPsAndelUnderholdskostnadDatoFraTil: PeriodeCore,
-    val bPsAndelUnderholdskostnadProsent: BigDecimal,
-    val bPsAndelUnderholdskostnadBelop: BigDecimal,
-    val barnetErSelvforsorget: Boolean
-)
-
-data class SamvaersfradragPeriodeCore(
-    val soknadsbarnPersonId: Int,
-    val samvaersfradragDatoFraTil: PeriodeCore,
-    val samvaersfradragBelop: BigDecimal
-)
-
-data class DeltBostedPeriodeCore(
-    val soknadsbarnPersonId: Int,
-    val deltBostedDatoFraTil: PeriodeCore,
-    val deltBostedIPeriode: Boolean
-)
-
-data class BarnetilleggPeriodeCore(
-    val soknadsbarnPersonId: Int,
-    val barnetilleggDatoFraTil: PeriodeCore,
-    val barnetilleggBelop: BigDecimal,
-    val barnetilleggSkattProsent: BigDecimal
-)
-
-data class BarnetilleggForsvaretPeriodeCore(
-    val barnetilleggForsvaretDatoFraTil: PeriodeCore,
-    val barnetilleggForsvaretIPeriode: Boolean
-)
-
 // Resultatperiode
-data class BeregnBarnebidragResultatCore(
+data class BeregnSaertilskuddResultatCore(
     val resultatPeriodeListe: List<ResultatPeriodeCore>,
     val avvikListe: List<AvvikCore>
 )
 
 data class ResultatPeriodeCore(
+    val soknadsbarnPersonId: Int,
     val resultatDatoFraTil: PeriodeCore,
-    val resultatBeregningListe: List<ResultatBeregningCore>,
-    val resultatGrunnlag: GrunnlagBeregningPeriodisertCore
+    val resultatBeregning: ResultatBeregningCore,
+    val resultatGrunnlag: GrunnlagBeregningCore
 )
 
 data class ResultatBeregningCore(
-    val soknadsbarnPersonId: Int,
-    val resultatBarnebidragBelop: BigDecimal,
-    val resultatkode: String
+    val resultatBelop: BigDecimal,
+    val resultatkode: String,
+    val sjablonListe: List<SjablonNavnVerdi>
 )
 
 // Grunnlag beregning
-data class GrunnlagBeregningPeriodisertCore(
+data class GrunnlagBeregningCore(
     val bidragsevne: BidragsevneCore,
-    val grunnlagPerBarnListe: List<GrunnlagBeregningPerBarnCore>,
-    val barnetilleggForsvaret: Boolean,
+    val bPsAndelSaertilskudd: BPsAndelSaertilskuddCore,
+    val lopendeBidrag: LopendeBidragCore,
+    val samvaersfradrag: BigDecimal,
     val sjablonListe: List<SjablonNavnVerdiCore>
 )
 
@@ -90,22 +54,13 @@ data class BidragsevneCore(
     val tjuefemProsentInntekt: BigDecimal
 )
 
-data class GrunnlagBeregningPerBarnCore(
-    val soknadsbarnPersonId: Int,
-    val bPsAndelUnderholdskostnad: BPsAndelUnderholdskostnadCore,
-    val samvaersfradrag: BigDecimal,
-    val deltBosted: Boolean,
-    val barnetilleggBP: BarnetilleggCore,
-    val barnetilleggBM: BarnetilleggCore
-)
-
-data class BPsAndelUnderholdskostnadCore(
-    val bPsAndelUnderholdskostnadProsent: BigDecimal,
-    val bPsAndelUnderholdskostnadBelop: BigDecimal,
+data class BPsAndelSaertilskuddCore(
+    val bPsAndelSaertilskuddProsent: BigDecimal,
+    val bPsAndelSaertilskuddBelop: BigDecimal,
     val barnetErSelvforsorget: Boolean
 )
 
-data class BarnetilleggCore(
-    val barnetilleggBelop: BigDecimal,
-    val barnetilleggSkattProsent: BigDecimal
+data class LopendeBidragCore(
+    val lopendeBidragBelop: BigDecimal,
+    val resultatkode: ResultatKode
 )

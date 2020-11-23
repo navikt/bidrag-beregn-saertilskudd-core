@@ -1,4 +1,4 @@
-package no.nav.bidrag.beregn.saerbidrag;
+package no.nav.bidrag.beregn.saertilskudd;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -10,15 +10,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import no.nav.bidrag.beregn.saerbidrag.bo.BPsAndelUnderholdskostnadPeriode;
-import no.nav.bidrag.beregn.saerbidrag.bo.BarnetilleggForsvaretPeriode;
-import no.nav.bidrag.beregn.saerbidrag.bo.BarnetilleggPeriode;
-import no.nav.bidrag.beregn.saerbidrag.bo.BeregnBarnebidragGrunnlag;
-import no.nav.bidrag.beregn.saerbidrag.bo.BeregnBarnebidragResultat;
-import no.nav.bidrag.beregn.saerbidrag.bo.BidragsevnePeriode;
-import no.nav.bidrag.beregn.saerbidrag.bo.DeltBostedPeriode;
-import no.nav.bidrag.beregn.saerbidrag.bo.SamvaersfradragPeriode;
-import no.nav.bidrag.beregn.saerbidrag.periode.BarnebidragPeriode;
+import no.nav.bidrag.beregn.saertilskudd.bo.BPsAndelUnderholdskostnadPeriode;
+import no.nav.bidrag.beregn.saertilskudd.bo.BarnetilleggForsvaretPeriode;
+import no.nav.bidrag.beregn.saertilskudd.bo.BarnetilleggPeriode;
+import no.nav.bidrag.beregn.saertilskudd.bo.BeregnBarnebidragGrunnlag;
+import no.nav.bidrag.beregn.saertilskudd.bo.BeregnBarnebidragResultat;
+import no.nav.bidrag.beregn.saertilskudd.bo.BidragsevnePeriode;
+import no.nav.bidrag.beregn.saertilskudd.bo.DeltBostedPeriode;
+import no.nav.bidrag.beregn.saertilskudd.bo.SamvaersfradragPeriode;
+import no.nav.bidrag.beregn.saertilskudd.periode.BarnebidragPeriode;
 
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
@@ -32,7 +32,7 @@ import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class BarnebidragPeriodeTest {
+public class SaertilskuddPeriodeTest {
 
   private BeregnBarnebidragGrunnlag grunnlag;
 

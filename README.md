@@ -1,10 +1,10 @@
-# bidrag-beregn-barnebidrag-core
-![](https://github.com/navikt/bidrag-beregn-saerbidrag-core/workflows/maven%20deploy/badge.svg)
+# bidrag-beregn-saertilskudd-core
+![](https://github.com/navikt/bidrag-beregn-saertilskudd-core/workflows/maven%20deploy/badge.svg)
 
-Repo for beregning av særbidrag-core. Disse erstatter beregninger i BBM.
+Repo for beregning av særtilskudd-core. Disse erstatter beregninger i BBM.
 
 ## Changelog:
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
-0.0.1   | Opprettet    | Init commit for beregning av særbidrag
+0.0.1   | Opprettet    | Init commit for beregning av særtilskudd
