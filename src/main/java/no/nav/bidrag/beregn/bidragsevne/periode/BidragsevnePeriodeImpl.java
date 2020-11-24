@@ -4,7 +4,6 @@ import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.bidragsevne.beregning.Bidragsevneberegning;
@@ -12,7 +11,7 @@ import no.nav.bidrag.beregn.bidragsevne.bo.AntallBarnIEgetHusholdPeriode;
 import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneGrunnlag;
 import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneResultat;
 import no.nav.bidrag.beregn.bidragsevne.bo.BostatusPeriode;
-import no.nav.bidrag.beregn.bidragsevne.bo.GrunnlagBeregningPeriodisert;
+import no.nav.bidrag.beregn.bidragsevne.bo.GrunnlagBeregning;
 import no.nav.bidrag.beregn.bidragsevne.bo.Inntekt;
 import no.nav.bidrag.beregn.bidragsevne.bo.InntektPeriode;
 import no.nav.bidrag.beregn.bidragsevne.bo.ResultatPeriode;
@@ -125,7 +124,7 @@ public class BidragsevnePeriodeImpl implements BidragsevnePeriode {
 //      System.out.println("Beregner bidragsevne for periode: " + beregningsperiode.getDatoFra() + " " + beregningsperiode.getDatoTil());
 
       // Kaller beregningsmodulen for hver beregningsperiode
-      var beregnBidragsevneGrunnlagPeriodisert = new GrunnlagBeregningPeriodisert(inntektListe, skatteklasse, bostatusKode,
+      var beregnBidragsevneGrunnlagPeriodisert = new GrunnlagBeregning(inntektListe, skatteklasse, bostatusKode,
           antallBarnIEgetHushold,
           saerfradrag, sjablonliste);
 

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.TestUtil;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.beregning.BPsAndelSaertilskuddBeregningImpl;
-import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.GrunnlagBeregningPeriodisert;
+import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.GrunnlagBeregning;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.Inntekt;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
@@ -35,7 +35,7 @@ public class BPsAndelSaertilskuddBeregningTest {
       inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(40000)));
 
       var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
-          new GrunnlagBeregningPeriodisert(inntektBP, inntektBM, inntektBB, sjablonListe);
+          new GrunnlagBeregning(inntektBP, inntektBM, inntektBB, sjablonListe);
 
       ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
 
@@ -68,7 +68,7 @@ public class BPsAndelSaertilskuddBeregningTest {
     inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(10000)));
 
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
-        new GrunnlagBeregningPeriodisert(inntektBP, inntektBM, inntektBB, sjablonListe);
+        new GrunnlagBeregning(inntektBP, inntektBM, inntektBB, sjablonListe);
 
     ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
 
@@ -93,7 +93,7 @@ public class BPsAndelSaertilskuddBeregningTest {
     inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(400000)));
 
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
-        new GrunnlagBeregningPeriodisert(inntektBP, inntektBM, inntektBB, sjablonListe);
+        new GrunnlagBeregning(inntektBP, inntektBM, inntektBB, sjablonListe);
 
     ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
 
@@ -122,7 +122,7 @@ public class BPsAndelSaertilskuddBeregningTest {
 
     // Beregnet andel skal da bli 92,6%, overstyres til 5/6 (83,3333333333%)
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
-        new GrunnlagBeregningPeriodisert(inntektBP, inntektBM, inntektBB, sjablonListe);
+        new GrunnlagBeregning(inntektBP, inntektBM, inntektBB, sjablonListe);
 
     ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
 
@@ -148,7 +148,7 @@ public class BPsAndelSaertilskuddBeregningTest {
     inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.ZERO));
 
    var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
-        new GrunnlagBeregningPeriodisert(inntektBP, inntektBM, inntektBB, sjablonListe);
+        new GrunnlagBeregning(inntektBP, inntektBM, inntektBB, sjablonListe);
 
     ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
 

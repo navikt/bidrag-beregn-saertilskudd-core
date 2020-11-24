@@ -30,7 +30,7 @@ data class BeregnBidragsevneResultat(
 data class ResultatPeriode(
     val resultatDatoFraTil: Periode,
     val resultatBeregning: ResultatBeregning,
-    val resultatGrunnlagBeregning: GrunnlagBeregningPeriodisert
+    val resultatGrunnlagBeregning: GrunnlagBeregning
 )
 
 data class ResultatBeregning(
@@ -40,7 +40,7 @@ data class ResultatBeregning(
 )
 
 // Grunnlag beregning
-data class GrunnlagBeregningPeriodisert(
+data class GrunnlagBeregning(
     val inntektListe: List<Inntekt>,
     val skatteklasse: Int,
     val bostatusKode: BostatusKode,

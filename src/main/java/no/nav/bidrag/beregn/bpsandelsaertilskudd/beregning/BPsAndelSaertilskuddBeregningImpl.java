@@ -11,7 +11,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.GrunnlagBeregningPeriodisert;
+import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.GrunnlagBeregning;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.Inntekt;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.felles.SjablonUtil;
@@ -23,16 +23,16 @@ public class BPsAndelSaertilskuddBeregningImpl implements BPsAndelSaertilskuddBe
 
   @Override
   public ResultatBeregning beregn(
-      GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
+      GrunnlagBeregning grunnlagBeregning) {
 
     // Henter sjablonverdier
-    var sjablonNavnVerdiMap = hentSjablonVerdier(grunnlagBeregningPeriodisert.getSjablonListe());
+    var sjablonNavnVerdiMap = hentSjablonVerdier(grunnlagBeregning.getSjablonListe());
 
     var andelProsent = BigDecimal.ZERO;
     var barnetErSelvforsorget = false;
 
     // Legger sammen inntektene
-    var inntektBP = grunnlagBeregningPeriodisert.getInntektBPListe()
+    var inntektBP = grunnlagBeregning.getInntektBPListe()
         .stream()
         .map(Inntekt::getInntektBelop)
         .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -40,14 +40,14 @@ public class BPsAndelSaertilskuddBeregningImpl implements BPsAndelSaertilskuddBe
 //    System.out.println("BP: " + inntektBP);
 
     // Legger sammen inntektene
-    var inntektBM = grunnlagBeregningPeriodisert.getInntektBMListe()
+    var inntektBM = grunnlagBeregning.getInntektBMListe()
         .stream()
         .map(Inntekt::getInntektBelop)
         .reduce(BigDecimal.ZERO, BigDecimal::add);
 //    System.out.println("BM: " + inntektBM);
 
     // Legger sammen inntektene
-    var inntektBB = grunnlagBeregningPeriodisert.getInntektBBListe()
+    var inntektBB = grunnlagBeregning.getInntektBBListe()
         .stream()
         .map(Inntekt::getInntektBelop)
         .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -89,29 +89,29 @@ public class BPsAndelSaertilskuddBeregningImpl implements BPsAndelSaertilskuddBe
 
   @Override
   public ResultatBeregning beregnMedGamleRegler(
-      GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
+      GrunnlagBeregning grunnlagBeregning) {
 
     // Henter sjablonverdier
-    var sjablonNavnVerdiMap = hentSjablonVerdier(grunnlagBeregningPeriodisert.getSjablonListe());
+    var sjablonNavnVerdiMap = hentSjablonVerdier(grunnlagBeregning.getSjablonListe());
 
     var andelProsent = BigDecimal.ZERO;
     var andelBelop = BigDecimal.ZERO;
     var barnetErSelvforsorget = false;
 
     // Legger sammen inntektene
-    var inntektBP = grunnlagBeregningPeriodisert.getInntektBPListe()
+    var inntektBP = grunnlagBeregning.getInntektBPListe()
         .stream()
         .map(Inntekt::getInntektBelop)
         .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     // Legger sammen inntektene
-    var inntektBM = grunnlagBeregningPeriodisert.getInntektBMListe()
+    var inntektBM = grunnlagBeregning.getInntektBMListe()
         .stream()
         .map(Inntekt::getInntektBelop)
         .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     // Legger sammen inntektene
-    var inntektBB = grunnlagBeregningPeriodisert.getInntektBBListe()
+    var inntektBB = grunnlagBeregning.getInntektBBListe()
         .stream()
         .map(Inntekt::getInntektBelop)
         .reduce(BigDecimal.ZERO, BigDecimal::add);

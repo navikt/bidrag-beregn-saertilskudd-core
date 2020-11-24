@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import no.nav.bidrag.beregn.bidragsevne.bo.GrunnlagBeregningPeriodisert;
+import no.nav.bidrag.beregn.bidragsevne.bo.GrunnlagBeregning;
 import no.nav.bidrag.beregn.bidragsevne.bo.Inntekt;
 import no.nav.bidrag.beregn.bidragsevne.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.felles.SjablonUtil;
@@ -32,21 +32,22 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
 
   @Override
   public ResultatBeregning beregn(
-      GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
+      GrunnlagBeregning grunnlagBeregning) {
 
 //    System.out.println("Start beregning av bidragsevne");
 
     // Henter sjablonverdier
-    var sjablonNavnVerdiMap = hentSjablonVerdier(grunnlagBeregningPeriodisert.getSjablonListe(), grunnlagBeregningPeriodisert.getBostatusKode(),
-        grunnlagBeregningPeriodisert.getSkatteklasse());
+    var sjablonNavnVerdiMap = hentSjablonVerdier(grunnlagBeregning.getSjablonListe(), grunnlagBeregning
+            .getBostatusKode(),
+        grunnlagBeregning.getSkatteklasse());
 
     // Beregn minstefradrag
-    var minstefradrag = beregnMinstefradrag(grunnlagBeregningPeriodisert,
+    var minstefradrag = beregnMinstefradrag(grunnlagBeregning,
         sjablonNavnVerdiMap.get(SjablonTallNavn.MINSTEFRADRAG_INNTEKT_BELOP.getNavn()),
         sjablonNavnVerdiMap.get(SjablonTallNavn.MINSTEFRADRAG_INNTEKT_PROSENT.getNavn()));
 
     // Legger sammen inntektene
-    var inntekt = grunnlagBeregningPeriodisert.getInntektListe().stream()
+    var inntekt = grunnlagBeregning.getInntektListe().stream()
         .map(Inntekt::getInntektBelop)
         .reduce(BigDecimal.ZERO, BigDecimal::add);
 
@@ -63,7 +64,7 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
 
     // finner personfradragklasse ut fra angitt skatteklasse
     var personfradrag = BigDecimal.ZERO;
-    if (grunnlagBeregningPeriodisert.getSkatteklasse() == 1) {
+    if (grunnlagBeregning.getSkatteklasse() == 1) {
 //      System.out.println("Skatteklasse 1");
       personfradrag = sjablonNavnVerdiMap.get(SjablonTallNavn.PERSONFRADRAG_KLASSE1_BELOP.getNavn());
     } else {
@@ -97,7 +98,7 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
 //    System.out.println("Foreløpig evne etter fratrekk av trygdeavgift: " + forelopigBidragsevne);
 
     // Trekker fra trinnvis skatt
-    forelopigBidragsevne = forelopigBidragsevne.subtract(beregnSkattetrinnBelop(grunnlagBeregningPeriodisert));
+    forelopigBidragsevne = forelopigBidragsevne.subtract(beregnSkattetrinnBelop(grunnlagBeregning));
 //    System.out.println("Foreløpig evne etter fratrekk av trinnskatt: " + forelopigBidragsevne);
 
     // Trekker fra boutgifter og midler til eget underhold
@@ -108,7 +109,7 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
 //        "Foreløpig evne etter fratrekk av boutgifter bor alene: " + forelopigBidragsevne);
 
     System.out.println(
-        "Foreløpig evne etter fratrekk av boutgifter, bostatus " + grunnlagBeregningPeriodisert.getBostatusKode().toString() + ": "
+        "Foreløpig evne etter fratrekk av boutgifter, bostatus " + grunnlagBeregning.getBostatusKode().toString() + ": "
             + forelopigBidragsevne);
 
     forelopigBidragsevne = forelopigBidragsevne.subtract(
@@ -121,17 +122,17 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
     // Trekker fra midler til underhold egne barn i egen husstand
     forelopigBidragsevne = forelopigBidragsevne.subtract(
         sjablonNavnVerdiMap.get(SjablonTallNavn.UNDERHOLD_EGNE_BARN_I_HUSSTAND_BELOP.getNavn())
-            .multiply(BigDecimal.valueOf(grunnlagBeregningPeriodisert.getAntallEgneBarnIHusstand()))
+            .multiply(BigDecimal.valueOf(grunnlagBeregning.getAntallEgneBarnIHusstand()))
             .multiply(BigDecimal.valueOf(12)));
 //    System.out.println("Foreløpig evne etter fratrekk av underhold for egne barn i egen husstand: "
 //        + forelopigBidragsevne);
 
     // Sjekker om og kalkulerer eventuell fordel særfradrag
-    if (grunnlagBeregningPeriodisert.getSaerfradragkode().equals(SaerfradragKode.HELT)) {
+    if (grunnlagBeregning.getSaerfradragkode().equals(SaerfradragKode.HELT)) {
       forelopigBidragsevne = forelopigBidragsevne.add(
           sjablonNavnVerdiMap.get(SjablonTallNavn.FORDEL_SAERFRADRAG_BELOP.getNavn()));
 //      System.out.println("Foreløpig evne etter tillegg for særfradrag: " + forelopigBidragsevne);
-    } else if (grunnlagBeregningPeriodisert.getSaerfradragkode().equals(SaerfradragKode.HALVT)) {
+    } else if (grunnlagBeregning.getSaerfradragkode().equals(SaerfradragKode.HALVT)) {
       forelopigBidragsevne = forelopigBidragsevne.add(
           sjablonNavnVerdiMap.get(SjablonTallNavn.FORDEL_SAERFRADRAG_BELOP.getNavn()).divide(BigDecimal.valueOf(2),
               new MathContext(10, RoundingMode.HALF_UP)));
@@ -139,7 +140,7 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
     }
 
     // Legger til fordel skatteklasse2
-    if (grunnlagBeregningPeriodisert.getSkatteklasse() == 2) {
+    if (grunnlagBeregning.getSkatteklasse() == 2) {
       forelopigBidragsevne = forelopigBidragsevne.add(
           sjablonNavnVerdiMap.get(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn()));
 //      System.out.println("Foreløpig evne etter tillegg for fordel skatteklasse2: " + forelopigBidragsevne);
@@ -165,11 +166,11 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
 
   @Override
   public BigDecimal beregnMinstefradrag(
-      GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert, BigDecimal minstefradragInntektSjablonBelop,
+      GrunnlagBeregning grunnlagBeregning, BigDecimal minstefradragInntektSjablonBelop,
       BigDecimal minstefradragInntektSjablonProsent) {
 
     // Legger sammen inntektene
-    var inntekt = grunnlagBeregningPeriodisert.getInntektListe()
+    var inntekt = grunnlagBeregning.getInntektListe()
         .stream()
         .map(Inntekt::getInntektBelop)
         .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -193,16 +194,16 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
 
   @Override
   public BigDecimal beregnSkattetrinnBelop(
-      GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
+      GrunnlagBeregning grunnlagBeregning) {
 
     // Legger sammen inntektene
-    var inntekt = grunnlagBeregningPeriodisert.getInntektListe()
+    var inntekt = grunnlagBeregning.getInntektListe()
         .stream()
         .map(Inntekt::getInntektBelop)
         .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     var sortertTrinnvisSkattesatsListe = SjablonUtil.hentTrinnvisSkattesats(
-        grunnlagBeregningPeriodisert.getSjablonListe(),
+        grunnlagBeregning.getSjablonListe(),
         SjablonNavn.TRINNVIS_SKATTESATS);
 
     BigDecimal samletSkattetrinnBelop = BigDecimal.ZERO;
