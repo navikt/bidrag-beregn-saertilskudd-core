@@ -1,4 +1,4 @@
-package no.nav.bidrag.beregn.saerbidrag;
+package no.nav.bidrag.beregn.saertilskudd;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -11,22 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import no.nav.bidrag.beregn.saerbidrag.bo.BPsAndelUnderholdskostnad;
-import no.nav.bidrag.beregn.saerbidrag.bo.Barnetillegg;
-import no.nav.bidrag.beregn.saerbidrag.bo.BeregnBarnebidragResultat;
-import no.nav.bidrag.beregn.saerbidrag.bo.Bidragsevne;
-import no.nav.bidrag.beregn.saerbidrag.bo.GrunnlagBeregningPerBarn;
-import no.nav.bidrag.beregn.saerbidrag.bo.GrunnlagBeregningPeriodisert;
-import no.nav.bidrag.beregn.saerbidrag.bo.ResultatBeregning;
-import no.nav.bidrag.beregn.saerbidrag.bo.ResultatPeriode;
-import no.nav.bidrag.beregn.saerbidrag.dto.BPsAndelUnderholdskostnadPeriodeCore;
-import no.nav.bidrag.beregn.saerbidrag.dto.BarnetilleggForsvaretPeriodeCore;
-import no.nav.bidrag.beregn.saerbidrag.dto.BarnetilleggPeriodeCore;
-import no.nav.bidrag.beregn.saerbidrag.dto.BeregnBarnebidragGrunnlagCore;
-import no.nav.bidrag.beregn.saerbidrag.dto.BidragsevnePeriodeCore;
-import no.nav.bidrag.beregn.saerbidrag.dto.DeltBostedPeriodeCore;
-import no.nav.bidrag.beregn.saerbidrag.dto.SamvaersfradragPeriodeCore;
-import no.nav.bidrag.beregn.saerbidrag.periode.BarnebidragPeriode;
+
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
@@ -39,67 +24,79 @@ import no.nav.bidrag.beregn.felles.enums.AvvikType;
 import no.nav.bidrag.beregn.felles.enums.ResultatKode;
 import no.nav.bidrag.beregn.felles.enums.SjablonInnholdNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
+import no.nav.bidrag.beregn.saertilskudd.bo.BPsAndelSaertilskudd;
+import no.nav.bidrag.beregn.saertilskudd.bo.BeregnSaertilskuddResultat;
+import no.nav.bidrag.beregn.saertilskudd.bo.Bidragsevne;
+import no.nav.bidrag.beregn.saertilskudd.bo.GrunnlagBeregning;
+import no.nav.bidrag.beregn.saertilskudd.bo.LopendeBidrag;
+import no.nav.bidrag.beregn.saertilskudd.bo.ResultatBeregning;
+import no.nav.bidrag.beregn.saertilskudd.bo.ResultatPeriode;
+import no.nav.bidrag.beregn.saertilskudd.dto.BPsAndelSaertilskuddCore;
+import no.nav.bidrag.beregn.saertilskudd.dto.BeregnSaertilskuddGrunnlagCore;
+import no.nav.bidrag.beregn.saertilskudd.dto.BidragsevneCore;
+import no.nav.bidrag.beregn.saertilskudd.dto.LopendeBidragCore;
+import no.nav.bidrag.beregn.saertilskudd.periode.SaertilskuddPeriode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-@DisplayName("BarnebidragCore (dto-test)")
+@DisplayName("SaertilskuddCore (dto-test)")
 public class SaertilskuddCoreTest {
 
-  private BarnebidragCore barnebidragCore;
+  private SaertilskuddCore SaertilskuddCore;
 
   @Mock
-  private BarnebidragPeriode barnebidragPeriodeMock;
+  private SaertilskuddPeriode SaertilskuddPeriodeMock;
 
-  private BeregnBarnebidragGrunnlagCore beregnBarnebidragGrunnlagCore;
-  private BeregnBarnebidragResultat beregnBarnebidragPeriodeResultat;
+  private BeregnSaertilskuddGrunnlagCore beregnSaertilskuddGrunnlagCore;
+  private BeregnSaertilskuddResultat beregnSaertilskuddPeriodeResultat;
   private List<Avvik> avvikListe;
 
   @BeforeEach
   void initMocksAndService() {
     MockitoAnnotations.initMocks(this);
-    barnebidragCore = new BarnebidragCoreImpl(barnebidragPeriodeMock);
+    SaertilskuddCore = new SaertilskuddCoreImpl(SaertilskuddPeriodeMock);
   }
 
   @Test
-  @DisplayName("Skal beregne barnebidrag")
-  void skalBeregneBarnebidrag() {
-    byggBarnebidragPeriodeGrunnlagCore();
-    byggBarnebidragPeriodeResultat();
+  @DisplayName("Skal beregne Saertilskudd")
+  void skalBeregneSaertilskudd() {
+    byggSaertilskuddPeriodeGrunnlagCore();
+    byggSaertilskuddPeriodeResultat();
 
-    when(barnebidragPeriodeMock.beregnPerioder(any())).thenReturn(
-        beregnBarnebidragPeriodeResultat);
-    var beregnBarnebidragResultatCore = barnebidragCore.beregnBarnebidrag(
-        beregnBarnebidragGrunnlagCore);
+    when(SaertilskuddPeriodeMock.beregnPerioder(any())).thenReturn(
+        beregnSaertilskuddPeriodeResultat);
+    var beregnSaertilskuddResultatCore = SaertilskuddCore.beregnSaertilskudd(
+        beregnSaertilskuddGrunnlagCore);
 
     assertAll(
-        () -> assertThat(beregnBarnebidragResultatCore).isNotNull(),
-        () -> assertThat(beregnBarnebidragResultatCore.getAvvikListe()).isEmpty(),
-        () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe()).isNotEmpty(),
-        () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe().size()).isEqualTo(1),
+        () -> assertThat(beregnSaertilskuddResultatCore).isNotNull(),
+        () -> assertThat(beregnSaertilskuddResultatCore.getAvvikListe()).isEmpty(),
+        () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe()).isNotEmpty(),
+        () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe().size()).isEqualTo(1),
 
-        () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoFra())
+        () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoFra())
             .isEqualTo(LocalDate.parse("2017-01-01")),
-        () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoTil())
+        () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoTil())
             .isEqualTo(LocalDate.parse("2018-01-01")),
 
-        () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getSjablonListe().get(0)
+        () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getSjablonListe().get(0)
             .getSjablonVerdi()).isEqualTo(BigDecimal.valueOf(22))
 
     );
   }
 
   @Test
-  @DisplayName("Skal ikke beregne barnebidrag ved avvik")
-  void skalIkkeBeregneBarnebidragVedAvvik() {
-    byggBarnebidragPeriodeGrunnlagCore();
+  @DisplayName("Skal ikke beregne Saertilskudd ved avvik")
+  void skalIkkeBeregneSaertilskuddVedAvvik() {
+    byggSaertilskuddPeriodeGrunnlagCore();
     byggAvvik();
 
-    when(barnebidragPeriodeMock.validerInput(any())).thenReturn(avvikListe);
-    var beregnbidragsevneResultatCore = barnebidragCore.beregnBarnebidrag(
-        beregnBarnebidragGrunnlagCore);
+    when(SaertilskuddPeriodeMock.validerInput(any())).thenReturn(avvikListe);
+    var beregnbidragsevneResultatCore = SaertilskuddCore.beregnSaertilskudd(
+        beregnSaertilskuddGrunnlagCore);
 
     assertAll(
         () -> assertThat(beregnbidragsevneResultatCore).isNotNull(),
@@ -113,49 +110,18 @@ public class SaertilskuddCoreTest {
   }
 
 
-  private void byggBarnebidragPeriodeGrunnlagCore() {
+  private void byggSaertilskuddPeriodeGrunnlagCore() {
 
-    var bidragsevnePeriode = new BidragsevnePeriodeCore(
-        new PeriodeCore(LocalDate.parse("2017-01-01"), null),
+    var bidragsevne = new BidragsevneCore(
         BigDecimal.valueOf(100000), BigDecimal.valueOf(20000));
-    var bidragsevnePeriodeListe = new ArrayList<BidragsevnePeriodeCore>();
-    bidragsevnePeriodeListe.add(bidragsevnePeriode);
 
-    var bPsAndelUnderholdskostnadPeriode = new BPsAndelUnderholdskostnadPeriodeCore(
-        1, new PeriodeCore(LocalDate.parse("2017-01-01"), null),
+    var bPsAndelSaertilskudd = new BPsAndelSaertilskuddCore(
         BigDecimal.valueOf(100000), BigDecimal.valueOf(20000), false);
-    var bPsAndelUnderholdskostnadPeriodeListe = new ArrayList<BPsAndelUnderholdskostnadPeriodeCore>();
-    bPsAndelUnderholdskostnadPeriodeListe.add(bPsAndelUnderholdskostnadPeriode);
 
-    var samvaersfradragPeriode = new SamvaersfradragPeriodeCore(
-        1, new PeriodeCore(LocalDate.parse("2017-01-01"), null),
-        BigDecimal.valueOf(1000));
-    var samvaersfradragPeriodeListe = new ArrayList<SamvaersfradragPeriodeCore>();
-    samvaersfradragPeriodeListe.add(samvaersfradragPeriode);
+    var lopendeBidrag = new LopendeBidragCore(
+        BigDecimal.valueOf(1000), ResultatKode.BIDRAG_REDUSERT_AV_EVNE);
 
-    var deltBostedPeriode = new DeltBostedPeriodeCore(
-        1, new PeriodeCore(LocalDate.parse("2017-01-01"), null),
-        false);
-    var deltBostedPeriodeListe = new ArrayList<DeltBostedPeriodeCore>();
-    deltBostedPeriodeListe.add(deltBostedPeriode);
-
-    var barnetilleggBPPeriode = new BarnetilleggPeriodeCore(
-        1, new PeriodeCore(LocalDate.parse("2017-01-01"), null),
-        BigDecimal.valueOf(100), BigDecimal.valueOf(10));
-    var barnetilleggBPPeriodeListe = new ArrayList<BarnetilleggPeriodeCore>();
-    barnetilleggBPPeriodeListe.add(barnetilleggBPPeriode);
-
-    var barnetilleggBMPeriode = new BarnetilleggPeriodeCore(
-        1, new PeriodeCore(LocalDate.parse("2017-01-01"), null),
-        BigDecimal.valueOf(100), BigDecimal.valueOf(10));
-    var barnetilleggBMPeriodeListe = new ArrayList<BarnetilleggPeriodeCore>();
-    barnetilleggBMPeriodeListe.add(barnetilleggBMPeriode);
-
-    var barnetilleggForsvaretPeriode = new BarnetilleggForsvaretPeriodeCore(
-        new PeriodeCore(LocalDate.parse("2017-01-01"), null),
-        false);
-    var barnetilleggForsvaretPeriodeListe = new ArrayList<BarnetilleggForsvaretPeriodeCore>();
-    barnetilleggForsvaretPeriodeListe.add(barnetilleggForsvaretPeriode);
+    var samvaersfradrag = BigDecimal.valueOf(1000);
 
     var sjablonPeriode = new SjablonPeriodeCore(new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
         SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
@@ -163,30 +129,26 @@ public class SaertilskuddCoreTest {
     var sjablonPeriodeListe = new ArrayList<SjablonPeriodeCore>();
     sjablonPeriodeListe.add(sjablonPeriode);
 
-    beregnBarnebidragGrunnlagCore = new BeregnBarnebidragGrunnlagCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01"),
-        bidragsevnePeriodeListe, bPsAndelUnderholdskostnadPeriodeListe, samvaersfradragPeriodeListe,
-        deltBostedPeriodeListe, barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe,
-        barnetilleggForsvaretPeriodeListe, sjablonPeriodeListe);
+    beregnSaertilskuddGrunnlagCore = new BeregnSaertilskuddGrunnlagCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01"),
+        1, bidragsevne, bPsAndelSaertilskudd, lopendeBidrag, samvaersfradrag,
+        sjablonPeriodeListe);
   }
 
-  private void byggBarnebidragPeriodeResultat() {
+  private void byggSaertilskuddPeriodeResultat() {
     List<ResultatPeriode> periodeResultatListe = new ArrayList<>();
 
-    periodeResultatListe.add(new ResultatPeriode(
+    periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
-        singletonList(new ResultatBeregning(1, BigDecimal.valueOf(1), ResultatKode.KOSTNADSBEREGNET_BIDRAG,
-            singletonList(new SjablonNavnVerdi(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22))))),
-        new GrunnlagBeregningPeriodisert(new Bidragsevne(BigDecimal.valueOf(1000), BigDecimal.valueOf(12000)),
-            singletonList(new GrunnlagBeregningPerBarn(1, new BPsAndelUnderholdskostnad(
-                BigDecimal.valueOf(60), BigDecimal.valueOf(8000), false), BigDecimal.valueOf(100),
-                false,
-                new Barnetillegg(BigDecimal.valueOf(100), BigDecimal.valueOf(10)),
-                new Barnetillegg(BigDecimal.valueOf(1000), BigDecimal.valueOf(10)))),
-            false,
+        new ResultatBeregning(BigDecimal.valueOf(1000), ResultatKode.KOSTNADSBEREGNET_BIDRAG,
+            singletonList(new SjablonNavnVerdi(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22)))),
+        new GrunnlagBeregning(new Bidragsevne(BigDecimal.valueOf(1000), BigDecimal.valueOf(12000)),
+            new BPsAndelSaertilskudd(BigDecimal.valueOf(60), BigDecimal.valueOf(8000), false),
+            new LopendeBidrag(BigDecimal.valueOf(100), ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
+            BigDecimal.valueOf(100),
             singletonList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
                 singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))))))));
 
-    beregnBarnebidragPeriodeResultat = new BeregnBarnebidragResultat(periodeResultatListe);
+    beregnSaertilskuddPeriodeResultat = new BeregnSaertilskuddResultat(periodeResultatListe);
   }
 
   private void byggAvvik() {

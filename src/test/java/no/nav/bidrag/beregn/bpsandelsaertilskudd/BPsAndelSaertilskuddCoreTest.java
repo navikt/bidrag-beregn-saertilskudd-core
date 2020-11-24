@@ -11,14 +11,13 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.BeregnBPsAndelUnderholdskostnadResultat;
+import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.BeregnBPsAndelSaertilskuddResultat;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.Inntekt;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.ResultatPeriode;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.dto.BeregnBPsAndelSaertilskuddGrunnlagCore;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.dto.InntektPeriodeCore;
-import no.nav.bidrag.beregn.bpsandelsaertilskudd.dto.UnderholdskostnadPeriodeCore;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.periode.BPsAndelSaertilskuddPeriode;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
@@ -38,76 +37,76 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-@DisplayName("BPsAndelUnderholdskostnadCore (dto-test)")
+@DisplayName("BPsAndelSaertilskuddCore (dto-test)")
 public class BPsAndelSaertilskuddCoreTest {
 
-  private BPsAndelUnderholdskostnadCore bPsAndelunderholdskostnadCore;
+  private BPsAndelSaertilskuddCore bPsAndelSaertilskuddCore;
 
   @Mock
-  private BPsAndelSaertilskuddPeriode bPsAndelunderholdskostnadPeriodeMock;
+  private BPsAndelSaertilskuddPeriode bPsAndelSaertilskuddPeriodeMock;
 
   private BeregnBPsAndelSaertilskuddGrunnlagCore beregnBPsAndelSaertilskuddGrunnlagCore;
-  private BeregnBPsAndelUnderholdskostnadResultat bPsAndelunderholdskostnadPeriodeResultat;
+  private BeregnBPsAndelSaertilskuddResultat bPsAndelSaertilskuddPeriodeResultat;
   private List<Avvik> avvikListe;
 
   @BeforeEach
   void initMocksAndService() {
     MockitoAnnotations.initMocks(this);
-    bPsAndelunderholdskostnadCore = new BPsAndelSaertilskuddCoreImpl(
-        bPsAndelunderholdskostnadPeriodeMock);
+    bPsAndelSaertilskuddCore = new BPsAndelSaertilskuddCoreImpl(
+        bPsAndelSaertilskuddPeriodeMock);
   }
 
   @Test
-  @DisplayName("Skal beregne BPsAndel av underholdskostnad")
-  void skalBeregneBPsAndelunderholdskostnad() {
-    byggBPsAndelUnderholdskostnadPeriodeGrunnlagCore();
-    byggBPsAndelUnderholdskostnadPeriodeResultat();
+  @DisplayName("Skal beregne BPsAndel av Saertilskudd")
+  void skalBeregneBPsAndelSaertilskudd() {
+    byggBPsAndelSaertilskuddPeriodeGrunnlagCore();
+    byggBPsAndelSaertilskuddPeriodeResultat();
 
-    when(bPsAndelunderholdskostnadPeriodeMock.beregnPerioder(any())).thenReturn(
-        bPsAndelunderholdskostnadPeriodeResultat);
-    var beregnBPsAndelUnderholdskostnadResultatCore = bPsAndelunderholdskostnadCore.beregnBPsAndelUnderholdskostnad(
+    when(bPsAndelSaertilskuddPeriodeMock.beregnPerioder(any())).thenReturn(
+        bPsAndelSaertilskuddPeriodeResultat);
+    var beregnBPsAndelSaertilskuddResultatCore = bPsAndelSaertilskuddCore.beregnBPsAndelSaertilskudd(
         beregnBPsAndelSaertilskuddGrunnlagCore);
 
     assertAll(
-        () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore).isNotNull(),
-        () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getAvvikListe()).isEmpty(),
-        () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe()).isNotEmpty(),
-        () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().size()).isEqualTo(3),
+        () -> assertThat(beregnBPsAndelSaertilskuddResultatCore).isNotNull(),
+        () -> assertThat(beregnBPsAndelSaertilskuddResultatCore.getAvvikListe()).isEmpty(),
+        () -> assertThat(beregnBPsAndelSaertilskuddResultatCore.getResultatPeriodeListe()).isNotEmpty(),
+        () -> assertThat(beregnBPsAndelSaertilskuddResultatCore.getResultatPeriodeListe().size()).isEqualTo(3),
 
-        () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoFra())
+        () -> assertThat(beregnBPsAndelSaertilskuddResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoFra())
             .isEqualTo(LocalDate.parse("2017-01-01")),
-        () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoTil())
+        () -> assertThat(beregnBPsAndelSaertilskuddResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoTil())
             .isEqualTo(LocalDate.parse("2018-01-01")),
-        () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatAndelProsent())
+        () -> assertThat(beregnBPsAndelSaertilskuddResultatCore.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatAndelProsent())
             .isEqualTo(BigDecimal.valueOf(10)),
 
-        () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getPeriodeDatoFra())
+        () -> assertThat(beregnBPsAndelSaertilskuddResultatCore.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getPeriodeDatoFra())
             .isEqualTo(LocalDate.parse("2018-01-01")),
-        () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getPeriodeDatoTil())
+        () -> assertThat(beregnBPsAndelSaertilskuddResultatCore.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getPeriodeDatoTil())
             .isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatAndelProsent())
+        () -> assertThat(beregnBPsAndelSaertilskuddResultatCore.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatAndelProsent())
             .isEqualTo(BigDecimal.valueOf(20)),
 
-        () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getPeriodeDatoFra())
+        () -> assertThat(beregnBPsAndelSaertilskuddResultatCore.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getPeriodeDatoFra())
             .isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getPeriodeDatoTil())
+        () -> assertThat(beregnBPsAndelSaertilskuddResultatCore.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getPeriodeDatoTil())
             .isEqualTo(LocalDate.parse("2020-01-01")),
-        () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatAndelProsent())
+        () -> assertThat(beregnBPsAndelSaertilskuddResultatCore.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatAndelProsent())
             .isEqualTo(BigDecimal.valueOf(30)),
-        () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getSjablonListe().get(0)
+        () -> assertThat(beregnBPsAndelSaertilskuddResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getSjablonListe().get(0)
             .getSjablonVerdi()).isEqualTo(BigDecimal.valueOf(1600))
 
     );
   }
 
   @Test
-  @DisplayName("Skal ikke beregne BPs andel av underholdskostnad ved avvik")
+  @DisplayName("Skal ikke beregne BPs andel av Saertilskudd ved avvik")
   void skalIkkeBeregneAndelVedAvvik() {
-    byggBPsAndelUnderholdskostnadPeriodeGrunnlagCore();
+    byggBPsAndelSaertilskuddPeriodeGrunnlagCore();
     byggAvvik();
 
-    when(bPsAndelunderholdskostnadPeriodeMock.validerInput(any())).thenReturn(avvikListe);
-    var beregnbidragsevneResultatCore = bPsAndelunderholdskostnadCore.beregnBPsAndelUnderholdskostnad(
+    when(bPsAndelSaertilskuddPeriodeMock.validerInput(any())).thenReturn(avvikListe);
+    var beregnbidragsevneResultatCore = bPsAndelSaertilskuddCore.beregnBPsAndelSaertilskudd(
         beregnBPsAndelSaertilskuddGrunnlagCore);
 
     assertAll(
@@ -122,11 +121,7 @@ public class BPsAndelSaertilskuddCoreTest {
   }
 
 
-  private void byggBPsAndelUnderholdskostnadPeriodeGrunnlagCore() {
-
-    var underholdskostnadPeriode = new UnderholdskostnadPeriodeCore(
-        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(1000));
+  private void byggBPsAndelSaertilskuddPeriodeGrunnlagCore() {
 
     var inntektBPPeriode = new InntektPeriodeCore(
         new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LONN_SKE.toString(),
@@ -140,12 +135,10 @@ public class BPsAndelSaertilskuddCoreTest {
         new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LONN_SKE.toString(),
         BigDecimal.valueOf(333));
 
-    var underholdskostnadPeriodeListe = new ArrayList<UnderholdskostnadPeriodeCore>();
     var inntektBPPeriodeListe = new ArrayList<InntektPeriodeCore>();
     var inntektBMPeriodeListe = new ArrayList<InntektPeriodeCore>();
     var inntektBBPeriodeListe = new ArrayList<InntektPeriodeCore>();
 
-    underholdskostnadPeriodeListe.add(underholdskostnadPeriode);
     inntektBPPeriodeListe.add(inntektBPPeriode);
     inntektBMPeriodeListe.add(inntektBMPeriode);
     inntektBBPeriodeListe.add(inntektBBPeriode);
@@ -162,7 +155,7 @@ public class BPsAndelSaertilskuddCoreTest {
         inntektBBPeriodeListe, sjablonPeriodeListe);
   }
 
-  private void byggBPsAndelUnderholdskostnadPeriodeResultat() {
+  private void byggBPsAndelSaertilskuddPeriodeResultat() {
     List<ResultatPeriode> periodeResultatListe = new ArrayList<>();
 
     var inntektBPListe = new ArrayList<Inntekt>();
@@ -177,7 +170,7 @@ public class BPsAndelSaertilskuddCoreTest {
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
         new ResultatBeregning(BigDecimal.valueOf(10), false,
             singletonList(new SjablonNavnVerdi(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), BigDecimal.valueOf(1600)))),
-        new GrunnlagBeregningPeriodisert(BigDecimal.valueOf(1000), inntektBPListe, inntektBMListe, inntektBBListe,
+        new GrunnlagBeregningPeriodisert(inntektBPListe, inntektBMListe, inntektBBListe,
             singletonList(new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
                 singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
                     BigDecimal.valueOf(1600))))))));
@@ -186,7 +179,7 @@ public class BPsAndelSaertilskuddCoreTest {
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-01-01")),
         new ResultatBeregning(BigDecimal.valueOf(20), false,
             singletonList(new SjablonNavnVerdi(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), BigDecimal.valueOf(1600)))),
-        new GrunnlagBeregningPeriodisert(BigDecimal.valueOf(1000), inntektBPListe, inntektBMListe, inntektBBListe,
+        new GrunnlagBeregningPeriodisert(inntektBPListe, inntektBMListe, inntektBBListe,
             singletonList(new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
                 singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
                     BigDecimal.valueOf(1640))))))));
@@ -195,12 +188,12 @@ public class BPsAndelSaertilskuddCoreTest {
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
         new ResultatBeregning(BigDecimal.valueOf(30), false,
             singletonList(new SjablonNavnVerdi(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), BigDecimal.valueOf(1600)))),
-        new GrunnlagBeregningPeriodisert(BigDecimal.valueOf(1000), inntektBPListe, inntektBMListe, inntektBBListe,
+        new GrunnlagBeregningPeriodisert(inntektBPListe, inntektBMListe, inntektBBListe,
             singletonList(new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
                 singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
                     BigDecimal.valueOf(1680))))))));
 
-    bPsAndelunderholdskostnadPeriodeResultat = new BeregnBPsAndelUnderholdskostnadResultat(periodeResultatListe);
+    bPsAndelSaertilskuddPeriodeResultat = new BeregnBPsAndelSaertilskuddResultat(periodeResultatListe);
   }
 
   private void byggAvvik() {

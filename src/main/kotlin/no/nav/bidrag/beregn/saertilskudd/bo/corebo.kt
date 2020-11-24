@@ -44,7 +44,7 @@ data class GrunnlagBeregning(
     val bidragsevne: Bidragsevne,
     val bPsAndelSaertilskudd: BPsAndelSaertilskudd,
     val lopendeBidrag: LopendeBidrag,
-    val samvaersfradrag: BigDecimal,
+    val samvaersfradragBelop: BigDecimal,
     val sjablonListe: List<Sjablon>
 )
 

@@ -69,14 +69,10 @@ public class SaertilskuddPeriodeImpl implements SaertilskuddPeriode {
           beregnSaertilskuddGrunnlag.getSamvaersfradragBelop(),
           sjablonliste);
 
-
         resultatPeriodeListe.add(new ResultatPeriode(
             beregnSaertilskuddGrunnlag.getSoknadsbarnPersonId(),
             beregningsperiode,
             saertilskuddBeregning.beregn(grunnlagBeregning), grunnlagBeregning));
-
-
-
     }
 
     return new BeregnSaertilskuddResultat(resultatPeriodeListe);

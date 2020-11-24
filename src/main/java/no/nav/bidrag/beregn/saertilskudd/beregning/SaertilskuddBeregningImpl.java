@@ -66,7 +66,7 @@ public class SaertilskuddBeregningImpl implements SaertilskuddBeregning {
     }
 
 //    Trekker fra samværsfradrag
-    saertilskuddBeløp = saertilskuddBeløp.subtract(grunnlagBeregning.getSamvaersfradrag());
+    saertilskuddBeløp = saertilskuddBeløp.subtract(grunnlagBeregning.getSamvaersfradragBelop());
 //    System.out.println("Bidrag etter samværsfradrag: " + tempBarnebidrag);
 
     // Beløp for bidrag settes til 0 hvis bidraget er utregnet til negativt beløp etter samværsfradrag

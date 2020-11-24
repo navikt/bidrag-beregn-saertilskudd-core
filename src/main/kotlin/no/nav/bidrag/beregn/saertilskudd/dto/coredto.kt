@@ -45,7 +45,7 @@ data class GrunnlagBeregningCore(
     val bidragsevne: BidragsevneCore,
     val bPsAndelSaertilskudd: BPsAndelSaertilskuddCore,
     val lopendeBidrag: LopendeBidragCore,
-    val samvaersfradrag: BigDecimal,
+    val samvaersfradragBelop: BigDecimal,
     val sjablonListe: List<SjablonNavnVerdiCore>
 )
 

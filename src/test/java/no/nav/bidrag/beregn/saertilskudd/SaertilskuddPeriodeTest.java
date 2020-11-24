@@ -10,16 +10,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import no.nav.bidrag.beregn.saertilskudd.bo.BPsAndelUnderholdskostnadPeriode;
-import no.nav.bidrag.beregn.saertilskudd.bo.BarnetilleggForsvaretPeriode;
-import no.nav.bidrag.beregn.saertilskudd.bo.BarnetilleggPeriode;
-import no.nav.bidrag.beregn.saertilskudd.bo.BeregnBarnebidragGrunnlag;
-import no.nav.bidrag.beregn.saertilskudd.bo.BeregnBarnebidragResultat;
-import no.nav.bidrag.beregn.saertilskudd.bo.BidragsevnePeriode;
-import no.nav.bidrag.beregn.saertilskudd.bo.DeltBostedPeriode;
-import no.nav.bidrag.beregn.saertilskudd.bo.SamvaersfradragPeriode;
-import no.nav.bidrag.beregn.saertilskudd.periode.BarnebidragPeriode;
-
+import no.nav.bidrag.beregn.saertilskudd.bo.BPsAndelSaertilskudd;
+import no.nav.bidrag.beregn.saertilskudd.bo.BeregnSaertilskuddGrunnlag;
+import no.nav.bidrag.beregn.saertilskudd.bo.BeregnSaertilskuddResultat;
+import no.nav.bidrag.beregn.saertilskudd.bo.Bidragsevne;
+import no.nav.bidrag.beregn.saertilskudd.bo.LopendeBidrag;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
@@ -29,329 +24,51 @@ import no.nav.bidrag.beregn.felles.enums.AvvikType;
 import no.nav.bidrag.beregn.felles.enums.ResultatKode;
 import no.nav.bidrag.beregn.felles.enums.SjablonInnholdNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
+import no.nav.bidrag.beregn.saertilskudd.periode.SaertilskuddPeriode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class SaertilskuddPeriodeTest {
 
-  private BeregnBarnebidragGrunnlag grunnlag;
+  private BeregnSaertilskuddGrunnlag grunnlag;
 
-  private BarnebidragPeriode barnebidragPeriode = BarnebidragPeriode.getInstance();
+  private SaertilskuddPeriode saertilskuddPeriode = SaertilskuddPeriode.getInstance();
 
   public ArrayList<SjablonPeriode> sjablonPeriodeListe = new ArrayList<>();
 
   @Test
-  @DisplayName("Test med ett barn og splitt på bidragsevne")
+  @DisplayName("Test at resultatperiode er lik beregn-fra-og-tilperiode i input")
   void enkelTestEttBarnToBidragsevner() {
 
-    LocalDate beregnDatoFra = LocalDate.parse("2019-08-01");
-    LocalDate beregnDatoTil = LocalDate.parse("2020-01-01");
+    LocalDate beregnDatoFra = LocalDate.parse("2020-08-01");
+    LocalDate beregnDatoTil = LocalDate.parse("2020-09-01");
 
     lagSjablonliste();
 
-    var bidragsevnePeriodeListe           = new ArrayList<BidragsevnePeriode>();
-    var bPsAndelUnderholdskostnadListe    = new ArrayList<BPsAndelUnderholdskostnadPeriode>();
-    var samvaersfradragPeriodeListe       = new ArrayList<SamvaersfradragPeriode>();
-    var deltBostedPeriodeListe            = new ArrayList<DeltBostedPeriode>();
-    var barnetilleggBPPeriodeListe        = new ArrayList<BarnetilleggPeriode>();
-    var barnetilleggBMPeriodeListe        = new ArrayList<BarnetilleggPeriode>();
-    var barnetilleggForsvaretPeriodeListe = new ArrayList<BarnetilleggForsvaretPeriode>();
+    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(15000), BigDecimal.valueOf(16000));
+    var bPsAndelSaertilskudd = new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(16000), false);
+    var lopendeBidrag = new LopendeBidrag(BigDecimal.valueOf(1000), ResultatKode.BIDRAG_REDUSERT_AV_EVNE);
+    var samvaersfradrag = BigDecimal.valueOf(100);
 
-    bidragsevnePeriodeListe.add(new BidragsevnePeriode(
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-10-01")),
-        BigDecimal.valueOf(15000), BigDecimal.valueOf(16000)));
-    bidragsevnePeriodeListe.add(new BidragsevnePeriode(
-        new Periode(LocalDate.parse("2019-10-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(17000), BigDecimal.valueOf(16000)));
-    bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(1,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(80), BigDecimal.valueOf(16000), false));
-    samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(1,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(0d)));
-    deltBostedPeriodeListe.add(new DeltBostedPeriode(1,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        false));
-    barnetilleggBPPeriodeListe.add(new BarnetilleggPeriode(1,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.ZERO, BigDecimal.ZERO));
-    barnetilleggBMPeriodeListe.add(new BarnetilleggPeriode(1,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.ZERO, BigDecimal.ZERO));
-    barnetilleggForsvaretPeriodeListe.add(new BarnetilleggForsvaretPeriode(
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        false));
-    BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag =
-        new BeregnBarnebidragGrunnlag(beregnDatoFra, beregnDatoTil, bidragsevnePeriodeListe,
-            bPsAndelUnderholdskostnadListe, samvaersfradragPeriodeListe, deltBostedPeriodeListe,
-            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe,
+    BeregnSaertilskuddGrunnlag beregnSaertilskuddGrunnlag =
+        new BeregnSaertilskuddGrunnlag(beregnDatoFra, beregnDatoTil, 1,
+            bidragsevne, bPsAndelSaertilskudd, lopendeBidrag, samvaersfradrag,
             sjablonPeriodeListe);
 
-    var resultat = barnebidragPeriode.beregnPerioder(beregnBarnebidragGrunnlag);
+    var resultat = saertilskuddPeriode.beregnPerioder(beregnSaertilskuddGrunnlag);
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.getResultatPeriodeListe()).isNotEmpty(),
-        () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(2),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().size()).isEqualTo(1),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().size()).isEqualTo(1),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-08-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-10-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-10-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-01-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(1),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2020-08-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-09-01"))
 
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatBarnebidragBelop().doubleValue()).isEqualTo(15000),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatkode()).isEqualTo(
-            ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatBarnebidragBelop().doubleValue()).isEqualTo(16000),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatkode()).isEqualTo(
-            ResultatKode.KOSTNADSBEREGNET_BIDRAG)
+//        () -> assertThat(
+//            resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatBelop()).isEqualTo(BigDecimal.valueOf(15000)),
+//        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatkode()).isEqualTo(
+//            ResultatKode.BIDRAG_REDUSERT_AV_EVNE)
 
-    );
-
-    printGrunnlagResultat(resultat);
-  }
-
-  @Test
-  @DisplayName("Test med tre barn i to perioder, to barn i periode 3, barnetilleggForsvaret i siste periode")
-  void testVariabeltAntallBarn() {
-
-    LocalDate beregnDatoFra = LocalDate.parse("2019-08-01");
-    LocalDate beregnDatoTil = LocalDate.parse("2020-01-01");
-
-    lagSjablonliste();
-
-    var bidragsevnePeriodeListe           = new ArrayList<BidragsevnePeriode>();
-    var bPsAndelUnderholdskostnadListe    = new ArrayList<BPsAndelUnderholdskostnadPeriode>();
-    var samvaersfradragPeriodeListe       = new ArrayList<SamvaersfradragPeriode>();
-    var deltBostedPeriodeListe            = new ArrayList<DeltBostedPeriode>();
-    var barnetilleggBPPeriodeListe        = new ArrayList<BarnetilleggPeriode>();
-    var barnetilleggBMPeriodeListe        = new ArrayList<BarnetilleggPeriode>();
-    var barnetilleggForsvaretPeriodeListe = new ArrayList<BarnetilleggForsvaretPeriode>();
-
-    bidragsevnePeriodeListe.add(new BidragsevnePeriode(
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-10-01")),
-        BigDecimal.valueOf(15000), BigDecimal.valueOf(16000)));
-    bidragsevnePeriodeListe.add(new BidragsevnePeriode(
-        new Periode(LocalDate.parse("2019-10-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(17000), BigDecimal.valueOf(16000)));
-
-    bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(2,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(80), BigDecimal.valueOf(16000), false));
-    samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(2,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-09-01")),
-        BigDecimal.ZERO));
-    samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(2,
-        new Periode(LocalDate.parse("2019-09-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(1000)));
-    deltBostedPeriodeListe.add(new DeltBostedPeriode(2,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        false));
-    barnetilleggBPPeriodeListe.add(new BarnetilleggPeriode(2,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.ZERO, BigDecimal.ZERO));
-    barnetilleggBMPeriodeListe.add(new BarnetilleggPeriode(2,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.ZERO, BigDecimal.ZERO));
-
-    bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(1,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-10-01")),
-        BigDecimal.valueOf(80), BigDecimal.valueOf(16000), false));
-    samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(1,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-10-01")),
-        BigDecimal.ZERO));
-    deltBostedPeriodeListe.add(new DeltBostedPeriode(1,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-10-01")),
-        false));
-    barnetilleggBPPeriodeListe.add(new BarnetilleggPeriode(1,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-10-01")),
-        BigDecimal.ZERO, BigDecimal.ZERO));
-    barnetilleggBMPeriodeListe.add(new BarnetilleggPeriode(1,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-10-01")),
-        BigDecimal.ZERO, BigDecimal.ZERO));
-
-    bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(3,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(80), BigDecimal.valueOf(16000), false));
-    samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(3,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.ZERO));
-    deltBostedPeriodeListe.add(new DeltBostedPeriode(3,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        false));
-    barnetilleggBPPeriodeListe.add(new BarnetilleggPeriode(3,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.ZERO, BigDecimal.ZERO));
-    barnetilleggBMPeriodeListe.add(new BarnetilleggPeriode(3,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.ZERO, BigDecimal.ZERO));
-
-    barnetilleggForsvaretPeriodeListe.add(new BarnetilleggForsvaretPeriode(
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-12-01")),
-        false));
-    barnetilleggForsvaretPeriodeListe.add(new BarnetilleggForsvaretPeriode(
-        new Periode(LocalDate.parse("2019-12-01"), LocalDate.parse("2020-01-01")),
-        true));
-    BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag =
-        new BeregnBarnebidragGrunnlag(beregnDatoFra, beregnDatoTil, bidragsevnePeriodeListe,
-            bPsAndelUnderholdskostnadListe, samvaersfradragPeriodeListe, deltBostedPeriodeListe,
-            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe,
-            sjablonPeriodeListe);
-
-    var resultat = barnebidragPeriode.beregnPerioder(beregnBarnebidragGrunnlag);
-
-    assertAll(
-        () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(4),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().size()).isEqualTo(3),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().size()).isEqualTo(3),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregningListe().size()).isEqualTo(2),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregningListe().size()).isEqualTo(2),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-08-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-09-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-09-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-10-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-10-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-12-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-12-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-01-01")),
-
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(5000d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(1)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(5000d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(2)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(5000d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0)
-            .getResultatkode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(5000d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(4000d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(2)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(5000d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0)
-            .getResultatkode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregningListe().get(0)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(7000d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregningListe().get(1)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(8000d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregningListe().get(0)
-            .getResultatkode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_TIL_25_PROSENT_AV_INNTEKT),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregningListe().get(0)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(3001d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregningListe().get(1)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(4001d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregningListe().get(0)
-            .getResultatkode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET)
-
-    );
-
-    printGrunnlagResultat(resultat);
-  }
-
-  @Test
-  @DisplayName("Test med to barn i to perioder, der det ene barnet har delt bosted. Ved delt bosted skal BPs andel av underholdskostnad"
-      + "reduseres med 50 prosentpoeng. I periode 2 blir andelen regnet om til under 50% og bidrag skal ikke beregnes for "
-      + "dette barnet og hele evnen skal gis til det andre barnet")
-  void testDeltBosted() {
-
-    LocalDate beregnDatoFra = LocalDate.parse("2019-08-01");
-    LocalDate beregnDatoTil = LocalDate.parse("2020-01-01");
-
-    lagSjablonliste();
-
-    var bidragsevnePeriodeListe           = new ArrayList<BidragsevnePeriode>();
-    var bPsAndelUnderholdskostnadListe    = new ArrayList<BPsAndelUnderholdskostnadPeriode>();
-    var samvaersfradragPeriodeListe       = new ArrayList<SamvaersfradragPeriode>();
-    var deltBostedPeriodeListe            = new ArrayList<DeltBostedPeriode>();
-    var barnetilleggBPPeriodeListe        = new ArrayList<BarnetilleggPeriode>();
-    var barnetilleggBMPeriodeListe        = new ArrayList<BarnetilleggPeriode>();
-    var barnetilleggForsvaretPeriodeListe = new ArrayList<BarnetilleggForsvaretPeriode>();
-
-    bidragsevnePeriodeListe.add(new BidragsevnePeriode(
-        new Periode(LocalDate.parse("2018-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(1000), BigDecimal.valueOf(1600)));
-
-    bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(1,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-11-01")),
-        BigDecimal.valueOf(40), BigDecimal.valueOf(4000), false));
-    bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(1,
-        new Periode(LocalDate.parse("2019-11-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(60), BigDecimal.valueOf(6000), false));
-    samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(1,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.ZERO));
-    deltBostedPeriodeListe.add(new DeltBostedPeriode(1,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        false));
-    barnetilleggBPPeriodeListe.add(new BarnetilleggPeriode(1,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.ZERO, BigDecimal.ZERO));
-    barnetilleggBMPeriodeListe.add(new BarnetilleggPeriode(1,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.ZERO, BigDecimal.ZERO));
-
-    bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(2,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-11-01")),
-        BigDecimal.valueOf(60), BigDecimal.valueOf(6000), false));
-    bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(2,
-        new Periode(LocalDate.parse("2019-11-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(40), BigDecimal.valueOf(4000), false));
-    samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(2,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.ZERO));
-    deltBostedPeriodeListe.add(new DeltBostedPeriode(2,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        true));
-    barnetilleggBPPeriodeListe.add(new BarnetilleggPeriode(2,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.ZERO, BigDecimal.ZERO));
-    barnetilleggBMPeriodeListe.add(new BarnetilleggPeriode(2,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.ZERO, BigDecimal.ZERO));
-
-    barnetilleggForsvaretPeriodeListe.add(new BarnetilleggForsvaretPeriode(
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        false));
-
-    BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag =
-        new BeregnBarnebidragGrunnlag(beregnDatoFra, beregnDatoTil, bidragsevnePeriodeListe,
-            bPsAndelUnderholdskostnadListe, samvaersfradragPeriodeListe, deltBostedPeriodeListe,
-            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe,
-            sjablonPeriodeListe);
-
-    var resultat = barnebidragPeriode.beregnPerioder(beregnBarnebidragGrunnlag);
-
-    assertAll(
-        () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(2),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().size()).isEqualTo(2),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().size()).isEqualTo(2),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-08-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-11-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-11-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-01-01")),
-
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(800d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(1)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(200d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlag().getGrunnlagPerBarnListe().get(1)
-            .getBPsAndelUnderholdskostnad().getBPsAndelUnderholdskostnadProsent().doubleValue()).isEqualTo(10d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0)
-            .getResultatkode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(1000d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(0d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0)
-            .getResultatkode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatGrunnlag().getGrunnlagPerBarnListe().get(1)
-            .getBPsAndelUnderholdskostnad().getBPsAndelUnderholdskostnadProsent().doubleValue()).isEqualTo(0d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1)
-            .getResultatkode()).isEqualTo(ResultatKode.DELT_BOSTED)
     );
 
     printGrunnlagResultat(resultat);
@@ -370,7 +87,7 @@ public class SaertilskuddPeriodeTest {
                 BigDecimal.valueOf(2334))))));
   }
 
-
+/*
   @Test
   @DisplayName("Test med feil i grunnlag som skal resultere i avvik")
   void testGrunnlagMedAvvik() {
@@ -381,45 +98,19 @@ public class SaertilskuddPeriodeTest {
 
     lagSjablonliste();
 
-    var bidragsevnePeriodeListe           = new ArrayList<BidragsevnePeriode>();
-    var bPsAndelUnderholdskostnadListe    = new ArrayList<BPsAndelUnderholdskostnadPeriode>();
-    var samvaersfradragPeriodeListe       = new ArrayList<SamvaersfradragPeriode>();
-    var deltBostedPeriodeListe            = new ArrayList<DeltBostedPeriode>();
-    var barnetilleggBPPeriodeListe        = new ArrayList<BarnetilleggPeriode>();
-    var barnetilleggBMPeriodeListe        = new ArrayList<BarnetilleggPeriode>();
-    var barnetilleggForsvaretPeriodeListe = new ArrayList<BarnetilleggForsvaretPeriode>();
+    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(15000), BigDecimal.valueOf(16000));
+    var bPsAndelSaertilskudd = new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(16000), false);
+    var lopendeBidrag = new LopendeBidrag(BigDecimal.valueOf(1000), ResultatKode.BIDRAG_REDUSERT_AV_EVNE);
+    var samvaersfradrag = BigDecimal.valueOf(100);
 
-    bidragsevnePeriodeListe.add(new BidragsevnePeriode(
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-10-01")),
-        BigDecimal.valueOf(15000), BigDecimal.valueOf(16000)));
-    bidragsevnePeriodeListe.add(new BidragsevnePeriode(
-        new Periode(LocalDate.parse("2019-10-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(17000), BigDecimal.valueOf(16000)));
-    bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(1,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(80), BigDecimal.valueOf(16000), false));
-    samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(1,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.ZERO));
-    deltBostedPeriodeListe.add(new DeltBostedPeriode(1,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        false));
-    barnetilleggBPPeriodeListe.add(new BarnetilleggPeriode(1,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.ZERO, BigDecimal.ZERO));
-    barnetilleggBMPeriodeListe.add(new BarnetilleggPeriode(1,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.ZERO, BigDecimal.ZERO));
-    barnetilleggForsvaretPeriodeListe.add(new BarnetilleggForsvaretPeriode(
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        false));
-    BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag =
-        new BeregnBarnebidragGrunnlag(beregnDatoFra, beregnDatoTil, bidragsevnePeriodeListe,
-            bPsAndelUnderholdskostnadListe, samvaersfradragPeriodeListe, deltBostedPeriodeListe,
-            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe,
+    BeregnSaertilskuddGrunnlag beregnSaertilskuddGrunnlag =
+        new BeregnSaertilskuddGrunnlag(beregnDatoFra, beregnDatoTil, 1,
+            bidragsevne, bPsAndelSaertilskudd, lopendeBidrag, samvaersfradrag,
             sjablonPeriodeListe);
 
-    var avvikListe = barnebidragPeriode.validerInput(beregnBarnebidragGrunnlag);
+    var resultat = saertilskuddPeriode.beregnPerioder(beregnSaertilskuddGrunnlag);
+
+    var avvikListe = saertilskuddPeriode.validerInput(beregnSaertilskuddGrunnlag);
 
     assertAll(
         () -> assertThat(avvikListe).isNotEmpty(),
@@ -434,18 +125,19 @@ public class SaertilskuddPeriodeTest {
     );
 
     printAvvikListe(avvikListe);
-  }
+  }*/
 
 
 
   private void printGrunnlagResultat(
-      BeregnBarnebidragResultat beregnBarnebidragResultat) {
-    beregnBarnebidragResultat.getResultatPeriodeListe().stream().sorted(
+      BeregnSaertilskuddResultat beregnSaertilskuddResultat) {
+    beregnSaertilskuddResultat.getResultatPeriodeListe().stream().sorted(
         Comparator.comparing(pR -> pR.getResultatDatoFraTil().getDatoFra()))
         .forEach(sortedPR -> System.out
             .println("Dato fra: " + sortedPR.getResultatDatoFraTil().getDatoFra() + "; " + "Dato til: "
                 + sortedPR.getResultatDatoFraTil().getDatoTil()
-                + "; " + "Resultat: " + sortedPR.getResultatBeregningListe().get(0)));
+                + "; " + "Resultat: " + sortedPR.getResultatBeregning().getResultatBelop()
+            + sortedPR.getResultatBeregning().getResultatkode()));
   }
 
   private void printAvvikListe(List<Avvik> avvikListe) {

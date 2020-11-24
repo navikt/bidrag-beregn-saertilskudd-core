@@ -16,7 +16,7 @@ import no.nav.bidrag.beregn.felles.enums.InntektType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("Test av beregning av BPs andel av underholdskostnad")
+@DisplayName("Test av beregning av BPs andel av særtilskudd")
 public class BPsAndelSaertilskuddBeregningTest {
 
     private final List<Sjablon> sjablonListe = TestUtil.byggSjabloner();
@@ -26,7 +26,6 @@ public class BPsAndelSaertilskuddBeregningTest {
     void testBeregningMedInntekterForAlle() {
       var bPsAndelUnderholdskostnadBeregning = new BPsAndelSaertilskuddBeregningImpl();
 
-      var underholdskostnad = BigDecimal.valueOf(10000);
       var inntektBP = new ArrayList<Inntekt>();
       var inntektBM = new ArrayList<Inntekt>();
       var inntektBB = new ArrayList<Inntekt>();
@@ -42,8 +41,7 @@ public class BPsAndelSaertilskuddBeregningTest {
 
       assertAll(
           () -> assertThat(resultat).isNotNull(),
-          () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(BigDecimal.valueOf(35.2)),
-          () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(BigDecimal.valueOf(3520))
+          () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(BigDecimal.valueOf(35.2))
       );
     }
 
@@ -53,7 +51,6 @@ public class BPsAndelSaertilskuddBeregningTest {
   void testBeregningMedFlereInntekterForAlle() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelSaertilskuddBeregningImpl();
 
-    var underholdskostnad = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
@@ -78,7 +75,6 @@ public class BPsAndelSaertilskuddBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(BigDecimal.valueOf(34.7)),
-        () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(BigDecimal.valueOf(347)),
         () -> assertThat(resultat.getBarnetErSelvforsorget()).isFalse()
     );
   }
@@ -88,7 +84,6 @@ public class BPsAndelSaertilskuddBeregningTest {
   void testAndelLikNullVedHoyInntektBarn() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelSaertilskuddBeregningImpl();
 
-    var underholdskostnad = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
@@ -105,7 +100,6 @@ public class BPsAndelSaertilskuddBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(BigDecimal.ZERO),
-        () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(BigDecimal.ZERO),
         () -> assertThat(resultat.getBarnetErSelvforsorget()).isTrue()
     );
   }
@@ -117,7 +111,6 @@ public class BPsAndelSaertilskuddBeregningTest {
   void testAtMaksAndelSettes() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelSaertilskuddBeregningImpl();
 
-    var underholdskostnad = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
@@ -162,107 +155,6 @@ public class BPsAndelSaertilskuddBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(BigDecimal.valueOf(50.1))
-    );
-  }
-
-  @DisplayName("Beregning med gamle regler, beregnet andel skal avrundes til nærmeste sjettedel (maks 5/6)")
-  @Test
-  void testBeregningGamleReglerAvrundTreSjettedeler() {
-    var bPsAndelUnderholdskostnadBeregning = new BPsAndelSaertilskuddBeregningImpl();
-
-    var underholdskostnad = BigDecimal.valueOf(1000);
-    var inntektBP = new ArrayList<Inntekt>();
-    var inntektBM = new ArrayList<Inntekt>();
-    var inntektBB = new ArrayList<Inntekt>();
-
-    inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(502000)));
-    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(500000)));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.ZERO));
-
-   var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
-        new GrunnlagBeregningPeriodisert(inntektBP, inntektBM, inntektBB, sjablonListe);
-
-    ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregnMedGamleRegler(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
-
-    assertAll(
-        () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(BigDecimal.valueOf(50.0))
-    );
-  }
-
-  @DisplayName("Beregning med gamle regler, andel skal rundes opp til 1/6")
-  @Test
-  void testBeregningGamleReglerAvrundEnSjettedel() {
-    var bPsAndelUnderholdskostnadBeregning = new BPsAndelSaertilskuddBeregningImpl();
-
-    var underholdskostnad = BigDecimal.valueOf(1000);
-    var inntektBP = new ArrayList<Inntekt>();
-    var inntektBM = new ArrayList<Inntekt>();
-    var inntektBB = new ArrayList<Inntekt>();
-
-    inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(2000)));
-    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(500000)));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(1000)));
-
-    var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
-        new GrunnlagBeregningPeriodisert(inntektBP, inntektBM, inntektBB, sjablonListe);
-
-    ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregnMedGamleRegler(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
-
-    assertAll(
-        () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(BigDecimal.valueOf(16.7))
-    );
-  }
-
-  @DisplayName("Beregning med gamle regler, andel skal rundes ned til maks andel, 5/6")
-  @Test
-  void testBeregningGamleReglerAvrundFemSjettedeler() {
-    var bPsAndelUnderholdskostnadBeregning = new BPsAndelSaertilskuddBeregningImpl();
-
-    var underholdskostnad = BigDecimal.valueOf(1000);
-    var inntektBP = new ArrayList<Inntekt>();
-    var inntektBM = new ArrayList<Inntekt>();
-    var inntektBB = new ArrayList<Inntekt>();
-
-    inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(2000000)));
-    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(2000)));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(1000)));
-
-    var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
-        new GrunnlagBeregningPeriodisert(inntektBP, inntektBM, inntektBB, sjablonListe);
-
-    ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregnMedGamleRegler(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
-
-    assertAll(
-        () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(BigDecimal.valueOf(83.3333333333))
-    );
-  }
-
-  @DisplayName("Test fra John")
-  @Test
-  void testFraJohn() {
-    var bPsAndelUnderholdskostnadBeregning = new BPsAndelSaertilskuddBeregningImpl();
-
-    var underholdskostnad = BigDecimal.valueOf(9355);
-    var inntektBP = new ArrayList<Inntekt>();
-    var inntektBM = new ArrayList<Inntekt>();
-    var inntektBB = new ArrayList<Inntekt>();
-
-    inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(600000d)));
-    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(100000d)));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(0d)));
-
-    var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
-        new GrunnlagBeregningPeriodisert(inntektBP, inntektBM, inntektBB, sjablonListe);
-
-    ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
-
-    assertAll(
-        () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(BigDecimal.valueOf(7796)),
-        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(BigDecimal.valueOf(83.3333333333))
     );
   }
 
