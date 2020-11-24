@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.BeregnBPsAndelSaertilskuddResultat;
-import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.GrunnlagBeregningPeriodisert;
+import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.GrunnlagBeregning;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.Inntekt;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.ResultatPeriode;
@@ -170,7 +170,7 @@ public class BPsAndelSaertilskuddCoreTest {
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
         new ResultatBeregning(BigDecimal.valueOf(10), false,
             singletonList(new SjablonNavnVerdi(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), BigDecimal.valueOf(1600)))),
-        new GrunnlagBeregningPeriodisert(inntektBPListe, inntektBMListe, inntektBBListe,
+        new GrunnlagBeregning(inntektBPListe, inntektBMListe, inntektBBListe,
             singletonList(new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
                 singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
                     BigDecimal.valueOf(1600))))))));
@@ -179,7 +179,7 @@ public class BPsAndelSaertilskuddCoreTest {
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-01-01")),
         new ResultatBeregning(BigDecimal.valueOf(20), false,
             singletonList(new SjablonNavnVerdi(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), BigDecimal.valueOf(1600)))),
-        new GrunnlagBeregningPeriodisert(inntektBPListe, inntektBMListe, inntektBBListe,
+        new GrunnlagBeregning(inntektBPListe, inntektBMListe, inntektBBListe,
             singletonList(new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
                 singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
                     BigDecimal.valueOf(1640))))))));
@@ -188,7 +188,7 @@ public class BPsAndelSaertilskuddCoreTest {
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
         new ResultatBeregning(BigDecimal.valueOf(30), false,
             singletonList(new SjablonNavnVerdi(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), BigDecimal.valueOf(1600)))),
-        new GrunnlagBeregningPeriodisert(inntektBPListe, inntektBMListe, inntektBBListe,
+        new GrunnlagBeregning(inntektBPListe, inntektBMListe, inntektBBListe,
             singletonList(new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
                 singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
                     BigDecimal.valueOf(1680))))))));

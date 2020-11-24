@@ -10,7 +10,7 @@ import java.util.List;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.beregning.BPsAndelSaertilskuddBeregning;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.BeregnBPsAndelSaertilskuddGrunnlag;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.BeregnBPsAndelSaertilskuddResultat;
-import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.GrunnlagBeregningPeriodisert;
+import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.GrunnlagBeregning;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.Inntekt;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.InntektPeriode;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.ResultatPeriode;
@@ -113,7 +113,7 @@ public class BPsAndelSaertilskuddPeriodeImpl implements BPsAndelSaertilskuddPeri
               sjablonPeriode.getSjablon().getSjablonInnholdListe())).collect(toList());
 
       // Kaller beregningsmodulen for hver beregningsperiode
-      var beregnBPsAndelSaertilskuddGrunnlagPeriodisert = new GrunnlagBeregningPeriodisert(
+      var beregnBPsAndelSaertilskuddGrunnlagPeriodisert = new GrunnlagBeregning(
           inntektBP, inntektBM, inntektBB, sjablonliste);
 
       // Beregner

@@ -1,19 +1,19 @@
 package no.nav.bidrag.beregn.bidragsevne.beregning;
 
 import java.math.BigDecimal;
-import no.nav.bidrag.beregn.bidragsevne.bo.GrunnlagBeregningPeriodisert;
+import no.nav.bidrag.beregn.bidragsevne.bo.GrunnlagBeregning;
 import no.nav.bidrag.beregn.bidragsevne.bo.ResultatBeregning;
 
 public interface Bidragsevneberegning {
 
   ResultatBeregning beregn(
-      GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert);
+      GrunnlagBeregning grunnlagBeregning);
 
   BigDecimal beregnMinstefradrag(
-      GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert, BigDecimal minstefradragInntektBelop, BigDecimal minstefradragInntektSjablonProsent);
+      GrunnlagBeregning grunnlagBeregning, BigDecimal minstefradragInntektBelop, BigDecimal minstefradragInntektSjablonProsent);
 
   BigDecimal beregnSkattetrinnBelop(
-      GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert);
+      GrunnlagBeregning grunnlagBeregning);
 
   static Bidragsevneberegning getInstance() {
     return new BidragsevneberegningImpl();
