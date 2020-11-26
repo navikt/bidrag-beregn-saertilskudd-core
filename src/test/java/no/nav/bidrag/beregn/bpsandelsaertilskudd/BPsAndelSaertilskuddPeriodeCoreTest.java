@@ -38,7 +38,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 @DisplayName("BPsAndelSaertilskuddCore (dto-test)")
-public class BPsAndelSaertilskuddCoreTest {
+public class BPsAndelSaertilskuddPeriodeCoreTest {
 
   private BPsAndelSaertilskuddCore bPsAndelSaertilskuddCore;
 

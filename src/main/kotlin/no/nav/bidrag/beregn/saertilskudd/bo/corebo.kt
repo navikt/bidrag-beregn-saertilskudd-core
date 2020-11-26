@@ -13,10 +13,10 @@ data class BeregnSaertilskuddGrunnlag(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
     val soknadsbarnPersonId: Int,
-    val bidragsevne: Bidragsevne,
-    val bPsAndelSaertilskudd: BPsAndelSaertilskudd,
-    val lopendeBidrag: LopendeBidrag,
-    val samvaersfradragBelop: BigDecimal,
+    val bidragsevnePeriodeListe: List<BidragsevnePeriode>,
+    val bPsAndelSaertilskuddPeriodeListe: List<BPsAndelSaertilskuddPeriode>,
+    val lopendeBidragPeriodeListe: List<LopendeBidragPeriode>,
+    val samvaersfradragPeriodeListe: List<SamvaersfradragPeriode>,
     val sjablonPeriodeListe: List<SjablonPeriode>
 )
 
@@ -24,7 +24,6 @@ data class BeregnSaertilskuddGrunnlag(
 data class BeregnSaertilskuddResultat(
     val resultatPeriodeListe: List<ResultatPeriode>
 )
-
 
 data class ResultatPeriode(
     val soknadsbarnPersonId: Int,

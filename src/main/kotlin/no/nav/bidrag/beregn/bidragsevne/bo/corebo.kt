@@ -53,4 +53,3 @@ data class Inntekt(
     val inntektType: InntektType,
     val inntektBelop: BigDecimal
 )
-

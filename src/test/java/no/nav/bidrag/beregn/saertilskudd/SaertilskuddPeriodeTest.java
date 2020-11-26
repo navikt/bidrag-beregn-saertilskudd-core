@@ -10,20 +10,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import no.nav.bidrag.beregn.saertilskudd.bo.BPsAndelSaertilskudd;
+import no.nav.bidrag.beregn.saertilskudd.bo.BPsAndelSaertilskuddPeriode;
 import no.nav.bidrag.beregn.saertilskudd.bo.BeregnSaertilskuddGrunnlag;
 import no.nav.bidrag.beregn.saertilskudd.bo.BeregnSaertilskuddResultat;
-import no.nav.bidrag.beregn.saertilskudd.bo.Bidragsevne;
-import no.nav.bidrag.beregn.saertilskudd.bo.LopendeBidrag;
+import no.nav.bidrag.beregn.saertilskudd.bo.BidragsevnePeriode;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.felles.bo.SjablonInnhold;
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
-import no.nav.bidrag.beregn.felles.enums.AvvikType;
 import no.nav.bidrag.beregn.felles.enums.ResultatKode;
 import no.nav.bidrag.beregn.felles.enums.SjablonInnholdNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
+import no.nav.bidrag.beregn.saertilskudd.bo.LopendeBidragPeriode;
+import no.nav.bidrag.beregn.saertilskudd.bo.SamvaersfradragPeriode;
 import no.nav.bidrag.beregn.saertilskudd.periode.SaertilskuddPeriode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,22 +38,41 @@ public class SaertilskuddPeriodeTest {
 
   @Test
   @DisplayName("Test at resultatperiode er lik beregn-fra-og-tilperiode i input")
-  void enkelTestEttBarnToBidragsevner() {
+  void testPaaPeriode() {
 
     LocalDate beregnDatoFra = LocalDate.parse("2020-08-01");
     LocalDate beregnDatoTil = LocalDate.parse("2020-09-01");
 
     lagSjablonliste();
 
-    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(15000), BigDecimal.valueOf(16000));
-    var bPsAndelSaertilskudd = new BPsAndelSaertilskudd(BigDecimal.valueOf(80), BigDecimal.valueOf(16000), false);
-    var lopendeBidrag = new LopendeBidrag(BigDecimal.valueOf(1000), ResultatKode.BIDRAG_REDUSERT_AV_EVNE);
-    var samvaersfradrag = BigDecimal.valueOf(100);
+    var bidragsevnePeriode = new BidragsevnePeriode(
+        new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
+        BigDecimal.valueOf(15000), BigDecimal.valueOf(16000));
+    var bidragsevnePeriodeListe = new ArrayList<BidragsevnePeriode>();
+    bidragsevnePeriodeListe.add(bidragsevnePeriode);
+
+    var bPsAndelSaertilskuddPeriode = new BPsAndelSaertilskuddPeriode(1,
+        new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
+        BigDecimal.valueOf(80), BigDecimal.valueOf(16000), false);
+    var bPsAndelSaertilskuddPeriodeListe = new ArrayList<BPsAndelSaertilskuddPeriode>();
+    bPsAndelSaertilskuddPeriodeListe.add(bPsAndelSaertilskuddPeriode);
+
+    var lopendeBidragPeriode = new LopendeBidragPeriode(1,
+        new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
+        BigDecimal.valueOf(1000), ResultatKode.BIDRAG_REDUSERT_AV_EVNE);
+    var lopendeBidragPeriodeListe = new ArrayList<LopendeBidragPeriode>();
+    lopendeBidragPeriodeListe.add(lopendeBidragPeriode);
+
+    var samvaersfradragPeriode = new SamvaersfradragPeriode(1,
+        new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
+        BigDecimal.valueOf(100));
+    var samvaersfradragPeriodeListe = new ArrayList<SamvaersfradragPeriode>();
+    samvaersfradragPeriodeListe.add(samvaersfradragPeriode);
 
     BeregnSaertilskuddGrunnlag beregnSaertilskuddGrunnlag =
         new BeregnSaertilskuddGrunnlag(beregnDatoFra, beregnDatoTil, 1,
-            bidragsevne, bPsAndelSaertilskudd, lopendeBidrag, samvaersfradrag,
-            sjablonPeriodeListe);
+            bidragsevnePeriodeListe, bPsAndelSaertilskuddPeriodeListe, lopendeBidragPeriodeListe,
+            samvaersfradragPeriodeListe, sjablonPeriodeListe);
 
     var resultat = saertilskuddPeriode.beregnPerioder(beregnSaertilskuddGrunnlag);
 
