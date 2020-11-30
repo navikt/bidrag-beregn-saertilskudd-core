@@ -120,19 +120,19 @@ public class SaertilskuddCoreTest {
     var bidragsevnePeriodeListe = new ArrayList<BidragsevnePeriodeCore>();
     bidragsevnePeriodeListe.add(bidragsevnePeriode);
 
-    var bPsAndelSaertilskuddPeriode = new BPsAndelSaertilskuddPeriodeCore(1,
+    var bPsAndelSaertilskuddPeriode = new BPsAndelSaertilskuddPeriodeCore(
         new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
         BigDecimal.valueOf(100000), BigDecimal.valueOf(20000), false);
     var bPsAndelSaertilskuddPeriodeListe = new ArrayList<BPsAndelSaertilskuddPeriodeCore>();
     bPsAndelSaertilskuddPeriodeListe.add(bPsAndelSaertilskuddPeriode);
 
-    var lopendeBidragPeriode = new LopendeBidragPeriodeCore(1,
+    var lopendeBidragPeriode = new LopendeBidragPeriodeCore(
         new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
         BigDecimal.valueOf(1000), ResultatKode.BIDRAG_REDUSERT_AV_EVNE);
     var lopendeBidragPeriodeListe = new ArrayList<LopendeBidragPeriodeCore>();
     lopendeBidragPeriodeListe.add(lopendeBidragPeriode);
 
-    var samvaersfradragPeriode = new SamvaersfradragPeriodeCore(1,
+    var samvaersfradragPeriode = new SamvaersfradragPeriodeCore(
         new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
         BigDecimal.valueOf(1000));
     var samvaersfradragPeriodeListe = new ArrayList<SamvaersfradragPeriodeCore>();

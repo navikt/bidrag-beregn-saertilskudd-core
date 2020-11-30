@@ -97,7 +97,6 @@ public class SaertilskuddCoreImpl implements SaertilskuddCore {
     var bPsAndelSaertilskuddPeriodeListe = new ArrayList<BPsAndelSaertilskuddPeriode>();
     for (BPsAndelSaertilskuddPeriodeCore bPsAndelSaertilskuddPeriodeCore : bPsAndelSaertilskuddPeriodeListeCore) {
       bPsAndelSaertilskuddPeriodeListe.add(new BPsAndelSaertilskuddPeriode(
-          bPsAndelSaertilskuddPeriodeCore.getSoknadsbarnPersonId(),
           new Periode(bPsAndelSaertilskuddPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoFra(),
               bPsAndelSaertilskuddPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoTil()),
           bPsAndelSaertilskuddPeriodeCore.getBPsAndelSaertilskuddBelop(),
@@ -114,7 +113,6 @@ public class SaertilskuddCoreImpl implements SaertilskuddCore {
     var lopendeBidragPeriodeListe = new ArrayList<LopendeBidragPeriode>();
     for (LopendeBidragPeriodeCore lopendeBidragPeriodeCore : lopendeBidragPeriodeListeCore) {
       lopendeBidragPeriodeListe.add(new LopendeBidragPeriode(
-          lopendeBidragPeriodeCore.getSoknadsbarnPersonId(),
           new Periode(lopendeBidragPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoFra(),
               lopendeBidragPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoTil()),
           lopendeBidragPeriodeCore.getLopendeBidragBelop(),
@@ -130,7 +128,6 @@ public class SaertilskuddCoreImpl implements SaertilskuddCore {
     var samvaersfradragPeriodeListe = new ArrayList<SamvaersfradragPeriode>();
     for (SamvaersfradragPeriodeCore samvaersfradragPeriodeCore : samvaersfradragPeriodeCoreListe) {
       samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(
-          samvaersfradragPeriodeCore.getSoknadsbarnPersonId(),
           new Periode(samvaersfradragPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoFra(),
               samvaersfradragPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoTil()),
           samvaersfradragPeriodeCore.getSamvaersfradragBelop()));

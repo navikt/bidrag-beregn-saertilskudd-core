@@ -19,13 +19,12 @@ data class BidragsevnePeriode(
 }
 
 data class BPsAndelSaertilskuddPeriode(
-    val soknadsbarnPersonId: Int,
     val periodeDatoFraTil: Periode,
     val bPsAndelSaertilskuddProsent: BigDecimal,
     val bPsAndelSaertilskuddBelop: BigDecimal,
     val barnetErSelvforsorget: Boolean) : PeriodisertGrunnlag {
   constructor(bPsAndelSaertilskuddPeriode: BPsAndelSaertilskuddPeriode)
-      : this(bPsAndelSaertilskuddPeriode.soknadsbarnPersonId,
+      : this(
       bPsAndelSaertilskuddPeriode.periodeDatoFraTil.justerDatoer(),
       bPsAndelSaertilskuddPeriode.bPsAndelSaertilskuddProsent,
       bPsAndelSaertilskuddPeriode.bPsAndelSaertilskuddBelop,
@@ -37,13 +36,11 @@ data class BPsAndelSaertilskuddPeriode(
 }
 
 data class LopendeBidragPeriode(
-    val soknadsbarnPersonId: Int,
     val periodeDatoFraTil: Periode,
     val lopendeBidragBelop: BigDecimal,
     val resultatkode: ResultatKode) : PeriodisertGrunnlag {
   constructor(lopendeBidragPeriode: LopendeBidragPeriode)
-      : this(lopendeBidragPeriode.soknadsbarnPersonId,
-      lopendeBidragPeriode.periodeDatoFraTil.justerDatoer(),
+      : this(lopendeBidragPeriode.periodeDatoFraTil.justerDatoer(),
       lopendeBidragPeriode.lopendeBidragBelop,
       lopendeBidragPeriode.resultatkode)
   override fun getDatoFraTil(): Periode {
@@ -52,12 +49,10 @@ data class LopendeBidragPeriode(
 }
 
 data class SamvaersfradragPeriode(
-    val soknadsbarnPersonId: Int,
     val periodeDatoFraTil: Periode,
     val samvaersfradragBelop: BigDecimal) : PeriodisertGrunnlag {
   constructor(samvaersfradragPeriode: SamvaersfradragPeriode)
-      : this(samvaersfradragPeriode.soknadsbarnPersonId,
-      samvaersfradragPeriode.periodeDatoFraTil.justerDatoer(),
+      : this(samvaersfradragPeriode.periodeDatoFraTil.justerDatoer(),
       samvaersfradragPeriode.samvaersfradragBelop)
   override fun getDatoFraTil(): Periode {
     return periodeDatoFraTil

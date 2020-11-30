@@ -1,6 +1,5 @@
 package no.nav.bidrag.beregn.saertilskudd.dto
 
-import no.nav.bidrag.beregn.felles.bo.Sjablon
 import no.nav.bidrag.beregn.felles.bo.SjablonNavnVerdi
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
@@ -29,7 +28,6 @@ data class BidragsevnePeriodeCore(
 )
 
 data class BPsAndelSaertilskuddPeriodeCore(
-    val soknadsbarnPersonId: Int,
     val periodeDatoFraTil: PeriodeCore,
     val bPsAndelSaertilskuddProsent: BigDecimal,
     val bPsAndelSaertilskuddBelop: BigDecimal,
@@ -37,14 +35,12 @@ data class BPsAndelSaertilskuddPeriodeCore(
 )
 
 data class LopendeBidragPeriodeCore(
-    val soknadsbarnPersonId: Int,
     val periodeDatoFraTil: PeriodeCore,
     val lopendeBidragBelop: BigDecimal,
     val resultatkode: ResultatKode
 )
 
 data class SamvaersfradragPeriodeCore(
-    val soknadsbarnPersonId: Int,
     val periodeDatoFraTil: PeriodeCore,
     val samvaersfradragBelop: BigDecimal
 )
@@ -66,14 +62,6 @@ data class ResultatBeregningCore(
     val resultatBelop: BigDecimal,
     val resultatkode: String,
     val sjablonListe: List<SjablonNavnVerdi>
-)
-// Grunnlag beregning
-data class GrunnlagBeregningCore(
-    val bidragsevnePeriode: BidragsevnePeriodeCore,
-    val bPsAndelSaertilskuddPeriode: BPsAndelSaertilskuddPeriodeCore,
-    val lopendeBidragPeriode: LopendeBidragPeriodeCore,
-    val samvaersfradragPeriode: SamvaersfradragPeriodeCore,
-    val sjablonListe: List<SjablonNavnVerdiCore>
 )
 
 data class ResultatGrunnlagCore(

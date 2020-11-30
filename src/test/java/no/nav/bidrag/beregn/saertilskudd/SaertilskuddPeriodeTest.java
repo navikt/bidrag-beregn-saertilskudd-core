@@ -40,8 +40,8 @@ public class SaertilskuddPeriodeTest {
   @DisplayName("Test at resultatperiode er lik beregn-fra-og-tilperiode i input")
   void testPaaPeriode() {
 
-    LocalDate beregnDatoFra = LocalDate.parse("2020-08-01");
-    LocalDate beregnDatoTil = LocalDate.parse("2020-09-01");
+    LocalDate beregnDatoFra = LocalDate.parse("2019-08-01");
+    LocalDate beregnDatoTil = LocalDate.parse("2019-09-01");
 
     lagSjablonliste();
 
@@ -51,19 +51,19 @@ public class SaertilskuddPeriodeTest {
     var bidragsevnePeriodeListe = new ArrayList<BidragsevnePeriode>();
     bidragsevnePeriodeListe.add(bidragsevnePeriode);
 
-    var bPsAndelSaertilskuddPeriode = new BPsAndelSaertilskuddPeriode(1,
+    var bPsAndelSaertilskuddPeriode = new BPsAndelSaertilskuddPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
         BigDecimal.valueOf(80), BigDecimal.valueOf(16000), false);
     var bPsAndelSaertilskuddPeriodeListe = new ArrayList<BPsAndelSaertilskuddPeriode>();
     bPsAndelSaertilskuddPeriodeListe.add(bPsAndelSaertilskuddPeriode);
 
-    var lopendeBidragPeriode = new LopendeBidragPeriode(1,
+    var lopendeBidragPeriode = new LopendeBidragPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
         BigDecimal.valueOf(1000), ResultatKode.BIDRAG_REDUSERT_AV_EVNE);
     var lopendeBidragPeriodeListe = new ArrayList<LopendeBidragPeriode>();
     lopendeBidragPeriodeListe.add(lopendeBidragPeriode);
 
-    var samvaersfradragPeriode = new SamvaersfradragPeriode(1,
+    var samvaersfradragPeriode = new SamvaersfradragPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
         BigDecimal.valueOf(100));
     var samvaersfradragPeriodeListe = new ArrayList<SamvaersfradragPeriode>();
@@ -80,8 +80,8 @@ public class SaertilskuddPeriodeTest {
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.getResultatPeriodeListe()).isNotEmpty(),
         () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(1),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2020-08-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-09-01"))
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-08-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-09-01"))
 
 //        () -> assertThat(
 //            resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatBelop()).isEqualTo(BigDecimal.valueOf(15000)),

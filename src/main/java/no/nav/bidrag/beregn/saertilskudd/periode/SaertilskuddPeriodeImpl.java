@@ -118,7 +118,6 @@ public class SaertilskuddPeriodeImpl implements SaertilskuddPeriode {
 
   // Validerer at input-verdier til beregn-saertilskudd er gyldige
   public List<Avvik> validerInput(BeregnSaertilskuddGrunnlag grunnlag) {
-
     // Sjekk perioder for sjablonliste
     var sjablonPeriodeListe = new ArrayList<Periode>();
     for (SjablonPeriode sjablonPeriode : grunnlag.getSjablonPeriodeListe()) {
@@ -127,6 +126,41 @@ public class SaertilskuddPeriodeImpl implements SaertilskuddPeriode {
     var avvikListe = new ArrayList<>(
         PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(), "sjablonPeriodeListe", sjablonPeriodeListe,
             false, false, false, false));
+
+    // Sjekk perioder for bidragsevne
+    var bidragsevnePeriodeListe = new ArrayList<Periode>();
+    for (BidragsevnePeriode bidragsevnePeriode : grunnlag.getBidragsevnePeriodeListe()) {
+      bidragsevnePeriodeListe.add(bidragsevnePeriode.getDatoFraTil());
+    }
+    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),"bidragsevnePeriodeListe",
+        bidragsevnePeriodeListe, true, true, true, true));
+
+    // Sjekk perioder for BPs andel av saertilskudd
+    var bPsAndelSaertilskuddPeriodeListe = new ArrayList<Periode>();
+    for (BPsAndelSaertilskuddPeriode bPsAndelSaertilskuddPeriode : grunnlag.getBPsAndelSaertilskuddPeriodeListe()) {
+      bPsAndelSaertilskuddPeriodeListe.add(bPsAndelSaertilskuddPeriode.getDatoFraTil());
+    }
+    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
+        "bPsAndelSaertilskuddPeriodeListe",
+        bPsAndelSaertilskuddPeriodeListe, true, true, true, true));
+
+    // Sjekk perioder for lopende bidrag
+    var lopendeBidragPeriodeListe = new ArrayList<Periode>();
+    for (LopendeBidragPeriode lopendeBidragPeriode : grunnlag.getLopendeBidragPeriodeListe()) {
+      lopendeBidragPeriodeListe.add(lopendeBidragPeriode.getDatoFraTil());
+    }
+    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
+        "lopendeBidragPeriodeListe",
+        lopendeBidragPeriodeListe, true, true, true, true));
+
+    // Sjekk perioder for samværsfradrag
+    var samvaersfradragPeriodeListe = new ArrayList<Periode>();
+    for (SamvaersfradragPeriode samvaersfradragPeriode : grunnlag.getSamvaersfradragPeriodeListe()) {
+      samvaersfradragPeriodeListe.add(samvaersfradragPeriode.getDatoFraTil());
+    }
+    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
+        "samvaersfradragPeriodeListe",
+        samvaersfradragPeriodeListe, true, true, true, true));
 
     return avvikListe;
   }

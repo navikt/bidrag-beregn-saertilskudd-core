@@ -13,6 +13,7 @@ import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.BeregnBPsAndelSaertilskuddRe
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.GrunnlagBeregning;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.Inntekt;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.InntektPeriode;
+import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.NettoSaertilskuddPeriode;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.ResultatPeriode;
 import no.nav.bidrag.beregn.felles.InntektUtil;
 import no.nav.bidrag.beregn.felles.PeriodeUtil;
@@ -40,6 +41,11 @@ public class BPsAndelSaertilskuddPeriodeImpl implements BPsAndelSaertilskuddPeri
     var resultatPeriodeListe = new ArrayList<ResultatPeriode>();
 
     // Justerer datoer på grunnlagslistene (blir gjort implisitt i xxxPeriode::new)
+
+    var justertNettoSaertilskuddPeriodeListe = beregnBPsAndelSaertilskuddGrunnlag.getNettoSaertilskuddPeriodeListe()
+        .stream()
+        .map(NettoSaertilskuddPeriode::new)
+        .collect(toCollection(ArrayList::new));
 
     var justertInntektBPPeriodeListe = justerInntekter(beregnBPsAndelSaertilskuddGrunnlag.getInntektBPPeriodeListe())
         .stream()
@@ -91,6 +97,10 @@ public class BPsAndelSaertilskuddPeriodeImpl implements BPsAndelSaertilskuddPeri
     // Løper gjennom periodene og finner matchende verdi for hver kategori. Kaller beregningsmodulen for hver beregningsperiode
     for (Periode beregningsperiode : perioder) {
 
+      var nettoSaertilskuddBelop = justertNettoSaertilskuddPeriodeListe.stream().filter(
+          i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
+          .map(NettoSaertilskuddPeriode::getNettoSaertilskuddBelop).findFirst().orElse(null);
+
       var inntektBP = justertInntektBPPeriodeListe.stream().filter(
           i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
           .map(inntektPeriode -> new Inntekt(inntektPeriode.getInntektType(),
@@ -113,12 +123,11 @@ public class BPsAndelSaertilskuddPeriodeImpl implements BPsAndelSaertilskuddPeri
               sjablonPeriode.getSjablon().getSjablonInnholdListe())).collect(toList());
 
       // Kaller beregningsmodulen for hver beregningsperiode
-      var beregnBPsAndelSaertilskuddGrunnlagPeriodisert = new GrunnlagBeregning(
+      var beregnBPsAndelSaertilskuddGrunnlagPeriodisert = new GrunnlagBeregning(nettoSaertilskuddBelop,
           inntektBP, inntektBM, inntektBB, sjablonliste);
 
       // Beregner
         resultatPeriodeListe.add(new ResultatPeriode(
-            beregnBPsAndelSaertilskuddGrunnlag.getSoknadsbarnPersonId(),
             beregningsperiode, bPsAndelSaertilskuddBeregning.beregn(beregnBPsAndelSaertilskuddGrunnlagPeriodisert),
             beregnBPsAndelSaertilskuddGrunnlagPeriodisert));
 
@@ -136,14 +145,14 @@ public class BPsAndelSaertilskuddPeriodeImpl implements BPsAndelSaertilskuddPeri
     }
 
     var justertInntektPeriodeListe = InntektUtil.justerInntekter(inntektPeriodeListe.stream()
-        .map(inntektPeriode -> new InntektGrunnlag(inntektPeriode.getInntektDatoFraTil(), inntektPeriode.getInntektType(),
+        .map(inntektPeriode -> new InntektGrunnlag(inntektPeriode.getPeriodeDatoFraTil(), inntektPeriode.getInntektType(),
             inntektPeriode.getInntektBelop()))
         .collect(toList()));
 
     return justertInntektPeriodeListe.stream()
         .map(inntektGrunnlag -> new InntektPeriode(inntektGrunnlag.getInntektDatoFraTil(), inntektGrunnlag.getInntektType(),
             inntektGrunnlag.getInntektBelop()))
-        .sorted(comparing(inntektPeriode -> inntektPeriode.getInntektDatoFraTil().getDatoFra()))
+        .sorted(comparing(inntektPeriode -> inntektPeriode.getPeriodeDatoFraTil().getDatoFra()))
         .collect(toList());
   }
 
@@ -186,21 +195,21 @@ public class BPsAndelSaertilskuddPeriodeImpl implements BPsAndelSaertilskuddPeri
 
     // Valider inntekter BP
     var inntektGrunnlagListe = grunnlag.getInntektBPPeriodeListe().stream()
-        .map(inntektPeriode -> new InntektGrunnlag(inntektPeriode.getInntektDatoFraTil(), inntektPeriode.getInntektType(),
+        .map(inntektPeriode -> new InntektGrunnlag(inntektPeriode.getPeriodeDatoFraTil(), inntektPeriode.getInntektType(),
             inntektPeriode.getInntektBelop()))
         .collect(toList());
     avvikListe.addAll(InntektUtil.validerInntekter(inntektGrunnlagListe, SoknadType.BIDRAG, Rolle.BIDRAGSPLIKTIG));
 
     // Valider inntekter BM
     inntektGrunnlagListe = grunnlag.getInntektBMPeriodeListe().stream()
-        .map(inntektPeriode -> new InntektGrunnlag(inntektPeriode.getInntektDatoFraTil(), inntektPeriode.getInntektType(),
+        .map(inntektPeriode -> new InntektGrunnlag(inntektPeriode.getPeriodeDatoFraTil(), inntektPeriode.getInntektType(),
             inntektPeriode.getInntektBelop()))
         .collect(toList());
     avvikListe.addAll(InntektUtil.validerInntekter(inntektGrunnlagListe, SoknadType.BIDRAG, Rolle.BIDRAGSMOTTAKER));
 
     // Valider inntekter BB
     inntektGrunnlagListe = grunnlag.getInntektBBPeriodeListe().stream()
-        .map(inntektPeriode -> new InntektGrunnlag(inntektPeriode.getInntektDatoFraTil(), inntektPeriode.getInntektType(),
+        .map(inntektPeriode -> new InntektGrunnlag(inntektPeriode.getPeriodeDatoFraTil(), inntektPeriode.getInntektType(),
             inntektPeriode.getInntektBelop()))
         .collect(toList());
     avvikListe.addAll(InntektUtil.validerInntekter(inntektGrunnlagListe, SoknadType.BIDRAG, Rolle.SOKNADSBARN));
