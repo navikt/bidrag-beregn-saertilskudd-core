@@ -1,7 +1,5 @@
 package no.nav.bidrag.beregn.saertilskudd;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.math.BigDecimal;
 import java.util.List;
 import no.nav.bidrag.beregn.TestUtil;

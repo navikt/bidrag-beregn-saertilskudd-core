@@ -44,7 +44,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 @DisplayName("BidragsevneCore (dto-test)")
-public class BidragsevneCoreTest {
+public class BidragsevnePeriodeCoreTest {
 
   private BidragsevneCore bidragsevneCore;
 

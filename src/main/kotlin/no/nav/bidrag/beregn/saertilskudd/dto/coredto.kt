@@ -14,11 +14,35 @@ data class BeregnSaertilskuddGrunnlagCore(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
     val soknadsbarnPersonId: Int,
-    val bidragsevne: BidragsevneCore,
-    val bPsAndelSaertilskudd: BPsAndelSaertilskuddCore,
-    val lopendeBidrag: LopendeBidragCore,
-    val samvaersfradragBelop: BigDecimal,
+    val bidragsevnePeriodeListe: List<BidragsevnePeriodeCore>,
+    val bPsAndelSaertilskuddPeriodeListe: List<BPsAndelSaertilskuddPeriodeCore>,
+    val lopendeBidragPeriodeListe: List<LopendeBidragPeriodeCore>,
+    val samvaersfradragPeriodeListe: List<SamvaersfradragPeriodeCore>,
     val sjablonPeriodeListe: List<SjablonPeriodeCore>
+)
+
+data class BidragsevnePeriodeCore(
+    val periodeDatoFraTil: PeriodeCore,
+    val bidragsevneBelop: BigDecimal,
+    val tjuefemProsentInntekt: BigDecimal
+)
+
+data class BPsAndelSaertilskuddPeriodeCore(
+    val periodeDatoFraTil: PeriodeCore,
+    val bPsAndelSaertilskuddProsent: BigDecimal,
+    val bPsAndelSaertilskuddBelop: BigDecimal,
+    val barnetErSelvforsorget: Boolean
+)
+
+data class LopendeBidragPeriodeCore(
+    val periodeDatoFraTil: PeriodeCore,
+    val lopendeBidragBelop: BigDecimal,
+    val resultatkode: ResultatKode
+)
+
+data class SamvaersfradragPeriodeCore(
+    val periodeDatoFraTil: PeriodeCore,
+    val samvaersfradragBelop: BigDecimal
 )
 
 // Resultatperiode
@@ -31,7 +55,7 @@ data class ResultatPeriodeCore(
     val soknadsbarnPersonId: Int,
     val resultatDatoFraTil: PeriodeCore,
     val resultatBeregning: ResultatBeregningCore,
-    val resultatGrunnlag: GrunnlagBeregningCore
+    val resultatGrunnlag: ResultatGrunnlagCore
 )
 
 data class ResultatBeregningCore(
@@ -40,8 +64,7 @@ data class ResultatBeregningCore(
     val sjablonListe: List<SjablonNavnVerdi>
 )
 
-// Grunnlag beregning
-data class GrunnlagBeregningCore(
+data class ResultatGrunnlagCore(
     val bidragsevne: BidragsevneCore,
     val bPsAndelSaertilskudd: BPsAndelSaertilskuddCore,
     val lopendeBidrag: LopendeBidragCore,

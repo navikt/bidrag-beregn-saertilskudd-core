@@ -15,6 +15,7 @@ import java.util.List;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.BeregnBPsAndelSaertilskuddGrunnlag;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.BeregnBPsAndelSaertilskuddResultat;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.InntektPeriode;
+import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.NettoSaertilskuddPeriode;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
@@ -343,10 +344,14 @@ public class BPsAndelSaertilskuddPeriodeTest {
 
   private void lagGrunnlag(String beregnDatoFra, String beregnDatoTil) {
 
-    var soknadsbarnPersonId = 1;
+    var nettoSaertilskuddPeriodeListe = new ArrayList<NettoSaertilskuddPeriode>();
     var inntektBPPeriodeListe = new ArrayList<InntektPeriode>();
     var inntektBMPeriodeListe = new ArrayList<InntektPeriode>();
     var inntektBBPeriodeListe = new ArrayList<InntektPeriode>();
+
+    nettoSaertilskuddPeriodeListe.add(new NettoSaertilskuddPeriode(
+        new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2020-08-01")),
+        BigDecimal.valueOf(1000)));
 
     inntektBPPeriodeListe.add(new InntektPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2020-08-01")),
@@ -361,7 +366,7 @@ public class BPsAndelSaertilskuddPeriodeTest {
         InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER, BigDecimal.valueOf(40000)));
 
     grunnlag = new BeregnBPsAndelSaertilskuddGrunnlag(LocalDate.parse(beregnDatoFra), LocalDate.parse(beregnDatoTil),
-        soknadsbarnPersonId, inntektBPPeriodeListe, inntektBMPeriodeListe,
+        nettoSaertilskuddPeriodeListe, inntektBPPeriodeListe, inntektBMPeriodeListe,
         inntektBBPeriodeListe, lagSjablonGrunnlag());
   }
 
@@ -369,10 +374,16 @@ public class BPsAndelSaertilskuddPeriodeTest {
 
     var beregnDatoFra = LocalDate.parse("2018-07-01");
     var beregnDatoTil = LocalDate.parse("2020-01-01");
-    var soknadsbarnPersonId = 1;
+    var nettoSaertilskuddPeriodeListe = new ArrayList<NettoSaertilskuddPeriode>();
+
+
     var inntektBPPeriodeListe = new ArrayList<InntektPeriode>();
     var inntektBMPeriodeListe = new ArrayList<InntektPeriode>();
     var inntektBBPeriodeListe = new ArrayList<InntektPeriode>();
+
+    nettoSaertilskuddPeriodeListe.add(new NettoSaertilskuddPeriode(
+        new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2020-08-01")),
+        BigDecimal.valueOf(1000)));
 
     inntektBPPeriodeListe
         .add(new InntektPeriode(new Periode(beregnDatoFra, beregnDatoTil), InntektType.SKATTEGRUNNLAG_KORRIGERT_BARNETILLEGG,
@@ -384,7 +395,7 @@ public class BPsAndelSaertilskuddPeriodeTest {
     inntektBBPeriodeListe.add(new InntektPeriode(new Periode(beregnDatoFra, beregnDatoTil), InntektType.BARNETRYGD_MANUELL_VURDERING,
         BigDecimal.valueOf(40000)));
 
-    grunnlag = new BeregnBPsAndelSaertilskuddGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnPersonId,
+    grunnlag = new BeregnBPsAndelSaertilskuddGrunnlag(beregnDatoFra, beregnDatoTil, nettoSaertilskuddPeriodeListe,
         inntektBPPeriodeListe, inntektBMPeriodeListe, inntektBBPeriodeListe, lagSjablonGrunnlag());
   }
 
@@ -392,7 +403,12 @@ public class BPsAndelSaertilskuddPeriodeTest {
 
     var beregnDatoFra = LocalDate.parse("2018-01-01");
     var beregnDatoTil = LocalDate.parse("2020-07-01");
-    var soknadsbarnPersonId = 1;
+    var nettoSaertilskuddPeriodeListe = new ArrayList<NettoSaertilskuddPeriode>();
+
+    nettoSaertilskuddPeriodeListe.add(new NettoSaertilskuddPeriode(
+        new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2020-08-01")),
+        BigDecimal.valueOf(1000)));
+
     List<InntektPeriode> inntektBPPeriodeListe;
     List<InntektPeriode> inntektBMPeriodeListe;
     List<InntektPeriode> inntektBBPeriodeListe;
@@ -417,7 +433,7 @@ public class BPsAndelSaertilskuddPeriodeTest {
       inntektBBPeriodeListe = emptyList();
     }
 
-    grunnlag = new BeregnBPsAndelSaertilskuddGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnPersonId,
+    grunnlag = new BeregnBPsAndelSaertilskuddGrunnlag(beregnDatoFra, beregnDatoTil, nettoSaertilskuddPeriodeListe,
         inntektBPPeriodeListe, inntektBMPeriodeListe, inntektBBPeriodeListe, lagSjablonGrunnlag());
   }
 

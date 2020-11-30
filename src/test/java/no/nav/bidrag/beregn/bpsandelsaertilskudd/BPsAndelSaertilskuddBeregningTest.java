@@ -26,6 +26,7 @@ public class BPsAndelSaertilskuddBeregningTest {
     void testBeregningMedInntekterForAlle() {
       var bPsAndelUnderholdskostnadBeregning = new BPsAndelSaertilskuddBeregningImpl();
 
+      var nettoSaertilskuddBelop = BigDecimal.valueOf(1000);
       var inntektBP = new ArrayList<Inntekt>();
       var inntektBM = new ArrayList<Inntekt>();
       var inntektBB = new ArrayList<Inntekt>();
@@ -35,7 +36,7 @@ public class BPsAndelSaertilskuddBeregningTest {
       inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(40000)));
 
       var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
-          new GrunnlagBeregning(inntektBP, inntektBM, inntektBB, sjablonListe);
+          new GrunnlagBeregning(nettoSaertilskuddBelop, inntektBP, inntektBM, inntektBB, sjablonListe);
 
       ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
 
@@ -51,6 +52,7 @@ public class BPsAndelSaertilskuddBeregningTest {
   void testBeregningMedFlereInntekterForAlle() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelSaertilskuddBeregningImpl();
 
+    var nettoSaertilskuddBelop = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
@@ -68,7 +70,7 @@ public class BPsAndelSaertilskuddBeregningTest {
     inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(10000)));
 
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
-        new GrunnlagBeregning(inntektBP, inntektBM, inntektBB, sjablonListe);
+        new GrunnlagBeregning(nettoSaertilskuddBelop, inntektBP, inntektBM, inntektBB, sjablonListe);
 
     ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
 
@@ -84,6 +86,7 @@ public class BPsAndelSaertilskuddBeregningTest {
   void testAndelLikNullVedHoyInntektBarn() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelSaertilskuddBeregningImpl();
 
+    var nettoSaertilskuddBelop = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
@@ -93,7 +96,7 @@ public class BPsAndelSaertilskuddBeregningTest {
     inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(400000)));
 
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
-        new GrunnlagBeregning(inntektBP, inntektBM, inntektBB, sjablonListe);
+        new GrunnlagBeregning(nettoSaertilskuddBelop, inntektBP, inntektBM, inntektBB, sjablonListe);
 
     ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
 
@@ -111,6 +114,7 @@ public class BPsAndelSaertilskuddBeregningTest {
   void testAtMaksAndelSettes() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelSaertilskuddBeregningImpl();
 
+    var nettoSaertilskuddBelop = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
@@ -122,7 +126,7 @@ public class BPsAndelSaertilskuddBeregningTest {
 
     // Beregnet andel skal da bli 92,6%, overstyres til 5/6 (83,3333333333%)
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
-        new GrunnlagBeregning(inntektBP, inntektBM, inntektBB, sjablonListe);
+        new GrunnlagBeregning(nettoSaertilskuddBelop, inntektBP, inntektBM, inntektBB, sjablonListe);
 
     ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
 
@@ -138,7 +142,8 @@ public class BPsAndelSaertilskuddBeregningTest {
   void testBeregningMedNullInntektBarn() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelSaertilskuddBeregningImpl();
 
-    var underholdskostnad = BigDecimal.valueOf(1000);
+    var nettoSaertilskuddBelop = BigDecimal.valueOf(1000);
+
     var inntektBP = new ArrayList<Inntekt>();
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
@@ -148,7 +153,7 @@ public class BPsAndelSaertilskuddBeregningTest {
     inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.ZERO));
 
    var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
-        new GrunnlagBeregning(inntektBP, inntektBM, inntektBB, sjablonListe);
+        new GrunnlagBeregning(nettoSaertilskuddBelop, inntektBP, inntektBM, inntektBB, sjablonListe);
 
     ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
 

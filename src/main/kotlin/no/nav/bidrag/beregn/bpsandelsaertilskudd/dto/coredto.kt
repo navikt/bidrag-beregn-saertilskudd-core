@@ -11,15 +11,21 @@ import java.time.LocalDate
 data class BeregnBPsAndelSaertilskuddGrunnlagCore(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
-    val soknadsbarnPersonId: Int,
+    val nettoSaertilskuddPeriodeListe: List<NettoSaertilskuddPeriodeCore>,
     val inntektBPPeriodeListe: List<InntektPeriodeCore>,
     val inntektBMPeriodeListe: List<InntektPeriodeCore>,
     val inntektBBPeriodeListe: List<InntektPeriodeCore>,
     var sjablonPeriodeListe: List<SjablonPeriodeCore>
 )
 
+
+data class NettoSaertilskuddPeriodeCore(
+    val periodeDatoFraTil: PeriodeCore,
+    val nettoSaertilskuddBelop: BigDecimal
+)
+
 data class InntektPeriodeCore(
-    val inntektPeriodeDatoFraTil: PeriodeCore,
+    val periodeDatoFraTil: PeriodeCore,
     val inntektType: String,
     val inntektBelop: BigDecimal
 )
@@ -31,7 +37,6 @@ data class BeregnBPsAndelSaertilskuddResultatCore(
 )
 
 data class ResultatPeriodeCore(
-    val soknadsbarnPersonId: Int,
     val resultatDatoFraTil: PeriodeCore,
     val resultatBeregning: ResultatBeregningCore,
     val resultatGrunnlag: ResultatGrunnlagCore
@@ -43,6 +48,7 @@ data class ResultatBeregningCore(
 
 // Grunnlag beregning
 data class ResultatGrunnlagCore(
+    val nettoSaertilskuddBelop: BigDecimal,
     val inntektBPListe: List<InntektCore>,
     val inntektBMListe: List<InntektCore>,
     val inntektBBListe: List<InntektCore>,

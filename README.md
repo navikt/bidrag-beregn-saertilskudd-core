@@ -7,6 +7,7 @@ Repo for beregning av særtilskudd-core. Disse erstatter beregninger i BBM.
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.0.4   | Endret       | Har lagt inn lik logikk for periodisering og fjernet personid for søknadsbarn fra input til beregninger
 0.0.3   | Endret       | Lagt til beregning av samværsfradrag
 0.0.2   | Endret       | Grunnstruktur er satt
 0.0.1   | Opprettet    | Init commit for beregning av særtilskudd
