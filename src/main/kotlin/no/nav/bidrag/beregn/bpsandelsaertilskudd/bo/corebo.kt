@@ -32,6 +32,7 @@ data class ResultatPeriode(
 
 data class ResultatBeregning(
     val resultatAndelProsent: BigDecimal,
+    val resultatAndelBelop: BigDecimal,
     val barnetErSelvforsorget: Boolean,
     val sjablonListe: List<SjablonNavnVerdi>
 )

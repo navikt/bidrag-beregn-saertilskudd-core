@@ -37,7 +37,7 @@ data class BPsAndelSaertilskuddPeriodeCore(
 data class LopendeBidragPeriodeCore(
     val periodeDatoFraTil: PeriodeCore,
     val lopendeBidragBelop: BigDecimal,
-    val resultatkode: ResultatKode
+    val resultatkode: String
 )
 
 data class SamvaersfradragPeriodeCore(
@@ -85,5 +85,5 @@ data class BPsAndelSaertilskuddCore(
 
 data class LopendeBidragCore(
     val lopendeBidragBelop: BigDecimal,
-    val resultatkode: ResultatKode
+    val resultatkode: String
 )
