@@ -355,15 +355,15 @@ public class BPsAndelSaertilskuddPeriodeTest {
 
     inntektBPPeriodeListe.add(new InntektPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2020-08-01")),
-        InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER, BigDecimal.valueOf(217666)));
+        InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER, BigDecimal.valueOf(217666), false, false));
 
     inntektBMPeriodeListe.add(new InntektPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2020-08-01")),
-        InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER, BigDecimal.valueOf(400000)));
+        InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER, BigDecimal.valueOf(400000), false, false));
 
     inntektBBPeriodeListe.add(new InntektPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2020-08-01")),
-        InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER, BigDecimal.valueOf(40000)));
+        InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER, BigDecimal.valueOf(40000), false, false));
 
     grunnlag = new BeregnBPsAndelSaertilskuddGrunnlag(LocalDate.parse(beregnDatoFra), LocalDate.parse(beregnDatoTil),
         nettoSaertilskuddPeriodeListe, inntektBPPeriodeListe, inntektBMPeriodeListe,
@@ -387,13 +387,13 @@ public class BPsAndelSaertilskuddPeriodeTest {
 
     inntektBPPeriodeListe
         .add(new InntektPeriode(new Periode(beregnDatoFra, beregnDatoTil), InntektType.SKATTEGRUNNLAG_KORRIGERT_BARNETILLEGG,
-            BigDecimal.valueOf(666001)));
+            BigDecimal.valueOf(666001), false, false));
 
     inntektBMPeriodeListe.add(new InntektPeriode(new Periode(beregnDatoFra, beregnDatoTil), InntektType.PENSJON_KORRIGERT_BARNETILLEGG,
-        BigDecimal.valueOf(400000)));
+        BigDecimal.valueOf(400000), false, false));
 
     inntektBBPeriodeListe.add(new InntektPeriode(new Periode(beregnDatoFra, beregnDatoTil), InntektType.BARNETRYGD_MANUELL_VURDERING,
-        BigDecimal.valueOf(40000)));
+        BigDecimal.valueOf(40000), false, false));
 
     grunnlag = new BeregnBPsAndelSaertilskuddGrunnlag(beregnDatoFra, beregnDatoTil, nettoSaertilskuddPeriodeListe,
         inntektBPPeriodeListe, inntektBMPeriodeListe, inntektBBPeriodeListe, lagSjablonGrunnlag());
@@ -417,14 +417,14 @@ public class BPsAndelSaertilskuddPeriodeTest {
       inntektBPPeriodeListe = lagJustertInntektGrunnlag();
     } else {
       inntektBPPeriodeListe = singletonList(new InntektPeriode(new Periode(beregnDatoFra, beregnDatoTil),
-          InntektType.SKATTEGRUNNLAG_KORRIGERT_BARNETILLEGG, BigDecimal.valueOf(666001)));
+          InntektType.SKATTEGRUNNLAG_KORRIGERT_BARNETILLEGG, BigDecimal.valueOf(666001), false, false));
     }
 
     if (rolle.equals("BM")) {
       inntektBMPeriodeListe = lagJustertInntektGrunnlag();
     } else {
       inntektBMPeriodeListe = singletonList(new InntektPeriode(new Periode(beregnDatoFra, beregnDatoTil),
-          InntektType.PENSJON_KORRIGERT_BARNETILLEGG, BigDecimal.valueOf(400000)));
+          InntektType.PENSJON_KORRIGERT_BARNETILLEGG, BigDecimal.valueOf(400000), false, false));
     }
 
     if (rolle.equals("BB")) {
@@ -465,20 +465,20 @@ public class BPsAndelSaertilskuddPeriodeTest {
 
     inntektPeriodeListe.add(
         new InntektPeriode(new Periode(LocalDate.parse("2018-01-01"), null),
-            InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER, BigDecimal.valueOf(200000)));
+            InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER, BigDecimal.valueOf(200000), false, false));
     inntektPeriodeListe.add(
         new InntektPeriode(new Periode(LocalDate.parse("2018-06-01"), LocalDate.parse("2018-12-31")),
             InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER,
-            BigDecimal.valueOf(150000)));
+            BigDecimal.valueOf(150000), false, false));
     inntektPeriodeListe.add(
         new InntektPeriode(new Periode(LocalDate.parse("2019-01-01"), null),
-            InntektType.SAKSBEHANDLER_BEREGNET_INNTEKT, BigDecimal.valueOf(300000)));
+            InntektType.SAKSBEHANDLER_BEREGNET_INNTEKT, BigDecimal.valueOf(300000), false, false));
     inntektPeriodeListe.add(
         new InntektPeriode(new Periode(LocalDate.parse("2019-01-01"), null),
-            InntektType.KAPITALINNTEKT_EGNE_OPPLYSNINGER, BigDecimal.valueOf(100000)));
+            InntektType.KAPITALINNTEKT_EGNE_OPPLYSNINGER, BigDecimal.valueOf(100000), false, false));
     inntektPeriodeListe.add(
         new InntektPeriode(new Periode(LocalDate.parse("2020-01-01"), null),
-            InntektType.ATTFORING_AAP, BigDecimal.valueOf(250000)));
+            InntektType.ATTFORING_AAP, BigDecimal.valueOf(250000), false, false));
 
     return inntektPeriodeListe;
   }

@@ -108,7 +108,9 @@ public class BPsAndelSaertilskuddCoreImpl implements BPsAndelSaertilskuddCore{
           new Periode(inntektPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoFra(),
               inntektPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoTil()),
               InntektType.valueOf(inntektPeriodeCore.getInntektType()),
-              inntektPeriodeCore.getInntektBelop()));
+              inntektPeriodeCore.getInntektBelop(),
+              inntektPeriodeCore.getDeltFordel(),
+              inntektPeriodeCore.getSkatteklasse2()));
     }
     return inntekterPeriodeListe;
   }
@@ -133,8 +135,9 @@ public class BPsAndelSaertilskuddCoreImpl implements BPsAndelSaertilskuddCore{
       var bPsAndelSaertilskuddResultatGrunnlag = periodeResultat.getResultatGrunnlagBeregning();
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
           new PeriodeCore(periodeResultat.getResultatDatoFraTil().getDatoFra(), periodeResultat.getResultatDatoFraTil().getDatoTil()),
-          new ResultatBeregningCore(bPsAndelSaertilskuddResultat.getResultatAndelProsent()
-          ),
+          new ResultatBeregningCore(bPsAndelSaertilskuddResultat.getResultatAndelProsent(),
+              bPsAndelSaertilskuddResultat.getResultatAndelBelop(),
+              bPsAndelSaertilskuddResultat.getBarnetErSelvforsorget()),
           new ResultatGrunnlagCore(bPsAndelSaertilskuddResultatGrunnlag.getNettoSaertilskuddBelop(),
               mapResultatGrunnlagInntekt(bPsAndelSaertilskuddResultatGrunnlag.getInntektBPListe()),
               mapResultatGrunnlagInntekt(bPsAndelSaertilskuddResultatGrunnlag.getInntektBMListe()),
@@ -149,7 +152,8 @@ public class BPsAndelSaertilskuddCoreImpl implements BPsAndelSaertilskuddCore{
     var resultatGrunnlagInntektListeCore = new ArrayList<InntektCore>();
     for (Inntekt resultatGrunnlagInntekt : resultatGrunnlagInntektListe) {
       resultatGrunnlagInntektListeCore
-          .add(new InntektCore(resultatGrunnlagInntekt.getInntektType().toString(), resultatGrunnlagInntekt.getInntektBelop()));
+          .add(new InntektCore(resultatGrunnlagInntekt.getInntektType().toString(), resultatGrunnlagInntekt.getInntektBelop(),
+              resultatGrunnlagInntekt.getDeltFordel(), resultatGrunnlagInntekt.getSkatteklasse2()));
     }
     return resultatGrunnlagInntektListeCore;
   }

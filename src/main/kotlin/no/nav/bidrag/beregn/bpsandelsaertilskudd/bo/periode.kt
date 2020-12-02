@@ -19,11 +19,15 @@ data class NettoSaertilskuddPeriode(
 data class InntektPeriode(
     val periodeDatoFraTil: Periode,
     val inntektType: InntektType,
-    val inntektBelop: BigDecimal) : PeriodisertGrunnlag {
+    val inntektBelop: BigDecimal,
+    val deltFordel: Boolean,
+    val skatteklasse2: Boolean) : PeriodisertGrunnlag {
   constructor(inntektPeriode: InntektPeriode)
       : this(inntektPeriode.periodeDatoFraTil.justerDatoer(),
       inntektPeriode.inntektType,
-      inntektPeriode.inntektBelop)
+      inntektPeriode.inntektBelop,
+      inntektPeriode.deltFordel,
+      inntektPeriode.skatteklasse2)
   override fun getDatoFraTil(): Periode {
     return periodeDatoFraTil
   }

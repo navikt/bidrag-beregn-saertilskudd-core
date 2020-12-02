@@ -44,7 +44,7 @@ data class GrunnlagBeregning(
     val inntektListe: List<Inntekt>,
     val skatteklasse: Int,
     val bostatusKode: BostatusKode,
-    val antallEgneBarnIHusstand: Int,
+    val antallEgneBarnIHusstand: BigDecimal,
     val saerfradragkode: SaerfradragKode,
     val sjablonListe: List<Sjablon>
 )

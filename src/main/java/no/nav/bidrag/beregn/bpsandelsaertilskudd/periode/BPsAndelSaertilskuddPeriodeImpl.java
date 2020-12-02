@@ -104,17 +104,17 @@ public class BPsAndelSaertilskuddPeriodeImpl implements BPsAndelSaertilskuddPeri
       var inntektBP = justertInntektBPPeriodeListe.stream().filter(
           i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
           .map(inntektPeriode -> new Inntekt(inntektPeriode.getInntektType(),
-              inntektPeriode.getInntektBelop())).collect(toList());
+              inntektPeriode.getInntektBelop(), false, false)).collect(toList());
 
       var inntektBM = justertInntektBMPeriodeListe.stream().filter(
           i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
           .map(inntektPeriode -> new Inntekt(inntektPeriode.getInntektType(),
-              inntektPeriode.getInntektBelop())).collect(toList());
+              inntektPeriode.getInntektBelop(), false, false)).collect(toList());
 
       var inntektBB = justertInntektBBPeriodeListe.stream().filter(
           i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
           .map(inntektPeriode -> new Inntekt(inntektPeriode.getInntektType(),
-              inntektPeriode.getInntektBelop())).collect(toList());
+              inntektPeriode.getInntektBelop(), false, false)).collect(toList());
 
       var sjablonliste = justertSjablonPeriodeListe.stream().filter(
           i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
@@ -151,7 +151,7 @@ public class BPsAndelSaertilskuddPeriodeImpl implements BPsAndelSaertilskuddPeri
 
     return justertInntektPeriodeListe.stream()
         .map(inntektGrunnlag -> new InntektPeriode(inntektGrunnlag.getInntektDatoFraTil(), inntektGrunnlag.getInntektType(),
-            inntektGrunnlag.getInntektBelop()))
+            inntektGrunnlag.getInntektBelop(), false, false))
         .sorted(comparing(inntektPeriode -> inntektPeriode.getPeriodeDatoFraTil().getDatoFra()))
         .collect(toList());
   }

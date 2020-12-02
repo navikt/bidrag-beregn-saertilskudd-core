@@ -73,7 +73,7 @@ public class SamvaersfradragPeriodeTest {
                       BigDecimal.valueOf(1052))))));
 
       BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag =
-          new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, 1, soknadsbarnFodselsdato,
+          new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnFodselsdato,
               samvaersklassePeriodeListe, sjablonPeriodeListe);
 
       var resultat = samvaersfradragPeriode.beregnPerioder(beregnSamvaersfradragGrunnlag);
@@ -164,7 +164,7 @@ public class SamvaersfradragPeriodeTest {
                     BigDecimal.valueOf(1052))))));
 
     BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag =
-        new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, 1, soknadsbarnFodselsdato,
+        new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnFodselsdato,
             samvaersklassePeriodeListe, sjablonPeriodeListe);
 
     var resultat = samvaersfradragPeriode.beregnPerioder(beregnSamvaersfradragGrunnlag);
@@ -237,7 +237,7 @@ public class SamvaersfradragPeriodeTest {
                     BigDecimal.valueOf(1052))))));
 
     BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag =
-        new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, 1, soknadsbarnFodselsdato,
+        new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnFodselsdato,
             samvaersklassePeriodeListe, sjablonPeriodeListe);
 
     var avvikListe = samvaersfradragPeriode.validerInput(beregnSamvaersfradragGrunnlag);

@@ -39,7 +39,7 @@ data class BostatusPeriode(
 
 data class AntallBarnIEgetHusholdPeriode(
     val periodeDatoFraTil: Periode,
-    val antallBarn: Int) : PeriodisertGrunnlag {
+    val antallBarn: BigDecimal) : PeriodisertGrunnlag {
   constructor(antallBarnIEgetHusholdPeriode: AntallBarnIEgetHusholdPeriode) : this(antallBarnIEgetHusholdPeriode.periodeDatoFraTil.justerDatoer(),
       antallBarnIEgetHusholdPeriode.antallBarn)
   override fun getDatoFraTil(): Periode {
