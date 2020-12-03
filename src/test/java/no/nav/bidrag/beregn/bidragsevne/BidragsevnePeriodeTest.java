@@ -276,7 +276,8 @@ class BidragsevnePeriodeTest {
 
     var skatteklassePeriodeListe = singletonList(new SkatteklassePeriode(new Periode(beregnDatoFra, beregnDatoTil), 2));
     var bostatusPeriodeListe = singletonList(new BostatusPeriode(new Periode(beregnDatoFra, beregnDatoTil), BostatusKode.MED_ANDRE));
-    var antallBarnIEgetHusholdPeriodeListe = singletonList(new AntallBarnIEgetHusholdPeriode(new Periode(beregnDatoFra, beregnDatoTil), 1));
+    var antallBarnIEgetHusholdPeriodeListe = singletonList(new AntallBarnIEgetHusholdPeriode(new Periode(beregnDatoFra, beregnDatoTil),
+        BigDecimal.valueOf(1)));
     var saerfradragPeriodeListe = singletonList(new SaerfradragPeriode(new Periode(beregnDatoFra, beregnDatoTil), SaerfradragKode.HELT));
 
     grunnlag = new BeregnBidragsevneGrunnlag(beregnDatoFra, beregnDatoTil, lagJustertInntektGrunnlag(), skatteklassePeriodeListe,
@@ -372,9 +373,9 @@ class BidragsevnePeriodeTest {
     var antallBarnIEgetHusholdPeriodeListe = new ArrayList<AntallBarnIEgetHusholdPeriode>();
 
     antallBarnIEgetHusholdPeriodeListe
-        .add(new AntallBarnIEgetHusholdPeriode(new Periode(LocalDate.parse("2001-01-01"), LocalDate.parse("2017-01-01")), 1));
+        .add(new AntallBarnIEgetHusholdPeriode(new Periode(LocalDate.parse("2001-01-01"), LocalDate.parse("2017-01-01")), BigDecimal.valueOf(1)));
     antallBarnIEgetHusholdPeriodeListe
-        .add(new AntallBarnIEgetHusholdPeriode(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), 2));
+        .add(new AntallBarnIEgetHusholdPeriode(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), BigDecimal.valueOf(2)));
 
     return antallBarnIEgetHusholdPeriodeListe;
   }

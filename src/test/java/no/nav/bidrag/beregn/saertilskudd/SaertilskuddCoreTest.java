@@ -37,7 +37,6 @@ import no.nav.bidrag.beregn.saertilskudd.dto.BidragsevnePeriodeCore;
 import no.nav.bidrag.beregn.saertilskudd.dto.LopendeBidragPeriodeCore;
 import no.nav.bidrag.beregn.saertilskudd.dto.SamvaersfradragPeriodeCore;
 import no.nav.bidrag.beregn.saertilskudd.periode.SaertilskuddPeriode;
-import no.nav.bidrag.beregn.samvaersfradrag.dto.SamvaersklassePeriodeCore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -128,7 +127,8 @@ public class SaertilskuddCoreTest {
 
     var lopendeBidragPeriode = new LopendeBidragPeriodeCore(
         new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(1000), ResultatKode.BIDRAG_REDUSERT_AV_EVNE);
+        BigDecimal.valueOf(1000), BigDecimal.valueOf(1000), BigDecimal.valueOf(1000),
+        BigDecimal.valueOf(1000), ResultatKode.BIDRAG_REDUSERT_AV_EVNE.toString());
     var lopendeBidragPeriodeListe = new ArrayList<LopendeBidragPeriodeCore>();
     lopendeBidragPeriodeListe.add(lopendeBidragPeriode);
 
@@ -158,7 +158,9 @@ public class SaertilskuddCoreTest {
             singletonList(new SjablonNavnVerdi(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22)))),
         new GrunnlagBeregning(new Bidragsevne(BigDecimal.valueOf(1000), BigDecimal.valueOf(12000)),
             new BPsAndelSaertilskudd(BigDecimal.valueOf(60), BigDecimal.valueOf(8000), false),
-            new LopendeBidrag(BigDecimal.valueOf(100), ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
+            new LopendeBidrag(BigDecimal.valueOf(100),
+                BigDecimal.valueOf(1000), BigDecimal.valueOf(1000), BigDecimal.valueOf(1000),
+                ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
             BigDecimal.valueOf(100),
             singletonList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
                 singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))))))));

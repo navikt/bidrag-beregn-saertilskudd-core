@@ -28,7 +28,9 @@ public class SaertilskuddBeregningTest {
         new Bidragsevne(BigDecimal.valueOf(10000), BigDecimal.valueOf(10000)),
         new BPsAndelSaertilskudd(BigDecimal.valueOf(17), BigDecimal.valueOf(1000),
             false),
-        new LopendeBidrag(BigDecimal.valueOf(1000), ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
+        new LopendeBidrag(BigDecimal.valueOf(1000),
+            BigDecimal.valueOf(1000), BigDecimal.valueOf(1000), BigDecimal.valueOf(1000),
+            ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
         BigDecimal.valueOf(100), sjablonListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);

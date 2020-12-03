@@ -59,7 +59,9 @@ public class SaertilskuddPeriodeTest {
 
     var lopendeBidragPeriode = new LopendeBidragPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(1000), ResultatKode.BIDRAG_REDUSERT_AV_EVNE);
+        BigDecimal.valueOf(1000),
+        BigDecimal.valueOf(1000), BigDecimal.valueOf(1000), BigDecimal.valueOf(1000),
+        ResultatKode.BIDRAG_REDUSERT_AV_EVNE);
     var lopendeBidragPeriodeListe = new ArrayList<LopendeBidragPeriode>();
     lopendeBidragPeriodeListe.add(lopendeBidragPeriode);
 

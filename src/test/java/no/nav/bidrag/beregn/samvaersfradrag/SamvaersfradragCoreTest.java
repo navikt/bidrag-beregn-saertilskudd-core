@@ -133,13 +133,13 @@ public class SamvaersfradragCoreTest {
     sjablonPeriodeListe.add(sjablonPeriode);
 
     beregnSamvaersfradragGrunnlagCore = new BeregnSamvaersfradragGrunnlagCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01"),
-        1, LocalDate.parse("2017-08-17"), samvaersklassePeriodeListe, sjablonPeriodeListe);
+        LocalDate.parse("2017-08-17"), samvaersklassePeriodeListe, sjablonPeriodeListe);
   }
 
   private void byggSamvaersfradragPeriodeResultat() {
     List<ResultatPeriode> periodeResultatListe = new ArrayList<>();
 
-    periodeResultatListe.add(new ResultatPeriode(1,
+    periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
         new ResultatBeregning(BigDecimal.valueOf(666),
             singletonList(new SjablonNavnVerdi(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), BigDecimal.valueOf(1600)))),
@@ -148,7 +148,7 @@ public class SamvaersfradragCoreTest {
                 singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
                     BigDecimal.valueOf(1600))))))));
 
-    periodeResultatListe.add(new ResultatPeriode(1,
+    periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-01-01")),
         new ResultatBeregning(BigDecimal.valueOf(667),
             singletonList(new SjablonNavnVerdi(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), BigDecimal.valueOf(1600)))),
@@ -157,7 +157,7 @@ public class SamvaersfradragCoreTest {
                 singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
                     BigDecimal.valueOf(1640))))))));
 
-    periodeResultatListe.add(new ResultatPeriode(1,
+    periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
         new ResultatBeregning(BigDecimal.valueOf(668),
             singletonList(new SjablonNavnVerdi(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), BigDecimal.valueOf(1600)))),

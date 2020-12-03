@@ -60,5 +60,8 @@ data class BPsAndelSaertilskudd(
 
 data class LopendeBidrag(
     val lopendeBidragBelop: BigDecimal,
+    val opprinneligBPsAndelUnderholdskostnadBelop: BigDecimal,
+    val opprinneligBidragBelop: BigDecimal,
+    val opprinneligSamvaersfradragBelop: BigDecimal,
     val resultatkode: ResultatKode
 )

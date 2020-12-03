@@ -111,7 +111,6 @@ public class SamvaersfradragPeriodeImpl implements SamvaersfradragPeriode {
           samvaersklasse, sjablonliste);
 
       resultatPeriodeListe.add(new ResultatPeriode(
-          beregnSamvaersfradragGrunnlag.getSoknadsbarnPersonId(),
           beregningsperiode,
           samvaersfradragBeregning.beregn(beregnSamvaersfradragGrunnlagPeriodisert),
           beregnSamvaersfradragGrunnlagPeriodisert));

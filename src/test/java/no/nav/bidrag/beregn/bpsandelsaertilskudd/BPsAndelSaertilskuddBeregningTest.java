@@ -31,9 +31,9 @@ public class BPsAndelSaertilskuddBeregningTest {
       var inntektBM = new ArrayList<Inntekt>();
       var inntektBB = new ArrayList<Inntekt>();
 
-      inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(217666)));
-      inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(400000)));
-      inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(40000)));
+      inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(217666), false, false));
+      inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(400000), false, false));
+      inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(40000), false, false));
 
       var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
           new GrunnlagBeregning(nettoSaertilskuddBelop, inntektBP, inntektBM, inntektBB, sjablonListe);
@@ -57,17 +57,17 @@ public class BPsAndelSaertilskuddBeregningTest {
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
 
-    inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(200000)));
-    inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(17666)));
-    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(100000)));
-    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(200000)));
-    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(100000)));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(10000)));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(10000)));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(10000)));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(10000)));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(10000)));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(10000)));
+    inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(200000), false, false));
+    inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(17666), false, false));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(100000), false, false));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(200000), false, false));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(100000), false, false));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(10000), false, false));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(10000), false, false));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(10000), false, false));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(10000), false, false));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(10000), false, false));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(10000), false, false));
 
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
         new GrunnlagBeregning(nettoSaertilskuddBelop, inntektBP, inntektBM, inntektBB, sjablonListe);
@@ -91,9 +91,9 @@ public class BPsAndelSaertilskuddBeregningTest {
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
 
-    inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(217666)));
-    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(400000)));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(400000)));
+    inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(217666), false, false));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(400000), false, false));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(400000), false, false));
 
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
         new GrunnlagBeregning(nettoSaertilskuddBelop, inntektBP, inntektBM, inntektBB, sjablonListe);
@@ -119,9 +119,9 @@ public class BPsAndelSaertilskuddBeregningTest {
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
 
-    inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(1000000)));
-    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(40000)));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(40000)));
+    inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(1000000), false, false));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(40000), false, false));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(40000), false, false));
 
 
     // Beregnet andel skal da bli 92,6%, overstyres til 5/6 (83,3333333333%)
@@ -148,9 +148,9 @@ public class BPsAndelSaertilskuddBeregningTest {
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
 
-    inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(502000)));
-    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(500000)));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.ZERO));
+    inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(502000), false, false));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(500000), false, false));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.ZERO, false, false));
 
    var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
         new GrunnlagBeregning(nettoSaertilskuddBelop, inntektBP, inntektBM, inntektBB, sjablonListe);

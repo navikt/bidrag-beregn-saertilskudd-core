@@ -29,6 +29,7 @@ public class BPsAndelSaertilskuddBeregningImpl implements BPsAndelSaertilskuddBe
     var sjablonNavnVerdiMap = hentSjablonVerdier(grunnlagBeregning.getSjablonListe());
 
     var andelProsent = BigDecimal.ZERO;
+    var andelBelop = BigDecimal.ZERO;
     var barnetErSelvforsorget = false;
 
     // Legger sammen inntektene
@@ -84,7 +85,7 @@ public class BPsAndelSaertilskuddBeregningImpl implements BPsAndelSaertilskuddBe
 
     }
 
-    return new ResultatBeregning(andelProsent, barnetErSelvforsorget, byggSjablonResultatListe(sjablonNavnVerdiMap));
+    return new ResultatBeregning(andelProsent, andelBelop, barnetErSelvforsorget, byggSjablonResultatListe(sjablonNavnVerdiMap));
   }
 
   @Override
@@ -166,7 +167,7 @@ public class BPsAndelSaertilskuddBeregningImpl implements BPsAndelSaertilskuddBe
 
     }
 
-    return new ResultatBeregning(andelProsent, barnetErSelvforsorget, byggSjablonResultatListe(sjablonNavnVerdiMap));
+    return new ResultatBeregning(andelProsent, andelBelop, barnetErSelvforsorget, byggSjablonResultatListe(sjablonNavnVerdiMap));
     }
 
   // Henter sjablonverdier

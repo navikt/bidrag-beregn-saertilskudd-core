@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import no.nav.bidrag.beregn.felles.enums.ResultatKode;
 import no.nav.bidrag.beregn.saertilskudd.bo.BPsAndelSaertilskuddPeriode;
 import no.nav.bidrag.beregn.saertilskudd.bo.BeregnSaertilskuddGrunnlag;
 import no.nav.bidrag.beregn.saertilskudd.bo.BeregnSaertilskuddResultat;
@@ -116,7 +117,10 @@ public class SaertilskuddCoreImpl implements SaertilskuddCore {
           new Periode(lopendeBidragPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoFra(),
               lopendeBidragPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoTil()),
           lopendeBidragPeriodeCore.getLopendeBidragBelop(),
-          lopendeBidragPeriodeCore.getResultatkode()));
+          lopendeBidragPeriodeCore.getOpprinneligBPsAndelUnderholdskostnadBelop(),
+          lopendeBidragPeriodeCore.getOpprinneligBidragBelop(),
+          lopendeBidragPeriodeCore.getOpprinneligSamvaersfradragBelop(),
+          ResultatKode.valueOf(lopendeBidragPeriodeCore.getResultatkode())));
     }
     return lopendeBidragPeriodeListe.stream()
         .sorted(Comparator.comparing(lopendeBidragPeriode -> lopendeBidragPeriode
@@ -190,7 +194,10 @@ public class SaertilskuddCoreImpl implements SaertilskuddCore {
                   saertilskuddResultatGrunnlag.getBPsAndelSaertilskudd().getBarnetErSelvforsorget()),
               new LopendeBidragCore(
                   saertilskuddResultatGrunnlag.getLopendeBidrag().getLopendeBidragBelop(),
-                  saertilskuddResultatGrunnlag.getLopendeBidrag().getResultatkode()),
+                  saertilskuddResultatGrunnlag.getLopendeBidrag().getOpprinneligBPsAndelUnderholdskostnadBelop(),
+                  saertilskuddResultatGrunnlag.getLopendeBidrag().getOpprinneligBidragBelop(),
+                  saertilskuddResultatGrunnlag.getLopendeBidrag().getOpprinneligSamvaersfradragBelop(),
+                  saertilskuddResultatGrunnlag.getLopendeBidrag().getResultatkode().toString()),
               saertilskuddResultatGrunnlag.getSamvaersfradragBelop(),
               mapResultatGrunnlagSjabloner(resultatPeriode.getResultatBeregning().getSjablonListe()))));
     }

@@ -27,7 +27,9 @@ data class NettoSaertilskuddPeriodeCore(
 data class InntektPeriodeCore(
     val periodeDatoFraTil: PeriodeCore,
     val inntektType: String,
-    val inntektBelop: BigDecimal
+    val inntektBelop: BigDecimal,
+    val deltFordel: Boolean,
+    val skatteklasse2: Boolean
 )
 
 // Resultatperiode
@@ -43,7 +45,9 @@ data class ResultatPeriodeCore(
 )
 
 data class ResultatBeregningCore(
-    val resultatAndelProsent: BigDecimal
+    val resultatAndelProsent: BigDecimal,
+    val resultatAndelBelop: BigDecimal,
+    val barnetErSelvforsorget: Boolean
 )
 
 // Grunnlag beregning
@@ -57,6 +61,8 @@ data class ResultatGrunnlagCore(
 
 data class InntektCore(
     val inntektType: String,
-    val inntektBelop: BigDecimal
+    val inntektBelop: BigDecimal,
+    val deltFordel: Boolean,
+    val skatteklasse2: Boolean
 )
 
