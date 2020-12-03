@@ -5,7 +5,6 @@ import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
 import no.nav.bidrag.beregn.felles.dto.SjablonNavnVerdiCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
-import no.nav.bidrag.beregn.felles.enums.ResultatKode
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -37,6 +36,9 @@ data class BPsAndelSaertilskuddPeriodeCore(
 data class LopendeBidragPeriodeCore(
     val periodeDatoFraTil: PeriodeCore,
     val lopendeBidragBelop: BigDecimal,
+    val OpprinneligBPsAndelUnderholdskostnadBelop: BigDecimal,
+    val OpprinneligBidragBelop: BigDecimal,
+    val OpprinneligSamvaersfradragBelop: BigDecimal,
     val resultatkode: String
 )
 

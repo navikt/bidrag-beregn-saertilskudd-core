@@ -117,6 +117,9 @@ public class SaertilskuddCoreImpl implements SaertilskuddCore {
           new Periode(lopendeBidragPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoFra(),
               lopendeBidragPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoTil()),
           lopendeBidragPeriodeCore.getLopendeBidragBelop(),
+          lopendeBidragPeriodeCore.getOpprinneligBPsAndelUnderholdskostnadBelop(),
+          lopendeBidragPeriodeCore.getOpprinneligBidragBelop(),
+          lopendeBidragPeriodeCore.getOpprinneligSamvaersfradragBelop(),
           ResultatKode.valueOf(lopendeBidragPeriodeCore.getResultatkode())));
     }
     return lopendeBidragPeriodeListe.stream()
