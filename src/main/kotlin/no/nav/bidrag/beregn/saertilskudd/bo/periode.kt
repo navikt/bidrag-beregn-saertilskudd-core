@@ -38,16 +38,16 @@ data class BPsAndelSaertilskuddPeriode(
 data class LopendeBidragPeriode(
     val periodeDatoFraTil: Periode,
     val lopendeBidragBelop: BigDecimal,
-    val OpprinneligBPsAndelUnderholdskostnadBelop: BigDecimal,
-    val OpprinneligBidragBelop: BigDecimal,
-    val OpprinneligSamvaersfradragBelop: BigDecimal,
+    val opprinneligBPsAndelUnderholdskostnadBelop: BigDecimal,
+    val opprinneligBidragBelop: BigDecimal,
+    val opprinneligSamvaersfradragBelop: BigDecimal,
     val resultatkode: ResultatKode) : PeriodisertGrunnlag {
   constructor(lopendeBidragPeriode: LopendeBidragPeriode)
       : this(lopendeBidragPeriode.periodeDatoFraTil.justerDatoer(),
       lopendeBidragPeriode.lopendeBidragBelop,
-      lopendeBidragPeriode.OpprinneligBPsAndelUnderholdskostnadBelop,
-      lopendeBidragPeriode.OpprinneligBidragBelop,
-      lopendeBidragPeriode.OpprinneligSamvaersfradragBelop,
+      lopendeBidragPeriode.opprinneligBPsAndelUnderholdskostnadBelop,
+      lopendeBidragPeriode.opprinneligBidragBelop,
+      lopendeBidragPeriode.opprinneligSamvaersfradragBelop,
       lopendeBidragPeriode.resultatkode)
   override fun getDatoFraTil(): Periode {
     return periodeDatoFraTil
