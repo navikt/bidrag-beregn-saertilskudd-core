@@ -194,6 +194,9 @@ public class SaertilskuddCoreImpl implements SaertilskuddCore {
                   saertilskuddResultatGrunnlag.getBPsAndelSaertilskudd().getBarnetErSelvforsorget()),
               new LopendeBidragCore(
                   saertilskuddResultatGrunnlag.getLopendeBidrag().getLopendeBidragBelop(),
+                  saertilskuddResultatGrunnlag.getLopendeBidrag().getOpprinneligBPsAndelUnderholdskostnadBelop(),
+                  saertilskuddResultatGrunnlag.getLopendeBidrag().getOpprinneligBidragBelop(),
+                  saertilskuddResultatGrunnlag.getLopendeBidrag().getOpprinneligSamvaersfradragBelop(),
                   saertilskuddResultatGrunnlag.getLopendeBidrag().getResultatkode().toString()),
               saertilskuddResultatGrunnlag.getSamvaersfradragBelop(),
               mapResultatGrunnlagSjabloner(resultatPeriode.getResultatBeregning().getSjablonListe()))));
