@@ -22,7 +22,9 @@ import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
 import no.nav.bidrag.beregn.felles.enums.ResultatKode;
 import no.nav.bidrag.beregn.felles.enums.SjablonInnholdNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
+import no.nav.bidrag.beregn.saertilskudd.bo.LopendeBidrag;
 import no.nav.bidrag.beregn.saertilskudd.bo.LopendeBidragPeriode;
+import no.nav.bidrag.beregn.saertilskudd.bo.Samvaersfradrag;
 import no.nav.bidrag.beregn.saertilskudd.bo.SamvaersfradragPeriode;
 import no.nav.bidrag.beregn.saertilskudd.periode.SaertilskuddPeriode;
 import org.junit.jupiter.api.DisplayName;
@@ -57,15 +59,15 @@ public class SaertilskuddPeriodeTest {
     var bPsAndelSaertilskuddPeriodeListe = new ArrayList<BPsAndelSaertilskuddPeriode>();
     bPsAndelSaertilskuddPeriodeListe.add(bPsAndelSaertilskuddPeriode);
 
-    var lopendeBidragPeriode = new LopendeBidragPeriode(
+    var lopendeBidragPeriode = new LopendeBidragPeriode(1,
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(1000),
-        BigDecimal.valueOf(1000), BigDecimal.valueOf(1000), BigDecimal.valueOf(1000),
-        ResultatKode.BIDRAG_REDUSERT_AV_EVNE);
+            BigDecimal.valueOf(100),
+            BigDecimal.valueOf(1000), BigDecimal.valueOf(1000), BigDecimal.valueOf(1000),
+            ResultatKode.BIDRAG_REDUSERT_AV_EVNE);
     var lopendeBidragPeriodeListe = new ArrayList<LopendeBidragPeriode>();
     lopendeBidragPeriodeListe.add(lopendeBidragPeriode);
 
-    var samvaersfradragPeriode = new SamvaersfradragPeriode(
+    var samvaersfradragPeriode = new SamvaersfradragPeriode(1,
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
         BigDecimal.valueOf(100));
     var samvaersfradragPeriodeListe = new ArrayList<SamvaersfradragPeriode>();

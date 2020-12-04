@@ -31,6 +31,7 @@ import no.nav.bidrag.beregn.saertilskudd.bo.GrunnlagBeregning;
 import no.nav.bidrag.beregn.saertilskudd.bo.LopendeBidrag;
 import no.nav.bidrag.beregn.saertilskudd.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.saertilskudd.bo.ResultatPeriode;
+import no.nav.bidrag.beregn.saertilskudd.bo.Samvaersfradrag;
 import no.nav.bidrag.beregn.saertilskudd.dto.BPsAndelSaertilskuddPeriodeCore;
 import no.nav.bidrag.beregn.saertilskudd.dto.BeregnSaertilskuddGrunnlagCore;
 import no.nav.bidrag.beregn.saertilskudd.dto.BidragsevnePeriodeCore;
@@ -125,14 +126,14 @@ public class SaertilskuddCoreTest {
     var bPsAndelSaertilskuddPeriodeListe = new ArrayList<BPsAndelSaertilskuddPeriodeCore>();
     bPsAndelSaertilskuddPeriodeListe.add(bPsAndelSaertilskuddPeriode);
 
-    var lopendeBidragPeriode = new LopendeBidragPeriodeCore(
+    var lopendeBidragPeriode = new LopendeBidragPeriodeCore(1,
         new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
         BigDecimal.valueOf(1000), BigDecimal.valueOf(1000), BigDecimal.valueOf(1000),
         BigDecimal.valueOf(1000), ResultatKode.BIDRAG_REDUSERT_AV_EVNE.toString());
     var lopendeBidragPeriodeListe = new ArrayList<LopendeBidragPeriodeCore>();
     lopendeBidragPeriodeListe.add(lopendeBidragPeriode);
 
-    var samvaersfradragPeriode = new SamvaersfradragPeriodeCore(
+    var samvaersfradragPeriode = new SamvaersfradragPeriodeCore(1,
         new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
         BigDecimal.valueOf(1000));
     var samvaersfradragPeriodeListe = new ArrayList<SamvaersfradragPeriodeCore>();
@@ -151,6 +152,17 @@ public class SaertilskuddCoreTest {
 
   private void byggSaertilskuddPeriodeResultat() {
     List<ResultatPeriode> periodeResultatListe = new ArrayList<>();
+    var lopendeBidragListe = new ArrayList<LopendeBidrag>();
+
+    lopendeBidragListe.add(new LopendeBidrag(1,
+            BigDecimal.valueOf(100),
+            BigDecimal.valueOf(1000), BigDecimal.valueOf(1000), BigDecimal.valueOf(1000),
+            ResultatKode.BIDRAG_REDUSERT_AV_EVNE));
+
+    var samvaersfradragListe = new ArrayList<Samvaersfradrag>();
+
+    samvaersfradragListe.add(new Samvaersfradrag(1,
+        BigDecimal.valueOf(100)));
 
     periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
@@ -158,10 +170,7 @@ public class SaertilskuddCoreTest {
             singletonList(new SjablonNavnVerdi(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22)))),
         new GrunnlagBeregning(new Bidragsevne(BigDecimal.valueOf(1000), BigDecimal.valueOf(12000)),
             new BPsAndelSaertilskudd(BigDecimal.valueOf(60), BigDecimal.valueOf(8000), false),
-            new LopendeBidrag(BigDecimal.valueOf(100),
-                BigDecimal.valueOf(1000), BigDecimal.valueOf(1000), BigDecimal.valueOf(1000),
-                ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
-            BigDecimal.valueOf(100),
+            lopendeBidragListe, samvaersfradragListe,
             singletonList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
                 singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))))))));
 

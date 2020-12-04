@@ -42,8 +42,8 @@ data class ResultatBeregning(
 data class GrunnlagBeregning(
     val bidragsevne: Bidragsevne,
     val bPsAndelSaertilskudd: BPsAndelSaertilskudd,
-    val lopendeBidrag: LopendeBidrag,
-    val samvaersfradragBelop: BigDecimal,
+    val lopendeBidragListe: List<LopendeBidrag>,
+    val samvaersfradragListe: List<Samvaersfradrag>,
     val sjablonListe: List<Sjablon>
 )
 
@@ -59,9 +59,14 @@ data class BPsAndelSaertilskudd(
 )
 
 data class LopendeBidrag(
+    val soknadsbarnPersonId: Int,
     val lopendeBidragBelop: BigDecimal,
     val opprinneligBPsAndelUnderholdskostnadBelop: BigDecimal,
     val opprinneligBidragBelop: BigDecimal,
     val opprinneligSamvaersfradragBelop: BigDecimal,
     val resultatkode: ResultatKode
+)
+data class Samvaersfradrag(
+    val soknadsbarnPersonId: Int,
+    val samvaersfradragBelop: BigDecimal
 )

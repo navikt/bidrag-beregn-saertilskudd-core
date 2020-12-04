@@ -22,6 +22,7 @@ import no.nav.bidrag.beregn.felles.bo.Periode;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
 import no.nav.bidrag.beregn.felles.periode.Periodiserer;
+import no.nav.bidrag.beregn.saertilskudd.bo.Samvaersfradrag;
 import no.nav.bidrag.beregn.saertilskudd.bo.SamvaersfradragPeriode;
 
 
@@ -88,15 +89,18 @@ public class SaertilskuddPeriodeImpl implements SaertilskuddPeriode {
       var lopendeBidrag = justertLopendeBidragPeriodeListe.stream().filter(
           i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
           .map(lopendeBidragPeriode -> new LopendeBidrag(
+              lopendeBidragPeriode.getSoknadsbarnPersonId(),
               lopendeBidragPeriode.getLopendeBidragBelop(),
               lopendeBidragPeriode.getOpprinneligBPsAndelUnderholdskostnadBelop(),
               lopendeBidragPeriode.getOpprinneligBidragBelop(),
               lopendeBidragPeriode.getOpprinneligSamvaersfradragBelop(),
-              lopendeBidragPeriode.getResultatkode())).findFirst().orElse(null);
+              lopendeBidragPeriode.getResultatkode())).collect(toList());
 
-      var samvaersfradragBelop = justertSamvaersfradragPeriodeListe.stream().filter(
+      var samvaersfradrag= justertSamvaersfradragPeriodeListe.stream().filter(
           i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-          .map(SamvaersfradragPeriode::getSamvaersfradragBelop).findFirst().orElse(null);
+          .map(samvaersfradragPeriode -> new Samvaersfradrag(
+              samvaersfradragPeriode.getSoknadsbarnPersonId(),
+              samvaersfradragPeriode.getSamvaersfradragBelop())).collect(toList());
 
       var sjablonliste = justertSjablonPeriodeListe.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
           .map(sjablonPeriode -> new Sjablon(sjablonPeriode.getSjablon().getSjablonNavn(),
@@ -106,7 +110,7 @@ public class SaertilskuddPeriodeImpl implements SaertilskuddPeriode {
       // Kaller beregningsmodulen for beregningsperioden
 
       var grunnlagBeregning = new GrunnlagBeregning(bidragsevne, bPsAndelSaertilskudd, lopendeBidrag,
-          samvaersfradragBelop, sjablonliste);
+          samvaersfradrag, sjablonliste);
 
         resultatPeriodeListe.add(new ResultatPeriode(
             beregnSaertilskuddGrunnlag.getSoknadsbarnPersonId(),
