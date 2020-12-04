@@ -12,6 +12,7 @@ import java.time.LocalDate
 data class BeregnBPsAndelSaertilskuddGrunnlag(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
+    val soknadsbarnPersonId: Int,
     val nettoSaertilskuddPeriodeListe: List<NettoSaertilskuddPeriode>,
     val inntektBPPeriodeListe: List<InntektPeriode>,
     val inntektBMPeriodeListe: List<InntektPeriode>,
@@ -25,6 +26,7 @@ data class BeregnBPsAndelSaertilskuddResultat(
 
 // Resultat
 data class ResultatPeriode(
+    val soknadsbarnPersonId: Int,
     val resultatDatoFraTil: Periode,
     val resultatBeregning: ResultatBeregning,
     val resultatGrunnlagBeregning: GrunnlagBeregning

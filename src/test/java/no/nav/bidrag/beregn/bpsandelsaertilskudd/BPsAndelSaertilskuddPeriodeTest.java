@@ -344,6 +344,7 @@ public class BPsAndelSaertilskuddPeriodeTest {
 
   private void lagGrunnlag(String beregnDatoFra, String beregnDatoTil) {
 
+    var soknadsbarnPersonId = 1;
     var nettoSaertilskuddPeriodeListe = new ArrayList<NettoSaertilskuddPeriode>();
     var inntektBPPeriodeListe = new ArrayList<InntektPeriode>();
     var inntektBMPeriodeListe = new ArrayList<InntektPeriode>();
@@ -366,12 +367,13 @@ public class BPsAndelSaertilskuddPeriodeTest {
         InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER, BigDecimal.valueOf(40000), false, false));
 
     grunnlag = new BeregnBPsAndelSaertilskuddGrunnlag(LocalDate.parse(beregnDatoFra), LocalDate.parse(beregnDatoTil),
-        nettoSaertilskuddPeriodeListe, inntektBPPeriodeListe, inntektBMPeriodeListe,
+        soknadsbarnPersonId, nettoSaertilskuddPeriodeListe, inntektBPPeriodeListe, inntektBMPeriodeListe,
         inntektBBPeriodeListe, lagSjablonGrunnlag());
   }
 
   private void lagGrunnlagMedAvvikUgyldigInntekt() {
 
+    var soknadsbarnPersonId = 1;
     var beregnDatoFra = LocalDate.parse("2018-07-01");
     var beregnDatoTil = LocalDate.parse("2020-01-01");
     var nettoSaertilskuddPeriodeListe = new ArrayList<NettoSaertilskuddPeriode>();
@@ -395,12 +397,13 @@ public class BPsAndelSaertilskuddPeriodeTest {
     inntektBBPeriodeListe.add(new InntektPeriode(new Periode(beregnDatoFra, beregnDatoTil), InntektType.BARNETRYGD_MANUELL_VURDERING,
         BigDecimal.valueOf(40000), false, false));
 
-    grunnlag = new BeregnBPsAndelSaertilskuddGrunnlag(beregnDatoFra, beregnDatoTil, nettoSaertilskuddPeriodeListe,
-        inntektBPPeriodeListe, inntektBMPeriodeListe, inntektBBPeriodeListe, lagSjablonGrunnlag());
+    grunnlag = new BeregnBPsAndelSaertilskuddGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnPersonId,
+        nettoSaertilskuddPeriodeListe, inntektBPPeriodeListe, inntektBMPeriodeListe, inntektBBPeriodeListe, lagSjablonGrunnlag());
   }
 
   private void lagGrunnlagMedInntekterTilJustering(String rolle) {
 
+    var soknadsbarnPersonId = 1;
     var beregnDatoFra = LocalDate.parse("2018-01-01");
     var beregnDatoTil = LocalDate.parse("2020-07-01");
     var nettoSaertilskuddPeriodeListe = new ArrayList<NettoSaertilskuddPeriode>();
@@ -433,8 +436,8 @@ public class BPsAndelSaertilskuddPeriodeTest {
       inntektBBPeriodeListe = emptyList();
     }
 
-    grunnlag = new BeregnBPsAndelSaertilskuddGrunnlag(beregnDatoFra, beregnDatoTil, nettoSaertilskuddPeriodeListe,
-        inntektBPPeriodeListe, inntektBMPeriodeListe, inntektBBPeriodeListe, lagSjablonGrunnlag());
+    grunnlag = new BeregnBPsAndelSaertilskuddGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnPersonId,
+        nettoSaertilskuddPeriodeListe, inntektBPPeriodeListe, inntektBMPeriodeListe, inntektBBPeriodeListe, lagSjablonGrunnlag());
   }
 
 
