@@ -59,14 +59,13 @@ public class BPsAndelSaertilskuddCoreImpl implements BPsAndelSaertilskuddCore{
       BeregnBPsAndelSaertilskuddGrunnlagCore beregnBPsAndelSaertilskuddGrunnlagCore) {
     var beregnDatoFra = beregnBPsAndelSaertilskuddGrunnlagCore.getBeregnDatoFra();
     var beregnDatoTil = beregnBPsAndelSaertilskuddGrunnlagCore.getBeregnDatoTil();
-    var soknadsbarnPersonId = beregnBPsAndelSaertilskuddGrunnlagCore.getSoknadsbarnPersonId();
     var sjablonPeriodeListe = mapSjablonPeriodeListe(beregnBPsAndelSaertilskuddGrunnlagCore.getSjablonPeriodeListe());
     var nettoSaertilskudd = mapNettoSaertilskuddPeriodeListe(beregnBPsAndelSaertilskuddGrunnlagCore.getNettoSaertilskuddPeriodeListe());
     var inntektBPPeriodeListe = mapInntektPeriodeListe(beregnBPsAndelSaertilskuddGrunnlagCore.getInntektBPPeriodeListe());
     var inntektBMPeriodeListe = mapInntektPeriodeListe(beregnBPsAndelSaertilskuddGrunnlagCore.getInntektBMPeriodeListe());
     var inntektBBPeriodeListe = mapInntektPeriodeListe(beregnBPsAndelSaertilskuddGrunnlagCore.getInntektBBPeriodeListe());
 
-    return new BeregnBPsAndelSaertilskuddGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnPersonId,
+    return new BeregnBPsAndelSaertilskuddGrunnlag(beregnDatoFra, beregnDatoTil,
         nettoSaertilskudd, inntektBPPeriodeListe, inntektBMPeriodeListe,
         inntektBBPeriodeListe, sjablonPeriodeListe);
   }
@@ -135,7 +134,6 @@ public class BPsAndelSaertilskuddCoreImpl implements BPsAndelSaertilskuddCore{
       var bPsAndelSaertilskuddResultat = periodeResultat.getResultatBeregning();
       var bPsAndelSaertilskuddResultatGrunnlag = periodeResultat.getResultatGrunnlagBeregning();
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
-          periodeResultat.getSoknadsbarnPersonId(),
           new PeriodeCore(periodeResultat.getResultatDatoFraTil().getDatoFra(), periodeResultat.getResultatDatoFraTil().getDatoTil()),
           new ResultatBeregningCore(bPsAndelSaertilskuddResultat.getResultatAndelProsent(),
               bPsAndelSaertilskuddResultat.getResultatAndelBelop(),

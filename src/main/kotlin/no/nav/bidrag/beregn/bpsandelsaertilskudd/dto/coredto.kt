@@ -11,7 +11,6 @@ import java.time.LocalDate
 data class BeregnBPsAndelSaertilskuddGrunnlagCore(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
-    val soknadsbarnPersonId: Int,
     val nettoSaertilskuddPeriodeListe: List<NettoSaertilskuddPeriodeCore>,
     val inntektBPPeriodeListe: List<InntektPeriodeCore>,
     val inntektBMPeriodeListe: List<InntektPeriodeCore>,
@@ -40,7 +39,6 @@ data class BeregnBPsAndelSaertilskuddResultatCore(
 )
 
 data class ResultatPeriodeCore(
-    val soknadsbarnPersonId: Int,
     val resultatDatoFraTil: PeriodeCore,
     val resultatBeregning: ResultatBeregningCore,
     val resultatGrunnlag: ResultatGrunnlagCore

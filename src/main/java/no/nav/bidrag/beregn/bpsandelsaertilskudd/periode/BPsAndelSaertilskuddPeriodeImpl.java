@@ -128,7 +128,6 @@ public class BPsAndelSaertilskuddPeriodeImpl implements BPsAndelSaertilskuddPeri
 
       // Beregner
         resultatPeriodeListe.add(new ResultatPeriode(
-            beregnBPsAndelSaertilskuddGrunnlag.getSoknadsbarnPersonId(),
             beregningsperiode, bPsAndelSaertilskuddBeregning.beregn(beregnBPsAndelSaertilskuddGrunnlagPeriodisert),
             beregnBPsAndelSaertilskuddGrunnlagPeriodisert));
 

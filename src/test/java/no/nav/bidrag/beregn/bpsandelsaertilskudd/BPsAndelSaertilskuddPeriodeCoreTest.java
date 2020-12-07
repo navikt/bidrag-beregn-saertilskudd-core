@@ -160,7 +160,7 @@ public class BPsAndelSaertilskuddPeriodeCoreTest {
     sjablonPeriodeListe.add(sjablonPeriode);
 
     beregnBPsAndelSaertilskuddGrunnlagCore = new BeregnBPsAndelSaertilskuddGrunnlagCore(LocalDate.parse("2017-01-01"),
-        LocalDate.parse("2020-01-01"), 1, nettoSaertilskuddPeriodeListe,
+        LocalDate.parse("2020-01-01"), nettoSaertilskuddPeriodeListe,
         inntektBPPeriodeListe, inntektBMPeriodeListe,
         inntektBBPeriodeListe, sjablonPeriodeListe);
   }
@@ -177,7 +177,7 @@ public class BPsAndelSaertilskuddPeriodeCoreTest {
     inntektBMListe.add(new Inntekt(InntektType.LONN_SKE,BigDecimal.valueOf(222d), false, false));
     inntektBBListe.add(new Inntekt(InntektType.LONN_SKE,BigDecimal.valueOf(333d), false, false));
 
-    periodeResultatListe.add(new ResultatPeriode(1,
+    periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
         new ResultatBeregning(BigDecimal.valueOf(10), BigDecimal.valueOf(1000),false,
             singletonList(new SjablonNavnVerdi(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), BigDecimal.valueOf(1600)))),
@@ -186,7 +186,7 @@ public class BPsAndelSaertilskuddPeriodeCoreTest {
                 singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
                     BigDecimal.valueOf(1600))))))));
 
-    periodeResultatListe.add(new ResultatPeriode(1,
+    periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-01-01")),
         new ResultatBeregning(BigDecimal.valueOf(20), BigDecimal.valueOf(1000), false,
             singletonList(new SjablonNavnVerdi(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), BigDecimal.valueOf(1600)))),
@@ -195,7 +195,7 @@ public class BPsAndelSaertilskuddPeriodeCoreTest {
                 singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
                     BigDecimal.valueOf(1640))))))));
 
-    periodeResultatListe.add(new ResultatPeriode(1,
+    periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
         new ResultatBeregning(BigDecimal.valueOf(30), BigDecimal.valueOf(1000), false,
             singletonList(new SjablonNavnVerdi(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), BigDecimal.valueOf(1600)))),
