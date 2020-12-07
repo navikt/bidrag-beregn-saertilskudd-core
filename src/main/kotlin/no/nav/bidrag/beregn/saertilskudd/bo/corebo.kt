@@ -1,9 +1,6 @@
 package no.nav.bidrag.beregn.saertilskudd.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
-import no.nav.bidrag.beregn.felles.bo.Sjablon
-import no.nav.bidrag.beregn.felles.bo.SjablonNavnVerdi
-import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.beregn.felles.enums.ResultatKode
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -16,8 +13,7 @@ data class BeregnSaertilskuddGrunnlag(
     val bidragsevnePeriodeListe: List<BidragsevnePeriode>,
     val bPsAndelSaertilskuddPeriodeListe: List<BPsAndelSaertilskuddPeriode>,
     val lopendeBidragPeriodeListe: List<LopendeBidragPeriode>,
-    val samvaersfradragPeriodeListe: List<SamvaersfradragPeriode>,
-    val sjablonPeriodeListe: List<SjablonPeriode>
+    val samvaersfradragPeriodeListe: List<SamvaersfradragPeriode>
 )
 
 // Resultat
@@ -34,8 +30,7 @@ data class ResultatPeriode(
 
 data class ResultatBeregning(
     val resultatBelop: BigDecimal,
-    val resultatkode: ResultatKode,
-    val sjablonListe: List<SjablonNavnVerdi>
+    val resultatkode: ResultatKode
 )
 
 // Grunnlag beregning
@@ -43,8 +38,7 @@ data class GrunnlagBeregning(
     val bidragsevne: Bidragsevne,
     val bPsAndelSaertilskudd: BPsAndelSaertilskudd,
     val lopendeBidragListe: List<LopendeBidrag>,
-    val samvaersfradragListe: List<Samvaersfradrag>,
-    val sjablonListe: List<Sjablon>
+    val samvaersfradragListe: List<Samvaersfradrag>
 )
 
 data class Bidragsevne(
@@ -61,7 +55,7 @@ data class BPsAndelSaertilskudd(
 data class LopendeBidrag(
     val soknadsbarnPersonId: Int,
     val lopendeBidragBelop: BigDecimal,
-    val opprinneligBPsAndelUnderholdskostnadBelop: BigDecimal,
+    val opprinneligBPsAndelSaertilskuddBelop: BigDecimal,
     val opprinneligBidragBelop: BigDecimal,
     val opprinneligSamvaersfradragBelop: BigDecimal,
     val resultatkode: ResultatKode

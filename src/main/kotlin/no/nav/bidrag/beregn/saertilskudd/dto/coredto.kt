@@ -1,10 +1,7 @@
 package no.nav.bidrag.beregn.saertilskudd.dto
 
-import no.nav.bidrag.beregn.felles.bo.SjablonNavnVerdi
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
-import no.nav.bidrag.beregn.felles.dto.SjablonNavnVerdiCore
-import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -16,8 +13,7 @@ data class BeregnSaertilskuddGrunnlagCore(
     val bidragsevnePeriodeListe: List<BidragsevnePeriodeCore>,
     val bPsAndelSaertilskuddPeriodeListe: List<BPsAndelSaertilskuddPeriodeCore>,
     val lopendeBidragPeriodeListe: List<LopendeBidragPeriodeCore>,
-    val samvaersfradragPeriodeListe: List<SamvaersfradragPeriodeCore>,
-    val sjablonPeriodeListe: List<SjablonPeriodeCore>
+    val samvaersfradragPeriodeListe: List<SamvaersfradragPeriodeCore>
 )
 
 data class BidragsevnePeriodeCore(
@@ -71,8 +67,7 @@ data class ResultatGrunnlagCore(
     val bidragsevne: BidragsevneCore,
     val bPsAndelSaertilskudd: BPsAndelSaertilskuddCore,
     val lopendeBidragListe: List<LopendeBidragCore>,
-    val samvaersfradragListe: List<SamvaersfradragCore>,
-    val sjablonListe: List<SjablonNavnVerdiCore>
+    val samvaersfradragListe: List<SamvaersfradragCore>
 )
 
 data class BidragsevneCore(
@@ -89,7 +84,7 @@ data class BPsAndelSaertilskuddCore(
 data class LopendeBidragCore(
     val soknadsbarnPersonId: Int,
     val lopendeBidragBelop: BigDecimal,
-    val opprinneligBPsAndelUnderholdskostnadBelop: BigDecimal,
+    val opprinneligBPsAndelSaertilskuddBelop: BigDecimal,
     val opprinneligBidragBelop: BigDecimal,
     val opprinneligSamvaersfradragBelop: BigDecimal,
     val resultatkode: String
