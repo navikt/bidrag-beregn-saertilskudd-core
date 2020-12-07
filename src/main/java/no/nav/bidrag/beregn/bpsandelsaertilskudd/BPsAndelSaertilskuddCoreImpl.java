@@ -65,8 +65,8 @@ public class BPsAndelSaertilskuddCoreImpl implements BPsAndelSaertilskuddCore{
     var inntektBMPeriodeListe = mapInntektPeriodeListe(beregnBPsAndelSaertilskuddGrunnlagCore.getInntektBMPeriodeListe());
     var inntektBBPeriodeListe = mapInntektPeriodeListe(beregnBPsAndelSaertilskuddGrunnlagCore.getInntektBBPeriodeListe());
 
-    return new BeregnBPsAndelSaertilskuddGrunnlag(beregnDatoFra, beregnDatoTil, nettoSaertilskudd,
-        inntektBPPeriodeListe, inntektBMPeriodeListe,
+    return new BeregnBPsAndelSaertilskuddGrunnlag(beregnDatoFra, beregnDatoTil,
+        nettoSaertilskudd, inntektBPPeriodeListe, inntektBMPeriodeListe,
         inntektBBPeriodeListe, sjablonPeriodeListe);
   }
 

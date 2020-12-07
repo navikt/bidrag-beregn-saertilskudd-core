@@ -38,6 +38,7 @@ public class SamvaersfradragPeriodeTest {
       System.out.println("Starter test");
       var beregnDatoFra = LocalDate.parse("2019-07-01");
       var beregnDatoTil = LocalDate.parse("2020-07-01");
+      var soknadsbarnPersonId = 1;
       var soknadsbarnFodselsdato = LocalDate.parse("2014-03-17");
 
       // Lag samværsinfo
@@ -73,8 +74,8 @@ public class SamvaersfradragPeriodeTest {
                       BigDecimal.valueOf(1052))))));
 
       BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag =
-          new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnFodselsdato,
-              samvaersklassePeriodeListe, sjablonPeriodeListe);
+          new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnPersonId,
+              soknadsbarnFodselsdato, samvaersklassePeriodeListe, sjablonPeriodeListe);
 
       var resultat = samvaersfradragPeriode.beregnPerioder(beregnSamvaersfradragGrunnlag);
 
@@ -104,6 +105,7 @@ public class SamvaersfradragPeriodeTest {
     System.out.println("Starter test");
     var beregnDatoFra = LocalDate.parse("2018-07-01");
     var beregnDatoTil = LocalDate.parse("2020-07-01");
+    var soknadsbarnPersonId = 1;
     var soknadsbarnFodselsdato = LocalDate.parse("2014-02-17");
 
     // Lag inntekter
@@ -164,8 +166,8 @@ public class SamvaersfradragPeriodeTest {
                     BigDecimal.valueOf(1052))))));
 
     BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag =
-        new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnFodselsdato,
-            samvaersklassePeriodeListe, sjablonPeriodeListe);
+        new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnPersonId,
+            soknadsbarnFodselsdato, samvaersklassePeriodeListe, sjablonPeriodeListe);
 
     var resultat = samvaersfradragPeriode.beregnPerioder(beregnSamvaersfradragGrunnlag);
 
@@ -202,6 +204,7 @@ public class SamvaersfradragPeriodeTest {
   void testGrunnlagMedAvvik() {
     var beregnDatoFra = LocalDate.parse("2018-07-01");
     var beregnDatoTil = LocalDate.parse("2021-01-01");
+    var soknadsbarnPersonId = 1;
     var soknadsbarnFodselsdato = LocalDate.parse("2014-03-17");
 
     // Lag samværsinfo
@@ -237,8 +240,8 @@ public class SamvaersfradragPeriodeTest {
                     BigDecimal.valueOf(1052))))));
 
     BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag =
-        new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnFodselsdato,
-            samvaersklassePeriodeListe, sjablonPeriodeListe);
+        new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnPersonId,
+            soknadsbarnFodselsdato, samvaersklassePeriodeListe, sjablonPeriodeListe);
 
     var avvikListe = samvaersfradragPeriode.validerInput(beregnSamvaersfradragGrunnlag);
 

@@ -109,7 +109,7 @@ public class BPsAndelSaertilskuddPeriodeTest {
         () -> assertThat(avvikListe.get(1).getAvvikType()).isEqualTo(AvvikType.UGYLDIG_INNTEKT_TYPE),
 
         () -> assertThat(avvikListe.get(2).getAvvikTekst()).isEqualTo("inntektType " + InntektType.PENSJON_KORRIGERT_BARNETILLEGG.toString() +
-            " er kun gyldig fom. 2015-01-01 tom. 2015-12-31"),
+            " er kun gyldig fom. 2015-01-01 tom. 2016-01-01"),
         () -> assertThat(avvikListe.get(2).getAvvikType()).isEqualTo(AvvikType.UGYLDIG_INNTEKT_PERIODE),
 
         () -> assertThat(avvikListe.get(3).getAvvikTekst()).isEqualTo("inntektType " + InntektType.BARNETRYGD_MANUELL_VURDERING.toString() +
@@ -395,8 +395,8 @@ public class BPsAndelSaertilskuddPeriodeTest {
     inntektBBPeriodeListe.add(new InntektPeriode(new Periode(beregnDatoFra, beregnDatoTil), InntektType.BARNETRYGD_MANUELL_VURDERING,
         BigDecimal.valueOf(40000), false, false));
 
-    grunnlag = new BeregnBPsAndelSaertilskuddGrunnlag(beregnDatoFra, beregnDatoTil, nettoSaertilskuddPeriodeListe,
-        inntektBPPeriodeListe, inntektBMPeriodeListe, inntektBBPeriodeListe, lagSjablonGrunnlag());
+    grunnlag = new BeregnBPsAndelSaertilskuddGrunnlag(beregnDatoFra, beregnDatoTil,
+        nettoSaertilskuddPeriodeListe, inntektBPPeriodeListe, inntektBMPeriodeListe, inntektBBPeriodeListe, lagSjablonGrunnlag());
   }
 
   private void lagGrunnlagMedInntekterTilJustering(String rolle) {
@@ -433,8 +433,8 @@ public class BPsAndelSaertilskuddPeriodeTest {
       inntektBBPeriodeListe = emptyList();
     }
 
-    grunnlag = new BeregnBPsAndelSaertilskuddGrunnlag(beregnDatoFra, beregnDatoTil, nettoSaertilskuddPeriodeListe,
-        inntektBPPeriodeListe, inntektBMPeriodeListe, inntektBBPeriodeListe, lagSjablonGrunnlag());
+    grunnlag = new BeregnBPsAndelSaertilskuddGrunnlag(beregnDatoFra, beregnDatoTil,
+        nettoSaertilskuddPeriodeListe, inntektBPPeriodeListe, inntektBMPeriodeListe, inntektBBPeriodeListe, lagSjablonGrunnlag());
   }
 
 
