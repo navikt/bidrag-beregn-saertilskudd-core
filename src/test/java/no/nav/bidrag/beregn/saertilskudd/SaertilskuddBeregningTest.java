@@ -78,7 +78,7 @@ public class SaertilskuddBeregningTest {
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(4242, resultat.getResultatBelop().doubleValue());
-    assertEquals(ResultatKode.BIDRAG_REDUSERT_AV_EVNE, resultat.getResultatkode());
+    assertEquals(ResultatKode.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultat.getResultatkode());
   }
 
   @DisplayName("Beregner særtilskudd som får manglende evne pga diff mellom opprinnelig og løpende bidragsbeløp")
@@ -107,7 +107,7 @@ public class SaertilskuddBeregningTest {
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(4242, resultat.getResultatBelop().doubleValue());
-    assertEquals(ResultatKode.BIDRAG_REDUSERT_AV_EVNE, resultat.getResultatkode());
+    assertEquals(ResultatKode.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultat.getResultatkode());
   }
 
   @DisplayName("Ingen beregning skal gjøres når barnet er selvforsørget")
@@ -241,6 +241,6 @@ public class SaertilskuddBeregningTest {
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(7152d, resultat.getResultatBelop().doubleValue());
-    assertEquals(ResultatKode.SAERTILSKUDD_REDUSERT_AV_EVNE, resultat.getResultatkode());
+    assertEquals(ResultatKode.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultat.getResultatkode());
   }
 }

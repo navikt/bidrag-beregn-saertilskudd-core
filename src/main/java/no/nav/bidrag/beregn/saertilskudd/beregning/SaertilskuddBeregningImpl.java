@@ -49,7 +49,7 @@ public class SaertilskuddBeregningImpl implements SaertilskuddBeregning {
 
     if (grunnlagBeregning.getBidragsevne().getBidragsevneBelop().compareTo(
         totaltBidragBelop) < 0) {
-      resultatkode = ResultatKode.SAERTILSKUDD_REDUSERT_AV_EVNE;
+      resultatkode = ResultatKode.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE;
     }
 
     if (grunnlagBeregning.getBPsAndelSaertilskudd().getBarnetErSelvforsorget()){
