@@ -82,10 +82,7 @@ public class SaertilskuddCoreTest {
         () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoFra())
             .isEqualTo(LocalDate.parse("2017-01-01")),
         () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoTil())
-            .isEqualTo(LocalDate.parse("2018-01-01")),
-
-        () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getSjablonListe().get(0)
-            .getSjablonVerdi()).isEqualTo(BigDecimal.valueOf(22))
+            .isEqualTo(LocalDate.parse("2018-01-01"))
 
     );
   }
@@ -147,7 +144,7 @@ public class SaertilskuddCoreTest {
 
     beregnSaertilskuddGrunnlagCore = new BeregnSaertilskuddGrunnlagCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01"),
         1, bidragsevnePeriodeListe, bPsAndelSaertilskuddPeriodeListe, lopendeBidragPeriodeListe,
-        samvaersfradragPeriodeListe, sjablonPeriodeListe);
+        samvaersfradragPeriodeListe);
   }
 
   private void byggSaertilskuddPeriodeResultat() {
@@ -170,9 +167,8 @@ public class SaertilskuddCoreTest {
         ),
         new GrunnlagBeregning(new Bidragsevne(BigDecimal.valueOf(1000), BigDecimal.valueOf(12000)),
             new BPsAndelSaertilskudd(BigDecimal.valueOf(60), BigDecimal.valueOf(8000), false),
-            lopendeBidragListe, samvaersfradragListe,
-            singletonList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
-                singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))))))));
+            lopendeBidragListe, samvaersfradragListe
+        )));
 
     beregnSaertilskuddPeriodeResultat = new BeregnSaertilskuddResultat(periodeResultatListe);
   }

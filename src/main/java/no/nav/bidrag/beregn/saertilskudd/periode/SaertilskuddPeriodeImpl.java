@@ -59,11 +59,6 @@ public class SaertilskuddPeriodeImpl implements SaertilskuddPeriode {
         .map(SamvaersfradragPeriode::new)
         .collect(toCollection(ArrayList::new));
 
-    var justertSjablonPeriodeListe = beregnSaertilskuddGrunnlag.getSjablonPeriodeListe()
-        .stream()
-        .map(SjablonPeriode::new)
-        .collect(toCollection(ArrayList::new));
-
     // Bygger opp liste over perioder
     List<Periode> perioder = new Periodiserer()
         .addBruddpunkt(beregnSaertilskuddGrunnlag.getBeregnDatoFra()) //For å sikre bruddpunkt på start-beregning-fra-dato
@@ -102,15 +97,11 @@ public class SaertilskuddPeriodeImpl implements SaertilskuddPeriode {
               samvaersfradragPeriode.getSoknadsbarnPersonId(),
               samvaersfradragPeriode.getSamvaersfradragBelop())).collect(toList());
 
-      var sjablonliste = justertSjablonPeriodeListe.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-          .map(sjablonPeriode -> new Sjablon(sjablonPeriode.getSjablon().getSjablonNavn(),
-              sjablonPeriode.getSjablon().getSjablonNokkelListe(),
-              sjablonPeriode.getSjablon().getSjablonInnholdListe())).collect(toList());
 
       // Kaller beregningsmodulen for beregningsperioden
 
       var grunnlagBeregning = new GrunnlagBeregning(bidragsevne, bPsAndelSaertilskudd, lopendeBidragListe,
-          samvaersfradragListe, sjablonliste);
+          samvaersfradragListe);
 
         resultatPeriodeListe.add(new ResultatPeriode(
             beregnSaertilskuddGrunnlag.getSoknadsbarnPersonId(),
@@ -125,21 +116,13 @@ public class SaertilskuddPeriodeImpl implements SaertilskuddPeriode {
 
   // Validerer at input-verdier til beregn-saertilskudd er gyldige
   public List<Avvik> validerInput(BeregnSaertilskuddGrunnlag grunnlag) {
-    // Sjekk perioder for sjablonliste
-    var sjablonPeriodeListe = new ArrayList<Periode>();
-    for (SjablonPeriode sjablonPeriode : grunnlag.getSjablonPeriodeListe()) {
-      sjablonPeriodeListe.add(sjablonPeriode.getDatoFraTil());
-    }
-    var avvikListe = new ArrayList<>(
-        PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(), "sjablonPeriodeListe", sjablonPeriodeListe,
-            false, false, false, false));
 
     // Sjekk perioder for bidragsevne
     var bidragsevnePeriodeListe = new ArrayList<Periode>();
     for (BidragsevnePeriode bidragsevnePeriode : grunnlag.getBidragsevnePeriodeListe()) {
       bidragsevnePeriodeListe.add(bidragsevnePeriode.getDatoFraTil());
     }
-    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),"bidragsevnePeriodeListe",
+    var avvikListe = new ArrayList<>(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),"bidragsevnePeriodeListe",
         bidragsevnePeriodeListe, true, true, true, true));
 
     // Sjekk perioder for BPs andel av saertilskudd

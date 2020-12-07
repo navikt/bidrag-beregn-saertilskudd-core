@@ -45,7 +45,7 @@ public class SaertilskuddBeregningTest {
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
         new Bidragsevne(BigDecimal.valueOf(11069), BigDecimal.valueOf(10417)),
         new BPsAndelSaertilskudd(BigDecimal.valueOf(60.6), BigDecimal.valueOf(4242),
-            false), lopendeBidragListe, samvaersfradragListe, sjablonListe);
+            false), lopendeBidragListe, samvaersfradragListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(4242, resultat.getResultatBelop().doubleValue());
@@ -74,7 +74,7 @@ public class SaertilskuddBeregningTest {
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
         new Bidragsevne(BigDecimal.valueOf(3100), BigDecimal.valueOf(10417)),
         new BPsAndelSaertilskudd(BigDecimal.valueOf(60.6), BigDecimal.valueOf(4242),
-            false), lopendeBidragListe, samvaersfradragListe, sjablonListe);
+            false), lopendeBidragListe, samvaersfradragListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(4242, resultat.getResultatBelop().doubleValue());
@@ -103,7 +103,7 @@ public class SaertilskuddBeregningTest {
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
         new Bidragsevne(BigDecimal.valueOf(3456), BigDecimal.valueOf(10417)),
         new BPsAndelSaertilskudd(BigDecimal.valueOf(60.6), BigDecimal.valueOf(4242),
-            false), lopendeBidragListe, samvaersfradragListe, sjablonListe);
+            false), lopendeBidragListe, samvaersfradragListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(4242, resultat.getResultatBelop().doubleValue());
@@ -132,10 +132,10 @@ public class SaertilskuddBeregningTest {
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
         new Bidragsevne(BigDecimal.valueOf(10000), BigDecimal.valueOf(10417)),
         new BPsAndelSaertilskudd(BigDecimal.valueOf(60.6), BigDecimal.valueOf(4242),
-            true), lopendeBidragListe, samvaersfradragListe, sjablonListe);
+            true), lopendeBidragListe, samvaersfradragListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
-    assertEquals(4242, resultat.getResultatBelop().doubleValue());
+    assertEquals(0d, resultat.getResultatBelop().doubleValue());
     assertEquals(ResultatKode.BARNET_ER_SELVFORSORGET, resultat.getResultatkode());
   }
 }

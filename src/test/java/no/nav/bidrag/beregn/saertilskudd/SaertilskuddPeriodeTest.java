@@ -74,7 +74,7 @@ public class SaertilskuddPeriodeTest {
     BeregnSaertilskuddGrunnlag beregnSaertilskuddGrunnlag =
         new BeregnSaertilskuddGrunnlag(beregnDatoFra, beregnDatoTil, 1,
             bidragsevnePeriodeListe, bPsAndelSaertilskuddPeriodeListe, lopendeBidragPeriodeListe,
-            samvaersfradragPeriodeListe, sjablonPeriodeListe);
+            samvaersfradragPeriodeListe);
 
     var resultat = saertilskuddPeriode.beregnPerioder(beregnSaertilskuddGrunnlag);
 
