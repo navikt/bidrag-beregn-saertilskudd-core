@@ -209,7 +209,7 @@ public class SaertilskuddCoreImpl implements SaertilskuddCore {
       resultatGrunnlagLopendeBidragListeCore
           .add(new LopendeBidragCore(resultatGrunnlagLopendeBidrag.getSoknadsbarnPersonId(),
               resultatGrunnlagLopendeBidrag.getLopendeBidragBelop(),
-              resultatGrunnlagLopendeBidrag.getOpprinneligBPsAndelUnderholdskostnadBelop(),
+              resultatGrunnlagLopendeBidrag.getOpprinneligBPsAndelSaertilskuddBelop(),
               resultatGrunnlagLopendeBidrag.getOpprinneligBidragBelop(),
               resultatGrunnlagLopendeBidrag.getOpprinneligSamvaersfradragBelop(),
               resultatGrunnlagLopendeBidrag.getResultatkode().toString()));

@@ -89,7 +89,7 @@ data class BPsAndelSaertilskuddCore(
 data class LopendeBidragCore(
     val soknadsbarnPersonId: Int,
     val lopendeBidragBelop: BigDecimal,
-    val opprinneligBPsAndelUnderholdskostnadBelop: BigDecimal,
+    val opprinneligBPsAndelSaertilskuddBelop: BigDecimal,
     val opprinneligBidragBelop: BigDecimal,
     val opprinneligSamvaersfradragBelop: BigDecimal,
     val resultatkode: String

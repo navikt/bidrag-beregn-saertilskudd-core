@@ -20,7 +20,7 @@ public class SaertilskuddBeregningImpl implements SaertilskuddBeregning {
     var totaltSamvaersfradragBelop = BigDecimal.ZERO;
     for (LopendeBidrag lopendeBidrag: grunnlagBeregning.getLopendeBidragListe()){
       totaltBidragBleRedusertMedBelop = totaltBidragBleRedusertMedBelop.add(
-          lopendeBidrag.getOpprinneligBPsAndelUnderholdskostnadBelop()
+          lopendeBidrag.getOpprinneligBPsAndelSaertilskuddBelop()
           .subtract(
           lopendeBidrag.getOpprinneligBidragBelop().add(
               lopendeBidrag.getOpprinneligSamvaersfradragBelop()
@@ -38,19 +38,35 @@ public class SaertilskuddBeregningImpl implements SaertilskuddBeregning {
     }
 
     var totaltBidragBelop = totaltBidragBleRedusertMedBelop.add(
-        totaltLopendeBidragBelop.add(totaltSamvaersfradragBelop)
-    );
+        totaltLopendeBidragBelop.add(totaltSamvaersfradragBelop));
+
+    System.out.println("Beregning særtilskudd:");
+    System.out.println("totaltBidragBleRedusertMedBelop: " + totaltBidragBleRedusertMedBelop);
+    System.out.println("totaltLopendeBidragBelop: " + totaltLopendeBidragBelop);
+    System.out.println("totaltSamvaersfradragBelop: " + totaltSamvaersfradragBelop);
+    System.out.println("totaltBidragBelop: " + totaltBidragBelop);
+    System.out.println("bidragsevne: " + grunnlagBeregning.getBidragsevne().getBidragsevneBelop());
 
     if (grunnlagBeregning.getBidragsevne().getBidragsevneBelop().compareTo(
-        totaltBidragBelop) >= 0) {
-      resultatkode = ResultatKode.SAERTILSKUDD_INNVILGET;
-    } else {
+        totaltBidragBelop) < 0) {
       resultatkode = ResultatKode.BIDRAG_REDUSERT_AV_EVNE;
     }
 
+    if (grunnlagBeregning.getBPsAndelSaertilskudd().getBarnetErSelvforsorget()){
+      resultatkode = ResultatKode.BARNET_ER_SELVFORSORGET;
+      System.out.println("resultatkode: " + resultatkode.toString());
+      return
+          new ResultatBeregning(BigDecimal.ZERO, resultatkode);
+    } else {
+      System.out.println("resultatkode: " + resultatkode.toString());
+      return
+          new ResultatBeregning(
+          grunnlagBeregning.getBPsAndelSaertilskudd().getBPsAndelSaertilskuddBelop(),
+          resultatkode);
+    }
 
-    return new ResultatBeregning(
-        grunnlagBeregning.getBPsAndelSaertilskudd().getBPsAndelSaertilskuddBelop(),
-        resultatkode, emptyList());
+
+
+
   }
 }
