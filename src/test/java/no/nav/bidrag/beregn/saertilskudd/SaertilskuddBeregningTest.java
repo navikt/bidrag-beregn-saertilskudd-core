@@ -23,7 +23,7 @@ public class SaertilskuddBeregningTest {
 
   private final List<Sjablon> sjablonListe = TestUtil.byggSjabloner();
 
-  @DisplayName("Beregner enkelt særtilskudd med full evne")
+  @DisplayName("Beregner enkelt særtilskudd med full evne, dette er eksempel 1 fra John")
   @Test
   void testEnkelBeregningFullEvne() {
     SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
@@ -137,5 +137,110 @@ public class SaertilskuddBeregningTest {
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(0d, resultat.getResultatBelop().doubleValue());
     assertEquals(ResultatKode.BARNET_ER_SELVFORSORGET, resultat.getResultatkode());
+  }
+
+  @DisplayName("Test at særtilskudd beregnes med data fra 2 barn, dette er eksempel 2 fra John")
+  @Test
+  void testOkBeregningMedDataFraT0Barn() {
+    SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
+
+    var lopendeBidragListe = new ArrayList<LopendeBidrag>();
+    lopendeBidragListe.add(new LopendeBidrag(1,
+        BigDecimal.valueOf(1700), // lopendeBidragBelop
+        BigDecimal.valueOf(3215), // opprinneligBPsAndelSaertilskuddBelop
+        BigDecimal.valueOf(1700), // opprinneligBidragBelop
+        BigDecimal.valueOf(1513),  // opprinneligSamvaersfradragBelop
+        ResultatKode.KOSTNADSBEREGNET_BIDRAG));
+    lopendeBidragListe.add(new LopendeBidrag(2,
+        BigDecimal.valueOf(1700), // lopendeBidragBelop
+        BigDecimal.valueOf(3215), // opprinneligBPsAndelSaertilskuddBelop
+        BigDecimal.valueOf(1700), // opprinneligBidragBelop
+        BigDecimal.valueOf(1513),  // opprinneligSamvaersfradragBelop
+        ResultatKode.KOSTNADSBEREGNET_BIDRAG));
+
+    var samvaersfradragListe = new ArrayList<Samvaersfradrag>();
+    samvaersfradragListe.add(new Samvaersfradrag(1,
+        BigDecimal.valueOf(1513)));
+    samvaersfradragListe.add(new Samvaersfradrag(2,
+        BigDecimal.valueOf(1513)));
+
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BigDecimal.valueOf(6696), BigDecimal.valueOf(8750)),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(49.7), BigDecimal.valueOf(2958),
+            false), lopendeBidragListe, samvaersfradragListe);
+
+    ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
+    assertEquals(2958d, resultat.getResultatBelop().doubleValue());
+    assertEquals(ResultatKode.SAERTILSKUDD_INNVILGET, resultat.getResultatkode());
+  }
+
+  @DisplayName("Test at særtilskudd beregnes med data fra 2 barn, dette er eksempel 3 fra John")
+  @Test
+  void testOkBeregningMedDataFraT0BarnLavereEvne() {
+    SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
+
+    var lopendeBidragListe = new ArrayList<LopendeBidrag>();
+    lopendeBidragListe.add(new LopendeBidrag(1,
+        BigDecimal.valueOf(1500), // lopendeBidragBelop
+        BigDecimal.valueOf(3015), // opprinneligBPsAndelSaertilskuddBelop
+        BigDecimal.valueOf(1500), // opprinneligBidragBelop
+        BigDecimal.valueOf(1513),  // opprinneligSamvaersfradragBelop
+        ResultatKode.KOSTNADSBEREGNET_BIDRAG));
+    lopendeBidragListe.add(new LopendeBidrag(2,
+        BigDecimal.valueOf(1500), // lopendeBidragBelop
+        BigDecimal.valueOf(3015), // opprinneligBPsAndelSaertilskuddBelop
+        BigDecimal.valueOf(1500), // opprinneligBidragBelop
+        BigDecimal.valueOf(1513),  // opprinneligSamvaersfradragBelop
+        ResultatKode.KOSTNADSBEREGNET_BIDRAG));
+
+    var samvaersfradragListe = new ArrayList<Samvaersfradrag>();
+    samvaersfradragListe.add(new Samvaersfradrag(1,
+        BigDecimal.valueOf(1513)));
+    samvaersfradragListe.add(new Samvaersfradrag(2,
+        BigDecimal.valueOf(1513)));
+
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BigDecimal.valueOf(6135), BigDecimal.valueOf(10000)),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(59.6), BigDecimal.valueOf(7152),
+            false), lopendeBidragListe, samvaersfradragListe);
+
+    ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
+    assertEquals(7152d, resultat.getResultatBelop().doubleValue());
+    assertEquals(ResultatKode.SAERTILSKUDD_INNVILGET, resultat.getResultatkode());
+  }
+
+  @DisplayName("Test at resultatkode settes til manglende evne, data fra 2 barn, dette er eksempel 4 fra John")
+  @Test
+  void testManglendeEvneBeregningMedDataFraT0Barn() {
+    SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
+
+    var lopendeBidragListe = new ArrayList<LopendeBidrag>();
+    lopendeBidragListe.add(new LopendeBidrag(1,
+        BigDecimal.valueOf(1800), // lopendeBidragBelop
+        BigDecimal.valueOf(3315), // opprinneligBPsAndelSaertilskuddBelop
+        BigDecimal.valueOf(1800), // opprinneligBidragBelop
+        BigDecimal.valueOf(1513),  // opprinneligSamvaersfradragBelop
+        ResultatKode.KOSTNADSBEREGNET_BIDRAG));
+    lopendeBidragListe.add(new LopendeBidrag(2,
+        BigDecimal.valueOf(1800), // lopendeBidragBelop
+        BigDecimal.valueOf(3315), // opprinneligBPsAndelSaertilskuddBelop
+        BigDecimal.valueOf(1800), // opprinneligBidragBelop
+        BigDecimal.valueOf(1513),  // opprinneligSamvaersfradragBelop
+        ResultatKode.KOSTNADSBEREGNET_BIDRAG));
+
+    var samvaersfradragListe = new ArrayList<Samvaersfradrag>();
+    samvaersfradragListe.add(new Samvaersfradrag(1,
+        BigDecimal.valueOf(1513)));
+    samvaersfradragListe.add(new Samvaersfradrag(2,
+        BigDecimal.valueOf(1513)));
+
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BigDecimal.valueOf(6135), BigDecimal.valueOf(10000)),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(59.6), BigDecimal.valueOf(7152),
+            false), lopendeBidragListe, samvaersfradragListe);
+
+    ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
+    assertEquals(7152d, resultat.getResultatBelop().doubleValue());
+    assertEquals(ResultatKode.SAERTILSKUDD_REDUSERT_AV_EVNE, resultat.getResultatkode());
   }
 }
