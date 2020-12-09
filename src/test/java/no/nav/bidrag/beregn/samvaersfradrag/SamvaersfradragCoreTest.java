@@ -93,7 +93,7 @@ public class SamvaersfradragCoreTest {
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(2).getResultatBeregning().get(0).getResultatSamvaersfradragBelop())
             .isEqualTo(BigDecimal.valueOf(668)),
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getSjablonListe().get(0)
-            .getSjablonVerdi()).isEqualTo(BigDecimal.valueOf(1600))
+            .getSjablonVerdi()).isEqualTo(BigDecimal.valueOf(22))
 
     );
   }
