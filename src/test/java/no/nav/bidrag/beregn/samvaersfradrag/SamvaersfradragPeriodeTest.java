@@ -18,9 +18,10 @@ import no.nav.bidrag.beregn.felles.enums.AvvikType;
 import no.nav.bidrag.beregn.felles.enums.SjablonInnholdNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonNokkelNavn;
+import no.nav.bidrag.beregn.saertilskudd.bo.SamvaersfradragGrunnlag;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.BeregnSamvaersfradragGrunnlag;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.BeregnSamvaersfradragResultat;
-import no.nav.bidrag.beregn.samvaersfradrag.bo.SamvaersklassePeriode;
+import no.nav.bidrag.beregn.samvaersfradrag.bo.SamvaersfradragGrunnlagPeriode;
 import no.nav.bidrag.beregn.samvaersfradrag.periode.SamvaersfradragPeriode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,14 +39,15 @@ public class SamvaersfradragPeriodeTest {
       System.out.println("Starter test");
       var beregnDatoFra = LocalDate.parse("2019-07-01");
       var beregnDatoTil = LocalDate.parse("2020-07-01");
-      var soknadsbarnPersonId = 1;
-      var soknadsbarnFodselsdato = LocalDate.parse("2014-03-17");
+
+      var barnPersonId = 1;
+      var barnFodselsdato = LocalDate.parse("2014-03-17");
 
       // Lag samværsinfo
-      var samvaersklassePeriodeListe = new ArrayList<SamvaersklassePeriode>();
-      samvaersklassePeriodeListe.add(new SamvaersklassePeriode(
+      var samvaersfradragGrunnlagPeriodeListe = new ArrayList<SamvaersfradragGrunnlagPeriode>();
+      samvaersfradragGrunnlagPeriodeListe.add(new SamvaersfradragGrunnlagPeriode(
           new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-07-01")),
-          "02"));
+          barnPersonId, barnFodselsdato, "02"));
 
       // Lag sjabloner
       var sjablonPeriodeListe = new ArrayList<SjablonPeriode>();
@@ -74,8 +76,8 @@ public class SamvaersfradragPeriodeTest {
                       BigDecimal.valueOf(1052))))));
 
       BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag =
-          new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnPersonId,
-              soknadsbarnFodselsdato, samvaersklassePeriodeListe, sjablonPeriodeListe);
+          new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil,
+              samvaersfradragGrunnlagPeriodeListe, sjablonPeriodeListe);
 
       var resultat = samvaersfradragPeriode.beregnPerioder(beregnSamvaersfradragGrunnlag);
 
@@ -86,12 +88,12 @@ public class SamvaersfradragPeriodeTest {
 
           () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-07-01")),
           () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-04-01")),
-          () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatSamvaersfradragBelop()
+          () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatSamvaersfradragBelop()
               .compareTo(BigDecimal.valueOf(727))).isZero(),
 
           () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2020-04-01")),
           () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isNull(),
-          () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatSamvaersfradragBelop()
+          () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatSamvaersfradragBelop()
               .compareTo(BigDecimal.valueOf(1052))).isZero()
       );
 
@@ -105,17 +107,17 @@ public class SamvaersfradragPeriodeTest {
     System.out.println("Starter test");
     var beregnDatoFra = LocalDate.parse("2018-07-01");
     var beregnDatoTil = LocalDate.parse("2020-07-01");
-    var soknadsbarnPersonId = 1;
-    var soknadsbarnFodselsdato = LocalDate.parse("2014-02-17");
+    var barnPersonId = 1;
+    var barnFodselsdato = LocalDate.parse("2014-02-17");
 
     // Lag inntekter
-    var samvaersklassePeriodeListe = new ArrayList<SamvaersklassePeriode>();
-    samvaersklassePeriodeListe.add(new SamvaersklassePeriode(
-        new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2019-02-01")),
-        "01"));
-    samvaersklassePeriodeListe.add(new SamvaersklassePeriode(
-        new Periode(LocalDate.parse("2019-02-01"), LocalDate.parse("2020-07-01")),
-        "02"));
+    var samvaersklassePeriodeListe = new ArrayList<SamvaersfradragGrunnlagPeriode>();
+    samvaersklassePeriodeListe.add(new SamvaersfradragGrunnlagPeriode(
+        new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2019-02-01")), barnPersonId,
+        barnFodselsdato,  "01"));
+    samvaersklassePeriodeListe.add(new SamvaersfradragGrunnlagPeriode(
+        new Periode(LocalDate.parse("2019-02-01"), LocalDate.parse("2020-07-01")), barnPersonId,
+        barnFodselsdato, "02"));
 
     // Lag sjabloner
     var sjablonPeriodeListe = new ArrayList<SjablonPeriode>();
@@ -166,8 +168,8 @@ public class SamvaersfradragPeriodeTest {
                     BigDecimal.valueOf(1052))))));
 
     BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag =
-        new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnPersonId,
-            soknadsbarnFodselsdato, samvaersklassePeriodeListe, sjablonPeriodeListe);
+        new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil,
+            samvaersklassePeriodeListe, sjablonPeriodeListe);
 
     var resultat = samvaersfradragPeriode.beregnPerioder(beregnSamvaersfradragGrunnlag);
 
@@ -177,22 +179,22 @@ public class SamvaersfradragPeriodeTest {
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2018-07-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-02-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatSamvaersfradragBelop()
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatSamvaersfradragBelop()
             .compareTo(BigDecimal.valueOf(219))).isZero(),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-02-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-03-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatSamvaersfradragBelop()
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatSamvaersfradragBelop()
             .compareTo(BigDecimal.valueOf(727))).isZero(),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-03-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-03-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatSamvaersfradragBelop()
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregningListe().get(0).getResultatSamvaersfradragBelop()
             .compareTo(BigDecimal.valueOf(727))).isZero(),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2020-03-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoTil()).isNull(),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregning().getResultatSamvaersfradragBelop()
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregningListe().get(0).getResultatSamvaersfradragBelop()
             .compareTo(BigDecimal.valueOf(1052))).isZero()
     );
 
@@ -204,14 +206,14 @@ public class SamvaersfradragPeriodeTest {
   void testGrunnlagMedAvvik() {
     var beregnDatoFra = LocalDate.parse("2018-07-01");
     var beregnDatoTil = LocalDate.parse("2021-01-01");
-    var soknadsbarnPersonId = 1;
-    var soknadsbarnFodselsdato = LocalDate.parse("2014-03-17");
+    var barnPersonId = 1;
+    var barnFodselsdato = LocalDate.parse("2014-03-17");
 
     // Lag samværsinfo
-    var samvaersklassePeriodeListe = new ArrayList<SamvaersklassePeriode>();
-    samvaersklassePeriodeListe.add(new SamvaersklassePeriode(
-        new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-07-01")),
-        "02"));
+    var samvaersklassePeriodeListe = new ArrayList<SamvaersfradragGrunnlagPeriode>();
+    samvaersklassePeriodeListe.add(new SamvaersfradragGrunnlagPeriode(
+        new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-07-01")), barnPersonId,
+        barnFodselsdato, "02"));
 
     // Lag sjabloner
     var sjablonPeriodeListe = new ArrayList<SjablonPeriode>();
@@ -240,8 +242,8 @@ public class SamvaersfradragPeriodeTest {
                     BigDecimal.valueOf(1052))))));
 
     BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag =
-        new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnPersonId,
-            soknadsbarnFodselsdato, samvaersklassePeriodeListe, sjablonPeriodeListe);
+        new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil,
+            samvaersklassePeriodeListe, sjablonPeriodeListe);
 
     var avvikListe = samvaersfradragPeriode.validerInput(beregnSamvaersfradragGrunnlag);
 
@@ -270,7 +272,7 @@ public class SamvaersfradragPeriodeTest {
           .forEach(sortedPR -> System.out
               .println("Dato fra: " + sortedPR.getResultatDatoFraTil().getDatoFra() + "; " + "Dato til: "
                   + sortedPR.getResultatDatoFraTil().getDatoTil()
-                  + "; " + "Samvaersfradragsbeløp: " + sortedPR.getResultatBeregning().getResultatSamvaersfradragBelop()));
+                  + "; " + "Samvaersfradragsbeløp: " + sortedPR.getResultatBeregningListe().get(0).getResultatSamvaersfradragBelop()));
     }
 
   private void printAvvikListe(List<Avvik> avvikListe) {

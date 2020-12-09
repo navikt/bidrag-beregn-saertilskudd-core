@@ -8,8 +8,7 @@ import no.nav.bidrag.beregn.samvaersfradrag.bo.BeregnSamvaersfradragGrunnlag;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.BeregnSamvaersfradragResultat;
 
 public interface SamvaersfradragPeriode {
-  BeregnSamvaersfradragResultat beregnPerioder(
-      BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag);
+  BeregnSamvaersfradragResultat beregnPerioder(BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag);
 
   List<Avvik> validerInput(BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag);
 
@@ -17,8 +16,7 @@ public interface SamvaersfradragPeriode {
     return new SamvaersfradragPeriodeImpl(SamvaersfradragBeregning.getInstance());
   }
 
-  Integer beregnSoknadbarnAlder(
-      BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag,
+  Integer beregnBarnAlder(
+      LocalDate barnFodselsdato,
       LocalDate beregnDatoFra);
-
 }

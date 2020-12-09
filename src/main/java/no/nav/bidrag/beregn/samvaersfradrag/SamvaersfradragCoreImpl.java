@@ -18,13 +18,16 @@ import no.nav.bidrag.beregn.felles.dto.SjablonNokkelCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.BeregnSamvaersfradragGrunnlag;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.BeregnSamvaersfradragResultat;
+import no.nav.bidrag.beregn.samvaersfradrag.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.ResultatPeriode;
-import no.nav.bidrag.beregn.samvaersfradrag.bo.SamvaersklassePeriode;
+import no.nav.bidrag.beregn.samvaersfradrag.bo.SamvaersfradragGrunnlagPerBarn;
+import no.nav.bidrag.beregn.samvaersfradrag.bo.SamvaersfradragGrunnlagPeriode;
 import no.nav.bidrag.beregn.samvaersfradrag.dto.BeregnSamvaersfradragGrunnlagCore;
 import no.nav.bidrag.beregn.samvaersfradrag.dto.BeregnSamvaersfradragResultatCore;
 import no.nav.bidrag.beregn.samvaersfradrag.dto.ResultatBeregningCore;
-import no.nav.bidrag.beregn.samvaersfradrag.dto.ResultatGrunnlagCore;
+import no.nav.bidrag.beregn.samvaersfradrag.dto.GrunnlagBeregningPeriodisertCore;
 import no.nav.bidrag.beregn.samvaersfradrag.dto.ResultatPeriodeCore;
+import no.nav.bidrag.beregn.samvaersfradrag.dto.SamvaersfradragGrunnlagPerBarnCore;
 import no.nav.bidrag.beregn.samvaersfradrag.dto.SamvaersklassePeriodeCore;
 import no.nav.bidrag.beregn.samvaersfradrag.periode.SamvaersfradragPeriode;
 
@@ -50,13 +53,11 @@ public class SamvaersfradragCoreImpl implements SamvaersfradragCore {
   private BeregnSamvaersfradragGrunnlag mapTilBusinessObject(BeregnSamvaersfradragGrunnlagCore beregnSamvaersfradragGrunnlagCore) {
     var beregnDatoFra = beregnSamvaersfradragGrunnlagCore.getBeregnDatoFra();
     var beregnDatoTil = beregnSamvaersfradragGrunnlagCore.getBeregnDatoTil();
-    var soknadsbarnPersonId = beregnSamvaersfradragGrunnlagCore.getSoknadsbarnPersonId();
-    var soknadsbarnFodselsdato = beregnSamvaersfradragGrunnlagCore.getSoknadsbarnFodselsdato();
     var samvaersklassePeriodeListe = mapSamvaersklassePeriodeListe(beregnSamvaersfradragGrunnlagCore.getSamvaersklassePeriodeListe());
     var sjablonPeriodeListe = mapSjablonPeriodeListe(beregnSamvaersfradragGrunnlagCore.getSjablonPeriodeListe());
 
-    return new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnPersonId,
-        soknadsbarnFodselsdato, samvaersklassePeriodeListe, sjablonPeriodeListe);
+    return new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil,
+        samvaersklassePeriodeListe, sjablonPeriodeListe);
   }
 
   private List<SjablonPeriode> mapSjablonPeriodeListe(List<SjablonPeriodeCore> sjablonPeriodeListeCore) {
@@ -78,14 +79,16 @@ public class SamvaersfradragCoreImpl implements SamvaersfradragCore {
     return sjablonPeriodeListe;
   }
 
-  private List<SamvaersklassePeriode> mapSamvaersklassePeriodeListe(
+  private List<SamvaersfradragGrunnlagPeriode> mapSamvaersklassePeriodeListe(
       List<SamvaersklassePeriodeCore> samvaersklassePeriodeListeCore) {
-    var samvaersklassePeriodeListe = new ArrayList<SamvaersklassePeriode>();
+    var samvaersklassePeriodeListe = new ArrayList<SamvaersfradragGrunnlagPeriode>();
     for (SamvaersklassePeriodeCore samvaersklassePeriodeCore : samvaersklassePeriodeListeCore) {
-      samvaersklassePeriodeListe.add(new SamvaersklassePeriode(
+      samvaersklassePeriodeListe.add(new SamvaersfradragGrunnlagPeriode(
           new Periode(samvaersklassePeriodeCore.getSamvaersklassePeriodeDatoFraTil().getPeriodeDatoFra(),
               samvaersklassePeriodeCore.getSamvaersklassePeriodeDatoFraTil().getPeriodeDatoTil()),
-          samvaersklassePeriodeCore.getSamvaersklasse()));
+              samvaersklassePeriodeCore.getBarnPersonId(),
+              samvaersklassePeriodeCore.getBarnFodselsdato(),
+              samvaersklassePeriodeCore.getSamvaersklasse()));
     }
     return samvaersklassePeriodeListe;
   }
@@ -105,17 +108,37 @@ public class SamvaersfradragCoreImpl implements SamvaersfradragCore {
   private List<ResultatPeriodeCore> mapResultatPeriode(List<ResultatPeriode> resultatPeriodeListe) {
     var resultatPeriodeCoreListe = new ArrayList<ResultatPeriodeCore>();
     for (ResultatPeriode resultatPeriode : resultatPeriodeListe) {
-      var samvaersfradragResultat = resultatPeriode.getResultatBeregning();
-      var samvaersfradragResultatGrunnlag = resultatPeriode.getResultatGrunnlagBeregning();
+      var samvaersfradragResultat = resultatPeriode.getResultatBeregningListe();
+      var samvaersfradragResultatGrunnlag = resultatPeriode.getResultatGrunnlag();
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
-          resultatPeriode.getSoknadsbarnPersonId(),
           new PeriodeCore(resultatPeriode.getResultatDatoFraTil().getDatoFra(), resultatPeriode.getResultatDatoFraTil().getDatoTil()),
-          new ResultatBeregningCore(samvaersfradragResultat.getResultatSamvaersfradragBelop()),
-          new ResultatGrunnlagCore(samvaersfradragResultatGrunnlag.getSoknadBarnAlder(),
-              samvaersfradragResultatGrunnlag.getSamvaersklasse(),
-              mapResultatGrunnlagSjabloner(samvaersfradragResultat.getSjablonListe()))));
+          mapResultatBeregning(resultatPeriode.getResultatBeregningListe()),
+          new GrunnlagBeregningPeriodisertCore(
+              mapSamvaersfradragPerBarn(resultatPeriode.getResultatGrunnlag().getSamvaersfradragGrunnlagPerBarnListe()),
+              mapResultatGrunnlagSjabloner(resultatPeriode.getResultatBeregningListe().get(0).getSjablonListe()))));
     }
     return resultatPeriodeCoreListe;
+  }
+
+  private List<ResultatBeregningCore> mapResultatBeregning(List<ResultatBeregning> resultatBeregningListe) {
+    var resultatBeregningCoreListe = new ArrayList<ResultatBeregningCore>();
+    for (ResultatBeregning resultatBeregning : resultatBeregningListe) {
+      resultatBeregningCoreListe.add(
+          new ResultatBeregningCore(resultatBeregning.getBarnPersonId(),
+              resultatBeregning.getResultatSamvaersfradragBelop()));
+    }
+    return resultatBeregningCoreListe;
+  }
+
+  private List<SamvaersfradragGrunnlagPerBarnCore> mapSamvaersfradragPerBarn(
+      List<SamvaersfradragGrunnlagPerBarn> samvaersfradragGrunnlagPerBarnListe) {
+    var SamvaersfradragGrunnlagPerBarnListeCore = new ArrayList<SamvaersfradragGrunnlagPerBarnCore>();
+    for (SamvaersfradragGrunnlagPerBarn samvaersfradragGrunnlagPerBarn : samvaersfradragGrunnlagPerBarnListe) {
+      SamvaersfradragGrunnlagPerBarnListeCore
+          .add(new SamvaersfradragGrunnlagPerBarnCore(samvaersfradragGrunnlagPerBarn.getBarnPersonId(),
+              samvaersfradragGrunnlagPerBarn.getBarnAlder(), samvaersfradragGrunnlagPerBarn.getSamvaersklasse()));
+    }
+    return SamvaersfradragGrunnlagPerBarnListeCore;
   }
 
   private List<SjablonNavnVerdiCore> mapResultatGrunnlagSjabloner(List<SjablonNavnVerdi> resultatGrunnlagSjablonListe) {

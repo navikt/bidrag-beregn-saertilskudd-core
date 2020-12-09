@@ -1,11 +1,15 @@
 package no.nav.bidrag.beregn.samvaersfradrag;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.TestUtil;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.samvaersfradrag.beregning.SamvaersfradragBeregningImpl;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.GrunnlagBeregningPeriodisert;
+import no.nav.bidrag.beregn.samvaersfradrag.bo.SamvaersfradragGrunnlagPerBarn;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -17,40 +21,63 @@ public class SamvaersfradragBeregningTest {
   @DisplayName("Test av beregning av samvaersfradrag for fireåring")
   @Test
   void testFireAar() {
-    SamvaersfradragBeregningImpl samvaersfradragBeregning = new SamvaersfradragBeregningImpl();
-    GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
-        = new GrunnlagBeregningPeriodisert(4, "03",
-        sjablonListe
+
+    List<SamvaersfradragGrunnlagPerBarn> samvaersfradragGrunnlagPerBarnListe = new ArrayList<>();
+    samvaersfradragGrunnlagPerBarnListe.add(
+        new SamvaersfradragGrunnlagPerBarn(1, 4, "03")
     );
 
-    assertThat(samvaersfradragBeregning.beregn(grunnlagBeregningPeriodisert).getResultatSamvaersfradragBelop()
-        .compareTo(BigDecimal.valueOf(2272))).isZero();
+    SamvaersfradragBeregningImpl samvaersfradragBeregning = new SamvaersfradragBeregningImpl();
+    GrunnlagBeregningPeriodisert resultatGrunnlag
+        = new GrunnlagBeregningPeriodisert(samvaersfradragGrunnlagPerBarnListe,
+        sjablonListe);
+
+    assertAll(
+        () -> assertThat(samvaersfradragBeregning.beregn(resultatGrunnlag).get(0).getBarnPersonId()).isEqualTo(1),
+        () -> assertThat(samvaersfradragBeregning.beregn(resultatGrunnlag).get(0)
+            .getResultatSamvaersfradragBelop().doubleValue()).isEqualTo(2272));
+
   }
 
   @DisplayName("Test av beregning av samvaersfradrag for seksåring")
   @Test
   void testSeksAar() {
-    SamvaersfradragBeregningImpl samvaersfradragBeregning = new SamvaersfradragBeregningImpl();
-    GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
-        = new GrunnlagBeregningPeriodisert(6, "03",
-        sjablonListe
+
+    List<SamvaersfradragGrunnlagPerBarn> samvaersfradragGrunnlagPerBarnListe = new ArrayList<>();
+    samvaersfradragGrunnlagPerBarnListe.add(
+        new SamvaersfradragGrunnlagPerBarn(1, 6, "03")
     );
 
-    assertThat(samvaersfradragBeregning.beregn(grunnlagBeregningPeriodisert).getResultatSamvaersfradragBelop()
-        .compareTo(BigDecimal.valueOf(2716))).isZero();
+    SamvaersfradragBeregningImpl samvaersfradragBeregning = new SamvaersfradragBeregningImpl();
+    GrunnlagBeregningPeriodisert resultatGrunnlag
+        = new GrunnlagBeregningPeriodisert(samvaersfradragGrunnlagPerBarnListe,
+        sjablonListe);
+
+    assertAll(
+        () -> assertThat(samvaersfradragBeregning.beregn(resultatGrunnlag).get(0).getBarnPersonId()).isEqualTo(1),
+        () -> assertThat(samvaersfradragBeregning.beregn(resultatGrunnlag).get(0)
+            .getResultatSamvaersfradragBelop().doubleValue()).isEqualTo(2716));
+
   }
 
   @DisplayName("Test fra John")
   @Test
   void testFraJohn() {
-    SamvaersfradragBeregningImpl samvaersfradragBeregning = new SamvaersfradragBeregningImpl();
-    GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
-        = new GrunnlagBeregningPeriodisert(14, "01",
-        sjablonListe
+    List<SamvaersfradragGrunnlagPerBarn> samvaersfradragGrunnlagPerBarnListe = new ArrayList<>();
+    samvaersfradragGrunnlagPerBarnListe.add(
+        new SamvaersfradragGrunnlagPerBarn(2, 14, "01")
     );
 
-    assertThat(samvaersfradragBeregning.beregn(grunnlagBeregningPeriodisert).getResultatSamvaersfradragBelop()
-        .compareTo(BigDecimal.valueOf(457))).isZero();
+    SamvaersfradragBeregningImpl samvaersfradragBeregning = new SamvaersfradragBeregningImpl();
+    GrunnlagBeregningPeriodisert resultatGrunnlag
+        = new GrunnlagBeregningPeriodisert(samvaersfradragGrunnlagPerBarnListe,
+        sjablonListe);
+
+    assertAll(
+        () -> assertThat(samvaersfradragBeregning.beregn(resultatGrunnlag).get(0).getBarnPersonId()).isEqualTo(2),
+        () -> assertThat(samvaersfradragBeregning.beregn(resultatGrunnlag).get(0)
+            .getResultatSamvaersfradragBelop().doubleValue()).isEqualTo(457));
+
   }
 
 }

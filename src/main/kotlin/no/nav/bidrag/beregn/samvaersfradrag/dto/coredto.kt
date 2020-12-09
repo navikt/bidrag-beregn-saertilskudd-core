@@ -11,15 +11,14 @@ import java.time.LocalDate
 data class BeregnSamvaersfradragGrunnlagCore(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
-    val soknadsbarnPersonId: Int,
-    val soknadsbarnFodselsdato: LocalDate,
     val samvaersklassePeriodeListe: List<SamvaersklassePeriodeCore>,
     var sjablonPeriodeListe: List<SjablonPeriodeCore>
 )
 
 data class SamvaersklassePeriodeCore(
-    val soknadsbarnPersonId: Int,
     val samvaersklassePeriodeDatoFraTil: PeriodeCore,
+    val barnPersonId: Int,
+    val barnFodselsdato: LocalDate,
     val samvaersklasse: String
 )
 
@@ -30,19 +29,24 @@ data class BeregnSamvaersfradragResultatCore(
 )
 
 data class ResultatPeriodeCore(
-    val soknadsbarnPersonId: Int,
     val resultatDatoFraTil: PeriodeCore,
-    val resultatBeregning: ResultatBeregningCore,
-    val resultatGrunnlag: ResultatGrunnlagCore
+    val resultatBeregning: List<ResultatBeregningCore>,
+    val resultatGrunnlag: GrunnlagBeregningPeriodisertCore
 )
 
 data class ResultatBeregningCore(
+    val barnPersonId: Int,
     val resultatSamvaersfradragBelop: BigDecimal
 )
 
 // Grunnlag beregning
-data class ResultatGrunnlagCore(
-    val soknadBarnAlder: Int,
-    val samvaersklasse: String,
+data class GrunnlagBeregningPeriodisertCore(
+    val samvaersfradragGrunnlagPerBarnListeCore: List<SamvaersfradragGrunnlagPerBarnCore>,
     val sjablonListe: List<SjablonNavnVerdiCore>
+)
+
+data class SamvaersfradragGrunnlagPerBarnCore(
+    val barnPersonId: Int,
+    val barnAlder: Int,
+    val samvaersklasse: String,
 )

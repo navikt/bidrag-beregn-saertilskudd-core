@@ -14,7 +14,7 @@ import no.nav.bidrag.beregn.saertilskudd.bo.LopendeBidrag;
 import no.nav.bidrag.beregn.saertilskudd.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.felles.enums.ResultatKode;
-import no.nav.bidrag.beregn.saertilskudd.bo.Samvaersfradrag;
+import no.nav.bidrag.beregn.saertilskudd.bo.SamvaersfradragGrunnlag;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -37,9 +37,9 @@ public class SaertilskuddBeregningTest {
         BigDecimal.valueOf(457),  // opprinneligSamvaersfradragBelop
         ResultatKode.KOSTNADSBEREGNET_BIDRAG));
 
-    var samvaersfradragListe = new ArrayList<Samvaersfradrag>();
+    var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
 
-    samvaersfradragListe.add(new Samvaersfradrag(1,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(1,
         BigDecimal.valueOf(457)));
 
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
@@ -66,9 +66,9 @@ public class SaertilskuddBeregningTest {
         BigDecimal.valueOf(457),  // opprinneligSamvaersfradragBelop
         ResultatKode.KOSTNADSBEREGNET_BIDRAG));
 
-    var samvaersfradragListe = new ArrayList<Samvaersfradrag>();
+    var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
 
-    samvaersfradragListe.add(new Samvaersfradrag(1,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(1,
         BigDecimal.valueOf(800)));
 
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
@@ -95,9 +95,9 @@ public class SaertilskuddBeregningTest {
         BigDecimal.valueOf(457),  // opprinneligSamvaersfradragBelop
         ResultatKode.KOSTNADSBEREGNET_BIDRAG));
 
-    var samvaersfradragListe = new ArrayList<Samvaersfradrag>();
+    var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
 
-    samvaersfradragListe.add(new Samvaersfradrag(1,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(1,
         BigDecimal.valueOf(457)));
 
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
@@ -124,9 +124,9 @@ public class SaertilskuddBeregningTest {
         BigDecimal.valueOf(457),  // opprinneligSamvaersfradragBelop
         ResultatKode.KOSTNADSBEREGNET_BIDRAG));
 
-    var samvaersfradragListe = new ArrayList<Samvaersfradrag>();
+    var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
 
-    samvaersfradragListe.add(new Samvaersfradrag(1,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(1,
         BigDecimal.valueOf(457)));
 
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
@@ -158,10 +158,10 @@ public class SaertilskuddBeregningTest {
         BigDecimal.valueOf(1513),  // opprinneligSamvaersfradragBelop
         ResultatKode.KOSTNADSBEREGNET_BIDRAG));
 
-    var samvaersfradragListe = new ArrayList<Samvaersfradrag>();
-    samvaersfradragListe.add(new Samvaersfradrag(1,
+    var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(1,
         BigDecimal.valueOf(1513)));
-    samvaersfradragListe.add(new Samvaersfradrag(2,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(2,
         BigDecimal.valueOf(1513)));
 
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
@@ -193,10 +193,10 @@ public class SaertilskuddBeregningTest {
         BigDecimal.valueOf(1513),  // opprinneligSamvaersfradragBelop
         ResultatKode.KOSTNADSBEREGNET_BIDRAG));
 
-    var samvaersfradragListe = new ArrayList<Samvaersfradrag>();
-    samvaersfradragListe.add(new Samvaersfradrag(1,
+    var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(1,
         BigDecimal.valueOf(1513)));
-    samvaersfradragListe.add(new Samvaersfradrag(2,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(2,
         BigDecimal.valueOf(1513)));
 
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
@@ -228,10 +228,10 @@ public class SaertilskuddBeregningTest {
         BigDecimal.valueOf(1513),  // opprinneligSamvaersfradragBelop
         ResultatKode.KOSTNADSBEREGNET_BIDRAG));
 
-    var samvaersfradragListe = new ArrayList<Samvaersfradrag>();
-    samvaersfradragListe.add(new Samvaersfradrag(1,
+    var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(1,
         BigDecimal.valueOf(1513)));
-    samvaersfradragListe.add(new Samvaersfradrag(2,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(2,
         BigDecimal.valueOf(1513)));
 
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(

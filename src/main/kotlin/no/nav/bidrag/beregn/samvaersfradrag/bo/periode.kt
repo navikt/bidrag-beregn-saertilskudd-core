@@ -2,15 +2,23 @@ package no.nav.bidrag.beregn.samvaersfradrag.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.PeriodisertGrunnlag
+import java.time.LocalDate
 
 
-data class SamvaersklassePeriode(
-    val samvaersklasseDatoFraTil: Periode,
-    val samvaersklasse: String) : PeriodisertGrunnlag {
-  constructor(samvaersklassePeriode: SamvaersklassePeriode)
-      : this(samvaersklassePeriode.samvaersklasseDatoFraTil.justerDatoer(),
-      samvaersklassePeriode.samvaersklasse)
+data class SamvaersfradragGrunnlagPeriode(
+  val samvaersfradragDatoFraTil: Periode,
+  val barnPersonId: Int,
+  val barnFodselsdato: LocalDate,
+  val samvaersklasse: String
+) : PeriodisertGrunnlag {
+  constructor(samvaersfradragGrunnlagPeriode: SamvaersfradragGrunnlagPeriode)
+      : this(
+    samvaersfradragGrunnlagPeriode.samvaersfradragDatoFraTil.justerDatoer(),
+    samvaersfradragGrunnlagPeriode.barnPersonId,
+    samvaersfradragGrunnlagPeriode.barnFodselsdato,
+    samvaersfradragGrunnlagPeriode.samvaersklasse
+  )
   override fun getDatoFraTil(): Periode {
-    return samvaersklasseDatoFraTil
+    return samvaersfradragDatoFraTil
   }
 }

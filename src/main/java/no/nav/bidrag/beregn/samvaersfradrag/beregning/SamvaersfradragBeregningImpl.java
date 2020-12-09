@@ -18,23 +18,32 @@ import no.nav.bidrag.beregn.felles.enums.SjablonNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonNokkelNavn;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.ResultatBeregning;
+import no.nav.bidrag.beregn.samvaersfradrag.bo.SamvaersfradragGrunnlagPerBarn;
 
 public class SamvaersfradragBeregningImpl implements SamvaersfradragBeregning {
 
   @Override
-  public ResultatBeregning beregn(
-      GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
+  public List<ResultatBeregning> beregn(GrunnlagBeregningPeriodisert resultatGrunnlag) {
 
-    // Henter sjablonverdier
-    var sjablonNavnVerdiMap = hentSjablonVerdier(grunnlagBeregningPeriodisert.getSjablonListe(), grunnlagBeregningPeriodisert.getSamvaersklasse(),
-        grunnlagBeregningPeriodisert.getSoknadBarnAlder());
+    var resultatBeregningListe = new ArrayList<ResultatBeregning>();
 
-    var belopFradrag = sjablonNavnVerdiMap.get(SjablonNavn.SAMVAERSFRADRAG.getNavn());
+    for (SamvaersfradragGrunnlagPerBarn grunnlag: resultatGrunnlag.getSamvaersfradragGrunnlagPerBarnListe()) {
+      // Henter sjablonverdier
+      var sjablonNavnVerdiMap = hentSjablonVerdier(resultatGrunnlag.getSjablonListe(), grunnlag.getSamvaersklasse(),
+          grunnlag.getBarnAlder());
 
-//    System.out.println("Samværsfradrag: " + belopFradrag);
-//    System.out.println("Alder: " + grunnlagBeregningPeriodisert.getSoknadBarnAlder());
+      var belopFradrag = sjablonNavnVerdiMap.get(SjablonNavn.SAMVAERSFRADRAG.getNavn());
 
-    return new ResultatBeregning(belopFradrag, byggSjablonResultatListe(sjablonNavnVerdiMap));
+      System.out.println("Samværsfradrag barnPersonId: " + grunnlag.getBarnPersonId());
+      System.out.println("Beregnet samværsfradrag: " + belopFradrag);
+      System.out.println("Alder: " + grunnlag.getBarnAlder());
+
+      resultatBeregningListe.add(new ResultatBeregning(grunnlag.getBarnPersonId(),
+          belopFradrag, byggSjablonResultatListe(sjablonNavnVerdiMap)));
+    }
+
+    return resultatBeregningListe;
+
   }
 
   // Henter sjablonverdier

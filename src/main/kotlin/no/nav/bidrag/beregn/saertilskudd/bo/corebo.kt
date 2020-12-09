@@ -13,7 +13,7 @@ data class BeregnSaertilskuddGrunnlag(
     val bidragsevnePeriodeListe: List<BidragsevnePeriode>,
     val bPsAndelSaertilskuddPeriodeListe: List<BPsAndelSaertilskuddPeriode>,
     val lopendeBidragPeriodeListe: List<LopendeBidragPeriode>,
-    val samvaersfradragPeriodeListe: List<SamvaersfradragPeriode>
+    val samvaersfradragGrunnlagPeriodeListe: List<SamvaersfradragGrunnlagPeriode>
 )
 
 // Resultat
@@ -22,8 +22,8 @@ data class BeregnSaertilskuddResultat(
 )
 
 data class ResultatPeriode(
-    val soknadsbarnPersonId: Int,
     val resultatDatoFraTil: Periode,
+    val soknadsbarnPersonId: Int,
     val resultatBeregning: ResultatBeregning,
     val resultatGrunnlagBeregning: GrunnlagBeregning
 )
@@ -38,7 +38,7 @@ data class GrunnlagBeregning(
     val bidragsevne: Bidragsevne,
     val bPsAndelSaertilskudd: BPsAndelSaertilskudd,
     val lopendeBidragListe: List<LopendeBidrag>,
-    val samvaersfradragListe: List<Samvaersfradrag>
+    val samvaersfradragGrunnlagListe: List<SamvaersfradragGrunnlag>
 )
 
 data class Bidragsevne(
@@ -53,14 +53,14 @@ data class BPsAndelSaertilskudd(
 )
 
 data class LopendeBidrag(
-    val soknadsbarnPersonId: Int,
+    val barnPersonId: Int,
     val lopendeBidragBelop: BigDecimal,
-    val opprinneligBPsAndelSaertilskuddBelop: BigDecimal,
+    val opprinneligBPsAndelUnderholdskostnadBelop: BigDecimal,
     val opprinneligBidragBelop: BigDecimal,
     val opprinneligSamvaersfradragBelop: BigDecimal,
     val resultatkode: ResultatKode
 )
-data class Samvaersfradrag(
-    val soknadsbarnPersonId: Int,
+data class SamvaersfradragGrunnlag(
+    val barnPersonId: Int,
     val samvaersfradragBelop: BigDecimal
 )
