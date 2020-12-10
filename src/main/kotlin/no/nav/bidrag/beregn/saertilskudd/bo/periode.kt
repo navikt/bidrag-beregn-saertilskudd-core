@@ -36,34 +36,37 @@ data class BPsAndelSaertilskuddPeriode(
 }
 
 data class LopendeBidragPeriode(
-    val soknadsbarnPersonId: Int,
-    val periodeDatoFraTil: Periode,
-    val lopendeBidragBelop: BigDecimal,
-    val opprinneligBPsAndelUnderholdskostnadBelop: BigDecimal,
-    val opprinneligBidragBelop: BigDecimal,
-    val opprinneligSamvaersfradragBelop: BigDecimal,
-    val resultatkode: ResultatKode) : PeriodisertGrunnlag {
+  val periodeDatoFraTil: Periode,
+  val barnPersonId: Int,
+  val lopendeBidragBelop: BigDecimal,
+  val opprinneligBPsAndelUnderholdskostnadBelop: BigDecimal,
+  val opprinneligBidragBelop: BigDecimal,
+  val opprinneligSamvaersfradragBelop: BigDecimal,
+  val resultatkode: ResultatKode
+) : PeriodisertGrunnlag {
   constructor(lopendeBidragPeriode: LopendeBidragPeriode)
-      : this(lopendeBidragPeriode.soknadsbarnPersonId,
-      lopendeBidragPeriode.periodeDatoFraTil.justerDatoer(),
-      lopendeBidragPeriode.lopendeBidragBelop,
-      lopendeBidragPeriode.opprinneligBPsAndelUnderholdskostnadBelop,
-      lopendeBidragPeriode.opprinneligBidragBelop,
-      lopendeBidragPeriode.opprinneligSamvaersfradragBelop,
-      lopendeBidragPeriode.resultatkode)
+      : this(
+    lopendeBidragPeriode.periodeDatoFraTil.justerDatoer(),
+    lopendeBidragPeriode.barnPersonId,
+    lopendeBidragPeriode.lopendeBidragBelop,
+    lopendeBidragPeriode.opprinneligBPsAndelUnderholdskostnadBelop,
+    lopendeBidragPeriode.opprinneligBidragBelop,
+    lopendeBidragPeriode.opprinneligSamvaersfradragBelop,
+    lopendeBidragPeriode.resultatkode
+  )
   override fun getDatoFraTil(): Periode {
     return periodeDatoFraTil
   }
 }
 
-data class SamvaersfradragPeriode(
-    val soknadsbarnPersonId: Int,
-    val periodeDatoFraTil: Periode,
-    val samvaersfradragBelop: BigDecimal) : PeriodisertGrunnlag {
-  constructor(samvaersfradragPeriode: SamvaersfradragPeriode)
-      : this(samvaersfradragPeriode.soknadsbarnPersonId,
-      samvaersfradragPeriode.periodeDatoFraTil.justerDatoer(),
-      samvaersfradragPeriode.samvaersfradragBelop)
+data class SamvaersfradragGrunnlagPeriode(
+  val barnPersonId: Int,
+  val periodeDatoFraTil: Periode,
+  val samvaersfradragBelop: BigDecimal) : PeriodisertGrunnlag {
+  constructor(samvaersfradragGrunnlagPeriode: SamvaersfradragGrunnlagPeriode)
+      : this(samvaersfradragGrunnlagPeriode.barnPersonId,
+      samvaersfradragGrunnlagPeriode.periodeDatoFraTil.justerDatoer(),
+      samvaersfradragGrunnlagPeriode.samvaersfradragBelop)
   override fun getDatoFraTil(): Periode {
     return periodeDatoFraTil
   }

@@ -30,8 +30,8 @@ data class BPsAndelSaertilskuddPeriodeCore(
 )
 
 data class LopendeBidragPeriodeCore(
-    val soknadsbarnPersonId: Int,
     val periodeDatoFraTil: PeriodeCore,
+    val barnPersonId: Int,
     val lopendeBidragBelop: BigDecimal,
     val opprinneligBPsAndelUnderholdskostnadBelop: BigDecimal,
     val opprinneligBidragBelop: BigDecimal,
@@ -40,8 +40,8 @@ data class LopendeBidragPeriodeCore(
 )
 
 data class SamvaersfradragPeriodeCore(
-    val soknadsbarnPersonId: Int,
     val periodeDatoFraTil: PeriodeCore,
+    val barnPersonId: Int,
     val samvaersfradragBelop: BigDecimal
 )
 
@@ -52,8 +52,8 @@ data class BeregnSaertilskuddResultatCore(
 )
 
 data class ResultatPeriodeCore(
-    val soknadsbarnPersonId: Int,
     val resultatDatoFraTil: PeriodeCore,
+    val soknadsbarnPersonId: Int,
     val resultatBeregning: ResultatBeregningCore,
     val resultatGrunnlag: ResultatGrunnlagCore
 )
@@ -82,15 +82,15 @@ data class BPsAndelSaertilskuddCore(
 )
 
 data class LopendeBidragCore(
-    val soknadsbarnPersonId: Int,
+    val barnPersonId: Int,
     val lopendeBidragBelop: BigDecimal,
-    val opprinneligBPsAndelSaertilskuddBelop: BigDecimal,
+    val opprinneligBPsAndelUnderholdskostnadBelop: BigDecimal,
     val opprinneligBidragBelop: BigDecimal,
     val opprinneligSamvaersfradragBelop: BigDecimal,
     val resultatkode: String
 )
 
 data class SamvaersfradragCore(
-    val soknadsbarnPersonId: Int,
+    val barnPersonId: Int,
     val samvaersfradragBelop: BigDecimal
 )

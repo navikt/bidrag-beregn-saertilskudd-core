@@ -1,13 +1,11 @@
 package no.nav.bidrag.beregn.saertilskudd.beregning;
 
-import static java.util.Collections.emptyList;
-
 import java.math.BigDecimal;
 import no.nav.bidrag.beregn.saertilskudd.bo.GrunnlagBeregning;
 import no.nav.bidrag.beregn.saertilskudd.bo.LopendeBidrag;
 import no.nav.bidrag.beregn.saertilskudd.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.felles.enums.ResultatKode;
-import no.nav.bidrag.beregn.saertilskudd.bo.Samvaersfradrag;
+import no.nav.bidrag.beregn.saertilskudd.bo.SamvaersfradragGrunnlag;
 
 public class SaertilskuddBeregningImpl implements SaertilskuddBeregning {
 
@@ -20,7 +18,7 @@ public class SaertilskuddBeregningImpl implements SaertilskuddBeregning {
     var totaltSamvaersfradragBelop = BigDecimal.ZERO;
     for (LopendeBidrag lopendeBidrag: grunnlagBeregning.getLopendeBidragListe()){
       totaltBidragBleRedusertMedBelop = totaltBidragBleRedusertMedBelop.add(
-          lopendeBidrag.getOpprinneligBPsAndelSaertilskuddBelop()
+          lopendeBidrag.getOpprinneligBPsAndelUnderholdskostnadBelop()
           .subtract(
           lopendeBidrag.getOpprinneligBidragBelop().add(
               lopendeBidrag.getOpprinneligSamvaersfradragBelop()
@@ -31,9 +29,9 @@ public class SaertilskuddBeregningImpl implements SaertilskuddBeregning {
       );
     }
 
-    for (Samvaersfradrag samvaersfradrag: grunnlagBeregning.getSamvaersfradragListe() ){
+    for (SamvaersfradragGrunnlag samvaersfradragGrunnlag : grunnlagBeregning.getSamvaersfradragGrunnlagListe() ){
       totaltSamvaersfradragBelop = totaltSamvaersfradragBelop.add(
-          samvaersfradrag.getSamvaersfradragBelop()
+          samvaersfradragGrunnlag.getSamvaersfradragBelop()
       );
     }
 

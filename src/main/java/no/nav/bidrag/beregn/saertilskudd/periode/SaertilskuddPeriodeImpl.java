@@ -19,11 +19,9 @@ import no.nav.bidrag.beregn.saertilskudd.bo.ResultatPeriode;
 import no.nav.bidrag.beregn.felles.PeriodeUtil;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
-import no.nav.bidrag.beregn.felles.bo.Sjablon;
-import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
 import no.nav.bidrag.beregn.felles.periode.Periodiserer;
-import no.nav.bidrag.beregn.saertilskudd.bo.Samvaersfradrag;
-import no.nav.bidrag.beregn.saertilskudd.bo.SamvaersfradragPeriode;
+import no.nav.bidrag.beregn.saertilskudd.bo.SamvaersfradragGrunnlag;
+import no.nav.bidrag.beregn.saertilskudd.bo.SamvaersfradragGrunnlagPeriode;
 
 
 public class SaertilskuddPeriodeImpl implements SaertilskuddPeriode {
@@ -54,9 +52,9 @@ public class SaertilskuddPeriodeImpl implements SaertilskuddPeriode {
         .map(LopendeBidragPeriode::new)
         .collect(toCollection(ArrayList::new));
 
-    var justertSamvaersfradragPeriodeListe = beregnSaertilskuddGrunnlag.getSamvaersfradragPeriodeListe()
+    var justertSamvaersfradragPeriodeListe = beregnSaertilskuddGrunnlag.getSamvaersfradragGrunnlagPeriodeListe()
         .stream()
-        .map(SamvaersfradragPeriode::new)
+        .map(SamvaersfradragGrunnlagPeriode::new)
         .collect(toCollection(ArrayList::new));
 
     // Bygger opp liste over perioder
@@ -84,7 +82,7 @@ public class SaertilskuddPeriodeImpl implements SaertilskuddPeriode {
       var lopendeBidragListe = justertLopendeBidragPeriodeListe.stream().filter(
           i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
           .map(lopendeBidragPeriode -> new LopendeBidrag(
-              lopendeBidragPeriode.getSoknadsbarnPersonId(),
+              lopendeBidragPeriode.getBarnPersonId(),
               lopendeBidragPeriode.getLopendeBidragBelop(),
               lopendeBidragPeriode.getOpprinneligBPsAndelUnderholdskostnadBelop(),
               lopendeBidragPeriode.getOpprinneligBidragBelop(),
@@ -93,9 +91,9 @@ public class SaertilskuddPeriodeImpl implements SaertilskuddPeriode {
 
       var samvaersfradragListe= justertSamvaersfradragPeriodeListe.stream().filter(
           i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-          .map(samvaersfradragPeriode -> new Samvaersfradrag(
-              samvaersfradragPeriode.getSoknadsbarnPersonId(),
-              samvaersfradragPeriode.getSamvaersfradragBelop())).collect(toList());
+          .map(samvaersfradragGrunnlagPeriode -> new SamvaersfradragGrunnlag(
+              samvaersfradragGrunnlagPeriode.getBarnPersonId(),
+              samvaersfradragGrunnlagPeriode.getSamvaersfradragBelop())).collect(toList());
 
 
       // Kaller beregningsmodulen for beregningsperioden
@@ -104,8 +102,7 @@ public class SaertilskuddPeriodeImpl implements SaertilskuddPeriode {
           samvaersfradragListe);
 
         resultatPeriodeListe.add(new ResultatPeriode(
-            beregnSaertilskuddGrunnlag.getSoknadsbarnPersonId(),
-            beregningsperiode,
+            beregningsperiode, beregnSaertilskuddGrunnlag.getSoknadsbarnPersonId(),
             saertilskuddBeregning.beregn(grunnlagBeregning), grunnlagBeregning));
     }
 
@@ -145,8 +142,8 @@ public class SaertilskuddPeriodeImpl implements SaertilskuddPeriode {
 
     // Sjekk perioder for samværsfradrag
     var samvaersfradragPeriodeListe = new ArrayList<Periode>();
-    for (SamvaersfradragPeriode samvaersfradragPeriode : grunnlag.getSamvaersfradragPeriodeListe()) {
-      samvaersfradragPeriodeListe.add(samvaersfradragPeriode.getDatoFraTil());
+    for (SamvaersfradragGrunnlagPeriode samvaersfradragGrunnlagPeriode : grunnlag.getSamvaersfradragGrunnlagPeriodeListe()) {
+      samvaersfradragPeriodeListe.add(samvaersfradragGrunnlagPeriode.getDatoFraTil());
     }
     avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
         "samvaersfradragPeriodeListe",

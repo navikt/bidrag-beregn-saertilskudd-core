@@ -14,7 +14,7 @@ import no.nav.bidrag.beregn.saertilskudd.bo.BidragsevnePeriode;
 import no.nav.bidrag.beregn.felles.bo.Periode;
 import no.nav.bidrag.beregn.felles.enums.ResultatKode;
 import no.nav.bidrag.beregn.saertilskudd.bo.LopendeBidragPeriode;
-import no.nav.bidrag.beregn.saertilskudd.bo.SamvaersfradragPeriode;
+import no.nav.bidrag.beregn.saertilskudd.bo.SamvaersfradragGrunnlagPeriode;
 import no.nav.bidrag.beregn.saertilskudd.periode.SaertilskuddPeriode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -49,9 +49,9 @@ public class SaertilskuddPeriodeTest {
     var bPsAndelSaertilskuddPeriodeListe = new ArrayList<BPsAndelSaertilskuddPeriode>();
     bPsAndelSaertilskuddPeriodeListe.add(bPsAndelSaertilskuddPeriode);
 
-    var lopendeBidragPeriode = new LopendeBidragPeriode(1,
-        new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2020-01-01")),
-            BigDecimal.valueOf(2500), // lopendeBidragBelop
+    var lopendeBidragPeriode = new LopendeBidragPeriode(
+        new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2020-01-01")), 1,
+        BigDecimal.valueOf(2500), // lopendeBidragBelop
             BigDecimal.valueOf(2958), // opprinneligBPsAndelSaertilskuddBelop
             BigDecimal.valueOf(2500), // opprinneligBidragBelop
             BigDecimal.valueOf(457),  // opprinneligSamvaersfradragBelop
@@ -59,10 +59,10 @@ public class SaertilskuddPeriodeTest {
     var lopendeBidragPeriodeListe = new ArrayList<LopendeBidragPeriode>();
     lopendeBidragPeriodeListe.add(lopendeBidragPeriode);
 
-    var samvaersfradragPeriode = new SamvaersfradragPeriode(1,
+    var samvaersfradragPeriode = new SamvaersfradragGrunnlagPeriode(1,
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
         BigDecimal.valueOf(457));
-    var samvaersfradragPeriodeListe = new ArrayList<SamvaersfradragPeriode>();
+    var samvaersfradragPeriodeListe = new ArrayList<SamvaersfradragGrunnlagPeriode>();
     samvaersfradragPeriodeListe.add(samvaersfradragPeriode);
 
     BeregnSaertilskuddGrunnlag beregnSaertilskuddGrunnlag =

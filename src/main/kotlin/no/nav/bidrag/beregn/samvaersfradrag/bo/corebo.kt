@@ -11,9 +11,7 @@ import java.time.LocalDate
 data class BeregnSamvaersfradragGrunnlag(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
-    val soknadsbarnPersonId: Int,
-    val soknadsbarnFodselsdato: LocalDate,
-    val samvaersklassePeriodeListe: List<SamvaersklassePeriode>,
+    val samvaersfradragGrunnlagPeriodeListe: List<SamvaersfradragGrunnlagPeriode>,
     val sjablonPeriodeListe: List<SjablonPeriode>
 )
 
@@ -23,20 +21,25 @@ data class BeregnSamvaersfradragResultat(
 )
 
 data class ResultatPeriode(
-    val soknadsbarnPersonId: Int,
     val resultatDatoFraTil: Periode,
-    val resultatBeregning: ResultatBeregning,
-    val resultatGrunnlagBeregning: GrunnlagBeregningPeriodisert
+    val resultatBeregningListe: List<ResultatBeregning>,
+    val resultatGrunnlag: GrunnlagBeregningPeriodisert
 )
 
 data class ResultatBeregning(
+    val barnPersonId: Int,
     val resultatSamvaersfradragBelop: BigDecimal,
     val sjablonListe: List<SjablonNavnVerdi>
 )
 
 // Grunnlag beregning
 data class GrunnlagBeregningPeriodisert(
-    val soknadBarnAlder: Int,
-    val samvaersklasse: String,
+    val samvaersfradragGrunnlagPerBarnListe: List<SamvaersfradragGrunnlagPerBarn>,
     val sjablonListe: List<Sjablon>
+)
+
+data class SamvaersfradragGrunnlagPerBarn(
+    val barnPersonId: Int,
+    val barnAlder: Int,
+    val samvaersklasse: String,
 )
