@@ -76,21 +76,21 @@ public class SamvaersfradragCoreTest {
             .isEqualTo(LocalDate.parse("2017-01-01")),
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoTil())
             .isEqualTo(LocalDate.parse("2018-01-01")),
-        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(0).getResultatBeregning().get(0).getResultatSamvaersfradragBelop())
+        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatSamvaersfradragBelop())
             .isEqualTo(BigDecimal.valueOf(666)),
 
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getPeriodeDatoFra())
             .isEqualTo(LocalDate.parse("2018-01-01")),
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getPeriodeDatoTil())
             .isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(1).getResultatBeregning().get(0).getResultatSamvaersfradragBelop())
+        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatSamvaersfradragBelop())
             .isEqualTo(BigDecimal.valueOf(667)),
 
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getPeriodeDatoFra())
             .isEqualTo(LocalDate.parse("2019-01-01")),
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getPeriodeDatoTil())
             .isEqualTo(LocalDate.parse("2020-01-01")),
-        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(2).getResultatBeregning().get(0).getResultatSamvaersfradragBelop())
+        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(2).getResultatBeregningListe().get(0).getResultatSamvaersfradragBelop())
             .isEqualTo(BigDecimal.valueOf(668)),
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getSjablonListe().get(0)
             .getSjablonVerdi()).isEqualTo(BigDecimal.valueOf(22))

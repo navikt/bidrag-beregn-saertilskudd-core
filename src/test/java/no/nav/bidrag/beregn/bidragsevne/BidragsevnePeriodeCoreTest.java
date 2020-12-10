@@ -179,7 +179,7 @@ public class BidragsevnePeriodeCoreTest {
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
-        new ResultatBeregning(BigDecimal.valueOf(666), BigDecimal.valueOf(166500),
+        new ResultatBeregning(BigDecimal.valueOf(666),
             singletonList(new SjablonNavnVerdi(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22)))),
         new GrunnlagBeregning(singletonList(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(666000))),
             1, BostatusKode.MED_ANDRE,
@@ -189,7 +189,7 @@ public class BidragsevnePeriodeCoreTest {
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-01-01")),
-        new ResultatBeregning(BigDecimal.valueOf(667), BigDecimal.valueOf(166500),
+        new ResultatBeregning(BigDecimal.valueOf(667),
             singletonList(new SjablonNavnVerdi(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22)))),
         new GrunnlagBeregning(singletonList(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(500000))),
             1, BostatusKode.MED_ANDRE,
@@ -199,7 +199,7 @@ public class BidragsevnePeriodeCoreTest {
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
-        new ResultatBeregning(BigDecimal.valueOf(668), BigDecimal.valueOf(166500),
+        new ResultatBeregning(BigDecimal.valueOf(668),
             singletonList(new SjablonNavnVerdi(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22)))),
         new GrunnlagBeregning(singletonList(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(500000))),
             1, BostatusKode.MED_ANDRE,

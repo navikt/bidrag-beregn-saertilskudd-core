@@ -69,8 +69,8 @@ public class SaertilskuddPeriodeImpl implements SaertilskuddPeriode {
 
       var bidragsevne = justertBidragsevnePeriodeListe.stream().filter(
           i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-          .map(bidragsevnePeriode -> new Bidragsevne(bidragsevnePeriode.getBidragsevneBelop(),
-              bidragsevnePeriode.getTjuefemProsentInntekt())).findFirst().orElse(null);
+          .map(bidragsevnePeriode -> new Bidragsevne(bidragsevnePeriode.getBidragsevneBelop()
+          )).findFirst().orElse(null);
 
       var bPsAndelSaertilskudd = justertBPsAndelSaertilskuddPeriodeListe.stream().filter(
           i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
@@ -86,8 +86,8 @@ public class SaertilskuddPeriodeImpl implements SaertilskuddPeriode {
               lopendeBidragPeriode.getLopendeBidragBelop(),
               lopendeBidragPeriode.getOpprinneligBPsAndelUnderholdskostnadBelop(),
               lopendeBidragPeriode.getOpprinneligBidragBelop(),
-              lopendeBidragPeriode.getOpprinneligSamvaersfradragBelop(),
-              lopendeBidragPeriode.getResultatkode())).collect(toList());
+              lopendeBidragPeriode.getOpprinneligSamvaersfradragBelop()
+          )).collect(toList());
 
       var samvaersfradragListe= justertSamvaersfradragPeriodeListe.stream().filter(
           i -> i.getDatoFraTil().overlapperMed(beregningsperiode))

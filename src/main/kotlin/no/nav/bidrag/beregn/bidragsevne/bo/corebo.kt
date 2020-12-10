@@ -35,7 +35,6 @@ data class ResultatPeriode(
 
 data class ResultatBeregning(
     val resultatEvneBelop: BigDecimal,
-    val resultat25ProsentInntekt: BigDecimal,
     val sjablonListe: List<SjablonNavnVerdi>
 )
 

@@ -49,8 +49,6 @@ class BidragsevneberegningTest {
         SaerfradragKode.INGEN, sjablonListe);
     assertEquals(BigDecimal.valueOf(8322),
         bidragsevneberegning.beregn(grunnlagBeregning2).getResultatEvneBelop());
-    assertEquals(BigDecimal.valueOf(10833),
-        bidragsevneberegning.beregn(grunnlagBeregning2).getResultat25ProsentInntekt());
 
     inntekter.set(0, new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(666000)));
     GrunnlagBeregning grunnlagBeregning3

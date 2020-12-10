@@ -163,4 +163,31 @@ public class BPsAndelSaertilskuddBeregningTest {
     );
   }
 
+  @DisplayName("Test fra John")
+  @Test
+  void testFraJohn() {
+    var bPsAndelUnderholdskostnadBeregning = new BPsAndelSaertilskuddBeregningImpl();
+
+    var nettoSaertilskuddBelop = BigDecimal.valueOf(1000);
+
+    var inntektBP = new ArrayList<Inntekt>();
+    var inntektBM = new ArrayList<Inntekt>();
+    var inntektBB = new ArrayList<Inntekt>();
+
+    inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(550000), false, false));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(300000), false, false));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.ZERO, false, false));
+
+    var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
+        new GrunnlagBeregning(nettoSaertilskuddBelop, inntektBP, inntektBM, inntektBB, sjablonListe);
+
+    ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
+
+    assertAll(
+        () -> assertThat(resultat).isNotNull(),
+        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(BigDecimal.valueOf(64.7)),
+        () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(BigDecimal.valueOf(647))
+    );
+  }
+
 }

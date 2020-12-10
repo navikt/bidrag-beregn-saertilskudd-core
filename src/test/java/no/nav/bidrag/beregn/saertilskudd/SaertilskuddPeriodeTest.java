@@ -34,13 +34,13 @@ public class SaertilskuddPeriodeTest {
 
     var bidragsevnePeriode = new BidragsevnePeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2019-07-01")),
-        BigDecimal.valueOf(11000), BigDecimal.valueOf(10000));
+        BigDecimal.valueOf(11000));
     var bidragsevnePeriodeListe = new ArrayList<BidragsevnePeriode>();
     bidragsevnePeriodeListe.add(bidragsevnePeriode);
 
     bidragsevnePeriode = new BidragsevnePeriode(
         new Periode(LocalDate.parse("2019-07-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(11069), BigDecimal.valueOf(10417));
+        BigDecimal.valueOf(11069));
     bidragsevnePeriodeListe.add(bidragsevnePeriode);
 
     var bPsAndelSaertilskuddPeriode = new BPsAndelSaertilskuddPeriode(
@@ -54,8 +54,8 @@ public class SaertilskuddPeriodeTest {
         BigDecimal.valueOf(2500), // lopendeBidragBelop
             BigDecimal.valueOf(2958), // opprinneligBPsAndelSaertilskuddBelop
             BigDecimal.valueOf(2500), // opprinneligBidragBelop
-            BigDecimal.valueOf(457),  // opprinneligSamvaersfradragBelop
-            ResultatKode.KOSTNADSBEREGNET_BIDRAG);
+            BigDecimal.valueOf(457)  // opprinneligSamvaersfradragBelop
+    );
     var lopendeBidragPeriodeListe = new ArrayList<LopendeBidragPeriode>();
     lopendeBidragPeriodeListe.add(lopendeBidragPeriode);
 

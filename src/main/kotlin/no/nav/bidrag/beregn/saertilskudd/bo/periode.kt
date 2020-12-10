@@ -2,17 +2,17 @@ package no.nav.bidrag.beregn.saertilskudd.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.PeriodisertGrunnlag
-import no.nav.bidrag.beregn.felles.enums.ResultatKode
 import java.math.BigDecimal
 
 data class BidragsevnePeriode(
-    val periodeDatoFraTil: Periode,
-    val bidragsevneBelop: BigDecimal,
-    val tjuefemProsentInntekt: BigDecimal) : PeriodisertGrunnlag {
+  val periodeDatoFraTil: Periode,
+  val bidragsevneBelop: BigDecimal
+) : PeriodisertGrunnlag {
   constructor(bidragsevnePeriode: BidragsevnePeriode)
-      : this(bidragsevnePeriode.periodeDatoFraTil.justerDatoer(),
-      bidragsevnePeriode.bidragsevneBelop,
-      bidragsevnePeriode.tjuefemProsentInntekt)
+      : this(
+    bidragsevnePeriode.periodeDatoFraTil.justerDatoer(),
+    bidragsevnePeriode.bidragsevneBelop
+  )
   override fun getDatoFraTil(): Periode {
     return periodeDatoFraTil
   }
@@ -41,8 +41,7 @@ data class LopendeBidragPeriode(
   val lopendeBidragBelop: BigDecimal,
   val opprinneligBPsAndelUnderholdskostnadBelop: BigDecimal,
   val opprinneligBidragBelop: BigDecimal,
-  val opprinneligSamvaersfradragBelop: BigDecimal,
-  val resultatkode: ResultatKode
+  val opprinneligSamvaersfradragBelop: BigDecimal
 ) : PeriodisertGrunnlag {
   constructor(lopendeBidragPeriode: LopendeBidragPeriode)
       : this(
@@ -51,8 +50,7 @@ data class LopendeBidragPeriode(
     lopendeBidragPeriode.lopendeBidragBelop,
     lopendeBidragPeriode.opprinneligBPsAndelUnderholdskostnadBelop,
     lopendeBidragPeriode.opprinneligBidragBelop,
-    lopendeBidragPeriode.opprinneligSamvaersfradragBelop,
-    lopendeBidragPeriode.resultatkode
+    lopendeBidragPeriode.opprinneligSamvaersfradragBelop
   )
   override fun getDatoFraTil(): Periode {
     return periodeDatoFraTil

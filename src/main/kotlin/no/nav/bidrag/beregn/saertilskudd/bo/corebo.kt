@@ -42,8 +42,7 @@ data class GrunnlagBeregning(
 )
 
 data class Bidragsevne(
-    val bidragsevneBelop: BigDecimal,
-    val tjuefemProsentInntekt: BigDecimal
+    val bidragsevneBelop: BigDecimal
 )
 
 data class BPsAndelSaertilskudd(
@@ -57,8 +56,7 @@ data class LopendeBidrag(
     val lopendeBidragBelop: BigDecimal,
     val opprinneligBPsAndelUnderholdskostnadBelop: BigDecimal,
     val opprinneligBidragBelop: BigDecimal,
-    val opprinneligSamvaersfradragBelop: BigDecimal,
-    val resultatkode: ResultatKode
+    val opprinneligSamvaersfradragBelop: BigDecimal
 )
 data class SamvaersfradragGrunnlag(
     val barnPersonId: Int,

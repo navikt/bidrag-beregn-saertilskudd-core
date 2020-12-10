@@ -81,8 +81,8 @@ public class SaertilskuddCoreImpl implements SaertilskuddCore {
       bidragsevnePeriodeListe.add(new BidragsevnePeriode(
           new Periode(bidragsevnePeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoFra(),
               bidragsevnePeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoTil()),
-          bidragsevnePeriodeCore.getBidragsevneBelop(),
-          bidragsevnePeriodeCore.getTjuefemProsentInntekt()));
+          bidragsevnePeriodeCore.getBidragsevneBelop()
+      ));
     }
     return bidragsevnePeriodeListe.stream()
         .sorted(Comparator.comparing(bidragsevnePeriode -> bidragsevnePeriode
@@ -97,8 +97,8 @@ public class SaertilskuddCoreImpl implements SaertilskuddCore {
       bPsAndelSaertilskuddPeriodeListe.add(new BPsAndelSaertilskuddPeriode(
           new Periode(bPsAndelSaertilskuddPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoFra(),
               bPsAndelSaertilskuddPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoTil()),
-          bPsAndelSaertilskuddPeriodeCore.getBPsAndelSaertilskuddBelop(),
           bPsAndelSaertilskuddPeriodeCore.getBPsAndelSaertilskuddProsent(),
+          bPsAndelSaertilskuddPeriodeCore.getBPsAndelSaertilskuddBelop(),
           bPsAndelSaertilskuddPeriodeCore.getBarnetErSelvforsorget()));
     }
     return bPsAndelSaertilskuddPeriodeListe.stream()
@@ -117,8 +117,8 @@ public class SaertilskuddCoreImpl implements SaertilskuddCore {
           lopendeBidragPeriodeCore.getLopendeBidragBelop(),
           lopendeBidragPeriodeCore.getOpprinneligBPsAndelUnderholdskostnadBelop(),
           lopendeBidragPeriodeCore.getOpprinneligBidragBelop(),
-          lopendeBidragPeriodeCore.getOpprinneligSamvaersfradragBelop(),
-          ResultatKode.valueOf(lopendeBidragPeriodeCore.getResultatkode())));
+          lopendeBidragPeriodeCore.getOpprinneligSamvaersfradragBelop()
+      ));
     }
     return lopendeBidragPeriodeListe.stream()
         .sorted(Comparator.comparing(lopendeBidragPeriode -> lopendeBidragPeriode
@@ -166,8 +166,8 @@ public class SaertilskuddCoreImpl implements SaertilskuddCore {
           mapResultatBeregning(resultatPeriode.getResultatBeregning()),
           new ResultatGrunnlagCore(
               new BidragsevneCore(
-                  saertilskuddResultatGrunnlag.getBidragsevne().getBidragsevneBelop(),
-                  saertilskuddResultatGrunnlag.getBidragsevne().getTjuefemProsentInntekt()),
+                  saertilskuddResultatGrunnlag.getBidragsevne().getBidragsevneBelop()
+              ),
               new BPsAndelSaertilskuddCore(
                   saertilskuddResultatGrunnlag.getBPsAndelSaertilskudd()
                       .getBPsAndelSaertilskuddProsent(),
@@ -193,8 +193,8 @@ public class SaertilskuddCoreImpl implements SaertilskuddCore {
               resultatGrunnlagLopendeBidrag.getLopendeBidragBelop(),
               resultatGrunnlagLopendeBidrag.getOpprinneligBPsAndelUnderholdskostnadBelop(),
               resultatGrunnlagLopendeBidrag.getOpprinneligBidragBelop(),
-              resultatGrunnlagLopendeBidrag.getOpprinneligSamvaersfradragBelop(),
-              resultatGrunnlagLopendeBidrag.getResultatkode().toString()));
+              resultatGrunnlagLopendeBidrag.getOpprinneligSamvaersfradragBelop()
+          ));
     }
     return resultatGrunnlagLopendeBidragListeCore;
   }

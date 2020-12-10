@@ -30,7 +30,7 @@ data class BeregnSamvaersfradragResultatCore(
 
 data class ResultatPeriodeCore(
     val resultatDatoFraTil: PeriodeCore,
-    val resultatBeregning: List<ResultatBeregningCore>,
+    val resultatBeregningListe: List<ResultatBeregningCore>,
     val resultatGrunnlag: GrunnlagBeregningPeriodisertCore
 )
 
@@ -41,7 +41,7 @@ data class ResultatBeregningCore(
 
 // Grunnlag beregning
 data class GrunnlagBeregningPeriodisertCore(
-    val samvaersfradragGrunnlagPerBarnListeCore: List<SamvaersfradragGrunnlagPerBarnCore>,
+    val samvaersfradragGrunnlagPerBarnListe: List<SamvaersfradragGrunnlagPerBarnCore>,
     val sjablonListe: List<SjablonNavnVerdiCore>
 )
 
