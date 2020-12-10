@@ -243,4 +243,32 @@ public class SaertilskuddBeregningTest {
     assertEquals(7152d, resultat.getResultatBelop().doubleValue());
     assertEquals(ResultatKode.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultat.getResultatkode());
   }
+
+  @DisplayName("Test fra John, løpende bidrag ble begrenset av evne og er senere indeksregulert"
+      + ", samværsfradrag har økt fra 600 til 700.-")
+  @Test
+  void testIndeksregulertBidragEndringBelopSamvaersfradrag() {
+    SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
+
+    var lopendeBidragListe = new ArrayList<LopendeBidrag>();
+    lopendeBidragListe.add(new LopendeBidrag(1,
+        BigDecimal.valueOf(1300), // lopendeBidragBelop
+        BigDecimal.valueOf(2600), // opprinneligBPsAndelUnderholdskostnadBelop
+        BigDecimal.valueOf(1200), // opprinneligBidragBelop
+        BigDecimal.valueOf(600),  // opprinneligSamvaersfradragBelop
+        ResultatKode.KOSTNADSBEREGNET_BIDRAG));
+
+    var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(1,
+        BigDecimal.valueOf(700)));
+
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BigDecimal.valueOf(2700), BigDecimal.valueOf(10000)),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(70), BigDecimal.valueOf(5000),
+            false), lopendeBidragListe, samvaersfradragListe);
+
+    ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
+    assertEquals(5000, resultat.getResultatBelop().doubleValue());
+    assertEquals(ResultatKode.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultat.getResultatkode());
+  }
 }
