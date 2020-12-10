@@ -83,92 +83,13 @@ public class BPsAndelSaertilskuddBeregningImpl implements BPsAndelSaertilskuddBe
         andelProsent = BigDecimal.valueOf(83.3333333333);
       }
 
+      andelBelop = grunnlagBeregning.getNettoSaertilskuddBelop().multiply(andelProsent)
+          .divide(BigDecimal.valueOf(100), 0, RoundingMode.HALF_UP);
+
     }
 
     return new ResultatBeregning(andelProsent, andelBelop, barnetErSelvforsorget, byggSjablonResultatListe(sjablonNavnVerdiMap));
   }
-
-  @Override
-  public ResultatBeregning beregnMedGamleRegler(
-      GrunnlagBeregning grunnlagBeregning) {
-
-    // Henter sjablonverdier
-    var sjablonNavnVerdiMap = hentSjablonVerdier(grunnlagBeregning.getSjablonListe());
-
-    var andelProsent = BigDecimal.ZERO;
-    var andelBelop = BigDecimal.ZERO;
-    var barnetErSelvforsorget = false;
-
-    // Legger sammen inntektene
-    var inntektBP = grunnlagBeregning.getInntektBPListe()
-        .stream()
-        .map(Inntekt::getInntektBelop)
-        .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-    // Legger sammen inntektene
-    var inntektBM = grunnlagBeregning.getInntektBMListe()
-        .stream()
-        .map(Inntekt::getInntektBelop)
-        .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-    // Legger sammen inntektene
-    var inntektBB = grunnlagBeregning.getInntektBBListe()
-        .stream()
-        .map(Inntekt::getInntektBelop)
-        .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-    // Test på om barnets inntekt er høyere enn 100 ganger sats for forhøyet forskudd. Hvis så så skal ikke BPs andel regnes ut.
-    if (inntektBB.compareTo(
-        sjablonNavnVerdiMap.get(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn()).multiply(BigDecimal.valueOf(100))) > 0) {
-      barnetErSelvforsorget = true;
-    } else {
-      andelProsent = inntektBP.divide(
-          inntektBP.add(inntektBM).add(inntektBB),
-      new MathContext(10, RoundingMode.HALF_UP))
-          .multiply(BigDecimal.valueOf(100));
-
-//      System.out.println("andelprosent: " + andelProsent);
-
-      var sjettedeler = new ArrayList<BigDecimal>();
-
-      sjettedeler.add(BigDecimal.valueOf(1).divide(BigDecimal.valueOf(6),
-          new MathContext(12, RoundingMode.HALF_UP))
-          .multiply(BigDecimal.valueOf(100)));
-      sjettedeler.add(BigDecimal.valueOf(2).divide(BigDecimal.valueOf(6),
-          new MathContext(12, RoundingMode.HALF_UP))
-          .multiply(BigDecimal.valueOf(100)));
-      sjettedeler.add(BigDecimal.valueOf(3).divide(BigDecimal.valueOf(6),
-          new MathContext(12, RoundingMode.HALF_UP))
-          .multiply(BigDecimal.valueOf(100)));
-      sjettedeler.add(BigDecimal.valueOf(4).divide(BigDecimal.valueOf(6),
-          new MathContext(12, RoundingMode.HALF_UP))
-          .multiply(BigDecimal.valueOf(100)));
-      sjettedeler.add(BigDecimal.valueOf(5).divide(BigDecimal.valueOf(6),
-          new MathContext(12, RoundingMode.HALF_UP))
-          .multiply(BigDecimal.valueOf(100)));
-
-/*      System.out.println("Sjettedel: " + sjettedeler.get(0));
-      System.out.println("Sjettedel: " + sjettedeler.get(1));
-      System.out.println("Sjettedel: " + sjettedeler.get(2));
-      System.out.println("Sjettedel: " + sjettedeler.get(3));
-      System.out.println("Sjettedel: " + sjettedeler.get(4));*/
-
-      BigDecimal finalAndel = andelProsent;
-      andelProsent = sjettedeler.stream()
-          .min(Comparator.comparing(a -> finalAndel.subtract(a).abs()))
-          .orElseThrow(() -> new IllegalArgumentException("Empty collection"));
-
-      // Utregnet andel skal ikke være større en 5/6
-      if (andelProsent.compareTo(BigDecimal.valueOf(83.3333333333)) >= 0) {
-        andelProsent = BigDecimal.valueOf(83.3333333333);
-      } else {
-        andelProsent = andelProsent.setScale(1, RoundingMode.HALF_UP);
-      }
-
-    }
-
-    return new ResultatBeregning(andelProsent, andelBelop, barnetErSelvforsorget, byggSjablonResultatListe(sjablonNavnVerdiMap));
-    }
 
   // Henter sjablonverdier
   private Map<String, BigDecimal> hentSjablonVerdier(List<Sjablon> sjablonListe) {

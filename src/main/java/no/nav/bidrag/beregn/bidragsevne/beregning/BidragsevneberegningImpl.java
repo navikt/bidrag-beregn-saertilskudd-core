@@ -161,7 +161,7 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
     }
 //    System.out.println("------------------------------------------------------");
 
-    return new ResultatBeregning(maanedligBidragsevne, tjuefemProsentInntekt, byggSjablonResultatListe(sjablonNavnVerdiMap));
+    return new ResultatBeregning(maanedligBidragsevne, byggSjablonResultatListe(sjablonNavnVerdiMap));
   }
 
   @Override

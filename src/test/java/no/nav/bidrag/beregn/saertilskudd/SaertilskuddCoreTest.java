@@ -110,7 +110,7 @@ public class SaertilskuddCoreTest {
 
     var bidragsevnePeriode = new BidragsevnePeriodeCore(
         new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(100000), BigDecimal.valueOf(20000));
+        BigDecimal.valueOf(100000));
     var bidragsevnePeriodeListe = new ArrayList<BidragsevnePeriodeCore>();
     bidragsevnePeriodeListe.add(bidragsevnePeriode);
 
@@ -123,7 +123,7 @@ public class SaertilskuddCoreTest {
     var lopendeBidragPeriode = new LopendeBidragPeriodeCore(
         new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), 1,
         BigDecimal.valueOf(1000), BigDecimal.valueOf(1000), BigDecimal.valueOf(1000),
-        BigDecimal.valueOf(1000), ResultatKode.BIDRAG_REDUSERT_AV_EVNE.toString());
+        BigDecimal.valueOf(1000));
     var lopendeBidragPeriodeListe = new ArrayList<LopendeBidragPeriodeCore>();
     lopendeBidragPeriodeListe.add(lopendeBidragPeriode);
 
@@ -150,8 +150,8 @@ public class SaertilskuddCoreTest {
 
     lopendeBidragListe.add(new LopendeBidrag(1,
             BigDecimal.valueOf(100),
-            BigDecimal.valueOf(1000), BigDecimal.valueOf(1000), BigDecimal.valueOf(1000),
-            ResultatKode.BIDRAG_REDUSERT_AV_EVNE));
+            BigDecimal.valueOf(1000), BigDecimal.valueOf(1000), BigDecimal.valueOf(1000)
+    ));
 
     var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
 
@@ -162,7 +162,7 @@ public class SaertilskuddCoreTest {
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")), 1,
         new ResultatBeregning(BigDecimal.valueOf(1000), ResultatKode.KOSTNADSBEREGNET_BIDRAG
         ),
-        new GrunnlagBeregning(new Bidragsevne(BigDecimal.valueOf(1000), BigDecimal.valueOf(12000)),
+        new GrunnlagBeregning(new Bidragsevne(BigDecimal.valueOf(1000)),
             new BPsAndelSaertilskudd(BigDecimal.valueOf(60), BigDecimal.valueOf(8000), false),
             lopendeBidragListe, samvaersfradragListe
         )));

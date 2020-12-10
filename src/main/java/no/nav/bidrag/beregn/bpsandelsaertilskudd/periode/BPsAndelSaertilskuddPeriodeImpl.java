@@ -42,6 +42,11 @@ public class BPsAndelSaertilskuddPeriodeImpl implements BPsAndelSaertilskuddPeri
 
     // Justerer datoer på grunnlagslistene (blir gjort implisitt i xxxPeriode::new)
 
+    var justertSjablonPeriodeListe = beregnBPsAndelSaertilskuddGrunnlag.getSjablonPeriodeListe()
+        .stream()
+        .map(SjablonPeriode::new)
+        .collect(toCollection(ArrayList::new));
+
     var justertNettoSaertilskuddPeriodeListe = beregnBPsAndelSaertilskuddGrunnlag.getNettoSaertilskuddPeriodeListe()
         .stream()
         .map(NettoSaertilskuddPeriode::new)
@@ -52,7 +57,8 @@ public class BPsAndelSaertilskuddPeriodeImpl implements BPsAndelSaertilskuddPeri
         .map(InntektPeriode::new)
         .collect(toCollection(ArrayList::new));
 
-    var justertInntektBMPeriodeListe = justerInntekter(beregnBPsAndelSaertilskuddGrunnlag.getInntektBMPeriodeListe())
+    var justertInntektBMPeriodeListe = behandlUtvidetBarnetrygd(justerInntekter(beregnBPsAndelSaertilskuddGrunnlag.getInntektBMPeriodeListe()),
+        justertSjablonPeriodeListe)
         .stream()
         .map(InntektPeriode::new)
         .collect(toCollection(ArrayList::new));
@@ -60,11 +66,6 @@ public class BPsAndelSaertilskuddPeriodeImpl implements BPsAndelSaertilskuddPeri
     var justertInntektBBPeriodeListe = justerInntekter(beregnBPsAndelSaertilskuddGrunnlag.getInntektBBPeriodeListe())
         .stream()
         .map(InntektPeriode::new)
-        .collect(toCollection(ArrayList::new));
-
-    var justertSjablonPeriodeListe = beregnBPsAndelSaertilskuddGrunnlag.getSjablonPeriodeListe()
-        .stream()
-        .map(SjablonPeriode::new)
         .collect(toCollection(ArrayList::new));
 
     // Regler for beregning av BPs andel ble endret fra 01.01.2009, alle perioder etter da skal beregnes på ny måte.
@@ -156,6 +157,24 @@ public class BPsAndelSaertilskuddPeriodeImpl implements BPsAndelSaertilskuddPeri
         .collect(toList());
   }
 
+  // Sjekker om det skal legges til inntekt for fordel særfradrag enslig forsørger og skatteklasse 2 (kun BM)
+  private List<InntektPeriode> behandlUtvidetBarnetrygd(List<InntektPeriode> inntektPeriodeListe, List<SjablonPeriode> sjablonPeriodeListe) {
+
+    if (inntektPeriodeListe.isEmpty()) {
+      return inntektPeriodeListe;
+    }
+
+    var justertInntektPeriodeListe = InntektUtil.behandlUtvidetBarnetrygd(inntektPeriodeListe.stream()
+        .map(inntektPeriode -> new InntektPeriodeGrunnlag(inntektPeriode.getPeriodeDatoFraTil(), inntektPeriode.getInntektType(),
+            inntektPeriode.getInntektBelop(), inntektPeriode.getDeltFordel(), inntektPeriode.getSkatteklasse2()))
+        .collect(toList()), sjablonPeriodeListe);
+
+    return justertInntektPeriodeListe.stream()
+        .map(inntektGrunnlag -> new InntektPeriode(inntektGrunnlag.getInntektDatoFraTil(), inntektGrunnlag.getInntektType(),
+            inntektGrunnlag.getInntektBelop(), inntektGrunnlag.getDeltFordel(), inntektGrunnlag.getSkatteklasse2()))
+        .sorted(comparing(inntektPeriode -> inntektPeriode.getPeriodeDatoFraTil().getDatoFra()))
+        .collect(toList());
+  }
 
   // Validerer at input-verdier til BPsAndelSaertilskuddsberegning er gyldige
   public List<Avvik> validerInput(BeregnBPsAndelSaertilskuddGrunnlag grunnlag) {

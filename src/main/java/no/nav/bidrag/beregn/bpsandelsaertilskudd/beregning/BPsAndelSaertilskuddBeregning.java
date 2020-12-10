@@ -8,9 +8,6 @@ public interface BPsAndelSaertilskuddBeregning {
   ResultatBeregning beregn(
       GrunnlagBeregning grunnlagBeregning);
 
-  ResultatBeregning beregnMedGamleRegler(
-      GrunnlagBeregning grunnlagBeregning);
-
   static BPsAndelSaertilskuddBeregning getInstance(){
     return new BPsAndelSaertilskuddBeregningImpl();
   }

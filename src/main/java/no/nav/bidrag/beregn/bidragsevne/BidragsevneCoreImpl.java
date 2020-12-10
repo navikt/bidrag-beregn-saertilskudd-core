@@ -172,7 +172,7 @@ public class BidragsevneCoreImpl implements BidragsevneCore {
       var bidragsevneResultatGrunnlag = periodeResultat.getResultatGrunnlagBeregning();
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
           new PeriodeCore(periodeResultat.getResultatDatoFraTil().getDatoFra(), periodeResultat.getResultatDatoFraTil().getDatoTil()),
-          new ResultatBeregningCore(bidragsevneResultat.getResultatEvneBelop(), bidragsevneResultat.getResultat25ProsentInntekt()),
+          new ResultatBeregningCore(bidragsevneResultat.getResultatEvneBelop()),
           new ResultatGrunnlagCore(mapResultatGrunnlagInntekt(bidragsevneResultatGrunnlag.getInntektListe()),
               bidragsevneResultatGrunnlag.getSkatteklasse(),
               bidragsevneResultatGrunnlag.getBostatusKode().toString(),

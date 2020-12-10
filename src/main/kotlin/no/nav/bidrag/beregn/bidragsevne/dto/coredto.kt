@@ -59,8 +59,7 @@ data class ResultatPeriodeCore(
 )
 
 data class ResultatBeregningCore(
-    val resultatEvneBelop: BigDecimal,
-    val resultat25ProsentInntekt: BigDecimal
+    val resultatEvneBelop: BigDecimal
 )
 
 // Grunnlag beregning
