@@ -7,6 +7,7 @@ Repo for beregning av særtilskudd-core. Disse erstatter beregninger i BBM.
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.5.1   | Endret       | Fjernet sjekk på opphold og overlapp på perioder i LopendeBidrag og Samvaersfradrag i input til beregn særtilskudd
 0.5.0   | Endret       | Rettet feil funnet i test via rest, fjernet 25% av inntekt i resultat av bidragsevne siden det ikke brukes i særtilskudd, resultatkode i løpende bidrag også fjernet
 0.4.0   | Endret       | Rettet feil logikk for å beregne samværsfradrag for alle BPs barn
 0.3.0   | Endret       | Beregningsregler og tester lagt inn, sjabloner fjernet fra input til beregning av særtilskudd siden det ikke var i bruk

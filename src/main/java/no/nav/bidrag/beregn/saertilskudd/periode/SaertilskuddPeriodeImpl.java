@@ -138,7 +138,7 @@ public class SaertilskuddPeriodeImpl implements SaertilskuddPeriode {
     }
     avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
         "lopendeBidragPeriodeListe",
-        lopendeBidragPeriodeListe, true, true, true, true));
+        lopendeBidragPeriodeListe, false, false, true, true));
 
     // Sjekk perioder for samværsfradrag
     var samvaersfradragPeriodeListe = new ArrayList<Periode>();
@@ -147,7 +147,7 @@ public class SaertilskuddPeriodeImpl implements SaertilskuddPeriode {
     }
     avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
         "samvaersfradragPeriodeListe",
-        samvaersfradragPeriodeListe, true, true, true, true));
+        samvaersfradragPeriodeListe, false, false, true, true));
 
     return avvikListe;
   }
