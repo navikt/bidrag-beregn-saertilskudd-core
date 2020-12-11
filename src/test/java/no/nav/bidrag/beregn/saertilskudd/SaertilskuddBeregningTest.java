@@ -174,7 +174,7 @@ public class SaertilskuddBeregningTest {
     assertEquals(ResultatKode.SAERTILSKUDD_INNVILGET, resultat.getResultatkode());
   }
 
-  @DisplayName("Test at særtilskudd beregnes med data fra 2 barn, dette er eksempel 3a fra John")
+  @DisplayName("Test at særtilskudd beregnes med data fra 2 barn, dette er eksempel 3 fra John")
   @Test
   void testOkBeregningMedDataFraT0BarnLavereEvne() {
     SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
@@ -209,7 +209,7 @@ public class SaertilskuddBeregningTest {
     assertEquals(ResultatKode.SAERTILSKUDD_INNVILGET, resultat.getResultatkode());
   }
 
-  @DisplayName("Test at resultatkode settes til manglende evne, data fra 2 barn, dette er eksempel 3b fra John")
+  @DisplayName("Test at resultatkode settes til manglende evne, data fra 2 barn, dette er eksempel 4 fra John")
   @Test
   void testManglendeEvneBeregningMedDataFraT0Barn() {
     SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
@@ -272,9 +272,9 @@ public class SaertilskuddBeregningTest {
     assertEquals(ResultatKode.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultat.getResultatkode());
   }
 
-  @DisplayName("Test 4 fra John, BP har to barn")
+  @DisplayName("Test 5 fra John, BP har to barn")
   @Test
-  void testIndeksregulertBidragHoyereSamværsfradragMagnlendeEvneEksempel4FraJohn() {
+  void testIndeksregulertBidragHoyereSamværsfradragManglendeEvneEksempel5FraJohn() {
     SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
@@ -308,9 +308,9 @@ public class SaertilskuddBeregningTest {
     assertEquals(ResultatKode.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultat.getResultatkode());
   }
 
-  @DisplayName("Test 5 fra John, BP har to barn")
+  @DisplayName("Test 6 fra John, BP har to barn")
   @Test
-  void testIndeksregulertBidragHoyereSamværsfradragFullEvneEksempel5FraJohn() {
+  void testIndeksregulertBidragHoyereSamværsfradragFullEvneEksempel6FraJohn() {
     SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
@@ -344,43 +344,6 @@ public class SaertilskuddBeregningTest {
     assertEquals(ResultatKode.SAERTILSKUDD_INNVILGET, resultat.getResultatkode());
   }
 
-  @DisplayName("Test 6 fra John, BP har to barn")
-  @Test
-  void testIndeksregulertBidragHoyereSamværsfradragManglendeEvneEksempel6FraJohn() {
-    SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
-
-    var lopendeBidragListe = new ArrayList<LopendeBidrag>();
-    lopendeBidragListe.add(new LopendeBidrag(1,
-        BigDecimal.valueOf(1800), // lopendeBidragBelop
-        BigDecimal.valueOf(4000), // opprinneligBPsAndelUnderholdskostnadBelop
-        BigDecimal.valueOf(1700), // opprinneligBidragBelop
-        BigDecimal.valueOf(1323) // opprinneligSamvaersfradragBelop
-    ));
-
-    lopendeBidragListe.add(new LopendeBidrag(2,
-        BigDecimal.valueOf(1800), // lopendeBidragBelop
-        BigDecimal.valueOf(4000), // opprinneligBPsAndelUnderholdskostnadBelop
-        BigDecimal.valueOf(1700), // opprinneligBidragBelop
-        BigDecimal.valueOf(1323) // opprinneligSamvaersfradragBelop
-    ));
-
-    var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
-    samvaersfradragListe.add(new SamvaersfradragGrunnlag(1,
-        BigDecimal.valueOf(1513)));
-    samvaersfradragListe.add(new SamvaersfradragGrunnlag(2,
-        BigDecimal.valueOf(1513)));
-
-    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
-        new Bidragsevne(BigDecimal.valueOf(6135)),
-        new BPsAndelSaertilskudd(BigDecimal.valueOf(55.1), BigDecimal.valueOf(7152),
-            false), lopendeBidragListe, samvaersfradragListe);
-
-    ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
-    assertEquals(7152, resultat.getResultatBelop().doubleValue());
-    assertEquals(ResultatKode.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultat.getResultatkode());
-  }
-
-
   @DisplayName("Test 7 fra John, BP har to barn")
   @Test
   void testIndeksregulertBidragHoyereSamværsfradragManglendeEvneEksempel7FraJohn() {
@@ -388,6 +351,42 @@ public class SaertilskuddBeregningTest {
 
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
     lopendeBidragListe.add(new LopendeBidrag(1,
+        BigDecimal.valueOf(1800), // lopendeBidragBelop
+        BigDecimal.valueOf(4000), // opprinneligBPsAndelUnderholdskostnadBelop
+        BigDecimal.valueOf(1700), // opprinneligBidragBelop
+        BigDecimal.valueOf(1323) // opprinneligSamvaersfradragBelop
+    ));
+
+    lopendeBidragListe.add(new LopendeBidrag(2,
+        BigDecimal.valueOf(1800), // lopendeBidragBelop
+        BigDecimal.valueOf(4000), // opprinneligBPsAndelUnderholdskostnadBelop
+        BigDecimal.valueOf(1700), // opprinneligBidragBelop
+        BigDecimal.valueOf(1323) // opprinneligSamvaersfradragBelop
+    ));
+
+    var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(1,
+        BigDecimal.valueOf(1513)));
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(2,
+        BigDecimal.valueOf(1513)));
+
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BigDecimal.valueOf(6135)),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(55.1), BigDecimal.valueOf(7152),
+            false), lopendeBidragListe, samvaersfradragListe);
+
+    ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
+    assertEquals(7152, resultat.getResultatBelop().doubleValue());
+    assertEquals(ResultatKode.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultat.getResultatkode());
+  }
+
+  @DisplayName("Test 8 fra John, BP har to barn")
+  @Test
+  void testIndeksregulertBidragHoyereSamværsfradragManglendeEvneEksempel8FraJohn() {
+    SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
+
+    var lopendeBidragListe = new ArrayList<LopendeBidrag>();
+    lopendeBidragListe.add(new LopendeBidrag(1,
         BigDecimal.valueOf(2900), // lopendeBidragBelop
         BigDecimal.valueOf(4000), // opprinneligBPsAndelUnderholdskostnadBelop
         BigDecimal.valueOf(2800), // opprinneligBidragBelop
@@ -416,4 +415,5 @@ public class SaertilskuddBeregningTest {
     assertEquals(7152, resultat.getResultatBelop().doubleValue());
     assertEquals(ResultatKode.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultat.getResultatkode());
   }
+
 }
