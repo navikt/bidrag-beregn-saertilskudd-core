@@ -110,7 +110,7 @@ public class SamvaersfradragPeriodeImpl implements SamvaersfradragPeriode {
       samvaersklassePeriodeListe.add(samvaersfradragGrunnlagPeriode.getDatoFraTil());
     }
     avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),"samvaersklassePeriodeListe",
-        samvaersklassePeriodeListe, true, true, true, true));
+        samvaersklassePeriodeListe, false, false, true, true));
 
     return avvikListe;
   }
