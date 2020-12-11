@@ -3,7 +3,7 @@
 
   <groupId>no.nav.bidrag</groupId>
   <artifactId>bidrag-beregn-saertilskudd-core</artifactId>
-  <version>0.5.1-SNAPSHOT</version>
+  <version>0.5.1</version>
   <packaging>jar</packaging>
   <name>bidrag-beregn-saertilskudd-core</name>
   <description>Repo for beregning av saertilskudd</description>
