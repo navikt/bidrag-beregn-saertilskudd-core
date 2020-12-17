@@ -4,7 +4,7 @@
 Repo for beregning av særtilskudd-core. Disse erstatter beregninger i BBM.
 Disse beregningene gjøres:
 
-####BeregnBidragsevne - Returnerer periodisert liste med BPs bidragsevne
+###BeregnBidragsevne - Returnerer periodisert liste med BPs bidragsevne
 |Felt | Kilde | Beskrivelse   
 | ------------| ----- | ------------- |
 beregnDatoFra                     | Bisys          | Dato satt i Bisys, dato fra og til skal være én måned og danner utgangspunktet for resultatperioden
@@ -16,9 +16,8 @@ antallBarnIEgetHusholdPeriodeListe| Bisys          | Liste med antall barn i BPs
 saerfradragPeriodeListe           | Bisys          | Liste over særfradrag, periodisert
 sjablonPeriodeListe               | bidrag-sjablon | Sjabloner for beregningsperioden
 
-<br>
 
-####BeregnBPsAndelSaertilskudd - Returnerer periodisert liste med BPs andel av særtilskudd
+###BeregnBPsAndelSaertilskudd - Returnerer periodisert liste med BPs andel av særtilskudd
 |Felt | Kilde | Beskrivelse
 | ------------| ----- | ------------- |
 beregnDatoFra                     | Bisys          | Dato satt i Bisys, dato fra og til skal være én måned og danner utgangspunktet for resultatperioden
@@ -29,9 +28,8 @@ inntektBMPeriodeListe             | Bisys          | Liste med inntekter for BM,
 inntektBBPeriodeListe             | Bisys          | Liste med inntekter for BB (bidragsbarn), periodisert
 sjablonPeriodeListe               | bidrag-sjablon | Sjabloner for beregningsperioden
 
-<br>
 
-####BeregnSamvaersfradrag - Returnerer periodisert liste med oppdaterte samværsfradragbeløp for alle BPs barn med bidrag
+###BeregnSamvaersfradrag - Returnerer periodisert liste med oppdaterte samværsfradragbeløp for alle BPs barn med bidrag
 |Felt | Kilde | Beskrivelse
 | ------------| ----- | ------------- |
 beregnDatoFra                     | Bisys          | Dato satt i Bisys, dato fra og til skal være én måned og danner utgangspunktet for resultatperioden
@@ -39,9 +37,8 @@ beregnDatoTil                     | Bisys          | Dato satt i Bisys, dato fra
 samvaersklassePeriodeListe        | Bisys          | Liste med personId, fødselsdato og samværsklasser for alle BPs barn
 sjablonPeriodeListe               | bidrag-sjablon | Sjabloner for beregningsperioden
 
-<br>
 
-####BeregnSaertilskudd - Sluttberegning som returnerer BPs andel av særtilskudd og resultatkode som sier om søknaden er innvilget
+###BeregnSaertilskudd - Sluttberegning som returnerer BPs andel av særtilskudd og resultatkode som sier om søknaden er innvilget
 |Felt | Kilde | Beskrivelse
 | ------------| ----- | ------------- |
 beregnDatoFra                     | Bisys             | Dato satt i Bisys, dato fra og til skal være én måned og danner utgangspunktet for resultatperioden
