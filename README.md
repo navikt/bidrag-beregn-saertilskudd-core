@@ -4,7 +4,8 @@
 Repo for beregning av særtilskudd-core. Disse erstatter beregninger i BBM.
 Disse beregningene gjøres:
 
-###BeregnBidragsevne - Returnerer periodisert liste med BPs bidragsevne
+<b>BeregnBidragsevne - Returnerer periodisert liste med BPs bidragsevne</b>
+
 |Felt | Kilde | Beskrivelse   
 | ------------| ----- | ------------- |
 beregnDatoFra                     | Bisys          | Dato satt i Bisys, dato fra og til skal være én måned og danner utgangspunktet for resultatperioden
@@ -17,7 +18,8 @@ saerfradragPeriodeListe           | Bisys          | Liste over særfradrag, per
 sjablonPeriodeListe               | bidrag-sjablon | Sjabloner for beregningsperioden
 
 
-###BeregnBPsAndelSaertilskudd - Returnerer periodisert liste med BPs andel av særtilskudd
+<b>BeregnBPsAndelSaertilskudd - Returnerer periodisert liste med BPs andel av særtilskudd</b>
+
 |Felt | Kilde | Beskrivelse
 | ------------| ----- | ------------- |
 beregnDatoFra                     | Bisys          | Dato satt i Bisys, dato fra og til skal være én måned og danner utgangspunktet for resultatperioden
@@ -29,7 +31,8 @@ inntektBBPeriodeListe             | Bisys          | Liste med inntekter for BB 
 sjablonPeriodeListe               | bidrag-sjablon | Sjabloner for beregningsperioden
 
 
-###BeregnSamvaersfradrag - Returnerer periodisert liste med oppdaterte samværsfradragbeløp for alle BPs barn med bidrag
+<b>BeregnSamvaersfradrag - Returnerer periodisert liste med oppdaterte samværsfradragbeløp for alle BPs barn med bidrag</b>
+
 |Felt | Kilde | Beskrivelse
 | ------------| ----- | ------------- |
 beregnDatoFra                     | Bisys          | Dato satt i Bisys, dato fra og til skal være én måned og danner utgangspunktet for resultatperioden
@@ -38,7 +41,8 @@ samvaersklassePeriodeListe        | Bisys          | Liste med personId, fødsel
 sjablonPeriodeListe               | bidrag-sjablon | Sjabloner for beregningsperioden
 
 
-###BeregnSaertilskudd - Sluttberegning som returnerer BPs andel av særtilskudd og resultatkode som sier om søknaden er innvilget
+<b>BeregnSaertilskudd - Sluttberegning som returnerer BPs andel av særtilskudd og resultatkode som sier om søknaden er innvilget</b>
+
 |Felt | Kilde | Beskrivelse
 | ------------| ----- | ------------- |
 beregnDatoFra                     | Bisys             | Dato satt i Bisys, dato fra og til skal være én måned og danner utgangspunktet for resultatperioden
