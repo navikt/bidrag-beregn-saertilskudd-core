@@ -24,20 +24,20 @@ sjablonPeriodeListe               | bidrag-sjablon | Sjabloner for beregningsper
 | ------------| ----- | ------------- |
 beregnDatoFra                     | Bisys          | Dato satt i Bisys, dato fra og til skal være én måned og danner utgangspunktet for resultatperioden
 beregnDatoTil                     | Bisys          | Dato satt i Bisys, dato fra og til skal være én måned og danner utgangspunktet for resultatperioden
-nettoSaertilskuddPeriodeListe     | Bisys          | Liste med netto særtilskudd, periodisert. Vil i praksis bestå av ett nettobeløp for særtilskudd
+nettoSaertilskuddPeriodeListe     | Bisys          | Liste med netto særtilskudd, periodisert. Vil i praksis bestå av én periode med ett nettobeløp for særtilskudd
 inntektBPPeriodeListe             | Bisys          | Liste med inntekter for BP, periodisert
 inntektBMPeriodeListe             | Bisys          | Liste med inntekter for BM, periodisert
 inntektBBPeriodeListe             | Bisys          | Liste med inntekter for BB (bidragsbarn), periodisert
 sjablonPeriodeListe               | bidrag-sjablon | Sjabloner for beregningsperioden
 
 <br>
-<b>BeregnSamvaersfradrag - Returnerer periodisert liste med oppdaterte samværsfradragbeløp for alle BPs barn med bidrag</b>
+<b>BeregnSamvaersfradrag - Returnerer periodisert liste med oppdaterte samværsfradragbeløp for alle BPs barn med løpende bidrag</b>
 
 |Felt | Kilde | Beskrivelse
 | ------------| ----- | ------------- |
 beregnDatoFra                     | Bisys          | Dato satt i Bisys, dato fra og til skal være én måned og danner utgangspunktet for resultatperioden
 beregnDatoTil                     | Bisys          | Dato satt i Bisys, dato fra og til skal være én måned og danner utgangspunktet for resultatperioden
-samvaersklassePeriodeListe        | Bisys          | Liste med personId, fødselsdato og samværsklasser for alle BPs barn
+samvaersklassePeriodeListe        | Bisys          | Liste med personId, fødselsdato og samværsklasser for alle BPs barn, periodisert
 sjablonPeriodeListe               | bidrag-sjablon | Sjabloner for beregningsperioden
 
 <br>
