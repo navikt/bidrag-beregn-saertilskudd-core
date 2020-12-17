@@ -15,8 +15,6 @@ bostatusPeriodeListe              | Bisys          | Liste med BPs bostatus, per
 antallBarnIEgetHusholdPeriodeListe| Bisys          | Liste med antall barn i BPs husholdning, periodisert
 saerfradragPeriodeListe           | Bisys          | Liste over særfradrag, periodisert
 sjablonPeriodeListe               | bidrag-sjablon | Sjabloner for beregningsperioden
-
-
 ###BeregnBPsAndelSaertilskudd - Returnerer periodisert liste med BPs andel av særtilskudd
 |Felt | Kilde | Beskrivelse
 | ------------| ----- | ------------- |
@@ -27,8 +25,6 @@ inntektBPPeriodeListe             | Bisys          | Liste med inntekter for BP,
 inntektBMPeriodeListe             | Bisys          | Liste med inntekter for BM, periodisert
 inntektBBPeriodeListe             | Bisys          | Liste med inntekter for BB (bidragsbarn), periodisert
 sjablonPeriodeListe               | bidrag-sjablon | Sjabloner for beregningsperioden
-
-
 ###BeregnSamvaersfradrag - Returnerer periodisert liste med oppdaterte samværsfradragbeløp for alle BPs barn med bidrag
 |Felt | Kilde | Beskrivelse
 | ------------| ----- | ------------- |
@@ -36,8 +32,6 @@ beregnDatoFra                     | Bisys          | Dato satt i Bisys, dato fra
 beregnDatoTil                     | Bisys          | Dato satt i Bisys, dato fra og til skal være én måned og danner utgangspunktet for resultatperioden
 samvaersklassePeriodeListe        | Bisys          | Liste med personId, fødselsdato og samværsklasser for alle BPs barn
 sjablonPeriodeListe               | bidrag-sjablon | Sjabloner for beregningsperioden
-
-
 ###BeregnSaertilskudd - Sluttberegning som returnerer BPs andel av særtilskudd og resultatkode som sier om søknaden er innvilget
 |Felt | Kilde | Beskrivelse
 | ------------| ----- | ------------- |
