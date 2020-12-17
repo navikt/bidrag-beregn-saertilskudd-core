@@ -31,7 +31,6 @@ inntektBBPeriodeListe             | Bisys          | Liste med inntekter for BB 
 sjablonPeriodeListe               | bidrag-sjablon | Sjabloner for beregningsperioden
 
 <br>
-
 <b>BeregnSamvaersfradrag - Returnerer periodisert liste med oppdaterte samværsfradragbeløp for alle BPs barn med bidrag</b>
 
 |Felt | Kilde | Beskrivelse
@@ -42,7 +41,6 @@ samvaersklassePeriodeListe        | Bisys          | Liste med personId, fødsel
 sjablonPeriodeListe               | bidrag-sjablon | Sjabloner for beregningsperioden
 
 <br>
-
 <b>BeregnSaertilskudd - Sluttberegning som returnerer BPs andel av særtilskudd og resultatkode som sier om søknaden er innvilget</b>
 
 |Felt | Kilde | Beskrivelse
