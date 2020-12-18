@@ -186,11 +186,11 @@ class BidragsevneberegningTest {
     BidragsevneberegningImpl bidragsevneberegning = new BidragsevneberegningImpl();
 
     // Tester beregning med ulike inntekter
-    inntekter.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(300000)));
+    inntekter.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(480000)));
     GrunnlagBeregning grunnlagBeregning
         = new GrunnlagBeregning(inntekter, 1, BostatusKode.ALENE, BigDecimal.valueOf(0),
-        SaerfradragKode.HELT, sjablonListe);
-    assertEquals(BigDecimal.valueOf(1217),
+        SaerfradragKode.INGEN, sjablonListe);
+    assertEquals(BigDecimal.valueOf(9976),
         bidragsevneberegning.beregn(grunnlagBeregning).getResultatEvneBelop());
 
   }

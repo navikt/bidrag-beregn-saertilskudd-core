@@ -2,11 +2,76 @@
 ![](https://github.com/navikt/bidrag-beregn-saertilskudd-core/workflows/maven%20deploy/badge.svg)
 
 Repo for beregning av særtilskudd-core. Disse erstatter beregninger i BBM.
+Disse beregningene gjøres:
+
+<b>BeregnBidragsevne - Returnerer periodisert liste med BPs bidragsevne</b>
+
+|Felt | Kilde | Beskrivelse   
+| ------------| ----- | ------------- |
+beregnDatoFra                     | Bisys          | Dato satt i Bisys, dato fra og til skal være én måned og danner utgangspunktet for resultatperioden
+beregnDatoTil                     | Bisys          | Dato satt i Bisys, dato fra og til skal være én måned og danner utgangspunktet for resultatperioden
+inntektPeriodeListe               | Bisys          | Liste med BPs inntekter, periodisert
+skatteklassePeriodeListe          | Bisys          | Liste med skatteklasse for BP, periodisert
+bostatusPeriodeListe              | Bisys          | Liste med BPs bostatus, periodisert
+antallBarnIEgetHusholdPeriodeListe| Bisys          | Liste med antall barn i BPs husholdning, periodisert
+saerfradragPeriodeListe           | Bisys          | Liste over særfradrag, periodisert
+sjablonPeriodeListe               | bidrag-sjablon | Sjabloner for beregningsperioden
+
+<br>
+<b>BeregnBPsAndelSaertilskudd - Returnerer periodisert liste med BPs andel av særtilskudd</b>
+
+|Felt | Kilde | Beskrivelse
+| ------------| ----- | ------------- |
+beregnDatoFra                     | Bisys          | Dato satt i Bisys, dato fra og til skal være én måned og danner utgangspunktet for resultatperioden
+beregnDatoTil                     | Bisys          | Dato satt i Bisys, dato fra og til skal være én måned og danner utgangspunktet for resultatperioden
+nettoSaertilskuddPeriodeListe     | Bisys          | Liste med netto særtilskudd, periodisert. Vil i praksis bestå av én periode med ett nettobeløp for særtilskudd
+inntektBPPeriodeListe             | Bisys          | Liste med inntekter for BP, periodisert
+inntektBMPeriodeListe             | Bisys          | Liste med inntekter for BM, periodisert
+inntektBBPeriodeListe             | Bisys          | Liste med inntekter for BB (bidragsbarn), periodisert
+sjablonPeriodeListe               | bidrag-sjablon | Sjabloner for beregningsperioden
+
+<br>
+<b>BeregnSamvaersfradrag - Returnerer periodisert liste med oppdaterte samværsfradragbeløp for alle BPs barn med løpende bidrag</b>
+
+|Felt | Kilde | Beskrivelse
+| ------------| ----- | ------------- |
+beregnDatoFra                     | Bisys          | Dato satt i Bisys, dato fra og til skal være én måned og danner utgangspunktet for resultatperioden
+beregnDatoTil                     | Bisys          | Dato satt i Bisys, dato fra og til skal være én måned og danner utgangspunktet for resultatperioden
+samvaersklassePeriodeListe        | Bisys          | Liste med personId, fødselsdato og samværsklasser for alle BPs barn, periodisert
+sjablonPeriodeListe               | bidrag-sjablon | Sjabloner for beregningsperioden
+
+<br>
+<b>BeregnSaertilskudd - Sluttberegning som returnerer BPs andel av særtilskudd og resultatkode som sier om søknaden er innvilget</b>
+
+|Felt | Kilde | Beskrivelse
+| ------------| ----- | ------------- |
+beregnDatoFra                     | Bisys             | Dato satt i Bisys, dato fra og til skal være én måned og danner utgangspunktet for resultatperioden
+beregnDatoTil                     | Bisys             | Dato satt i Bisys, dato fra og til skal være én måned og danner utgangspunktet for resultatperioden
+soknadsbarnPersonId               | Bisys             | PersonId for søknadsbarnet
+bidragsevnePeriodeListe           | BeregnBidragsevne | Liste med BPs bidragsevne, periodisert
+bPsAndelSaertilskuddPeriodeListe  | BeregnBPsAndelSaertilskudd | Liste med BPs andel av netto særtilskudd, periodisert
+lopendeBidragPeriodeListe*        | Bisys             | Liste med info om alle BPs løpende bidrag. Skal inneholde løpende satser og info fra siste vedtak, se detaljert beskrivelse under
+samvaersklassePeriodeListe        | BeregnSamvaersfradrag      | Liste med personId, fødselsdato og samværsklasser for alle BPs barn
+
+<br>
+<b>lopendeBidragPeriode - detaljert beskrivelse</b>
+
+|Felt | Kilde |
+| ------------| ------------- |
+periodeDatoFraTil                | 
+barnPersonId                     | PersonId for søknadsbarnet
+lopendeBidragBelop               | Beløp for barnets løpende bidrag, kan være indeksregulert og derfor høyere enn beløp fra siste vedtak
+opprinneligBPsAndelUnderholdskostnadBelop | Beløp -> BPs andel av underholdskostnad fra siste vedtak i barnets løpende bidrag
+opprinneligBidragBelop           | Bidragsbeløp fra siste vedtak i barnets løpende bidrag
+opprinneligSamvaersfradragBelop  | Samværsfradragsbeløp fra siste vedtak i barnets løpende bidrag 
+
+
 
 ## Changelog:
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.5.3   | Endret       | Oppdatert readme med beskrivelse av beregning og felter
 0.5.2   | Endret       | Fjernet sjekk på opphold og overlapp på perioder i LopendeBidrag og Samvaersfradrag i input til beregn samvaersfradrag
 0.5.1   | Endret       | Fjernet sjekk på opphold og overlapp på perioder i LopendeBidrag og Samvaersfradrag i input til beregn særtilskudd
 0.5.0   | Endret       | Rettet feil funnet i test via rest, fjernet 25% av inntekt i resultat av bidragsevne siden det ikke brukes i særtilskudd, resultatkode i løpende bidrag også fjernet
