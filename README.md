@@ -50,8 +50,20 @@ beregnDatoTil                     | Bisys             | Dato satt i Bisys, dato 
 soknadsbarnPersonId               | Bisys             | PersonId for søknadsbarnet
 bidragsevnePeriodeListe           | BeregnBidragsevne | Liste med BPs bidragsevne, periodisert
 bPsAndelSaertilskuddPeriodeListe  | BeregnBPsAndelSaertilskudd | Liste med BPs andel av netto særtilskudd, periodisert
-lopendeBidragPeriodeListe         | Bisys             | Liste med info om alle BPs løpende bidrag. Skal inneholde løpende satser og info fra siste vedtak
+lopendeBidragPeriodeListe*        | Bisys             | Liste med info om alle BPs løpende bidrag. Skal inneholde løpende satser og info fra siste vedtak, se detaljert beskrivelse under
 samvaersklassePeriodeListe        | BeregnSamvaersfradrag      | Liste med personId, fødselsdato og samværsklasser for alle BPs barn
+
+<br>
+<b>lopendeBidragPeriode - detaljert beskrivelse</b>
+
+|Felt | Kilde |
+| ------------| ------------- |
+periodeDatoFraTil                | 
+barnPersonId                     | PersonId for søknadsbarnet
+lopendeBidragBelop               | Beløp for barnets løpende bidrag, kan være indeksregulert og derfor høyere enn beløp fra siste vedtak
+opprinneligBPsAndelUnderholdskostnadBelop | Beløp -> BPs andel av underholdskostnad fra siste vedtak i barnets løpende bidrag
+opprinneligBidragBelop           | Bidragsbeløp fra siste vedtak i barnets løpende bidrag
+opprinneligSamvaersfradragBelop  | Samværsfradragsbeløp fra siste vedtak i barnets løpende bidrag 
 
 
 
