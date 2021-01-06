@@ -166,11 +166,11 @@ public class SaertilskuddBeregningTest {
 
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
         new Bidragsevne(BigDecimal.valueOf(6696)),
-        new BPsAndelSaertilskudd(BigDecimal.valueOf(49.7), BigDecimal.valueOf(2958),
+        new BPsAndelSaertilskudd(BigDecimal.valueOf(49.7), BigDecimal.valueOf(2982),
             false), lopendeBidragListe, samvaersfradragListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
-    assertEquals(2958d, resultat.getResultatBelop().doubleValue());
+    assertEquals(2982d, resultat.getResultatBelop().doubleValue());
     assertEquals(ResultatKode.SAERTILSKUDD_INNVILGET, resultat.getResultatkode());
   }
 
