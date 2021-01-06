@@ -71,6 +71,7 @@ opprinneligSamvaersfradragBelop  | Samværsfradragsbeløp fra siste vedtak i bar
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.5.4   | Endret       | Rettet noen feil i tester
 0.5.3   | Endret       | Oppdatert readme med beskrivelse av beregning og felter
 0.5.2   | Endret       | Fjernet sjekk på opphold og overlapp på perioder i LopendeBidrag og Samvaersfradrag i input til beregn samvaersfradrag
 0.5.1   | Endret       | Fjernet sjekk på opphold og overlapp på perioder i LopendeBidrag og Samvaersfradrag i input til beregn særtilskudd
