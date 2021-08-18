@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import no.nav.bidrag.beregn.TestUtil;
 import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneResultat;
 import no.nav.bidrag.beregn.bidragsevne.bo.GrunnlagBeregning;
 import no.nav.bidrag.beregn.bidragsevne.bo.Inntekt;
@@ -137,28 +138,28 @@ public class BidragsevnePeriodeCoreTest {
 
   private void byggBidragsevnePeriodeGrunnlagCore() {
 
-    var inntektPeriode = new InntektPeriodeCore(
+    var inntektPeriode = new InntektPeriodeCore(TestUtil.INNTEKT_REFERANSE,
         new PeriodeCore(LocalDate.parse("2017-01-01"), null), InntektType.LONN_SKE.toString(),
         BigDecimal.valueOf(666000));
     var inntektPeriodeListe = new ArrayList<InntektPeriodeCore>();
     inntektPeriodeListe.add(inntektPeriode);
 
-    var skatteklassePeriode = new SkatteklassePeriodeCore(
+    var skatteklassePeriode = new SkatteklassePeriodeCore(TestUtil.SKATTEKLASSE_REFERANSE,
         new PeriodeCore(LocalDate.parse("2017-01-01"), null), 1);
     var skatteklassePeriodeListe = new ArrayList<SkatteklassePeriodeCore>();
     skatteklassePeriodeListe.add(skatteklassePeriode);
 
-    var bostatusPeriode = new BostatusPeriodeCore(new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
+    var bostatusPeriode = new BostatusPeriodeCore(TestUtil.BOSTATUS_REFERANSE, new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
         BostatusKode.MED_ANDRE.toString());
     var bostatusPeriodeListe = new ArrayList<BostatusPeriodeCore>();
     bostatusPeriodeListe.add(bostatusPeriode);
 
-    var antallEgneBarnIHusstandPeriode = new AntallBarnIEgetHusholdPeriodeCore(
+    var antallEgneBarnIHusstandPeriode = new AntallBarnIEgetHusholdPeriodeCore(TestUtil.BARN_I_HUSSTAND_REFERANSE,
         new PeriodeCore(LocalDate.parse("2017-01-01"), null), BigDecimal.valueOf(1));
     var antallEgneBarnIHusstandPeriodeListe = new ArrayList<AntallBarnIEgetHusholdPeriodeCore>();
     antallEgneBarnIHusstandPeriodeListe.add(antallEgneBarnIHusstandPeriode);
 
-    var saerfradragPeriode = new SaerfradragPeriodeCore(
+    var saerfradragPeriode = new SaerfradragPeriodeCore(TestUtil.SAERFRADRAG_REFERANSE,
         new PeriodeCore(LocalDate.parse("2017-01-01"), null), SaerfradragKode.HELT.toString());
     var saerfradragPeriodeListe = new ArrayList<SaerfradragPeriodeCore>();
     saerfradragPeriodeListe.add(saerfradragPeriode);

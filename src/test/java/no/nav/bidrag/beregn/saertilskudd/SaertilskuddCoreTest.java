@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import no.nav.bidrag.beregn.TestUtil;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore;
@@ -76,9 +77,9 @@ public class SaertilskuddCoreTest {
         () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe()).isNotEmpty(),
         () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe().size()).isEqualTo(1),
 
-        () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoFra())
+        () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe().get(0).getPeriode().getPeriodeDatoFra())
             .isEqualTo(LocalDate.parse("2017-01-01")),
-        () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoTil())
+        () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe().get(0).getPeriode().getPeriodeDatoTil())
             .isEqualTo(LocalDate.parse("2018-01-01"))
 
     );
@@ -108,26 +109,27 @@ public class SaertilskuddCoreTest {
 
   private void byggSaertilskuddPeriodeGrunnlagCore() {
 
-    var bidragsevnePeriode = new BidragsevnePeriodeCore(
+
+    var bidragsevnePeriode = new BidragsevnePeriodeCore(TestUtil.BIDRAGSEVNE_REFERANSE,
         new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
         BigDecimal.valueOf(100000));
     var bidragsevnePeriodeListe = new ArrayList<BidragsevnePeriodeCore>();
     bidragsevnePeriodeListe.add(bidragsevnePeriode);
 
-    var bPsAndelSaertilskuddPeriode = new BPsAndelSaertilskuddPeriodeCore(
+    var bPsAndelSaertilskuddPeriode = new BPsAndelSaertilskuddPeriodeCore(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE,
         new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
         BigDecimal.valueOf(100000), BigDecimal.valueOf(20000), false);
     var bPsAndelSaertilskuddPeriodeListe = new ArrayList<BPsAndelSaertilskuddPeriodeCore>();
     bPsAndelSaertilskuddPeriodeListe.add(bPsAndelSaertilskuddPeriode);
 
-    var lopendeBidragPeriode = new LopendeBidragPeriodeCore(
+    var lopendeBidragPeriode = new LopendeBidragPeriodeCore(TestUtil.LOPENDE_BIDRAG_REFERANSE,
         new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), 1,
         BigDecimal.valueOf(1000), BigDecimal.valueOf(1000), BigDecimal.valueOf(1000),
         BigDecimal.valueOf(1000));
     var lopendeBidragPeriodeListe = new ArrayList<LopendeBidragPeriodeCore>();
     lopendeBidragPeriodeListe.add(lopendeBidragPeriode);
 
-    var samvaersfradragPeriode = new SamvaersfradragPeriodeCore(
+    var samvaersfradragPeriode = new SamvaersfradragPeriodeCore(TestUtil.SAMVAERSFRADRAG_REFERANSE,
         new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), 1,
         BigDecimal.valueOf(1000));
     var samvaersfradragPeriodeListe = new ArrayList<SamvaersfradragPeriodeCore>();
@@ -148,22 +150,22 @@ public class SaertilskuddCoreTest {
     List<ResultatPeriode> periodeResultatListe = new ArrayList<>();
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
 
-    lopendeBidragListe.add(new LopendeBidrag(1,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,1,
             BigDecimal.valueOf(100),
             BigDecimal.valueOf(1000), BigDecimal.valueOf(1000), BigDecimal.valueOf(1000)
     ));
 
     var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
 
-    samvaersfradragListe.add(new SamvaersfradragGrunnlag(1,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(TestUtil.SAMVAERSFRADRAG_REFERANSE,1,
         BigDecimal.valueOf(100)));
 
     periodeResultatListe.add(new ResultatPeriode(
-        new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")), 1,
+        new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
         new ResultatBeregning(BigDecimal.valueOf(1000), ResultatKode.KOSTNADSBEREGNET_BIDRAG
         ),
-        new GrunnlagBeregning(new Bidragsevne(BigDecimal.valueOf(1000)),
-            new BPsAndelSaertilskudd(BigDecimal.valueOf(60), BigDecimal.valueOf(8000), false),
+        new GrunnlagBeregning(new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(1000)),
+            new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(60), BigDecimal.valueOf(8000), false),
             lopendeBidragListe, samvaersfradragListe
         )));
 

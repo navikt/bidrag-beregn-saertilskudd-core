@@ -16,6 +16,7 @@ data class BeregnSamvaersfradragGrunnlagCore(
 )
 
 data class SamvaersklassePeriodeCore(
+    val referanse: String,
     val samvaersklassePeriodeDatoFraTil: PeriodeCore,
     val barnPersonId: Int,
     val barnFodselsdato: LocalDate,

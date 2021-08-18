@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import no.nav.bidrag.beregn.felles.enums.ResultatKode;
 import no.nav.bidrag.beregn.saertilskudd.bo.BPsAndelSaertilskuddPeriode;
 import no.nav.bidrag.beregn.saertilskudd.bo.BeregnSaertilskuddGrunnlag;
 import no.nav.bidrag.beregn.saertilskudd.bo.BeregnSaertilskuddResultat;
@@ -23,10 +22,10 @@ import no.nav.bidrag.beregn.saertilskudd.dto.BeregnSaertilskuddResultatCore;
 import no.nav.bidrag.beregn.saertilskudd.dto.BidragsevneCore;
 import no.nav.bidrag.beregn.saertilskudd.dto.BidragsevnePeriodeCore;
 import no.nav.bidrag.beregn.saertilskudd.dto.LopendeBidragCore;
+import no.nav.bidrag.beregn.saertilskudd.dto.ResultatGrunnlagCore;
 import no.nav.bidrag.beregn.saertilskudd.dto.SamvaersfradragCore;
 import no.nav.bidrag.beregn.saertilskudd.dto.LopendeBidragPeriodeCore;
 import no.nav.bidrag.beregn.saertilskudd.dto.ResultatBeregningCore;
-import no.nav.bidrag.beregn.saertilskudd.dto.ResultatGrunnlagCore;
 import no.nav.bidrag.beregn.saertilskudd.dto.ResultatPeriodeCore;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
@@ -79,6 +78,7 @@ public class SaertilskuddCoreImpl implements SaertilskuddCore {
     var bidragsevnePeriodeListe = new ArrayList<BidragsevnePeriode>();
     for (BidragsevnePeriodeCore bidragsevnePeriodeCore : bidragsevnePeriodeListeCore) {
       bidragsevnePeriodeListe.add(new BidragsevnePeriode(
+          bidragsevnePeriodeCore.getReferanse(),
           new Periode(bidragsevnePeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoFra(),
               bidragsevnePeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoTil()),
           bidragsevnePeriodeCore.getBidragsevneBelop()
@@ -95,6 +95,7 @@ public class SaertilskuddCoreImpl implements SaertilskuddCore {
     var bPsAndelSaertilskuddPeriodeListe = new ArrayList<BPsAndelSaertilskuddPeriode>();
     for (BPsAndelSaertilskuddPeriodeCore bPsAndelSaertilskuddPeriodeCore : bPsAndelSaertilskuddPeriodeListeCore) {
       bPsAndelSaertilskuddPeriodeListe.add(new BPsAndelSaertilskuddPeriode(
+          bPsAndelSaertilskuddPeriodeCore.getReferanse(),
           new Periode(bPsAndelSaertilskuddPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoFra(),
               bPsAndelSaertilskuddPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoTil()),
           bPsAndelSaertilskuddPeriodeCore.getBPsAndelSaertilskuddProsent(),
@@ -110,7 +111,7 @@ public class SaertilskuddCoreImpl implements SaertilskuddCore {
       List<LopendeBidragPeriodeCore> lopendeBidragPeriodeListeCore) {
     var lopendeBidragPeriodeListe = new ArrayList<LopendeBidragPeriode>();
     for (LopendeBidragPeriodeCore lopendeBidragPeriodeCore : lopendeBidragPeriodeListeCore) {
-      lopendeBidragPeriodeListe.add(new LopendeBidragPeriode(
+      lopendeBidragPeriodeListe.add(new LopendeBidragPeriode(lopendeBidragPeriodeCore.getReferanse(),
           new Periode(lopendeBidragPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoFra(),
               lopendeBidragPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoTil()),
           lopendeBidragPeriodeCore.getBarnPersonId(),
@@ -130,6 +131,7 @@ public class SaertilskuddCoreImpl implements SaertilskuddCore {
     var samvaersfradragPeriodeListe = new ArrayList<SamvaersfradragGrunnlagPeriode>();
     for (SamvaersfradragPeriodeCore samvaersfradragPeriodeCore : samvaersfradragPeriodeCoreListe) {
       samvaersfradragPeriodeListe.add(new SamvaersfradragGrunnlagPeriode(
+          samvaersfradragPeriodeCore.getReferanse(),
           samvaersfradragPeriodeCore.getBarnPersonId(),
           new Periode(samvaersfradragPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoFra(),
               samvaersfradragPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoTil()),
@@ -157,13 +159,13 @@ public class SaertilskuddCoreImpl implements SaertilskuddCore {
   private List<ResultatPeriodeCore> mapResultatPeriode(List<ResultatPeriode> resultatPeriodeListe) {
     var resultatPeriodeCoreListe = new ArrayList<ResultatPeriodeCore>();
     for (ResultatPeriode resultatPeriode : resultatPeriodeListe) {
-      var saertilskuddResultat = resultatPeriode.getResultatBeregning();
-      var saertilskuddResultatGrunnlag = resultatPeriode.getResultatGrunnlagBeregning();
+      var saertilskuddResultat = resultatPeriode.getResultat();
+      var saertilskuddResultatGrunnlag = resultatPeriode.getGrunnlag();
 
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
-          new PeriodeCore(resultatPeriode.getResultatDatoFraTil().getDatoFra(),
-              resultatPeriode.getResultatDatoFraTil().getDatoTil()), resultatPeriode.getSoknadsbarnPersonId(),
-          mapResultatBeregning(resultatPeriode.getResultatBeregning()),
+          new PeriodeCore(resultatPeriode.getPeriode().getDatoFra(),
+              resultatPeriode.getPeriode().getDatoTil()),
+          mapResultatBeregning(resultatPeriode.getResultat()),
           new ResultatGrunnlagCore(
               new BidragsevneCore(
                   saertilskuddResultatGrunnlag.getBidragsevne().getBidragsevneBelop()
