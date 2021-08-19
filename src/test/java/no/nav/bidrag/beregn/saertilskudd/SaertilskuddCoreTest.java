@@ -161,7 +161,7 @@ public class SaertilskuddCoreTest {
         BigDecimal.valueOf(100)));
 
     periodeResultatListe.add(new ResultatPeriode(
-        new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
+        new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")), 1,
         new ResultatBeregning(BigDecimal.valueOf(1000), ResultatKode.KOSTNADSBEREGNET_BIDRAG
         ),
         new GrunnlagBeregning(new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(1000)),

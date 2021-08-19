@@ -165,6 +165,7 @@ public class SaertilskuddCoreImpl implements SaertilskuddCore {
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
           new PeriodeCore(resultatPeriode.getPeriode().getDatoFra(),
               resultatPeriode.getPeriode().getDatoTil()),
+          resultatPeriode.getSoknadsbarnPersonId(),
           mapResultatBeregning(resultatPeriode.getResultat()),
           new ResultatGrunnlagCore(
               new BidragsevneCore(

@@ -13,6 +13,7 @@ data class InntektPeriode(
     val inntektBelop: BigDecimal) : PeriodisertGrunnlag {
   constructor(inntektPeriode: InntektPeriode) : this(inntektPeriode.periodeDatoFraTil.justerDatoer(), inntektPeriode.inntektType,
       inntektPeriode.inntektBelop)
+
   override fun getDatoFraTil(): Periode {
     return periodeDatoFraTil
   }
@@ -23,6 +24,7 @@ data class SkatteklassePeriode(
     val skatteklasse: Int) : PeriodisertGrunnlag {
   constructor(skatteklassePeriode: SkatteklassePeriode) : this(skatteklassePeriode.periodeDatoFraTil.justerDatoer(),
       skatteklassePeriode.skatteklasse)
+
   override fun getDatoFraTil(): Periode {
     return periodeDatoFraTil
   }
@@ -32,6 +34,7 @@ data class BostatusPeriode(
     val periodeDatoFraTil: Periode,
     val bostatusKode: BostatusKode) : PeriodisertGrunnlag {
   constructor(bostatusPeriode: BostatusPeriode) : this(bostatusPeriode.periodeDatoFraTil.justerDatoer(), bostatusPeriode.bostatusKode)
+
   override fun getDatoFraTil(): Periode {
     return periodeDatoFraTil
   }
@@ -42,6 +45,7 @@ data class AntallBarnIEgetHusholdPeriode(
     val antallBarn: BigDecimal) : PeriodisertGrunnlag {
   constructor(antallBarnIEgetHusholdPeriode: AntallBarnIEgetHusholdPeriode) : this(antallBarnIEgetHusholdPeriode.periodeDatoFraTil.justerDatoer(),
       antallBarnIEgetHusholdPeriode.antallBarn)
+
   override fun getDatoFraTil(): Periode {
     return periodeDatoFraTil
   }
@@ -52,6 +56,7 @@ data class SaerfradragPeriode(
     val saerfradragKode: SaerfradragKode) : PeriodisertGrunnlag {
   constructor(saerfradragPeriode: SaerfradragPeriode) : this(saerfradragPeriode.periodeDatoFraTil.justerDatoer(),
       saerfradragPeriode.saerfradragKode)
+
   override fun getDatoFraTil(): Periode {
     return periodeDatoFraTil
   }
