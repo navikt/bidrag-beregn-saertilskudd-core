@@ -20,11 +20,13 @@ data class BeregnBPsAndelSaertilskuddGrunnlagCore(
 
 
 data class NettoSaertilskuddPeriodeCore(
+    val referanse: String,
     val periodeDatoFraTil: PeriodeCore,
     val nettoSaertilskuddBelop: BigDecimal
 )
 
 data class InntektPeriodeCore(
+    val referanse: String,
     val periodeDatoFraTil: PeriodeCore,
     val inntektType: String,
     val inntektBelop: BigDecimal,

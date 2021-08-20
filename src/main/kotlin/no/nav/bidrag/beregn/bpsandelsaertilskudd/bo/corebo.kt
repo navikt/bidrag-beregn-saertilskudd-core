@@ -18,6 +18,7 @@ data class BeregnBPsAndelSaertilskuddGrunnlag(
     val inntektBBPeriodeListe: List<InntektPeriode>,
     val sjablonPeriodeListe: List<SjablonPeriode>
 )
+
 // Resultatperiode
 data class BeregnBPsAndelSaertilskuddResultat(
     val resultatPeriodeListe: List<ResultatPeriode>

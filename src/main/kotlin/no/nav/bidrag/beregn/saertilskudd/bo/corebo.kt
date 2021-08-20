@@ -22,10 +22,10 @@ data class BeregnSaertilskuddResultat(
 )
 
 data class ResultatPeriode(
-    val resultatDatoFraTil: Periode,
+    val periode: Periode,
     val soknadsbarnPersonId: Int,
-    val resultatBeregning: ResultatBeregning,
-    val resultatGrunnlagBeregning: GrunnlagBeregning
+    val resultat: ResultatBeregning,
+    val grunnlag: GrunnlagBeregning
 )
 
 data class ResultatBeregning(
@@ -42,23 +42,28 @@ data class GrunnlagBeregning(
 )
 
 data class Bidragsevne(
+    val referanse: String,
     val bidragsevneBelop: BigDecimal
 )
 
 data class BPsAndelSaertilskudd(
+    val referanse: String,
     val bPsAndelSaertilskuddProsent: BigDecimal,
     val bPsAndelSaertilskuddBelop: BigDecimal,
     val barnetErSelvforsorget: Boolean
 )
 
 data class LopendeBidrag(
+    val referanse: String,
     val barnPersonId: Int,
     val lopendeBidragBelop: BigDecimal,
     val opprinneligBPsAndelUnderholdskostnadBelop: BigDecimal,
     val opprinneligBidragBelop: BigDecimal,
     val opprinneligSamvaersfradragBelop: BigDecimal
 )
+
 data class SamvaersfradragGrunnlag(
+    val referanse: String,
     val barnPersonId: Int,
     val samvaersfradragBelop: BigDecimal
 )

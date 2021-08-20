@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import no.nav.bidrag.beregn.TestUtil;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.BeregnBPsAndelSaertilskuddResultat;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.GrunnlagBeregning;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.Inntekt;
@@ -124,19 +125,19 @@ public class BPsAndelSaertilskuddPeriodeCoreTest {
 
   private void byggBPsAndelSaertilskuddPeriodeGrunnlagCore() {
 
-    var nettoSaertilskuddPeriode = new NettoSaertilskuddPeriodeCore(
+    var nettoSaertilskuddPeriode = new NettoSaertilskuddPeriodeCore(TestUtil.NETTO_SAERTILSKUDD_REFERANSE,
         new PeriodeCore(LocalDate.parse("2018-01-01"), LocalDate.parse("2020-08-01")),
         BigDecimal.valueOf(1000));
 
-    var inntektBPPeriode = new InntektPeriodeCore(
+    var inntektBPPeriode = new InntektPeriodeCore(TestUtil.INNTEKT_REFERANSE,
         new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LONN_SKE.toString(),
         BigDecimal.valueOf(111), false, false);
 
-    var inntektBMPeriode = new InntektPeriodeCore(
+    var inntektBMPeriode = new InntektPeriodeCore(TestUtil.INNTEKT_REFERANSE,
         new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LONN_SKE.toString(),
         BigDecimal.valueOf(222), false, false);
 
-    var inntektBBPeriode = new InntektPeriodeCore(
+    var inntektBBPeriode = new InntektPeriodeCore(TestUtil.INNTEKT_REFERANSE,
         new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LONN_SKE.toString(),
         BigDecimal.valueOf(333), false, false);
 
@@ -145,7 +146,7 @@ public class BPsAndelSaertilskuddPeriodeCoreTest {
     var inntektBMPeriodeListe = new ArrayList<InntektPeriodeCore>();
     var inntektBBPeriodeListe = new ArrayList<InntektPeriodeCore>();
 
-    nettoSaertilskuddPeriodeListe.add(new NettoSaertilskuddPeriodeCore(
+    nettoSaertilskuddPeriodeListe.add(new NettoSaertilskuddPeriodeCore(TestUtil.NETTO_SAERTILSKUDD_REFERANSE,
         new PeriodeCore(LocalDate.parse("2018-01-01"), LocalDate.parse("2020-08-01")),
         BigDecimal.valueOf(1000)));
 

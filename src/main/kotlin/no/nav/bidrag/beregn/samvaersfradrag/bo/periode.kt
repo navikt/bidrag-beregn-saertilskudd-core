@@ -6,18 +6,19 @@ import java.time.LocalDate
 
 
 data class SamvaersfradragGrunnlagPeriode(
-  val samvaersfradragDatoFraTil: Periode,
-  val barnPersonId: Int,
-  val barnFodselsdato: LocalDate,
-  val samvaersklasse: String
+    val samvaersfradragDatoFraTil: Periode,
+    val barnPersonId: Int,
+    val barnFodselsdato: LocalDate,
+    val samvaersklasse: String
 ) : PeriodisertGrunnlag {
   constructor(samvaersfradragGrunnlagPeriode: SamvaersfradragGrunnlagPeriode)
       : this(
-    samvaersfradragGrunnlagPeriode.samvaersfradragDatoFraTil.justerDatoer(),
-    samvaersfradragGrunnlagPeriode.barnPersonId,
-    samvaersfradragGrunnlagPeriode.barnFodselsdato,
-    samvaersfradragGrunnlagPeriode.samvaersklasse
+      samvaersfradragGrunnlagPeriode.samvaersfradragDatoFraTil.justerDatoer(),
+      samvaersfradragGrunnlagPeriode.barnPersonId,
+      samvaersfradragGrunnlagPeriode.barnFodselsdato,
+      samvaersfradragGrunnlagPeriode.samvaersklasse
   )
+
   override fun getDatoFraTil(): Periode {
     return samvaersfradragDatoFraTil
   }

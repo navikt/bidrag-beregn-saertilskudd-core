@@ -11,6 +11,7 @@ data class NettoSaertilskuddPeriode(
   constructor(nettoSaertilskuddPeriode: NettoSaertilskuddPeriode)
       : this(nettoSaertilskuddPeriode.periodeDatoFraTil.justerDatoer(),
       nettoSaertilskuddPeriode.nettoSaertilskuddBelop)
+
   override fun getDatoFraTil(): Periode {
     return periodeDatoFraTil
   }
@@ -28,6 +29,7 @@ data class InntektPeriode(
       inntektPeriode.inntektBelop,
       inntektPeriode.deltFordel,
       inntektPeriode.skatteklasse2)
+
   override fun getDatoFraTil(): Periode {
     return periodeDatoFraTil
   }

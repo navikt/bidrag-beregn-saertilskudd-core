@@ -30,7 +30,7 @@ public class SaertilskuddBeregningTest {
 
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
 
-    lopendeBidragListe.add(new LopendeBidrag(1,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE, 1,
         BigDecimal.valueOf(2500),  // lopendeBidragBelop
         BigDecimal.valueOf(2957),  // opprinneligBPsAndelSaertilskuddBelop
         BigDecimal.valueOf(2500),  // opprinneligBidragBelop
@@ -39,12 +39,12 @@ public class SaertilskuddBeregningTest {
 
     var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
 
-    samvaersfradragListe.add(new SamvaersfradragGrunnlag(1,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(TestUtil.SAMVAERSFRADRAG_REFERANSE,1,
         BigDecimal.valueOf(457)));
 
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
-        new Bidragsevne(BigDecimal.valueOf(11069)),
-        new BPsAndelSaertilskudd(BigDecimal.valueOf(60.6), BigDecimal.valueOf(4242),
+        new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(11069)),
+        new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(60.6), BigDecimal.valueOf(4242),
             false), lopendeBidragListe, samvaersfradragListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
@@ -59,7 +59,7 @@ public class SaertilskuddBeregningTest {
 
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
 
-    lopendeBidragListe.add(new LopendeBidrag(1,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE, 1,
         BigDecimal.valueOf(2500),  // lopendeBidragBelop
         BigDecimal.valueOf(2958),  // opprinneligBPsAndelSaertilskuddBelop
         BigDecimal.valueOf(2500),  // opprinneligBidragBelop
@@ -68,12 +68,12 @@ public class SaertilskuddBeregningTest {
 
     var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
 
-    samvaersfradragListe.add(new SamvaersfradragGrunnlag(1,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(TestUtil.SAMVAERSFRADRAG_REFERANSE, 1,
         BigDecimal.valueOf(800)));
 
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
-        new Bidragsevne(BigDecimal.valueOf(3100)),
-        new BPsAndelSaertilskudd(BigDecimal.valueOf(60.6), BigDecimal.valueOf(4242),
+        new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(3100)),
+        new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(60.6), BigDecimal.valueOf(4242),
             false), lopendeBidragListe, samvaersfradragListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
@@ -88,7 +88,7 @@ public class SaertilskuddBeregningTest {
 
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
 
-    lopendeBidragListe.add(new LopendeBidrag(1,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,1,
         BigDecimal.valueOf(3000),  // lopendeBidragBelop
         BigDecimal.valueOf(2958),  // opprinneligBPsAndelSaertilskuddBelop
         BigDecimal.valueOf(2500),  // opprinneligBidragBelop
@@ -97,12 +97,12 @@ public class SaertilskuddBeregningTest {
 
     var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
 
-    samvaersfradragListe.add(new SamvaersfradragGrunnlag(1,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(TestUtil.SAMVAERSFRADRAG_REFERANSE, 1,
         BigDecimal.valueOf(457)));
 
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
-        new Bidragsevne(BigDecimal.valueOf(3456)),
-        new BPsAndelSaertilskudd(BigDecimal.valueOf(60.6), BigDecimal.valueOf(4242),
+        new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(3456)),
+        new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(60.6), BigDecimal.valueOf(4242),
             false), lopendeBidragListe, samvaersfradragListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
@@ -117,7 +117,7 @@ public class SaertilskuddBeregningTest {
 
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
 
-    lopendeBidragListe.add(new LopendeBidrag(1,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,1,
         BigDecimal.valueOf(3000),  // lopendeBidragBelop
         BigDecimal.valueOf(2958),  // opprinneligBPsAndelSaertilskuddBelop
         BigDecimal.valueOf(2500),  // opprinneligBidragBelop
@@ -126,12 +126,12 @@ public class SaertilskuddBeregningTest {
 
     var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
 
-    samvaersfradragListe.add(new SamvaersfradragGrunnlag(1,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(TestUtil.SAMVAERSFRADRAG_REFERANSE, 1,
         BigDecimal.valueOf(457)));
 
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
-        new Bidragsevne(BigDecimal.valueOf(10000)),
-        new BPsAndelSaertilskudd(BigDecimal.valueOf(60.6), BigDecimal.valueOf(4242),
+        new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(10000)),
+        new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(60.6), BigDecimal.valueOf(4242),
             true), lopendeBidragListe, samvaersfradragListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
@@ -145,13 +145,13 @@ public class SaertilskuddBeregningTest {
     SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
-    lopendeBidragListe.add(new LopendeBidrag(1,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,1,
         BigDecimal.valueOf(1700),  // lopendeBidragBelop
         BigDecimal.valueOf(3215),  // opprinneligBPsAndelSaertilskuddBelop
         BigDecimal.valueOf(1700),  // opprinneligBidragBelop
         BigDecimal.valueOf(1513)  // opprinneligSamvaersfradragBelop
     ));
-    lopendeBidragListe.add(new LopendeBidrag(2,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,2,
         BigDecimal.valueOf(1700),  // lopendeBidragBelop
         BigDecimal.valueOf(3215),  // opprinneligBPsAndelSaertilskuddBelop
         BigDecimal.valueOf(1700),  // opprinneligBidragBelop
@@ -159,14 +159,14 @@ public class SaertilskuddBeregningTest {
     ));
 
     var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
-    samvaersfradragListe.add(new SamvaersfradragGrunnlag(1,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(TestUtil.SAMVAERSFRADRAG_REFERANSE, 1,
         BigDecimal.valueOf(1513)));
-    samvaersfradragListe.add(new SamvaersfradragGrunnlag(2,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(TestUtil.SAMVAERSFRADRAG_REFERANSE, 2,
         BigDecimal.valueOf(1513)));
 
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
-        new Bidragsevne(BigDecimal.valueOf(6696)),
-        new BPsAndelSaertilskudd(BigDecimal.valueOf(49.7), BigDecimal.valueOf(2982),
+        new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(6696)),
+        new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(49.7), BigDecimal.valueOf(2982),
             false), lopendeBidragListe, samvaersfradragListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
@@ -180,13 +180,13 @@ public class SaertilskuddBeregningTest {
     SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
-    lopendeBidragListe.add(new LopendeBidrag(1,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,1,
         BigDecimal.valueOf(1500),  // lopendeBidragBelop
         BigDecimal.valueOf(3015),  // opprinneligBPsAndelSaertilskuddBelop
         BigDecimal.valueOf(1500),  // opprinneligBidragBelop
         BigDecimal.valueOf(1513)  // opprinneligSamvaersfradragBelop
     ));
-    lopendeBidragListe.add(new LopendeBidrag(2,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,2,
         BigDecimal.valueOf(1500),  // lopendeBidragBelop
         BigDecimal.valueOf(3015),  // opprinneligBPsAndelSaertilskuddBelop
         BigDecimal.valueOf(1500),  // opprinneligBidragBelop
@@ -194,14 +194,14 @@ public class SaertilskuddBeregningTest {
     ));
 
     var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
-    samvaersfradragListe.add(new SamvaersfradragGrunnlag(1,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(TestUtil.SAMVAERSFRADRAG_REFERANSE, 1,
         BigDecimal.valueOf(1513)));
-    samvaersfradragListe.add(new SamvaersfradragGrunnlag(2,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(TestUtil.SAMVAERSFRADRAG_REFERANSE, 2,
         BigDecimal.valueOf(1513)));
 
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
-        new Bidragsevne(BigDecimal.valueOf(6149)),
-        new BPsAndelSaertilskudd(BigDecimal.valueOf(55.7), BigDecimal.valueOf(6684),
+        new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(6149)),
+        new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(55.7), BigDecimal.valueOf(6684),
             false), lopendeBidragListe, samvaersfradragListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
@@ -215,13 +215,13 @@ public class SaertilskuddBeregningTest {
     SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
-    lopendeBidragListe.add(new LopendeBidrag(1,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,1,
         BigDecimal.valueOf(1800),  // lopendeBidragBelop
         BigDecimal.valueOf(3315),  // opprinneligBPsAndelSaertilskuddBelop
         BigDecimal.valueOf(1800),  // opprinneligBidragBelop
         BigDecimal.valueOf(1513)  // opprinneligSamvaersfradragBelop
     ));
-    lopendeBidragListe.add(new LopendeBidrag(2,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,2,
         BigDecimal.valueOf(1800),  // lopendeBidragBelop
         BigDecimal.valueOf(3315),  // opprinneligBPsAndelSaertilskuddBelop
         BigDecimal.valueOf(1800),  // opprinneligBidragBelop
@@ -229,14 +229,14 @@ public class SaertilskuddBeregningTest {
     ));
 
     var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
-    samvaersfradragListe.add(new SamvaersfradragGrunnlag(1,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(TestUtil.SAMVAERSFRADRAG_REFERANSE, 1,
         BigDecimal.valueOf(1513)));
-    samvaersfradragListe.add(new SamvaersfradragGrunnlag(2,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(TestUtil.SAMVAERSFRADRAG_REFERANSE, 2,
         BigDecimal.valueOf(1513)));
 
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
-        new Bidragsevne(BigDecimal.valueOf(6149)),
-        new BPsAndelSaertilskudd(BigDecimal.valueOf(55.7), BigDecimal.valueOf(6684),
+        new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(6149)),
+        new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(55.7), BigDecimal.valueOf(6684),
             false), lopendeBidragListe, samvaersfradragListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
@@ -251,7 +251,7 @@ public class SaertilskuddBeregningTest {
     SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
-    lopendeBidragListe.add(new LopendeBidrag(1,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,1,
         BigDecimal.valueOf(1300), // lopendeBidragBelop
         BigDecimal.valueOf(2600), // opprinneligBPsAndelUnderholdskostnadBelop
         BigDecimal.valueOf(1200), // opprinneligBidragBelop
@@ -259,12 +259,12 @@ public class SaertilskuddBeregningTest {
     ));
 
     var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
-    samvaersfradragListe.add(new SamvaersfradragGrunnlag(1,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(TestUtil.SAMVAERSFRADRAG_REFERANSE, 1,
         BigDecimal.valueOf(700)));
 
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
-        new Bidragsevne(BigDecimal.valueOf(2700)),
-        new BPsAndelSaertilskudd(BigDecimal.valueOf(70), BigDecimal.valueOf(5000),
+        new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(2700)),
+        new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(70), BigDecimal.valueOf(5000),
             false), lopendeBidragListe, samvaersfradragListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
@@ -278,14 +278,14 @@ public class SaertilskuddBeregningTest {
     SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
-    lopendeBidragListe.add(new LopendeBidrag(1,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,1,
         BigDecimal.valueOf(1800), // lopendeBidragBelop
         BigDecimal.valueOf(5000), // opprinneligBPsAndelUnderholdskostnadBelop
         BigDecimal.valueOf(1700), // opprinneligBidragBelop
         BigDecimal.valueOf(1323) // opprinneligSamvaersfradragBelop
     ));
 
-    lopendeBidragListe.add(new LopendeBidrag(2,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,2,
         BigDecimal.valueOf(1800), // lopendeBidragBelop
         BigDecimal.valueOf(5000), // opprinneligBPsAndelUnderholdskostnadBelop
         BigDecimal.valueOf(1700), // opprinneligBidragBelop
@@ -293,14 +293,14 @@ public class SaertilskuddBeregningTest {
     ));
 
     var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
-    samvaersfradragListe.add(new SamvaersfradragGrunnlag(1,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(TestUtil.SAMVAERSFRADRAG_REFERANSE, 1,
         BigDecimal.valueOf(1513)));
-    samvaersfradragListe.add(new SamvaersfradragGrunnlag(2,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(TestUtil.SAMVAERSFRADRAG_REFERANSE, 2,
         BigDecimal.valueOf(1513)));
 
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
-        new Bidragsevne(BigDecimal.valueOf(9962)),
-        new BPsAndelSaertilskudd(BigDecimal.valueOf(62.8), BigDecimal.valueOf(7536),
+        new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(9962)),
+        new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(62.8), BigDecimal.valueOf(7536),
             false), lopendeBidragListe, samvaersfradragListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
@@ -314,14 +314,14 @@ public class SaertilskuddBeregningTest {
     SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
-    lopendeBidragListe.add(new LopendeBidrag(1,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,1,
         BigDecimal.valueOf(1800), // lopendeBidragBelop
         BigDecimal.valueOf(5000), // opprinneligBPsAndelUnderholdskostnadBelop
         BigDecimal.valueOf(1700), // opprinneligBidragBelop
         BigDecimal.valueOf(1323) // opprinneligSamvaersfradragBelop
     ));
 
-    lopendeBidragListe.add(new LopendeBidrag(2,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,2,
         BigDecimal.valueOf(1800), // lopendeBidragBelop
         BigDecimal.valueOf(5000), // opprinneligBPsAndelUnderholdskostnadBelop
         BigDecimal.valueOf(1700), // opprinneligBidragBelop
@@ -329,14 +329,14 @@ public class SaertilskuddBeregningTest {
     ));
 
     var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
-    samvaersfradragListe.add(new SamvaersfradragGrunnlag(1,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(TestUtil.SAMVAERSFRADRAG_REFERANSE, 1,
         BigDecimal.valueOf(1513)));
-    samvaersfradragListe.add(new SamvaersfradragGrunnlag(2,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(TestUtil.SAMVAERSFRADRAG_REFERANSE, 2,
         BigDecimal.valueOf(1513)));
 
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
-        new Bidragsevne(BigDecimal.valueOf(10891)),
-        new BPsAndelSaertilskudd(BigDecimal.valueOf(55.1), BigDecimal.valueOf(6612),
+        new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(10891)),
+        new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(55.1), BigDecimal.valueOf(6612),
             false), lopendeBidragListe, samvaersfradragListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
@@ -350,14 +350,14 @@ public class SaertilskuddBeregningTest {
     SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
-    lopendeBidragListe.add(new LopendeBidrag(1,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,1,
         BigDecimal.valueOf(1800), // lopendeBidragBelop
         BigDecimal.valueOf(4000), // opprinneligBPsAndelUnderholdskostnadBelop
         BigDecimal.valueOf(1700), // opprinneligBidragBelop
         BigDecimal.valueOf(1323) // opprinneligSamvaersfradragBelop
     ));
 
-    lopendeBidragListe.add(new LopendeBidrag(2,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,2,
         BigDecimal.valueOf(1800), // lopendeBidragBelop
         BigDecimal.valueOf(4000), // opprinneligBPsAndelUnderholdskostnadBelop
         BigDecimal.valueOf(1700), // opprinneligBidragBelop
@@ -365,14 +365,14 @@ public class SaertilskuddBeregningTest {
     ));
 
     var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
-    samvaersfradragListe.add(new SamvaersfradragGrunnlag(1,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(TestUtil.SAMVAERSFRADRAG_REFERANSE, 1,
         BigDecimal.valueOf(1513)));
-    samvaersfradragListe.add(new SamvaersfradragGrunnlag(2,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(TestUtil.SAMVAERSFRADRAG_REFERANSE, 2,
         BigDecimal.valueOf(1513)));
 
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
-        new Bidragsevne(BigDecimal.valueOf(6149)),
-        new BPsAndelSaertilskudd(BigDecimal.valueOf(55.7), BigDecimal.valueOf(6684),
+        new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(6149)),
+        new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(55.7), BigDecimal.valueOf(6684),
             false), lopendeBidragListe, samvaersfradragListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
@@ -386,14 +386,14 @@ public class SaertilskuddBeregningTest {
     SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
-    lopendeBidragListe.add(new LopendeBidrag(1,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,1,
         BigDecimal.valueOf(2900), // lopendeBidragBelop
         BigDecimal.valueOf(4000), // opprinneligBPsAndelUnderholdskostnadBelop
         BigDecimal.valueOf(2800), // opprinneligBidragBelop
         BigDecimal.valueOf(1323) // opprinneligSamvaersfradragBelop
     ));
 
-    lopendeBidragListe.add(new LopendeBidrag(2,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,2,
         BigDecimal.valueOf(2900), // lopendeBidragBelop
         BigDecimal.valueOf(4000), // opprinneligBPsAndelUnderholdskostnadBelop
         BigDecimal.valueOf(2800), // opprinneligBidragBelop
@@ -401,14 +401,14 @@ public class SaertilskuddBeregningTest {
     ));
 
     var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
-    samvaersfradragListe.add(new SamvaersfradragGrunnlag(1,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(TestUtil.SAMVAERSFRADRAG_REFERANSE, 1,
         BigDecimal.valueOf(1513)));
-    samvaersfradragListe.add(new SamvaersfradragGrunnlag(2,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(TestUtil.SAMVAERSFRADRAG_REFERANSE, 2,
         BigDecimal.valueOf(1513)));
 
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
-        new Bidragsevne(BigDecimal.valueOf(6149)),
-        new BPsAndelSaertilskudd(BigDecimal.valueOf(55.7), BigDecimal.valueOf(6684),
+        new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(6149)),
+        new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(55.7), BigDecimal.valueOf(6684),
             false), lopendeBidragListe, samvaersfradragListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);

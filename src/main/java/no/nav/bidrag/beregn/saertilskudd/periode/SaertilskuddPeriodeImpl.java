@@ -25,6 +25,7 @@ import no.nav.bidrag.beregn.saertilskudd.bo.SamvaersfradragGrunnlagPeriode;
 
 
 public class SaertilskuddPeriodeImpl implements SaertilskuddPeriode {
+
   public SaertilskuddPeriodeImpl(
       SaertilskuddBeregning saertilskuddBeregning) {
     this.saertilskuddBeregning = saertilskuddBeregning;
@@ -63,25 +64,26 @@ public class SaertilskuddPeriodeImpl implements SaertilskuddPeriode {
         .addBruddpunkt(beregnSaertilskuddGrunnlag.getBeregnDatoTil()) //For å sikre bruddpunkt på start-beregning-til-dato
         .finnPerioder(beregnSaertilskuddGrunnlag.getBeregnDatoFra(), beregnSaertilskuddGrunnlag.getBeregnDatoTil());
 
-
     // Bygger opp grunnlag til beregning og kaller beregningsmodulen, det skal kun være én periode for særtilskudd
     for (Periode beregningsperiode : perioder) {
 
       var bidragsevne = justertBidragsevnePeriodeListe.stream().filter(
-          i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-          .map(bidragsevnePeriode -> new Bidragsevne(bidragsevnePeriode.getBidragsevneBelop()
+              i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
+          .map(bidragsevnePeriode -> new Bidragsevne(bidragsevnePeriode.getReferanse(), bidragsevnePeriode.getBidragsevneBelop()
           )).findFirst().orElse(null);
 
       var bPsAndelSaertilskudd = justertBPsAndelSaertilskuddPeriodeListe.stream().filter(
-          i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
+              i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
           .map(bPsAndelSaertilskuddPeriode -> new BPsAndelSaertilskudd(
+              bPsAndelSaertilskuddPeriode.getReferanse(),
               bPsAndelSaertilskuddPeriode.getBPsAndelSaertilskuddProsent(),
               bPsAndelSaertilskuddPeriode.getBPsAndelSaertilskuddBelop(),
               bPsAndelSaertilskuddPeriode.getBarnetErSelvforsorget())).findFirst().orElse(null);
 
       var lopendeBidragListe = justertLopendeBidragPeriodeListe.stream().filter(
-          i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
+              i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
           .map(lopendeBidragPeriode -> new LopendeBidrag(
+              lopendeBidragPeriode.getReferanse(),
               lopendeBidragPeriode.getBarnPersonId(),
               lopendeBidragPeriode.getLopendeBidragBelop(),
               lopendeBidragPeriode.getOpprinneligBPsAndelUnderholdskostnadBelop(),
@@ -89,27 +91,26 @@ public class SaertilskuddPeriodeImpl implements SaertilskuddPeriode {
               lopendeBidragPeriode.getOpprinneligSamvaersfradragBelop()
           )).collect(toList());
 
-      var samvaersfradragListe= justertSamvaersfradragPeriodeListe.stream().filter(
-          i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
+      var samvaersfradragListe = justertSamvaersfradragPeriodeListe.stream().filter(
+              i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
           .map(samvaersfradragGrunnlagPeriode -> new SamvaersfradragGrunnlag(
+              samvaersfradragGrunnlagPeriode.getReferanse(),
               samvaersfradragGrunnlagPeriode.getBarnPersonId(),
               samvaersfradragGrunnlagPeriode.getSamvaersfradragBelop())).collect(toList());
-
 
       // Kaller beregningsmodulen for beregningsperioden
 
       var grunnlagBeregning = new GrunnlagBeregning(bidragsevne, bPsAndelSaertilskudd, lopendeBidragListe,
           samvaersfradragListe);
 
-        resultatPeriodeListe.add(new ResultatPeriode(
-            beregningsperiode, beregnSaertilskuddGrunnlag.getSoknadsbarnPersonId(),
-            saertilskuddBeregning.beregn(grunnlagBeregning), grunnlagBeregning));
+      resultatPeriodeListe.add(new ResultatPeriode(
+          beregningsperiode, beregnSaertilskuddGrunnlag.getSoknadsbarnPersonId(),
+          saertilskuddBeregning.beregn(grunnlagBeregning), grunnlagBeregning));
     }
 
     return new BeregnSaertilskuddResultat(resultatPeriodeListe);
   }
 
-  
 
   // Validerer at input-verdier til beregn-saertilskudd er gyldige
   public List<Avvik> validerInput(BeregnSaertilskuddGrunnlag grunnlag) {
@@ -119,8 +120,9 @@ public class SaertilskuddPeriodeImpl implements SaertilskuddPeriode {
     for (BidragsevnePeriode bidragsevnePeriode : grunnlag.getBidragsevnePeriodeListe()) {
       bidragsevnePeriodeListe.add(bidragsevnePeriode.getDatoFraTil());
     }
-    var avvikListe = new ArrayList<>(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),"bidragsevnePeriodeListe",
-        bidragsevnePeriodeListe, true, true, true, true));
+    var avvikListe = new ArrayList<>(
+        PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(), "bidragsevnePeriodeListe",
+            bidragsevnePeriodeListe, true, true, true, true));
 
     // Sjekk perioder for BPs andel av saertilskudd
     var bPsAndelSaertilskuddPeriodeListe = new ArrayList<Periode>();

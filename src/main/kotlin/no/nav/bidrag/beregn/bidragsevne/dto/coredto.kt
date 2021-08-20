@@ -20,27 +20,32 @@ data class BeregnBidragsevneGrunnlagCore(
 )
 
 data class InntektPeriodeCore(
+    val referanse: String,
     val periodeDatoFraTil: PeriodeCore,
     val inntektType: String,
     val inntektBelop: BigDecimal
 )
 
 data class SkatteklassePeriodeCore(
+    val referanse: String,
     val periodeDatoFraTil: PeriodeCore,
     val skatteklasse: Int
 )
 
 data class BostatusPeriodeCore(
+    val referanse: String,
     val periodeDatoFraTil: PeriodeCore,
     val bostatusKode: String
 )
 
 data class AntallBarnIEgetHusholdPeriodeCore(
+    val referanse: String,
     val periodeDatoFraTil: PeriodeCore,
     val antallBarn: BigDecimal
 )
 
 data class SaerfradragPeriodeCore(
+    val referanse: String,
     val periodeDatoFraTil: PeriodeCore,
     val saerfradragKode: String
 )

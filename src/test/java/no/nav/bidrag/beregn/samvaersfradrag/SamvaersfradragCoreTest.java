@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import no.nav.bidrag.beregn.TestUtil;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
@@ -122,7 +123,7 @@ public class SamvaersfradragCoreTest {
 
   private void byggSamvaersfradragPeriodeGrunnlagCore() {
 
-    var samvaersklassePeriode = new SamvaersklassePeriodeCore(
+    var samvaersklassePeriode = new SamvaersklassePeriodeCore(TestUtil.SAMVAERSKLASSE_REFERANSE,
         new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), 1,
         LocalDate.parse("2017-01-01"), "03");
     var samvaersklassePeriodeListe = new ArrayList<SamvaersklassePeriodeCore>();

@@ -16,6 +16,21 @@ import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
 
 public class TestUtil {
 
+  public static final String BIDRAGSEVNE_REFERANSE = "BIDRAGSEVNE_REFERANSE";
+  public static final String LOPENDE_BIDRAG_REFERANSE = "LOPENDE_BIDRAG_REFERANSE";
+  public static final String BPS_ANDEL_SAERTILSKUDD_REFERANSE = "BPS_ANDEL_SAERTILSKUDD_REFERANSE";
+  public static final String SAMVAERSFRADRAG_REFERANSE = "SAMVAERSFRADRAG_REFERANSE";
+
+  public static final String INNTEKT_REFERANSE = "INNTEKT_REFERANSE";
+  public static final String SKATTEKLASSE_REFERANSE = "SKATTEKLASSE_REFERANSE";
+  public static final String BOSTATUS_REFERANSE = "BOSTATUS_REFERANSE";
+  public static final String BARN_I_HUSSTAND_REFERANSE = "BARN_I_HUSSTAND_REFERANSE";
+  public static final String SAERFRADRAG_REFERANSE = "SAERFRADRAG_REFERANSE";
+  public static final String NETTO_SAERTILSKUDD_REFERANSE = "NETTO_SAERTILSKUDD_REFERANSE";
+  public static final String SAMVAERSKLASSE_REFERANSE = "SAMVAERSKLASSE_REFERANSE";
+
+
+
   public static List<Sjablon> byggSjabloner() {
 
     var sjablonListe = new ArrayList<Sjablon>();
