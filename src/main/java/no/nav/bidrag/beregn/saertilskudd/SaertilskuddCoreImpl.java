@@ -203,7 +203,7 @@ public class SaertilskuddCoreImpl extends FellesCore implements SaertilskuddCore
     resultatGrunnlag.getSamvaersfradragGrunnlagListe().forEach(samvaersfradragGrunnlag -> referanseListe.add(samvaersfradragGrunnlag.getReferanse()));
     resultatGrunnlag.getLopendeBidragListe().forEach(lopendeBidrag -> referanseListe.add(lopendeBidrag.getReferanse()));
     referanseListe.addAll(resultatPeriode.getResultat().getSjablonListe().stream().map(this::lagSjablonReferanse).distinct().collect(toList()));
-    return referanseListe.stream().sorted().toList();
+    return referanseListe.stream().sorted().collect(toList());
   }
 
   protected String lagSjablonReferanse(SjablonPeriodeNavnVerdi sjablon) {

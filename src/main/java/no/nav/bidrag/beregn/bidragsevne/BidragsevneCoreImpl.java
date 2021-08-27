@@ -187,8 +187,8 @@ public class BidragsevneCoreImpl extends FellesCore implements BidragsevneCore {
     referanseListe.add(resultatGrunnlag.getBostatus().getReferanse());
     referanseListe.add(resultatGrunnlag.getBarnIHusstand().getReferanse());
     referanseListe.add(resultatGrunnlag.getSaerfradrag().getReferanse());
-    referanseListe.addAll(sjablonListe.stream().map(this::lagSjablonReferanse).distinct().toList());
-    return referanseListe.stream().sorted().toList();
+    referanseListe.addAll(sjablonListe.stream().map(this::lagSjablonReferanse).distinct().collect(toList()));
+    return referanseListe.stream().sorted().collect(toList());
   }
 
   private List<SjablonResultatGrunnlagCore> mapSjablonGrunnlagListe(List<ResultatPeriode> resultatPeriodeListe) {

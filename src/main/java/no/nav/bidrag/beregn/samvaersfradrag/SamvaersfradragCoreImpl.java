@@ -125,8 +125,8 @@ public class SamvaersfradragCoreImpl extends FellesCore implements Samvaersfradr
 
     var referanseListe = new ArrayList<String>();
     resultatGrunnlag.getSamvaersfradragGrunnlagPerBarnListe().forEach(samvaersfradragGrunnlagPerBarn ->  referanseListe.add(samvaersfradragGrunnlagPerBarn.getReferanse()));
-    referanseListe.addAll(sjablonListe.stream().map(this::lagSjablonReferanse).distinct().toList());
-    return referanseListe.stream().sorted().toList();
+    referanseListe.addAll(sjablonListe.stream().map(this::lagSjablonReferanse).distinct().collect(toList()));
+    return referanseListe.stream().sorted().collect(toList());
   }
 
   private List<ResultatBeregningCore> mapResultatBeregning(List<ResultatBeregning> resultatBeregningListe) {

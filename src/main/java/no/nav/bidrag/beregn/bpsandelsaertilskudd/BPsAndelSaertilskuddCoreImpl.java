@@ -149,8 +149,8 @@ public class BPsAndelSaertilskuddCoreImpl extends FellesCore implements BPsAndel
     resultatGrunnlag.getInntektBPListe().forEach(inntekt -> referanseListe.add(inntekt.getReferanse()));
     resultatGrunnlag.getInntektBMListe().forEach(inntekt -> referanseListe.add(inntekt.getReferanse()));
     resultatGrunnlag.getInntektBBListe().forEach(inntekt -> referanseListe.add(inntekt.getReferanse()));
-    referanseListe.addAll(sjablonListe.stream().map(this::lagSjablonReferanse).distinct().toList());
-    return referanseListe.stream().sorted().toList();
+    referanseListe.addAll(sjablonListe.stream().map(this::lagSjablonReferanse).distinct().collect(toList()));
+    return referanseListe.stream().sorted().collect(toList());
   }
 
   private List<SjablonResultatGrunnlagCore> mapSjablonGrunnlagListe(List<ResultatPeriode> resultatPeriodeListe) {

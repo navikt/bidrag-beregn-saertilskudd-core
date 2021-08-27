@@ -61,7 +61,7 @@ public class SamvaersfradragPeriodeImpl implements SamvaersfradragPeriode {
               beregnBarnAlder(samvaersfradragGrunnnlagPerBarn.getBarnFodselsdato(), beregningsperiode.getDatoFom()),
               samvaersfradragGrunnnlagPerBarn.getSamvaersklasse())).collect(toList());
 
-      var sjablonliste = justertSjablonPeriodeListe.stream().filter(i -> i.getPeriode().overlapperMed(beregningsperiode)).toList();
+      var sjablonliste = justertSjablonPeriodeListe.stream().filter(i -> i.getPeriode().overlapperMed(beregningsperiode)).collect(toList());
 
       // Kaller beregningsmodulen for hver beregningsperiode
       var beregnSamvaersfradragGrunnlagPeriodisert = new GrunnlagBeregningPeriodisert(

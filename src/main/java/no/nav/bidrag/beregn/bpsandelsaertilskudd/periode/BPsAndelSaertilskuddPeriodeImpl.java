@@ -118,7 +118,7 @@ public class BPsAndelSaertilskuddPeriodeImpl implements BPsAndelSaertilskuddPeri
               inntektPeriode.getInntektBelop(), false, false)).collect(toList());
 
       var sjablonliste = justertSjablonPeriodeListe.stream().filter(
-          i -> i.getPeriode().overlapperMed(beregningsperiode)).toList();
+          i -> i.getPeriode().overlapperMed(beregningsperiode)).collect(toList());
 
       // Kaller beregningsmodulen for hver beregningsperiode
       var beregnBPsAndelSaertilskuddGrunnlagPeriodisert = new GrunnlagBeregning(nettoSaertilskuddBelop,
