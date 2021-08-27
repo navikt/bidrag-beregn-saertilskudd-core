@@ -1,9 +1,8 @@
 package no.nav.bidrag.beregn.bpsandelsaertilskudd.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
-import no.nav.bidrag.beregn.felles.bo.Sjablon
-import no.nav.bidrag.beregn.felles.bo.SjablonNavnVerdi
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
+import no.nav.bidrag.beregn.felles.bo.SjablonPeriodeNavnVerdi
 import no.nav.bidrag.beregn.felles.enums.InntektType
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -35,7 +34,7 @@ data class ResultatBeregning(
     val resultatAndelProsent: BigDecimal,
     val resultatAndelBelop: BigDecimal,
     val barnetErSelvforsorget: Boolean,
-    val sjablonListe: List<SjablonNavnVerdi>
+    val sjablonListe: List<SjablonPeriodeNavnVerdi>
 )
 
 // Grunnlag beregning
@@ -44,10 +43,11 @@ data class GrunnlagBeregning(
     val inntektBPListe: List<Inntekt>,
     val inntektBMListe: List<Inntekt>,
     val inntektBBListe: List<Inntekt>,
-    val sjablonListe: List<Sjablon>
+    val sjablonListe: List<SjablonPeriode>
 )
 
 data class Inntekt(
+    val referanse: String,
     val inntektType: InntektType,
     val inntektBelop: BigDecimal,
     val deltFordel: Boolean,

@@ -8,56 +8,61 @@ import no.nav.bidrag.beregn.felles.enums.SaerfradragKode
 import java.math.BigDecimal
 
 data class InntektPeriode(
+    val referanse: String,
     val periodeDatoFraTil: Periode,
     val inntektType: InntektType,
     val inntektBelop: BigDecimal) : PeriodisertGrunnlag {
-  constructor(inntektPeriode: InntektPeriode) : this(inntektPeriode.periodeDatoFraTil.justerDatoer(), inntektPeriode.inntektType,
+  constructor(inntektPeriode: InntektPeriode) : this(inntektPeriode.referanse, inntektPeriode.periodeDatoFraTil.justerDatoer(), inntektPeriode.inntektType,
       inntektPeriode.inntektBelop)
 
-  override fun getDatoFraTil(): Periode {
+  override fun getPeriode(): Periode {
     return periodeDatoFraTil
   }
 }
 
 data class SkatteklassePeriode(
+    val referanse: String,
     val periodeDatoFraTil: Periode,
     val skatteklasse: Int) : PeriodisertGrunnlag {
-  constructor(skatteklassePeriode: SkatteklassePeriode) : this(skatteklassePeriode.periodeDatoFraTil.justerDatoer(),
+  constructor(skatteklassePeriode: SkatteklassePeriode) : this(skatteklassePeriode.referanse, skatteklassePeriode.periodeDatoFraTil.justerDatoer(),
       skatteklassePeriode.skatteklasse)
 
-  override fun getDatoFraTil(): Periode {
+  override fun getPeriode(): Periode {
     return periodeDatoFraTil
   }
 }
 
 data class BostatusPeriode(
+    val referanse: String,
     val periodeDatoFraTil: Periode,
     val bostatusKode: BostatusKode) : PeriodisertGrunnlag {
-  constructor(bostatusPeriode: BostatusPeriode) : this(bostatusPeriode.periodeDatoFraTil.justerDatoer(), bostatusPeriode.bostatusKode)
+  constructor(bostatusPeriode: BostatusPeriode) : this(bostatusPeriode.referanse, bostatusPeriode.periodeDatoFraTil.justerDatoer(), bostatusPeriode.bostatusKode)
 
-  override fun getDatoFraTil(): Periode {
+  override fun getPeriode(): Periode {
     return periodeDatoFraTil
   }
 }
 
-data class AntallBarnIEgetHusholdPeriode(
+data class BarnIHustandPeriode(
+    val referanse: String,
     val periodeDatoFraTil: Periode,
-    val antallBarn: BigDecimal) : PeriodisertGrunnlag {
-  constructor(antallBarnIEgetHusholdPeriode: AntallBarnIEgetHusholdPeriode) : this(antallBarnIEgetHusholdPeriode.periodeDatoFraTil.justerDatoer(),
-      antallBarnIEgetHusholdPeriode.antallBarn)
+    val antallBarn: Double) : PeriodisertGrunnlag {
+  constructor(barnIEgetHusholdPeriode: BarnIHustandPeriode) : this(barnIEgetHusholdPeriode.referanse, barnIEgetHusholdPeriode.periodeDatoFraTil.justerDatoer(),
+      barnIEgetHusholdPeriode.antallBarn)
 
-  override fun getDatoFraTil(): Periode {
+  override fun getPeriode(): Periode {
     return periodeDatoFraTil
   }
 }
 
 data class SaerfradragPeriode(
+    val referanse: String,
     val periodeDatoFraTil: Periode,
     val saerfradragKode: SaerfradragKode) : PeriodisertGrunnlag {
-  constructor(saerfradragPeriode: SaerfradragPeriode) : this(saerfradragPeriode.periodeDatoFraTil.justerDatoer(),
+  constructor(saerfradragPeriode: SaerfradragPeriode) : this(saerfradragPeriode.referanse, saerfradragPeriode.periodeDatoFraTil.justerDatoer(),
       saerfradragPeriode.saerfradragKode)
 
-  override fun getDatoFraTil(): Periode {
+  override fun getPeriode(): Periode {
     return periodeDatoFraTil
   }
 }

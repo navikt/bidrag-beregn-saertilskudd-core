@@ -9,10 +9,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import no.nav.bidrag.beregn.felles.FellesBeregning;
 import no.nav.bidrag.beregn.felles.SjablonUtil;
-import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.felles.bo.SjablonNavnVerdi;
 import no.nav.bidrag.beregn.felles.bo.SjablonNokkel;
+import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
 import no.nav.bidrag.beregn.felles.enums.SjablonInnholdNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonNokkelNavn;
@@ -20,7 +21,7 @@ import no.nav.bidrag.beregn.samvaersfradrag.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.SamvaersfradragGrunnlagPerBarn;
 
-public class SamvaersfradragBeregningImpl implements SamvaersfradragBeregning {
+public class SamvaersfradragBeregningImpl extends FellesBeregning implements SamvaersfradragBeregning {
 
   @Override
   public List<ResultatBeregning> beregn(GrunnlagBeregningPeriodisert resultatGrunnlag) {
@@ -39,7 +40,7 @@ public class SamvaersfradragBeregningImpl implements SamvaersfradragBeregning {
       System.out.println("Alder: " + grunnlag.getBarnAlder());
 
       resultatBeregningListe.add(new ResultatBeregning(grunnlag.getBarnPersonId(),
-          belopFradrag, byggSjablonResultatListe(sjablonNavnVerdiMap)));
+          belopFradrag, byggSjablonResultatListe(sjablonNavnVerdiMap, resultatGrunnlag.getSjablonListe())));
     }
 
     return resultatBeregningListe;
@@ -47,9 +48,13 @@ public class SamvaersfradragBeregningImpl implements SamvaersfradragBeregning {
   }
 
   // Henter sjablonverdier
-  private Map<String, BigDecimal> hentSjablonVerdier(List<Sjablon> sjablonListe, String samvaersklasse, int soknadBarnAlder) {
+  private Map<String, BigDecimal> hentSjablonVerdier(List<SjablonPeriode> sjablonPeriodeListe, String samvaersklasse, int soknadBarnAlder) {
 
     var sjablonNavnVerdiMap = new HashMap<String, BigDecimal>();
+
+    var sjablonListe = sjablonPeriodeListe.stream()
+        .map(SjablonPeriode::getSjablon)
+        .collect(toList());
 
     // Samværsfradrag
     sjablonNavnVerdiMap.put(SjablonNavn.SAMVAERSFRADRAG.getNavn(), SjablonUtil.hentSjablonverdi(sjablonListe, SjablonNavn.SAMVAERSFRADRAG,
@@ -63,6 +68,6 @@ public class SamvaersfradragBeregningImpl implements SamvaersfradragBeregning {
   private List<SjablonNavnVerdi> byggSjablonResultatListe(Map<String, BigDecimal> sjablonNavnVerdiMap) {
     var sjablonNavnVerdiListe = new ArrayList<SjablonNavnVerdi>();
     sjablonNavnVerdiMap.forEach((sjablonNavn, sjablonVerdi) -> sjablonNavnVerdiListe.add(new SjablonNavnVerdi(sjablonNavn, sjablonVerdi)));
-    return sjablonNavnVerdiListe.stream().sorted(comparing(SjablonNavnVerdi::getSjablonNavn)).collect(toList());
+    return sjablonNavnVerdiListe.stream().sorted(comparing(SjablonNavnVerdi::getNavn)).collect(toList());
   }
 }

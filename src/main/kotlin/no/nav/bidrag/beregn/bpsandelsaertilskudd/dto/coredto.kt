@@ -1,9 +1,11 @@
 package no.nav.bidrag.beregn.bpsandelsaertilskudd.dto
 
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
+import no.nav.bidrag.beregn.felles.dto.IResultatPeriode
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
 import no.nav.bidrag.beregn.felles.dto.SjablonNavnVerdiCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
+import no.nav.bidrag.beregn.felles.dto.SjablonResultatGrunnlagCore
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -37,14 +39,15 @@ data class InntektPeriodeCore(
 // Resultatperiode
 data class BeregnBPsAndelSaertilskuddResultatCore(
     val resultatPeriodeListe: List<ResultatPeriodeCore>,
+    val sjablonListe: List<SjablonResultatGrunnlagCore>,
     val avvikListe: List<AvvikCore>
 )
 
 data class ResultatPeriodeCore(
-    val resultatDatoFraTil: PeriodeCore,
+    override val periode: PeriodeCore,
     val resultatBeregning: ResultatBeregningCore,
-    val resultatGrunnlag: ResultatGrunnlagCore
-)
+    override val grunnlagReferanseListe: List<String>
+) : IResultatPeriode
 
 data class ResultatBeregningCore(
     val resultatAndelProsent: BigDecimal,

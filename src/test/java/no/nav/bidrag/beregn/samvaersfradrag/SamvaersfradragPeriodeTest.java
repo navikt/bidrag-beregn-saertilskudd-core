@@ -1,5 +1,7 @@
 package no.nav.bidrag.beregn.samvaersfradrag;
 
+import static no.nav.bidrag.beregn.TestUtil.SAMVAERSFRADRAG_REFERANSE;
+import static no.nav.bidrag.beregn.TestUtil.SAMVAERSKLASSE_REFERANSE;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.math.BigDecimal;
@@ -40,11 +42,11 @@ public class SamvaersfradragPeriodeTest {
 
       // Lag samværsinfo
       var samvaersfradragGrunnlagPeriodeListe = new ArrayList<SamvaersfradragGrunnlagPeriode>();
-      samvaersfradragGrunnlagPeriodeListe.add(new SamvaersfradragGrunnlagPeriode(
+      samvaersfradragGrunnlagPeriodeListe.add(new SamvaersfradragGrunnlagPeriode(SAMVAERSFRADRAG_REFERANSE,
           new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-10-01")),
           1, LocalDate.parse("2016-03-17"), "02"));
 
-      samvaersfradragGrunnlagPeriodeListe.add(new SamvaersfradragGrunnlagPeriode(
+      samvaersfradragGrunnlagPeriodeListe.add(new SamvaersfradragGrunnlagPeriode(SAMVAERSFRADRAG_REFERANSE,
           new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-10-01")),
           2, LocalDate.parse("2017-05-17"), "02"));
 
@@ -72,7 +74,7 @@ public class SamvaersfradragPeriodeTest {
       assertAll(
           () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(1),
           () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().size()).isEqualTo(2),
-          () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2020-06-01")),
+          () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFom()).isEqualTo(LocalDate.parse("2020-06-01")),
           () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-07-01")),
           () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatSamvaersfradragBelop()
               .compareTo(BigDecimal.valueOf(727))).isZero(),
@@ -93,7 +95,7 @@ public class SamvaersfradragPeriodeTest {
 
     // Lag samværsinfo
     var samvaersklassePeriodeListe = new ArrayList<SamvaersfradragGrunnlagPeriode>();
-    samvaersklassePeriodeListe.add(new SamvaersfradragGrunnlagPeriode(
+    samvaersklassePeriodeListe.add(new SamvaersfradragGrunnlagPeriode(SAMVAERSFRADRAG_REFERANSE,
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-07-01")), barnPersonId,
         barnFodselsdato, "02"));
 
@@ -150,9 +152,9 @@ public class SamvaersfradragPeriodeTest {
   private void printGrunnlagResultat(
         BeregnSamvaersfradragResultat beregnSamvaersfradragResultat) {
       beregnSamvaersfradragResultat.getResultatPeriodeListe().stream().sorted(
-          Comparator.comparing(pR -> pR.getResultatDatoFraTil().getDatoFra()))
+          Comparator.comparing(pR -> pR.getResultatDatoFraTil().getDatoFom()))
           .forEach(sortedPR -> System.out
-              .println("Dato fra: " + sortedPR.getResultatDatoFraTil().getDatoFra() + "; " + "Dato til: "
+              .println("Dato fra: " + sortedPR.getResultatDatoFraTil().getDatoFom() + "; " + "Dato til: "
                   + sortedPR.getResultatDatoFraTil().getDatoTil()
                   + "; " + "Samvaersfradragsbeløp: " + sortedPR.getResultatBeregningListe().get(0).getResultatSamvaersfradragBelop()));
     }

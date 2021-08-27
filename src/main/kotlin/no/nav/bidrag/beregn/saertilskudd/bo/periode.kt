@@ -16,7 +16,7 @@ data class BidragsevnePeriode(
       bidragsevnePeriode.bidragsevneBelop
   )
 
-  override fun getDatoFraTil(): Periode {
+  override fun getPeriode(): Periode {
     return periodeDatoFraTil
   }
 }
@@ -36,7 +36,7 @@ data class BPsAndelSaertilskuddPeriode(
       bPsAndelSaertilskuddPeriode.barnetErSelvforsorget,
   )
 
-  override fun getDatoFraTil(): Periode {
+  override fun getPeriode(): Periode {
     return periodeDatoFraTil
   }
 }
@@ -61,7 +61,7 @@ data class LopendeBidragPeriode(
       lopendeBidragPeriode.opprinneligSamvaersfradragBelop
   )
 
-  override fun getDatoFraTil(): Periode {
+  override fun getPeriode(): Periode {
     return periodeDatoFraTil
   }
 }
@@ -78,7 +78,7 @@ data class SamvaersfradragGrunnlagPeriode(
       samvaersfradragGrunnlagPeriode.periodeDatoFraTil.justerDatoer(),
       samvaersfradragGrunnlagPeriode.samvaersfradragBelop)
 
-  override fun getDatoFraTil(): Periode {
+  override fun getPeriode(): Periode {
     return periodeDatoFraTil
   }
 }

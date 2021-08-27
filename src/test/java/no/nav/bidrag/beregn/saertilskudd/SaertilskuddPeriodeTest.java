@@ -69,13 +69,13 @@ public class SaertilskuddPeriodeTest {
     BeregnSaertilskuddGrunnlag beregnSaertilskuddGrunnlag =
         new BeregnSaertilskuddGrunnlag(beregnDatoFra, beregnDatoTil, 1,
             bidragsevnePeriodeListe, bPsAndelSaertilskuddPeriodeListe, lopendeBidragPeriodeListe,
-            samvaersfradragPeriodeListe);
+            samvaersfradragPeriodeListe, TestUtil.byggSjablonPeriodeListe());
 
     var resultat = saertilskuddPeriode.beregnPerioder(beregnSaertilskuddGrunnlag);
 
     assertAll(
         () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(1),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getPeriode().getDatoFra()).isEqualTo(LocalDate.parse("2019-08-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2019-08-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2019-09-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultat().getResultatBelop().doubleValue()).isEqualTo(4242),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultat().getResultatkode())
@@ -87,9 +87,9 @@ public class SaertilskuddPeriodeTest {
   private void printGrunnlagResultat(
       BeregnSaertilskuddResultat beregnSaertilskuddResultat) {
     beregnSaertilskuddResultat.getResultatPeriodeListe().stream().sorted(
-        Comparator.comparing(pR -> pR.getPeriode().getDatoFra()))
+        Comparator.comparing(pR -> pR.getPeriode().getDatoFom()))
         .forEach(sortedPR -> System.out
-            .println("Dato fra: " + sortedPR.getPeriode().getDatoFra() + "; " + "Dato til: "
+            .println("Dato fra: " + sortedPR.getPeriode().getDatoFom() + "; " + "Dato til: "
                 + sortedPR.getPeriode().getDatoTil()
                 + "; " + "Resultat: " + sortedPR.getResultat().getResultatBelop()
             + sortedPR.getResultat().getResultatkode()));

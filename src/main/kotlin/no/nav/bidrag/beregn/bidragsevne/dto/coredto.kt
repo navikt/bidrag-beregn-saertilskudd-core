@@ -1,9 +1,10 @@
 package no.nav.bidrag.beregn.bidragsevne.dto
 
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
+import no.nav.bidrag.beregn.felles.dto.IResultatPeriode
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
-import no.nav.bidrag.beregn.felles.dto.SjablonNavnVerdiCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
+import no.nav.bidrag.beregn.felles.dto.SjablonResultatGrunnlagCore
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -41,7 +42,7 @@ data class BostatusPeriodeCore(
 data class AntallBarnIEgetHusholdPeriodeCore(
     val referanse: String,
     val periodeDatoFraTil: PeriodeCore,
-    val antallBarn: BigDecimal
+    val antallBarn: Double
 )
 
 data class SaerfradragPeriodeCore(
@@ -54,30 +55,16 @@ data class SaerfradragPeriodeCore(
 // Resultatperiode
 data class BeregnBidragsevneResultatCore(
     val resultatPeriodeListe: List<ResultatPeriodeCore>,
+    val sjablonListe: List<SjablonResultatGrunnlagCore>,
     val avvikListe: List<AvvikCore>
 )
 
 data class ResultatPeriodeCore(
-    val resultatDatoFraTil: PeriodeCore,
+    override val periode: PeriodeCore,
     val resultatBeregning: ResultatBeregningCore,
-    val resultatGrunnlag: ResultatGrunnlagCore
-)
+    override val grunnlagReferanseListe: List<String>
+) : IResultatPeriode
 
 data class ResultatBeregningCore(
     val resultatEvneBelop: BigDecimal
-)
-
-// Grunnlag beregning
-data class ResultatGrunnlagCore(
-    val inntektListe: List<InntektCore>,
-    val skatteklasse: Int,
-    val bostatusKode: String,
-    val antallEgneBarnIHusstand: BigDecimal,
-    val saerfradragkode: String,
-    val sjablonListe: List<SjablonNavnVerdiCore>
-)
-
-data class InntektCore(
-    val inntektType: String,
-    val inntektBelop: BigDecimal
 )

@@ -1,7 +1,9 @@
 package no.nav.bidrag.beregn.saertilskudd.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
+import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.beregn.felles.enums.ResultatKode
+import no.nav.bidrag.beregn.felles.bo.SjablonPeriodeNavnVerdi
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -13,7 +15,9 @@ data class BeregnSaertilskuddGrunnlag(
     val bidragsevnePeriodeListe: List<BidragsevnePeriode>,
     val bPsAndelSaertilskuddPeriodeListe: List<BPsAndelSaertilskuddPeriode>,
     val lopendeBidragPeriodeListe: List<LopendeBidragPeriode>,
-    val samvaersfradragGrunnlagPeriodeListe: List<SamvaersfradragGrunnlagPeriode>
+    val samvaersfradragGrunnlagPeriodeListe: List<SamvaersfradragGrunnlagPeriode>,
+    val sjablonPeriodeListe: List<SjablonPeriode>
+
 )
 
 // Resultat
@@ -30,7 +34,8 @@ data class ResultatPeriode(
 
 data class ResultatBeregning(
     val resultatBelop: BigDecimal,
-    val resultatkode: ResultatKode
+    val resultatkode: ResultatKode,
+    val sjablonListe: List<SjablonPeriodeNavnVerdi>
 )
 
 // Grunnlag beregning
@@ -38,7 +43,8 @@ data class GrunnlagBeregning(
     val bidragsevne: Bidragsevne,
     val bPsAndelSaertilskudd: BPsAndelSaertilskudd,
     val lopendeBidragListe: List<LopendeBidrag>,
-    val samvaersfradragGrunnlagListe: List<SamvaersfradragGrunnlag>
+    val samvaersfradragGrunnlagListe: List<SamvaersfradragGrunnlag>,
+    val sjablonListe: List<SjablonPeriode>
 )
 
 data class Bidragsevne(

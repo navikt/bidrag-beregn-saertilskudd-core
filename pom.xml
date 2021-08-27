@@ -36,7 +36,7 @@
 
     <!-- dependencies -->
     <spring-boot.version>2.4.2</spring-boot.version>
-    <bidrag-beregn-felles.version>0.14.7</bidrag-beregn-felles.version>
+    <bidrag-beregn-felles.version>0.18.0</bidrag-beregn-felles.version>
   </properties>
 
   <distributionManagement>
@@ -192,6 +192,10 @@
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <source>16</source>
+          <target>16</target>
+        </configuration>
       </plugin>
 
       <plugin>

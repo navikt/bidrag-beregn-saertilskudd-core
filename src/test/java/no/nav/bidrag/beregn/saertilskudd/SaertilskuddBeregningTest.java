@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.TestUtil;
+import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
 import no.nav.bidrag.beregn.saertilskudd.beregning.SaertilskuddBeregningImpl;
 import no.nav.bidrag.beregn.saertilskudd.bo.BPsAndelSaertilskudd;
 import no.nav.bidrag.beregn.saertilskudd.bo.Bidragsevne;
@@ -22,6 +23,9 @@ import org.junit.jupiter.api.Test;
 public class SaertilskuddBeregningTest {
 
   private final List<Sjablon> sjablonListe = TestUtil.byggSjabloner();
+
+  private final List<SjablonPeriode> sjablonPeriodeListe = TestUtil.byggSjablonPeriodeListe();
+
 
   @DisplayName("Beregner enkelt særtilskudd med full evne, dette er eksempel 1 fra John")
   @Test
@@ -45,7 +49,7 @@ public class SaertilskuddBeregningTest {
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
         new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(11069)),
         new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(60.6), BigDecimal.valueOf(4242),
-            false), lopendeBidragListe, samvaersfradragListe);
+            false), lopendeBidragListe, samvaersfradragListe, sjablonPeriodeListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(4242, resultat.getResultatBelop().doubleValue());
@@ -74,7 +78,7 @@ public class SaertilskuddBeregningTest {
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
         new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(3100)),
         new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(60.6), BigDecimal.valueOf(4242),
-            false), lopendeBidragListe, samvaersfradragListe);
+            false), lopendeBidragListe, samvaersfradragListe, sjablonPeriodeListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(4242, resultat.getResultatBelop().doubleValue());
@@ -103,7 +107,7 @@ public class SaertilskuddBeregningTest {
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
         new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(3456)),
         new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(60.6), BigDecimal.valueOf(4242),
-            false), lopendeBidragListe, samvaersfradragListe);
+            false), lopendeBidragListe, samvaersfradragListe, sjablonPeriodeListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(4242, resultat.getResultatBelop().doubleValue());
@@ -132,7 +136,7 @@ public class SaertilskuddBeregningTest {
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
         new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(10000)),
         new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(60.6), BigDecimal.valueOf(4242),
-            true), lopendeBidragListe, samvaersfradragListe);
+            true), lopendeBidragListe, samvaersfradragListe, sjablonPeriodeListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(0d, resultat.getResultatBelop().doubleValue());
@@ -167,7 +171,7 @@ public class SaertilskuddBeregningTest {
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
         new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(6696)),
         new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(49.7), BigDecimal.valueOf(2982),
-            false), lopendeBidragListe, samvaersfradragListe);
+            false), lopendeBidragListe, samvaersfradragListe, sjablonPeriodeListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(2982d, resultat.getResultatBelop().doubleValue());
@@ -202,7 +206,7 @@ public class SaertilskuddBeregningTest {
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
         new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(6149)),
         new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(55.7), BigDecimal.valueOf(6684),
-            false), lopendeBidragListe, samvaersfradragListe);
+            false), lopendeBidragListe, samvaersfradragListe, sjablonPeriodeListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(6684d, resultat.getResultatBelop().doubleValue());
@@ -237,7 +241,7 @@ public class SaertilskuddBeregningTest {
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
         new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(6149)),
         new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(55.7), BigDecimal.valueOf(6684),
-            false), lopendeBidragListe, samvaersfradragListe);
+            false), lopendeBidragListe, samvaersfradragListe, sjablonPeriodeListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(6684d, resultat.getResultatBelop().doubleValue());
@@ -265,7 +269,7 @@ public class SaertilskuddBeregningTest {
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
         new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(2700)),
         new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(70), BigDecimal.valueOf(5000),
-            false), lopendeBidragListe, samvaersfradragListe);
+            false), lopendeBidragListe, samvaersfradragListe, sjablonPeriodeListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(5000, resultat.getResultatBelop().doubleValue());
@@ -301,7 +305,7 @@ public class SaertilskuddBeregningTest {
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
         new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(9962)),
         new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(62.8), BigDecimal.valueOf(7536),
-            false), lopendeBidragListe, samvaersfradragListe);
+            false), lopendeBidragListe, samvaersfradragListe, sjablonPeriodeListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(7536, resultat.getResultatBelop().doubleValue());
@@ -337,7 +341,7 @@ public class SaertilskuddBeregningTest {
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
         new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(10891)),
         new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(55.1), BigDecimal.valueOf(6612),
-            false), lopendeBidragListe, samvaersfradragListe);
+            false), lopendeBidragListe, samvaersfradragListe, sjablonPeriodeListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(6612, resultat.getResultatBelop().doubleValue());
@@ -373,7 +377,7 @@ public class SaertilskuddBeregningTest {
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
         new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(6149)),
         new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(55.7), BigDecimal.valueOf(6684),
-            false), lopendeBidragListe, samvaersfradragListe);
+            false), lopendeBidragListe, samvaersfradragListe, sjablonPeriodeListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(6684, resultat.getResultatBelop().doubleValue());
@@ -409,7 +413,7 @@ public class SaertilskuddBeregningTest {
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
         new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(6149)),
         new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(55.7), BigDecimal.valueOf(6684),
-            false), lopendeBidragListe, samvaersfradragListe);
+            false), lopendeBidragListe, samvaersfradragListe, sjablonPeriodeListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(6684, resultat.getResultatBelop().doubleValue());
