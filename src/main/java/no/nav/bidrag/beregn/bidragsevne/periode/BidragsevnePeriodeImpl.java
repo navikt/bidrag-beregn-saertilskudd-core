@@ -110,16 +110,21 @@ public class BidragsevnePeriodeImpl implements BidragsevnePeriode {
 
       var skatteklasse = justertSkatteklassePeriodeListe.stream()
           .filter(i -> i.getPeriode().overlapperMed(beregningsperiode))
-          .map(skatteklassePeriode -> new Skatteklasse(skatteklassePeriode.getReferanse(), skatteklassePeriode.getSkatteklasse())).findFirst().orElse(null);
+          .map(skatteklassePeriode -> new Skatteklasse(skatteklassePeriode.getReferanse(), skatteklassePeriode.getSkatteklasse())).findFirst()
+          .orElse(null);
 
       var bostatus = justertBostatusPeriodeListe.stream().filter(i -> i.getPeriode().overlapperMed(beregningsperiode))
           .map(bostatusPeriode -> new Bostatus(bostatusPeriode.getReferanse(), bostatusPeriode.getBostatusKode())).findFirst().orElse(null);
 
       var barnIHusstand = justertAntallBarnIEgetHusholdPeriodeListe.stream()
-          .filter(i -> i.getPeriode().overlapperMed(beregningsperiode)).map(barnIHusstandPeriode -> new BarnIHusstand(barnIHusstandPeriode.getReferanse(), barnIHusstandPeriode.getAntallBarn())).findFirst().orElse(null);
+          .filter(i -> i.getPeriode().overlapperMed(beregningsperiode))
+          .map(barnIHusstandPeriode -> new BarnIHusstand(barnIHusstandPeriode.getReferanse(), barnIHusstandPeriode.getAntallBarn())).findFirst()
+          .orElse(null);
 
       var saerfradrag = justertSaerfradragPeriodeListe.stream()
-          .filter(i -> i.getPeriode().overlapperMed(beregningsperiode)).map(saerfradragPeriode -> new Saerfradrag(saerfradragPeriode.getReferanse(), saerfradragPeriode.getSaerfradragKode())).findFirst().orElse(null);
+          .filter(i -> i.getPeriode().overlapperMed(beregningsperiode))
+          .map(saerfradragPeriode -> new Saerfradrag(saerfradragPeriode.getReferanse(), saerfradragPeriode.getSaerfradragKode())).findFirst()
+          .orElse(null);
 
       var sjablonliste = justertSjablonPeriodeListe.stream().filter(i -> i.getPeriode().overlapperMed(beregningsperiode)).collect(toList());
 

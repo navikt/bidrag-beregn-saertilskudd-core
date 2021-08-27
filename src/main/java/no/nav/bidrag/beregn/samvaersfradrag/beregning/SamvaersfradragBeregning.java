@@ -8,7 +8,7 @@ public interface SamvaersfradragBeregning {
 
   List<ResultatBeregning> beregn(GrunnlagBeregningPeriodisert resultatGrunnlag);
 
-  static SamvaersfradragBeregning getInstance(){
+  static SamvaersfradragBeregning getInstance() {
     return new SamvaersfradragBeregningImpl();
   }
 

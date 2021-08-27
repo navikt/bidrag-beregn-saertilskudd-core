@@ -7,10 +7,13 @@ import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneResultat;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 
 public interface BidragsevnePeriode {
-    BeregnBidragsevneResultat beregnPerioder(
-        BeregnBidragsevneGrunnlag beregnBidragsevneGrunnlag);
-    List<Avvik> validerInput(BeregnBidragsevneGrunnlag beregnBidragsevneGrunnlag);
-    static BidragsevnePeriode getInstance() {
-        return new BidragsevnePeriodeImpl(Bidragsevneberegning.getInstance());
-    }
+
+  BeregnBidragsevneResultat beregnPerioder(
+      BeregnBidragsevneGrunnlag beregnBidragsevneGrunnlag);
+
+  List<Avvik> validerInput(BeregnBidragsevneGrunnlag beregnBidragsevneGrunnlag);
+
+  static BidragsevnePeriode getInstance() {
+    return new BidragsevnePeriodeImpl(Bidragsevneberegning.getInstance());
+  }
 }

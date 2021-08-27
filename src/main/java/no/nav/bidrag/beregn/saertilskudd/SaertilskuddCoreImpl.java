@@ -184,12 +184,12 @@ public class SaertilskuddCoreImpl extends FellesCore implements SaertilskuddCore
     var resultatPeriodeCoreListe = new ArrayList<ResultatPeriodeCore>();
     for (ResultatPeriode resultatPeriode : resultatPeriodeListe) {
       var saertilskuddResultat = resultatPeriode.getResultat();
-        resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
-            new PeriodeCore(resultatPeriode.getPeriode().getDatoFom(),
-                resultatPeriode.getPeriode().getDatoTil()),
-            resultatPeriode.getSoknadsbarnPersonId(),
-            new ResultatBeregningCore(saertilskuddResultat.getResultatBelop(), saertilskuddResultat.getResultatkode().toString()),
-            mapReferanseListe(resultatPeriode)));
+      resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
+          new PeriodeCore(resultatPeriode.getPeriode().getDatoFom(),
+              resultatPeriode.getPeriode().getDatoTil()),
+          resultatPeriode.getSoknadsbarnPersonId(),
+          new ResultatBeregningCore(saertilskuddResultat.getResultatBelop(), saertilskuddResultat.getResultatkode().toString()),
+          mapReferanseListe(resultatPeriode)));
     }
     return resultatPeriodeCoreListe;
   }

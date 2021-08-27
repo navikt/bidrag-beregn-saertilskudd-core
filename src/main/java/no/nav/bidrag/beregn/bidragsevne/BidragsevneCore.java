@@ -9,8 +9,9 @@ public interface BidragsevneCore {
   BeregnBidragsevneResultatCore beregnBidragsevne(
       BeregnBidragsevneGrunnlagCore beregnBidragsevneGrunnlagCore);
 
-  static BidragsevneCore getInstance() { return new BidragsevneCoreImpl(
-      BidragsevnePeriode.getInstance());
+  static BidragsevneCore getInstance() {
+    return new BidragsevneCoreImpl(
+        BidragsevnePeriode.getInstance());
   }
 }
 

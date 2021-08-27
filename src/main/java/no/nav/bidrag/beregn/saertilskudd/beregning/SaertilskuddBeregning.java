@@ -9,7 +9,7 @@ public interface SaertilskuddBeregning {
   ResultatBeregning beregn(
       GrunnlagBeregning grunnlagBeregning);
 
-  static SaertilskuddBeregning getInstance(){
+  static SaertilskuddBeregning getInstance() {
     return new SaertilskuddBeregningImpl();
   }
 

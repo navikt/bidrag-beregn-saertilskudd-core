@@ -84,24 +84,25 @@ public class SamvaersfradragCoreImpl extends FellesCore implements Samvaersfradr
       List<SamvaersklassePeriodeCore> samvaersklassePeriodeListeCore) {
     var samvaersklassePeriodeListe = new ArrayList<SamvaersfradragGrunnlagPeriode>();
     for (SamvaersklassePeriodeCore samvaersklassePeriodeCore : samvaersklassePeriodeListeCore) {
-      samvaersklassePeriodeListe.add(new SamvaersfradragGrunnlagPeriode( samvaersklassePeriodeCore.getReferanse(),
+      samvaersklassePeriodeListe.add(new SamvaersfradragGrunnlagPeriode(samvaersklassePeriodeCore.getReferanse(),
           new Periode(samvaersklassePeriodeCore.getSamvaersklassePeriodeDatoFraTil().getDatoFom(),
               samvaersklassePeriodeCore.getSamvaersklassePeriodeDatoFraTil().getDatoTil()),
-              samvaersklassePeriodeCore.getBarnPersonId(),
-              samvaersklassePeriodeCore.getBarnFodselsdato(),
-              samvaersklassePeriodeCore.getSamvaersklasse()));
+          samvaersklassePeriodeCore.getBarnPersonId(),
+          samvaersklassePeriodeCore.getBarnFodselsdato(),
+          samvaersklassePeriodeCore.getSamvaersklasse()));
     }
     return samvaersklassePeriodeListe;
   }
 
   private BeregnSamvaersfradragResultatCore mapFraBusinessObject(List<Avvik> avvikListe, BeregnSamvaersfradragResultat resultat) {
-    return new BeregnSamvaersfradragResultatCore(mapResultatPeriode(resultat.getResultatPeriodeListe()), mapSjablonGrunnlagListe(resultat.getResultatPeriodeListe()), mapAvvik(avvikListe));
+    return new BeregnSamvaersfradragResultatCore(mapResultatPeriode(resultat.getResultatPeriodeListe()),
+        mapSjablonGrunnlagListe(resultat.getResultatPeriodeListe()), mapAvvik(avvikListe));
   }
 
   private List<AvvikCore> mapAvvik(List<Avvik> avvikListe) {
     var avvikCoreListe = new ArrayList<AvvikCore>();
     for (Avvik avvik : avvikListe) {
-      avvikCoreListe.add(new AvvikCore(avvik.getAvvikTekst(),  avvik.getAvvikType().toString()));
+      avvikCoreListe.add(new AvvikCore(avvik.getAvvikTekst(), avvik.getAvvikType().toString()));
     }
     return avvikCoreListe;
   }
@@ -124,7 +125,8 @@ public class SamvaersfradragCoreImpl extends FellesCore implements Samvaersfradr
     resultatPeriode.getResultatBeregningListe().forEach(resultatBeregning -> sjablonListe.addAll(resultatBeregning.getSjablonListe()));
 
     var referanseListe = new ArrayList<String>();
-    resultatGrunnlag.getSamvaersfradragGrunnlagPerBarnListe().forEach(samvaersfradragGrunnlagPerBarn ->  referanseListe.add(samvaersfradragGrunnlagPerBarn.getReferanse()));
+    resultatGrunnlag.getSamvaersfradragGrunnlagPerBarnListe()
+        .forEach(samvaersfradragGrunnlagPerBarn -> referanseListe.add(samvaersfradragGrunnlagPerBarn.getReferanse()));
     referanseListe.addAll(sjablonListe.stream().map(this::lagSjablonReferanse).distinct().collect(toList()));
     return referanseListe.stream().sorted().collect(toList());
   }
@@ -141,7 +143,7 @@ public class SamvaersfradragCoreImpl extends FellesCore implements Samvaersfradr
 
   private List<SjablonResultatGrunnlagCore> mapSjablonGrunnlagListe(List<ResultatPeriode> resultatPeriodeListe) {
     return resultatPeriodeListe.stream()
-        .map(resultatPeriode ->  resultatPeriode.getResultatBeregningListe())
+        .map(resultatPeriode -> resultatPeriode.getResultatBeregningListe())
         .flatMap(Collection::stream)
         .map(resultatBeregning -> mapSjablonListe(resultatBeregning.getSjablonListe()))
         .flatMap(Collection::stream)

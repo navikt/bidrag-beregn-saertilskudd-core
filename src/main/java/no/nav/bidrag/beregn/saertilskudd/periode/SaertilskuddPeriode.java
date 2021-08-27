@@ -7,6 +7,7 @@ import no.nav.bidrag.beregn.saertilskudd.bo.BeregnSaertilskuddGrunnlag;
 import no.nav.bidrag.beregn.saertilskudd.bo.BeregnSaertilskuddResultat;
 
 public interface SaertilskuddPeriode {
+
   BeregnSaertilskuddResultat beregnPerioder(
       BeregnSaertilskuddGrunnlag beregnSaertilskuddGrunnlag);
 

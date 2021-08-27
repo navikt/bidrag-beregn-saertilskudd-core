@@ -109,7 +109,7 @@ public class BidragsevneCoreImpl extends FellesCore implements BidragsevneCore {
   private List<SkatteklassePeriode> mapSkatteklassePeriodeListe(List<SkatteklassePeriodeCore> skatteklassePeriodeListeCore) {
     var skatteklassePeriodeListe = new ArrayList<SkatteklassePeriode>();
     for (SkatteklassePeriodeCore skatteklassePeriodeCore : skatteklassePeriodeListeCore) {
-      skatteklassePeriodeListe.add(new SkatteklassePeriode( skatteklassePeriodeCore.getReferanse(),
+      skatteklassePeriodeListe.add(new SkatteklassePeriode(skatteklassePeriodeCore.getReferanse(),
           new Periode(skatteklassePeriodeCore.getPeriodeDatoFraTil().getDatoFom(),
               skatteklassePeriodeCore.getPeriodeDatoFraTil().getDatoTil()),
           skatteklassePeriodeCore.getSkatteklasse()));
@@ -120,7 +120,7 @@ public class BidragsevneCoreImpl extends FellesCore implements BidragsevneCore {
   private List<BostatusPeriode> mapBostatusPeriodeListe(List<BostatusPeriodeCore> bostatusPeriodeListeCore) {
     var bostatusPeriodeListe = new ArrayList<BostatusPeriode>();
     for (BostatusPeriodeCore bostatusPeriodeCore : bostatusPeriodeListeCore) {
-      bostatusPeriodeListe.add(new BostatusPeriode( bostatusPeriodeCore.getReferanse(),
+      bostatusPeriodeListe.add(new BostatusPeriode(bostatusPeriodeCore.getReferanse(),
           new Periode(bostatusPeriodeCore.getPeriodeDatoFraTil().getDatoFom(),
               bostatusPeriodeCore.getPeriodeDatoFraTil().getDatoTil()),
           BostatusKode.valueOf(bostatusPeriodeCore.getBostatusKode())));
@@ -132,7 +132,7 @@ public class BidragsevneCoreImpl extends FellesCore implements BidragsevneCore {
       List<AntallBarnIEgetHusholdPeriodeCore> antallBarnIEgetHusholdPeriodeListeCore) {
     var antallBarnIEgetHusholdPeriodeListe = new ArrayList<BarnIHustandPeriode>();
     for (AntallBarnIEgetHusholdPeriodeCore antallBarnIEgetHusholdPeriodeCore : antallBarnIEgetHusholdPeriodeListeCore) {
-      antallBarnIEgetHusholdPeriodeListe.add(new BarnIHustandPeriode( antallBarnIEgetHusholdPeriodeCore.getReferanse(),
+      antallBarnIEgetHusholdPeriodeListe.add(new BarnIHustandPeriode(antallBarnIEgetHusholdPeriodeCore.getReferanse(),
           new Periode(antallBarnIEgetHusholdPeriodeCore.getPeriodeDatoFraTil()
               .getDatoFom(),
               antallBarnIEgetHusholdPeriodeCore.getPeriodeDatoFraTil()
@@ -145,7 +145,7 @@ public class BidragsevneCoreImpl extends FellesCore implements BidragsevneCore {
   private List<SaerfradragPeriode> mapSaerfradragPeriodeListe(List<SaerfradragPeriodeCore> saerfradragPeriodeListeCore) {
     var saerfradragPeriodeListe = new ArrayList<SaerfradragPeriode>();
     for (SaerfradragPeriodeCore saerfradragPeriodeCore : saerfradragPeriodeListeCore) {
-      saerfradragPeriodeListe.add(new SaerfradragPeriode( saerfradragPeriodeCore.getReferanse(),
+      saerfradragPeriodeListe.add(new SaerfradragPeriode(saerfradragPeriodeCore.getReferanse(),
           new Periode(saerfradragPeriodeCore.getPeriodeDatoFraTil().getDatoFom(),
               saerfradragPeriodeCore.getPeriodeDatoFraTil().getDatoTil()),
           SaerfradragKode.valueOf(saerfradragPeriodeCore.getSaerfradragKode())));
@@ -154,7 +154,8 @@ public class BidragsevneCoreImpl extends FellesCore implements BidragsevneCore {
   }
 
   private BeregnBidragsevneResultatCore mapFraBusinessObject(List<Avvik> avvikListe, BeregnBidragsevneResultat resultat) {
-    return new BeregnBidragsevneResultatCore(mapResultatPeriode(resultat.getResultatPeriodeListe()), mapSjablonGrunnlagListe(resultat.getResultatPeriodeListe()), mapAvvik(avvikListe));
+    return new BeregnBidragsevneResultatCore(mapResultatPeriode(resultat.getResultatPeriodeListe()),
+        mapSjablonGrunnlagListe(resultat.getResultatPeriodeListe()), mapAvvik(avvikListe));
   }
 
   private List<AvvikCore> mapAvvik(List<Avvik> avvikListe) {

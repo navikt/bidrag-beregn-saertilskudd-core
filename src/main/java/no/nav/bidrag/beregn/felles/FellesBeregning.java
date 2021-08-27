@@ -13,6 +13,7 @@ import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriodeNavnVerdi;
 
 public class FellesBeregning {
+
   // Mapper ut sjablonverdier til ResultatBeregning (dette for å sikre at kun sjabloner som faktisk er brukt legges ut i grunnlaget for beregning)
   protected List<SjablonPeriodeNavnVerdi> byggSjablonResultatListe(Map<String, BigDecimal> sjablonNavnVerdiMap,
       List<SjablonPeriode> sjablonPeriodeListe) {

@@ -33,7 +33,7 @@ import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonResultatGrunnlagCore;
 import no.nav.bidrag.beregn.felles.enums.InntektType;
 
-public class BPsAndelSaertilskuddCoreImpl extends FellesCore implements BPsAndelSaertilskuddCore{
+public class BPsAndelSaertilskuddCoreImpl extends FellesCore implements BPsAndelSaertilskuddCore {
 
   public BPsAndelSaertilskuddCoreImpl(
       BPsAndelSaertilskuddPeriode bPsAndelSaertilskuddPeriode) {
@@ -106,17 +106,18 @@ public class BPsAndelSaertilskuddCoreImpl extends FellesCore implements BPsAndel
       inntekterPeriodeListe.add(new InntektPeriode(inntektPeriodeCore.getReferanse(),
           new Periode(inntektPeriodeCore.getPeriodeDatoFraTil().getDatoFom(),
               inntektPeriodeCore.getPeriodeDatoFraTil().getDatoTil()),
-              InntektType.valueOf(inntektPeriodeCore.getInntektType()),
-              inntektPeriodeCore.getInntektBelop(),
-              inntektPeriodeCore.getDeltFordel(),
-              inntektPeriodeCore.getSkatteklasse2()));
+          InntektType.valueOf(inntektPeriodeCore.getInntektType()),
+          inntektPeriodeCore.getInntektBelop(),
+          inntektPeriodeCore.getDeltFordel(),
+          inntektPeriodeCore.getSkatteklasse2()));
     }
     return inntekterPeriodeListe;
   }
 
   private BeregnBPsAndelSaertilskuddResultatCore mapFraBusinessObject(
       List<Avvik> avvikListe, BeregnBPsAndelSaertilskuddResultat resultat) {
-    return new BeregnBPsAndelSaertilskuddResultatCore(mapResultatPeriode(resultat.getResultatPeriodeListe()), mapSjablonGrunnlagListe(resultat.getResultatPeriodeListe()), mapAvvik(avvikListe));
+    return new BeregnBPsAndelSaertilskuddResultatCore(mapResultatPeriode(resultat.getResultatPeriodeListe()),
+        mapSjablonGrunnlagListe(resultat.getResultatPeriodeListe()), mapAvvik(avvikListe));
   }
 
   private List<AvvikCore> mapAvvik(List<Avvik> avvikListe) {

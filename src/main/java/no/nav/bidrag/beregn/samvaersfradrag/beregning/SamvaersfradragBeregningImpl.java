@@ -1,7 +1,6 @@
 package no.nav.bidrag.beregn.samvaersfradrag.beregning;
 
 import static java.util.Collections.singletonList;
-import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 
 import java.math.BigDecimal;
@@ -11,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import no.nav.bidrag.beregn.felles.FellesBeregning;
 import no.nav.bidrag.beregn.felles.SjablonUtil;
-import no.nav.bidrag.beregn.felles.bo.SjablonNavnVerdi;
 import no.nav.bidrag.beregn.felles.bo.SjablonNokkel;
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
 import no.nav.bidrag.beregn.felles.enums.SjablonInnholdNavn;
@@ -28,7 +26,7 @@ public class SamvaersfradragBeregningImpl extends FellesBeregning implements Sam
 
     var resultatBeregningListe = new ArrayList<ResultatBeregning>();
 
-    for (SamvaersfradragGrunnlagPerBarn grunnlag: resultatGrunnlag.getSamvaersfradragGrunnlagPerBarnListe()) {
+    for (SamvaersfradragGrunnlagPerBarn grunnlag : resultatGrunnlag.getSamvaersfradragGrunnlagPerBarnListe()) {
       // Henter sjablonverdier
       var sjablonNavnVerdiMap = hentSjablonVerdier(resultatGrunnlag.getSjablonListe(), grunnlag.getSamvaersklasse(),
           grunnlag.getBarnAlder());
@@ -62,12 +60,5 @@ public class SamvaersfradragBeregningImpl extends FellesBeregning implements Sam
         SjablonInnholdNavn.FRADRAG_BELOP));
 
     return sjablonNavnVerdiMap;
-  }
-
-  // Mapper ut sjablonverdier til ResultatBeregning (dette for å sikre at kun sjabloner som faktisk er brukt legges ut i grunnlaget for beregning)
-  private List<SjablonNavnVerdi> byggSjablonResultatListe(Map<String, BigDecimal> sjablonNavnVerdiMap) {
-    var sjablonNavnVerdiListe = new ArrayList<SjablonNavnVerdi>();
-    sjablonNavnVerdiMap.forEach((sjablonNavn, sjablonVerdi) -> sjablonNavnVerdiListe.add(new SjablonNavnVerdi(sjablonNavn, sjablonVerdi)));
-    return sjablonNavnVerdiListe.stream().sorted(comparing(SjablonNavnVerdi::getNavn)).collect(toList());
   }
 }
