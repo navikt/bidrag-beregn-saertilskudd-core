@@ -6,7 +6,7 @@ import no.nav.bidrag.beregn.bpsandelsaertilskudd.periode.BPsAndelSaertilskuddPer
 
 public interface BPsAndelSaertilskuddCore {
 
-  BeregnBPsAndelSaertilskuddResultatCore beregnBPsAndelSaertilskudd (
+  BeregnBPsAndelSaertilskuddResultatCore beregnBPsAndelSaertilskudd(
       BeregnBPsAndelSaertilskuddGrunnlagCore beregnBPsAndelSaertilskuddGrunnlagCore);
 
   static BPsAndelSaertilskuddCore getInstance() {

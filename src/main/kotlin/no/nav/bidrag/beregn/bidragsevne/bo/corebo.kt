@@ -1,9 +1,8 @@
 package no.nav.bidrag.beregn.bidragsevne.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
-import no.nav.bidrag.beregn.felles.bo.Sjablon
-import no.nav.bidrag.beregn.felles.bo.SjablonNavnVerdi
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
+import no.nav.bidrag.beregn.felles.bo.SjablonPeriodeNavnVerdi
 import no.nav.bidrag.beregn.felles.enums.BostatusKode
 import no.nav.bidrag.beregn.felles.enums.InntektType
 import no.nav.bidrag.beregn.felles.enums.SaerfradragKode
@@ -17,7 +16,7 @@ data class BeregnBidragsevneGrunnlag(
     val inntektPeriodeListe: List<InntektPeriode>,
     val skatteklassePeriodeListe: List<SkatteklassePeriode>,
     val bostatusPeriodeListe: List<BostatusPeriode>,
-    val antallBarnIEgetHusholdPeriodeListe: List<AntallBarnIEgetHusholdPeriode>,
+    val antallBarnIEgetHusholdPeriodeListe: List<BarnIHustandPeriode>,
     val saerfradragPeriodeListe: List<SaerfradragPeriode>,
     val sjablonPeriodeListe: List<SjablonPeriode>
 )
@@ -35,20 +34,41 @@ data class ResultatPeriode(
 
 data class ResultatBeregning(
     val resultatEvneBelop: BigDecimal,
-    val sjablonListe: List<SjablonNavnVerdi>
+    val sjablonListe: List<SjablonPeriodeNavnVerdi>
 )
 
 // Grunnlag beregning
 data class GrunnlagBeregning(
     val inntektListe: List<Inntekt>,
-    val skatteklasse: Int,
-    val bostatusKode: BostatusKode,
-    val antallEgneBarnIHusstand: BigDecimal,
-    val saerfradragkode: SaerfradragKode,
-    val sjablonListe: List<Sjablon>
+    val skatteklasse: Skatteklasse,
+    val bostatus: Bostatus,
+    val barnIHusstand: BarnIHusstand,
+    val saerfradrag: Saerfradrag,
+    val sjablonListe: List<SjablonPeriode>
 )
 
 data class Inntekt(
+    val referanse: String,
     val inntektType: InntektType,
     val inntektBelop: BigDecimal
+)
+
+data class Skatteklasse(
+    val referanse: String,
+    val skatteklasse: Int
+)
+
+data class Bostatus(
+    val referanse: String,
+    val kode: BostatusKode
+)
+
+data class BarnIHusstand(
+    val referanse: String,
+    val antallBarn: Double
+)
+
+data class Saerfradrag(
+    val referanse: String,
+    val kode: SaerfradragKode
 )

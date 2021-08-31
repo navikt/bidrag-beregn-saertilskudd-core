@@ -8,6 +8,7 @@ import no.nav.bidrag.beregn.samvaersfradrag.bo.BeregnSamvaersfradragGrunnlag;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.BeregnSamvaersfradragResultat;
 
 public interface SamvaersfradragPeriode {
+
   BeregnSamvaersfradragResultat beregnPerioder(BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag);
 
   List<Avvik> validerInput(BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag);

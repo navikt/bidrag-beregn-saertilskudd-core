@@ -1,4 +1,6 @@
 package no.nav.bidrag.beregn.samvaersfradrag;
+
+import static no.nav.bidrag.beregn.TestUtil.SAMVAERSFRADRAG_REFERANSE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -6,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.TestUtil;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
+import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
 import no.nav.bidrag.beregn.samvaersfradrag.beregning.SamvaersfradragBeregningImpl;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.SamvaersfradragGrunnlagPerBarn;
@@ -16,6 +19,8 @@ import org.junit.jupiter.api.Test;
 public class SamvaersfradragBeregningTest {
 
   private final List<Sjablon> sjablonListe = TestUtil.byggSjabloner();
+  private final List<SjablonPeriode> sjablonPeriodeListe = TestUtil.byggSjablonPeriodeListe();
+
 
   @DisplayName("Test av beregning av samvaersfradrag for fireåring")
   @Test
@@ -23,13 +28,13 @@ public class SamvaersfradragBeregningTest {
 
     List<SamvaersfradragGrunnlagPerBarn> samvaersfradragGrunnlagPerBarnListe = new ArrayList<>();
     samvaersfradragGrunnlagPerBarnListe.add(
-        new SamvaersfradragGrunnlagPerBarn(1, 4, "03")
+        new SamvaersfradragGrunnlagPerBarn(SAMVAERSFRADRAG_REFERANSE, 1, 4, "03")
     );
 
     SamvaersfradragBeregningImpl samvaersfradragBeregning = new SamvaersfradragBeregningImpl();
     GrunnlagBeregningPeriodisert resultatGrunnlag
         = new GrunnlagBeregningPeriodisert(samvaersfradragGrunnlagPerBarnListe,
-        sjablonListe);
+        sjablonPeriodeListe);
 
     assertAll(
         () -> assertThat(samvaersfradragBeregning.beregn(resultatGrunnlag).get(0).getBarnPersonId()).isEqualTo(1),
@@ -44,13 +49,13 @@ public class SamvaersfradragBeregningTest {
 
     List<SamvaersfradragGrunnlagPerBarn> samvaersfradragGrunnlagPerBarnListe = new ArrayList<>();
     samvaersfradragGrunnlagPerBarnListe.add(
-        new SamvaersfradragGrunnlagPerBarn(1, 6, "03")
+        new SamvaersfradragGrunnlagPerBarn(SAMVAERSFRADRAG_REFERANSE, 1, 6, "03")
     );
 
     SamvaersfradragBeregningImpl samvaersfradragBeregning = new SamvaersfradragBeregningImpl();
     GrunnlagBeregningPeriodisert resultatGrunnlag
         = new GrunnlagBeregningPeriodisert(samvaersfradragGrunnlagPerBarnListe,
-        sjablonListe);
+        sjablonPeriodeListe);
 
     assertAll(
         () -> assertThat(samvaersfradragBeregning.beregn(resultatGrunnlag).get(0).getBarnPersonId()).isEqualTo(1),
@@ -66,21 +71,21 @@ public class SamvaersfradragBeregningTest {
 
     List<SamvaersfradragGrunnlagPerBarn> samvaersfradragGrunnlagPerBarnListe = new ArrayList<>();
     samvaersfradragGrunnlagPerBarnListe.add(
-        new SamvaersfradragGrunnlagPerBarn(1, 4, "03")
+        new SamvaersfradragGrunnlagPerBarn(SAMVAERSFRADRAG_REFERANSE, 1, 4, "03")
     );
 
     samvaersfradragGrunnlagPerBarnListe.add(
-        new SamvaersfradragGrunnlagPerBarn(3, 6, "03")
+        new SamvaersfradragGrunnlagPerBarn(SAMVAERSFRADRAG_REFERANSE, 3, 6, "03")
     );
 
     samvaersfradragGrunnlagPerBarnListe.add(
-        new SamvaersfradragGrunnlagPerBarn(5, 11, "01")
+        new SamvaersfradragGrunnlagPerBarn(SAMVAERSFRADRAG_REFERANSE, 5, 11, "01")
     );
 
     SamvaersfradragBeregningImpl samvaersfradragBeregning = new SamvaersfradragBeregningImpl();
     GrunnlagBeregningPeriodisert resultatGrunnlag
         = new GrunnlagBeregningPeriodisert(samvaersfradragGrunnlagPerBarnListe,
-        sjablonListe);
+        sjablonPeriodeListe);
 
     assertAll(
         () -> assertThat(samvaersfradragBeregning.beregn(resultatGrunnlag).size()).isEqualTo(3),
@@ -101,13 +106,13 @@ public class SamvaersfradragBeregningTest {
   void testFraJohn() {
     List<SamvaersfradragGrunnlagPerBarn> samvaersfradragGrunnlagPerBarnListe = new ArrayList<>();
     samvaersfradragGrunnlagPerBarnListe.add(
-        new SamvaersfradragGrunnlagPerBarn(2, 14, "01")
+        new SamvaersfradragGrunnlagPerBarn(SAMVAERSFRADRAG_REFERANSE, 2, 14, "01")
     );
 
     SamvaersfradragBeregningImpl samvaersfradragBeregning = new SamvaersfradragBeregningImpl();
     GrunnlagBeregningPeriodisert resultatGrunnlag
         = new GrunnlagBeregningPeriodisert(samvaersfradragGrunnlagPerBarnListe,
-        sjablonListe);
+        sjablonPeriodeListe);
 
     assertAll(
         () -> assertThat(samvaersfradragBeregning.beregn(resultatGrunnlag).get(0).getBarnPersonId()).isEqualTo(2),

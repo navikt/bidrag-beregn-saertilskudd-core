@@ -1,29 +1,32 @@
 package no.nav.bidrag.beregn.saertilskudd;
 
+import static java.util.stream.Collectors.toList;
+
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
+import no.nav.bidrag.beregn.felles.FellesCore;
+import no.nav.bidrag.beregn.felles.bo.Sjablon;
+import no.nav.bidrag.beregn.felles.bo.SjablonInnhold;
+import no.nav.bidrag.beregn.felles.bo.SjablonNokkel;
+import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
+import no.nav.bidrag.beregn.felles.bo.SjablonPeriodeNavnVerdi;
+import no.nav.bidrag.beregn.felles.dto.SjablonInnholdCore;
+import no.nav.bidrag.beregn.felles.dto.SjablonNokkelCore;
+import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore;
 import no.nav.bidrag.beregn.saertilskudd.bo.BPsAndelSaertilskuddPeriode;
 import no.nav.bidrag.beregn.saertilskudd.bo.BeregnSaertilskuddGrunnlag;
 import no.nav.bidrag.beregn.saertilskudd.bo.BeregnSaertilskuddResultat;
 import no.nav.bidrag.beregn.saertilskudd.bo.BidragsevnePeriode;
-import no.nav.bidrag.beregn.saertilskudd.bo.LopendeBidrag;
 import no.nav.bidrag.beregn.saertilskudd.bo.LopendeBidragPeriode;
-import no.nav.bidrag.beregn.saertilskudd.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.saertilskudd.bo.ResultatPeriode;
-import no.nav.bidrag.beregn.saertilskudd.bo.SamvaersfradragGrunnlag;
 import no.nav.bidrag.beregn.saertilskudd.bo.SamvaersfradragGrunnlagPeriode;
-import no.nav.bidrag.beregn.saertilskudd.dto.BPsAndelSaertilskuddCore;
 import no.nav.bidrag.beregn.saertilskudd.dto.BPsAndelSaertilskuddPeriodeCore;
 import no.nav.bidrag.beregn.saertilskudd.dto.BeregnSaertilskuddGrunnlagCore;
 import no.nav.bidrag.beregn.saertilskudd.dto.BeregnSaertilskuddResultatCore;
-import no.nav.bidrag.beregn.saertilskudd.dto.BidragsevneCore;
 import no.nav.bidrag.beregn.saertilskudd.dto.BidragsevnePeriodeCore;
-import no.nav.bidrag.beregn.saertilskudd.dto.LopendeBidragCore;
-import no.nav.bidrag.beregn.saertilskudd.dto.ResultatGrunnlagCore;
-import no.nav.bidrag.beregn.saertilskudd.dto.SamvaersfradragCore;
 import no.nav.bidrag.beregn.saertilskudd.dto.LopendeBidragPeriodeCore;
 import no.nav.bidrag.beregn.saertilskudd.dto.ResultatBeregningCore;
 import no.nav.bidrag.beregn.saertilskudd.dto.ResultatPeriodeCore;
@@ -35,7 +38,7 @@ import no.nav.bidrag.beregn.saertilskudd.dto.SamvaersfradragPeriodeCore;
 import no.nav.bidrag.beregn.saertilskudd.periode.SaertilskuddPeriode;
 
 
-public class SaertilskuddCoreImpl implements SaertilskuddCore {
+public class SaertilskuddCoreImpl extends FellesCore implements SaertilskuddCore {
 
   public SaertilskuddCoreImpl(SaertilskuddPeriode saertilskuddPeriode) {
     this.saertilskuddPeriode = saertilskuddPeriode;
@@ -67,10 +70,29 @@ public class SaertilskuddCoreImpl implements SaertilskuddCore {
         beregnSaertilskuddGrunnlagCore.getLopendeBidragPeriodeListe());
     var samvaersfradragBelop = mapSamvaersfradragPeriodeListe(
         beregnSaertilskuddGrunnlagCore.getSamvaersfradragPeriodeListe());
+    var sjablonPeriodeListe = mapSjablonPeriodeListe(beregnSaertilskuddGrunnlagCore.getSjablonPeriodeListe());
 
     return new BeregnSaertilskuddGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnPersonId,
         bidragsevne,
-        bPsAndelSaertilskudd, lopendeBidrag, samvaersfradragBelop);
+        bPsAndelSaertilskudd, lopendeBidrag, samvaersfradragBelop, sjablonPeriodeListe);
+  }
+
+  private List<SjablonPeriode> mapSjablonPeriodeListe(List<SjablonPeriodeCore> sjablonPeriodeListeCore) {
+    var sjablonPeriodeListe = new ArrayList<SjablonPeriode>();
+    for (SjablonPeriodeCore sjablonPeriodeCore : sjablonPeriodeListeCore) {
+      var sjablonNokkelListe = new ArrayList<SjablonNokkel>();
+      var sjablonInnholdListe = new ArrayList<SjablonInnhold>();
+      for (SjablonNokkelCore sjablonNokkelCore : sjablonPeriodeCore.getNokkelListe()) {
+        sjablonNokkelListe.add(new SjablonNokkel(sjablonNokkelCore.getNavn(), sjablonNokkelCore.getVerdi()));
+      }
+      for (SjablonInnholdCore sjablonInnholdCore : sjablonPeriodeCore.getInnholdListe()) {
+        sjablonInnholdListe.add(new SjablonInnhold(sjablonInnholdCore.getNavn(), sjablonInnholdCore.getVerdi()));
+      }
+      sjablonPeriodeListe.add(new SjablonPeriode(
+          new Periode(sjablonPeriodeCore.getPeriode().getDatoFom(), sjablonPeriodeCore.getPeriode().getDatoTil()),
+          new Sjablon(sjablonPeriodeCore.getNavn(), sjablonNokkelListe, sjablonInnholdListe)));
+    }
+    return sjablonPeriodeListe;
   }
 
   private List<BidragsevnePeriode> mapBidragsevnePeriodeListe(
@@ -79,14 +101,14 @@ public class SaertilskuddCoreImpl implements SaertilskuddCore {
     for (BidragsevnePeriodeCore bidragsevnePeriodeCore : bidragsevnePeriodeListeCore) {
       bidragsevnePeriodeListe.add(new BidragsevnePeriode(
           bidragsevnePeriodeCore.getReferanse(),
-          new Periode(bidragsevnePeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoFra(),
-              bidragsevnePeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoTil()),
+          new Periode(bidragsevnePeriodeCore.getPeriodeDatoFraTil().getDatoFom(),
+              bidragsevnePeriodeCore.getPeriodeDatoFraTil().getDatoTil()),
           bidragsevnePeriodeCore.getBidragsevneBelop()
       ));
     }
     return bidragsevnePeriodeListe.stream()
         .sorted(Comparator.comparing(bidragsevnePeriode -> bidragsevnePeriode
-            .getPeriodeDatoFraTil().getDatoFra())).collect(Collectors.toList());
+            .getPeriodeDatoFraTil().getDatoFom())).collect(toList());
   }
 
 
@@ -96,15 +118,15 @@ public class SaertilskuddCoreImpl implements SaertilskuddCore {
     for (BPsAndelSaertilskuddPeriodeCore bPsAndelSaertilskuddPeriodeCore : bPsAndelSaertilskuddPeriodeListeCore) {
       bPsAndelSaertilskuddPeriodeListe.add(new BPsAndelSaertilskuddPeriode(
           bPsAndelSaertilskuddPeriodeCore.getReferanse(),
-          new Periode(bPsAndelSaertilskuddPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoFra(),
-              bPsAndelSaertilskuddPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoTil()),
+          new Periode(bPsAndelSaertilskuddPeriodeCore.getPeriodeDatoFraTil().getDatoFom(),
+              bPsAndelSaertilskuddPeriodeCore.getPeriodeDatoFraTil().getDatoTil()),
           bPsAndelSaertilskuddPeriodeCore.getBPsAndelSaertilskuddProsent(),
           bPsAndelSaertilskuddPeriodeCore.getBPsAndelSaertilskuddBelop(),
           bPsAndelSaertilskuddPeriodeCore.getBarnetErSelvforsorget()));
     }
     return bPsAndelSaertilskuddPeriodeListe.stream()
         .sorted(Comparator.comparing(bPsAndelSaertilskuddPeriode -> bPsAndelSaertilskuddPeriode
-            .getPeriodeDatoFraTil().getDatoFra())).collect(Collectors.toList());
+            .getPeriodeDatoFraTil().getDatoFom())).collect(toList());
   }
 
   private List<LopendeBidragPeriode> mapLopendeBidragPeriodeListe(
@@ -112,8 +134,8 @@ public class SaertilskuddCoreImpl implements SaertilskuddCore {
     var lopendeBidragPeriodeListe = new ArrayList<LopendeBidragPeriode>();
     for (LopendeBidragPeriodeCore lopendeBidragPeriodeCore : lopendeBidragPeriodeListeCore) {
       lopendeBidragPeriodeListe.add(new LopendeBidragPeriode(lopendeBidragPeriodeCore.getReferanse(),
-          new Periode(lopendeBidragPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoFra(),
-              lopendeBidragPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoTil()),
+          new Periode(lopendeBidragPeriodeCore.getPeriodeDatoFraTil().getDatoFom(),
+              lopendeBidragPeriodeCore.getPeriodeDatoFraTil().getDatoTil()),
           lopendeBidragPeriodeCore.getBarnPersonId(),
           lopendeBidragPeriodeCore.getLopendeBidragBelop(),
           lopendeBidragPeriodeCore.getOpprinneligBPsAndelUnderholdskostnadBelop(),
@@ -123,7 +145,7 @@ public class SaertilskuddCoreImpl implements SaertilskuddCore {
     }
     return lopendeBidragPeriodeListe.stream()
         .sorted(Comparator.comparing(lopendeBidragPeriode -> lopendeBidragPeriode
-            .getPeriodeDatoFraTil().getDatoFra())).collect(Collectors.toList());
+            .getPeriodeDatoFraTil().getDatoFom())).collect(toList());
   }
 
   private List<SamvaersfradragGrunnlagPeriode> mapSamvaersfradragPeriodeListe(
@@ -133,13 +155,13 @@ public class SaertilskuddCoreImpl implements SaertilskuddCore {
       samvaersfradragPeriodeListe.add(new SamvaersfradragGrunnlagPeriode(
           samvaersfradragPeriodeCore.getReferanse(),
           samvaersfradragPeriodeCore.getBarnPersonId(),
-          new Periode(samvaersfradragPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoFra(),
-              samvaersfradragPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoTil()),
+          new Periode(samvaersfradragPeriodeCore.getPeriodeDatoFraTil().getDatoFom(),
+              samvaersfradragPeriodeCore.getPeriodeDatoFraTil().getDatoTil()),
           samvaersfradragPeriodeCore.getSamvaersfradragBelop()));
     }
     return samvaersfradragPeriodeListe.stream()
         .sorted(Comparator.comparing(samvaersfradragGrunnlagPeriode -> samvaersfradragGrunnlagPeriode
-            .getPeriodeDatoFraTil().getDatoFra())).collect(Collectors.toList());
+            .getPeriodeDatoFraTil().getDatoFom())).collect(toList());
   }
 
   private BeregnSaertilskuddResultatCore mapFraBusinessObject(List<Avvik> avvikListe,
@@ -160,62 +182,28 @@ public class SaertilskuddCoreImpl implements SaertilskuddCore {
     var resultatPeriodeCoreListe = new ArrayList<ResultatPeriodeCore>();
     for (ResultatPeriode resultatPeriode : resultatPeriodeListe) {
       var saertilskuddResultat = resultatPeriode.getResultat();
-      var saertilskuddResultatGrunnlag = resultatPeriode.getGrunnlag();
-
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
-          new PeriodeCore(resultatPeriode.getPeriode().getDatoFra(),
+          new PeriodeCore(resultatPeriode.getPeriode().getDatoFom(),
               resultatPeriode.getPeriode().getDatoTil()),
           resultatPeriode.getSoknadsbarnPersonId(),
-          mapResultatBeregning(resultatPeriode.getResultat()),
-          new ResultatGrunnlagCore(
-              new BidragsevneCore(
-                  saertilskuddResultatGrunnlag.getBidragsevne().getBidragsevneBelop()
-              ),
-              new BPsAndelSaertilskuddCore(
-                  saertilskuddResultatGrunnlag.getBPsAndelSaertilskudd()
-                      .getBPsAndelSaertilskuddProsent(),
-                  saertilskuddResultatGrunnlag.getBPsAndelSaertilskudd()
-                      .getBPsAndelSaertilskuddBelop(),
-                  saertilskuddResultatGrunnlag.getBPsAndelSaertilskudd()
-                      .getBarnetErSelvforsorget()),
-              mapResultatGrunnlagLopendeBidrag(
-                  saertilskuddResultatGrunnlag.getLopendeBidragListe()),
-              mapResultatGrunnlagSamvaersfradrag(
-                  saertilskuddResultatGrunnlag.getSamvaersfradragGrunnlagListe())
-          )));
+          new ResultatBeregningCore(saertilskuddResultat.getResultatBelop(), saertilskuddResultat.getResultatkode().toString()),
+          mapReferanseListe(resultatPeriode)));
     }
     return resultatPeriodeCoreListe;
   }
 
-  private List<LopendeBidragCore> mapResultatGrunnlagLopendeBidrag(
-      List<LopendeBidrag> resultatGrunnlagLopendeBidragListe) {
-    var resultatGrunnlagLopendeBidragListeCore = new ArrayList<LopendeBidragCore>();
-    for (LopendeBidrag resultatGrunnlagLopendeBidrag : resultatGrunnlagLopendeBidragListe) {
-      resultatGrunnlagLopendeBidragListeCore
-          .add(new LopendeBidragCore(resultatGrunnlagLopendeBidrag.getBarnPersonId(),
-              resultatGrunnlagLopendeBidrag.getLopendeBidragBelop(),
-              resultatGrunnlagLopendeBidrag.getOpprinneligBPsAndelUnderholdskostnadBelop(),
-              resultatGrunnlagLopendeBidrag.getOpprinneligBidragBelop(),
-              resultatGrunnlagLopendeBidrag.getOpprinneligSamvaersfradragBelop()
-          ));
-    }
-    return resultatGrunnlagLopendeBidragListeCore;
+  private List<String> mapReferanseListe(ResultatPeriode resultatPeriode) {
+    var resultatGrunnlag = resultatPeriode.getGrunnlag();
+    var referanseListe = new ArrayList<String>();
+
+    referanseListe.add(resultatGrunnlag.getBidragsevne().getReferanse());
+    referanseListe.add(resultatGrunnlag.getBPsAndelSaertilskudd().getReferanse());
+    resultatGrunnlag.getSamvaersfradragGrunnlagListe().forEach(samvaersfradragGrunnlag -> referanseListe.add(samvaersfradragGrunnlag.getReferanse()));
+    resultatGrunnlag.getLopendeBidragListe().forEach(lopendeBidrag -> referanseListe.add(lopendeBidrag.getReferanse()));
+    return referanseListe.stream().sorted().collect(toList());
   }
 
-
-  private List<SamvaersfradragCore> mapResultatGrunnlagSamvaersfradrag(
-      List<SamvaersfradragGrunnlag> resultatGrunnlagSamvaersfradragListe) {
-    var resultatGrunnlagSamvaersfradragListeCore = new ArrayList<SamvaersfradragCore>();
-    for (SamvaersfradragGrunnlag resultatGrunnlagSamvaersfradrag : resultatGrunnlagSamvaersfradragListe) {
-      resultatGrunnlagSamvaersfradragListeCore
-          .add(new SamvaersfradragCore(resultatGrunnlagSamvaersfradrag.getBarnPersonId(),
-              resultatGrunnlagSamvaersfradrag.getSamvaersfradragBelop()));
-    }
-    return resultatGrunnlagSamvaersfradragListeCore;
-  }
-
-  private ResultatBeregningCore mapResultatBeregning(ResultatBeregning resultatBeregning) {
-    return new ResultatBeregningCore(resultatBeregning.getResultatBelop(),
-        resultatBeregning.getResultatkode().toString());
+  protected String lagSjablonReferanse(SjablonPeriodeNavnVerdi sjablon) {
+    return "Sjablon_" + sjablon.getNavn() + "_" + sjablon.getPeriode().getDatoFom().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
   }
 }

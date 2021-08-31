@@ -1,13 +1,14 @@
 package no.nav.bidrag.beregn.saertilskudd.beregning;
 
 import java.math.BigDecimal;
+import no.nav.bidrag.beregn.felles.FellesBeregning;
 import no.nav.bidrag.beregn.saertilskudd.bo.GrunnlagBeregning;
 import no.nav.bidrag.beregn.saertilskudd.bo.LopendeBidrag;
 import no.nav.bidrag.beregn.saertilskudd.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.felles.enums.ResultatKode;
 import no.nav.bidrag.beregn.saertilskudd.bo.SamvaersfradragGrunnlag;
 
-public class SaertilskuddBeregningImpl implements SaertilskuddBeregning {
+public class SaertilskuddBeregningImpl extends FellesBeregning implements SaertilskuddBeregning {
 
   @Override
   public ResultatBeregning beregn(GrunnlagBeregning grunnlagBeregning) {
@@ -16,20 +17,20 @@ public class SaertilskuddBeregningImpl implements SaertilskuddBeregning {
     var totaltBidragBleRedusertMedBelop = BigDecimal.ZERO;
     var totaltLopendeBidragBelop = BigDecimal.ZERO;
     var totaltSamvaersfradragBelop = BigDecimal.ZERO;
-    for (LopendeBidrag lopendeBidrag: grunnlagBeregning.getLopendeBidragListe()){
+    for (LopendeBidrag lopendeBidrag : grunnlagBeregning.getLopendeBidragListe()) {
       totaltBidragBleRedusertMedBelop = totaltBidragBleRedusertMedBelop.add(
           lopendeBidrag.getOpprinneligBPsAndelUnderholdskostnadBelop()
-          .subtract(
-          lopendeBidrag.getOpprinneligBidragBelop().add(
-              lopendeBidrag.getOpprinneligSamvaersfradragBelop()
-              )));
+              .subtract(
+                  lopendeBidrag.getOpprinneligBidragBelop().add(
+                      lopendeBidrag.getOpprinneligSamvaersfradragBelop()
+                  )));
 
       totaltLopendeBidragBelop = totaltLopendeBidragBelop.add(
           lopendeBidrag.getLopendeBidragBelop()
       );
     }
 
-    for (SamvaersfradragGrunnlag samvaersfradragGrunnlag : grunnlagBeregning.getSamvaersfradragGrunnlagListe() ){
+    for (SamvaersfradragGrunnlag samvaersfradragGrunnlag : grunnlagBeregning.getSamvaersfradragGrunnlagListe()) {
       totaltSamvaersfradragBelop = totaltSamvaersfradragBelop.add(
           samvaersfradragGrunnlag.getSamvaersfradragBelop()
       );
@@ -38,33 +39,20 @@ public class SaertilskuddBeregningImpl implements SaertilskuddBeregning {
     var totaltBidragBelop = totaltBidragBleRedusertMedBelop.add(
         totaltLopendeBidragBelop.add(totaltSamvaersfradragBelop));
 
-    System.out.println("Beregning særtilskudd:");
-    System.out.println("totaltBidragBleRedusertMedBelop: " + totaltBidragBleRedusertMedBelop);
-    System.out.println("totaltLopendeBidragBelop: " + totaltLopendeBidragBelop);
-    System.out.println("totaltSamvaersfradragBelop: " + totaltSamvaersfradragBelop);
-    System.out.println("totaltBidragBelop: " + totaltBidragBelop);
-    System.out.println("bidragsevne: " + grunnlagBeregning.getBidragsevne().getBidragsevneBelop());
-
     if (grunnlagBeregning.getBidragsevne().getBidragsevneBelop().compareTo(
         totaltBidragBelop) < 0) {
       resultatkode = ResultatKode.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE;
     }
 
-    if (grunnlagBeregning.getBPsAndelSaertilskudd().getBarnetErSelvforsorget()){
+    if (grunnlagBeregning.getBPsAndelSaertilskudd().getBarnetErSelvforsorget()) {
       resultatkode = ResultatKode.BARNET_ER_SELVFORSORGET;
-      System.out.println("resultatkode: " + resultatkode.toString());
       return
           new ResultatBeregning(BigDecimal.ZERO, resultatkode);
     } else {
-      System.out.println("resultatkode: " + resultatkode.toString());
       return
           new ResultatBeregning(
-          grunnlagBeregning.getBPsAndelSaertilskudd().getBPsAndelSaertilskuddBelop(),
-          resultatkode);
+              grunnlagBeregning.getBPsAndelSaertilskudd().getBPsAndelSaertilskuddBelop(),
+              resultatkode);
     }
-
-
-
-
   }
 }

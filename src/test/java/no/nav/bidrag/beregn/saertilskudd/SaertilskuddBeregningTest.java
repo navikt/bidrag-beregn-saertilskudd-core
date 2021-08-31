@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.TestUtil;
+import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
 import no.nav.bidrag.beregn.saertilskudd.beregning.SaertilskuddBeregningImpl;
 import no.nav.bidrag.beregn.saertilskudd.bo.BPsAndelSaertilskudd;
 import no.nav.bidrag.beregn.saertilskudd.bo.Bidragsevne;
@@ -23,6 +24,9 @@ public class SaertilskuddBeregningTest {
 
   private final List<Sjablon> sjablonListe = TestUtil.byggSjabloner();
 
+  private final List<SjablonPeriode> sjablonPeriodeListe = TestUtil.byggSjablonPeriodeListe();
+
+
   @DisplayName("Beregner enkelt særtilskudd med full evne, dette er eksempel 1 fra John")
   @Test
   void testEnkelBeregningFullEvne() {
@@ -39,7 +43,7 @@ public class SaertilskuddBeregningTest {
 
     var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
 
-    samvaersfradragListe.add(new SamvaersfradragGrunnlag(TestUtil.SAMVAERSFRADRAG_REFERANSE,1,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(TestUtil.SAMVAERSFRADRAG_REFERANSE, 1,
         BigDecimal.valueOf(457)));
 
     var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
@@ -88,7 +92,7 @@ public class SaertilskuddBeregningTest {
 
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
 
-    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,1,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE, 1,
         BigDecimal.valueOf(3000),  // lopendeBidragBelop
         BigDecimal.valueOf(2958),  // opprinneligBPsAndelSaertilskuddBelop
         BigDecimal.valueOf(2500),  // opprinneligBidragBelop
@@ -117,7 +121,7 @@ public class SaertilskuddBeregningTest {
 
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
 
-    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,1,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE, 1,
         BigDecimal.valueOf(3000),  // lopendeBidragBelop
         BigDecimal.valueOf(2958),  // opprinneligBPsAndelSaertilskuddBelop
         BigDecimal.valueOf(2500),  // opprinneligBidragBelop
@@ -145,13 +149,13 @@ public class SaertilskuddBeregningTest {
     SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
-    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,1,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE, 1,
         BigDecimal.valueOf(1700),  // lopendeBidragBelop
         BigDecimal.valueOf(3215),  // opprinneligBPsAndelSaertilskuddBelop
         BigDecimal.valueOf(1700),  // opprinneligBidragBelop
         BigDecimal.valueOf(1513)  // opprinneligSamvaersfradragBelop
     ));
-    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,2,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE, 2,
         BigDecimal.valueOf(1700),  // lopendeBidragBelop
         BigDecimal.valueOf(3215),  // opprinneligBPsAndelSaertilskuddBelop
         BigDecimal.valueOf(1700),  // opprinneligBidragBelop
@@ -180,13 +184,13 @@ public class SaertilskuddBeregningTest {
     SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
-    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,1,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE, 1,
         BigDecimal.valueOf(1500),  // lopendeBidragBelop
         BigDecimal.valueOf(3015),  // opprinneligBPsAndelSaertilskuddBelop
         BigDecimal.valueOf(1500),  // opprinneligBidragBelop
         BigDecimal.valueOf(1513)  // opprinneligSamvaersfradragBelop
     ));
-    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,2,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE, 2,
         BigDecimal.valueOf(1500),  // lopendeBidragBelop
         BigDecimal.valueOf(3015),  // opprinneligBPsAndelSaertilskuddBelop
         BigDecimal.valueOf(1500),  // opprinneligBidragBelop
@@ -215,13 +219,13 @@ public class SaertilskuddBeregningTest {
     SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
-    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,1,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE, 1,
         BigDecimal.valueOf(1800),  // lopendeBidragBelop
         BigDecimal.valueOf(3315),  // opprinneligBPsAndelSaertilskuddBelop
         BigDecimal.valueOf(1800),  // opprinneligBidragBelop
         BigDecimal.valueOf(1513)  // opprinneligSamvaersfradragBelop
     ));
-    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,2,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE, 2,
         BigDecimal.valueOf(1800),  // lopendeBidragBelop
         BigDecimal.valueOf(3315),  // opprinneligBPsAndelSaertilskuddBelop
         BigDecimal.valueOf(1800),  // opprinneligBidragBelop
@@ -251,7 +255,7 @@ public class SaertilskuddBeregningTest {
     SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
-    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,1,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE, 1,
         BigDecimal.valueOf(1300), // lopendeBidragBelop
         BigDecimal.valueOf(2600), // opprinneligBPsAndelUnderholdskostnadBelop
         BigDecimal.valueOf(1200), // opprinneligBidragBelop
@@ -278,14 +282,14 @@ public class SaertilskuddBeregningTest {
     SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
-    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,1,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE, 1,
         BigDecimal.valueOf(1800), // lopendeBidragBelop
         BigDecimal.valueOf(5000), // opprinneligBPsAndelUnderholdskostnadBelop
         BigDecimal.valueOf(1700), // opprinneligBidragBelop
         BigDecimal.valueOf(1323) // opprinneligSamvaersfradragBelop
     ));
 
-    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,2,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE, 2,
         BigDecimal.valueOf(1800), // lopendeBidragBelop
         BigDecimal.valueOf(5000), // opprinneligBPsAndelUnderholdskostnadBelop
         BigDecimal.valueOf(1700), // opprinneligBidragBelop
@@ -314,14 +318,14 @@ public class SaertilskuddBeregningTest {
     SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
-    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,1,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE, 1,
         BigDecimal.valueOf(1800), // lopendeBidragBelop
         BigDecimal.valueOf(5000), // opprinneligBPsAndelUnderholdskostnadBelop
         BigDecimal.valueOf(1700), // opprinneligBidragBelop
         BigDecimal.valueOf(1323) // opprinneligSamvaersfradragBelop
     ));
 
-    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,2,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE, 2,
         BigDecimal.valueOf(1800), // lopendeBidragBelop
         BigDecimal.valueOf(5000), // opprinneligBPsAndelUnderholdskostnadBelop
         BigDecimal.valueOf(1700), // opprinneligBidragBelop
@@ -350,14 +354,14 @@ public class SaertilskuddBeregningTest {
     SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
-    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,1,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE, 1,
         BigDecimal.valueOf(1800), // lopendeBidragBelop
         BigDecimal.valueOf(4000), // opprinneligBPsAndelUnderholdskostnadBelop
         BigDecimal.valueOf(1700), // opprinneligBidragBelop
         BigDecimal.valueOf(1323) // opprinneligSamvaersfradragBelop
     ));
 
-    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,2,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE, 2,
         BigDecimal.valueOf(1800), // lopendeBidragBelop
         BigDecimal.valueOf(4000), // opprinneligBPsAndelUnderholdskostnadBelop
         BigDecimal.valueOf(1700), // opprinneligBidragBelop
@@ -386,14 +390,14 @@ public class SaertilskuddBeregningTest {
     SaertilskuddBeregningImpl barnebidragBeregning = new SaertilskuddBeregningImpl();
 
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
-    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,1,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE, 1,
         BigDecimal.valueOf(2900), // lopendeBidragBelop
         BigDecimal.valueOf(4000), // opprinneligBPsAndelUnderholdskostnadBelop
         BigDecimal.valueOf(2800), // opprinneligBidragBelop
         BigDecimal.valueOf(1323) // opprinneligSamvaersfradragBelop
     ));
 
-    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,2,
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE, 2,
         BigDecimal.valueOf(2900), // lopendeBidragBelop
         BigDecimal.valueOf(4000), // opprinneligBPsAndelUnderholdskostnadBelop
         BigDecimal.valueOf(2800), // opprinneligBidragBelop

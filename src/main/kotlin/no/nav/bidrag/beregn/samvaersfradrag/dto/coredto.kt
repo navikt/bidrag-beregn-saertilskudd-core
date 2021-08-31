@@ -1,9 +1,10 @@
 package no.nav.bidrag.beregn.samvaersfradrag.dto
 
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
+import no.nav.bidrag.beregn.felles.dto.IResultatPeriode
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
-import no.nav.bidrag.beregn.felles.dto.SjablonNavnVerdiCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
+import no.nav.bidrag.beregn.felles.dto.SjablonResultatGrunnlagCore
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -26,28 +27,17 @@ data class SamvaersklassePeriodeCore(
 // Resultatperiode
 data class BeregnSamvaersfradragResultatCore(
     val resultatPeriodeListe: List<ResultatPeriodeCore>,
+    val sjablonListe: List<SjablonResultatGrunnlagCore>,
     val avvikListe: List<AvvikCore>
 )
 
 data class ResultatPeriodeCore(
-    val resultatDatoFraTil: PeriodeCore,
+    override val periode: PeriodeCore,
     val resultatBeregningListe: List<ResultatBeregningCore>,
-    val resultatGrunnlag: GrunnlagBeregningPeriodisertCore
-)
+    override val grunnlagReferanseListe: List<String>
+) : IResultatPeriode
 
 data class ResultatBeregningCore(
     val barnPersonId: Int,
     val resultatSamvaersfradragBelop: BigDecimal
-)
-
-// Grunnlag beregning
-data class GrunnlagBeregningPeriodisertCore(
-    val samvaersfradragGrunnlagPerBarnListe: List<SamvaersfradragGrunnlagPerBarnCore>,
-    val sjablonListe: List<SjablonNavnVerdiCore>
-)
-
-data class SamvaersfradragGrunnlagPerBarnCore(
-    val barnPersonId: Int,
-    val barnAlder: Int,
-    val samvaersklasse: String,
 )

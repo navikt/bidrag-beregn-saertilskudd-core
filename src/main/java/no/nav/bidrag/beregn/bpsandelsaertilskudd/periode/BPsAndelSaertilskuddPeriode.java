@@ -7,6 +7,7 @@ import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.BeregnBPsAndelSaertilskuddRe
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 
 public interface BPsAndelSaertilskuddPeriode {
+
   BeregnBPsAndelSaertilskuddResultat beregnPerioder(
       BeregnBPsAndelSaertilskuddGrunnlag beregnBPsAndelSaertilskuddGrunnlag);
 
