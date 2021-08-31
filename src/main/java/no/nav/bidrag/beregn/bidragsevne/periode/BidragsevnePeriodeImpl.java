@@ -128,8 +128,6 @@ public class BidragsevnePeriodeImpl implements BidragsevnePeriode {
 
       var sjablonliste = justertSjablonPeriodeListe.stream().filter(i -> i.getPeriode().overlapperMed(beregningsperiode)).collect(toList());
 
-//      System.out.println("Beregner bidragsevne for periode: " + beregningsperiode.getDatoFra() + " " + beregningsperiode.getDatoTil());
-
       // Kaller beregningsmodulen for hver beregningsperiode
       var beregnBidragsevneGrunnlagPeriodisert = new GrunnlagBeregning(inntektListe, skatteklasse, bostatus,
           barnIHusstand,

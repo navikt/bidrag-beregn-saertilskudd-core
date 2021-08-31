@@ -79,21 +79,24 @@ public class SamvaersfradragCoreTest {
             .isEqualTo(LocalDate.parse("2017-01-01")),
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(0).getPeriode().getDatoTil())
             .isEqualTo(LocalDate.parse("2018-01-01")),
-        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatSamvaersfradragBelop())
+        () -> assertThat(
+            beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatSamvaersfradragBelop())
             .isEqualTo(BigDecimal.valueOf(666)),
 
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(1).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2018-01-01")),
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(1).getPeriode().getDatoTil())
             .isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatSamvaersfradragBelop())
+        () -> assertThat(
+            beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatSamvaersfradragBelop())
             .isEqualTo(BigDecimal.valueOf(667)),
 
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(2).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2019-01-01")),
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(2).getPeriode().getDatoTil())
             .isEqualTo(LocalDate.parse("2020-01-01")),
-        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(2).getResultatBeregningListe().get(0).getResultatSamvaersfradragBelop())
+        () -> assertThat(
+            beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(2).getResultatBeregningListe().get(0).getResultatSamvaersfradragBelop())
             .isEqualTo(BigDecimal.valueOf(668))
     );
   }
@@ -112,7 +115,8 @@ public class SamvaersfradragCoreTest {
         () -> assertThat(beregnSamvaersfradragResultatCore).isNotNull(),
         () -> assertThat(beregnSamvaersfradragResultatCore.getAvvikListe()).isNotEmpty(),
         () -> assertThat(beregnSamvaersfradragResultatCore.getAvvikListe()).hasSize(1),
-        () -> assertThat(beregnSamvaersfradragResultatCore.getAvvikListe().get(0).getAvvikTekst()).isEqualTo("beregnDatoTil må være etter beregnDatoFra"),
+        () -> assertThat(beregnSamvaersfradragResultatCore.getAvvikListe().get(0).getAvvikTekst()).isEqualTo(
+            "beregnDatoTil må være etter beregnDatoFra"),
         () -> assertThat(beregnSamvaersfradragResultatCore.getAvvikListe().get(0).getAvvikType()).isEqualTo(
             AvvikType.DATO_FOM_ETTER_DATO_TIL.toString()),
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe()).isEmpty()
@@ -144,33 +148,38 @@ public class SamvaersfradragCoreTest {
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
         singletonList(new ResultatBeregning(1, BigDecimal.valueOf(666),
-            singletonList(new SjablonPeriodeNavnVerdi(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")), SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22))))),
+            singletonList(new SjablonPeriodeNavnVerdi(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
+                SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22))))),
         new GrunnlagBeregningPeriodisert(
-            singletonList(new SamvaersfradragGrunnlagPerBarn(SAMVAERSFRADRAG_REFERANSE,1, 4, "02")),
-            singletonList(new SjablonPeriode(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")), new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
-                singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                    BigDecimal.valueOf(1600)))))))));
+            singletonList(new SamvaersfradragGrunnlagPerBarn(SAMVAERSFRADRAG_REFERANSE, 1, 4, "02")),
+            singletonList(new SjablonPeriode(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
+                new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
+                    singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
+                        BigDecimal.valueOf(1600)))))))));
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-01-01")),
         singletonList(new ResultatBeregning(1, BigDecimal.valueOf(667),
-            singletonList(new SjablonPeriodeNavnVerdi(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")), SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22))))),
+            singletonList(new SjablonPeriodeNavnVerdi(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
+                SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22))))),
         new GrunnlagBeregningPeriodisert(
-            singletonList(new SamvaersfradragGrunnlagPerBarn(SAMVAERSFRADRAG_REFERANSE,1, 4, "02")),
-            singletonList(new SjablonPeriode(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")), new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
-                singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                    BigDecimal.valueOf(1600)))))))));
-    
+            singletonList(new SamvaersfradragGrunnlagPerBarn(SAMVAERSFRADRAG_REFERANSE, 1, 4, "02")),
+            singletonList(new SjablonPeriode(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
+                new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
+                    singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
+                        BigDecimal.valueOf(1600)))))))));
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
         singletonList(new ResultatBeregning(1, BigDecimal.valueOf(668),
-            singletonList(new SjablonPeriodeNavnVerdi(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")), SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22))))),
+            singletonList(new SjablonPeriodeNavnVerdi(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
+                SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22))))),
         new GrunnlagBeregningPeriodisert(
-            singletonList(new SamvaersfradragGrunnlagPerBarn(SAMVAERSFRADRAG_REFERANSE,1, 4, "02")),
-            singletonList(new SjablonPeriode(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")), new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
-                singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                    BigDecimal.valueOf(1600)))))))));
+            singletonList(new SamvaersfradragGrunnlagPerBarn(SAMVAERSFRADRAG_REFERANSE, 1, 4, "02")),
+            singletonList(new SjablonPeriode(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
+                new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
+                    singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
+                        BigDecimal.valueOf(1600)))))))));
 
     samvaersfradragPeriodeResultat = new BeregnSamvaersfradragResultat(periodeResultatListe);
   }

@@ -105,7 +105,7 @@ public class SaertilskuddPeriodeImpl implements SaertilskuddPeriode {
           .collect(toList());
 
       var grunnlagBeregning = new GrunnlagBeregning(bidragsevne, bPsAndelSaertilskudd, lopendeBidragListe,
-          samvaersfradragListe, sjablonListe);
+          samvaersfradragListe);
 
       resultatPeriodeListe.add(new ResultatPeriode(
           beregningsperiode, beregnSaertilskuddGrunnlag.getSoknadsbarnPersonId(),

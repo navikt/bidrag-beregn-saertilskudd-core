@@ -4,7 +4,6 @@ import static java.util.stream.Collectors.toList;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -17,7 +16,6 @@ import no.nav.bidrag.beregn.felles.bo.SjablonPeriodeNavnVerdi;
 import no.nav.bidrag.beregn.felles.dto.SjablonInnholdCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonNokkelCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore;
-import no.nav.bidrag.beregn.felles.dto.SjablonResultatGrunnlagCore;
 import no.nav.bidrag.beregn.saertilskudd.bo.BPsAndelSaertilskuddPeriode;
 import no.nav.bidrag.beregn.saertilskudd.bo.BeregnSaertilskuddGrunnlag;
 import no.nav.bidrag.beregn.saertilskudd.bo.BeregnSaertilskuddResultat;
@@ -169,7 +167,7 @@ public class SaertilskuddCoreImpl extends FellesCore implements SaertilskuddCore
   private BeregnSaertilskuddResultatCore mapFraBusinessObject(List<Avvik> avvikListe,
       BeregnSaertilskuddResultat resultat) {
     return new BeregnSaertilskuddResultatCore(
-        mapResultatPeriode(resultat.getResultatPeriodeListe()), mapSjablonGrunnlagListe(resultat.getResultatPeriodeListe()), mapAvvik(avvikListe));
+        mapResultatPeriode(resultat.getResultatPeriodeListe()), mapAvvik(avvikListe));
   }
 
   private List<AvvikCore> mapAvvik(List<Avvik> avvikListe) {
@@ -202,20 +200,10 @@ public class SaertilskuddCoreImpl extends FellesCore implements SaertilskuddCore
     referanseListe.add(resultatGrunnlag.getBPsAndelSaertilskudd().getReferanse());
     resultatGrunnlag.getSamvaersfradragGrunnlagListe().forEach(samvaersfradragGrunnlag -> referanseListe.add(samvaersfradragGrunnlag.getReferanse()));
     resultatGrunnlag.getLopendeBidragListe().forEach(lopendeBidrag -> referanseListe.add(lopendeBidrag.getReferanse()));
-    referanseListe.addAll(resultatPeriode.getResultat().getSjablonListe().stream().map(this::lagSjablonReferanse).distinct().collect(toList()));
     return referanseListe.stream().sorted().collect(toList());
   }
 
   protected String lagSjablonReferanse(SjablonPeriodeNavnVerdi sjablon) {
     return "Sjablon_" + sjablon.getNavn() + "_" + sjablon.getPeriode().getDatoFom().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-  }
-
-  private List<SjablonResultatGrunnlagCore> mapSjablonGrunnlagListe(List<ResultatPeriode> resultatPeriodeListe) {
-    return resultatPeriodeListe.stream()
-        .map(ResultatPeriode::getResultat)
-        .map(resultat -> mapSjablonListe(resultat.getSjablonListe()))
-        .flatMap(Collection::stream)
-        .distinct()
-        .collect(toList());
   }
 }

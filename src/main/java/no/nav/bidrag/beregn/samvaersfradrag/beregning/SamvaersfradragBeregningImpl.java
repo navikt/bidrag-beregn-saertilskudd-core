@@ -33,10 +33,6 @@ public class SamvaersfradragBeregningImpl extends FellesBeregning implements Sam
 
       var belopFradrag = sjablonNavnVerdiMap.get(SjablonNavn.SAMVAERSFRADRAG.getNavn());
 
-      System.out.println("Samværsfradrag barnPersonId: " + grunnlag.getBarnPersonId());
-      System.out.println("Beregnet samværsfradrag: " + belopFradrag);
-      System.out.println("Alder: " + grunnlag.getBarnAlder());
-
       resultatBeregningListe.add(new ResultatBeregning(grunnlag.getBarnPersonId(),
           belopFradrag, byggSjablonResultatListe(sjablonNavnVerdiMap, resultatGrunnlag.getSjablonListe())));
     }

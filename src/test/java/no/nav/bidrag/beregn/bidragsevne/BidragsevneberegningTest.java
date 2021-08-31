@@ -51,21 +51,24 @@ class BidragsevneberegningTest {
     // Tester beregning med ulike inntekter
     inntekter.add(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(1000000)));
     GrunnlagBeregning grunnlagBeregning
-        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 1), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE), new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 1),
+        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 1), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE),
+        new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 1),
         new Saerfradrag(SAERFRADRAG_REFERANSE, SaerfradragKode.INGEN), sjablonPeriodeListe);
     assertEquals(BigDecimal.valueOf(31859),
         bidragsevneberegning.beregn(grunnlagBeregning).getResultatEvneBelop());
 
     inntekter.set(0, new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(520000)));
     GrunnlagBeregning grunnlagBeregning2
-        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 1), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE), new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 1),
+        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 1), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE),
+        new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 1),
         new Saerfradrag(SAERFRADRAG_REFERANSE, SaerfradragKode.INGEN), sjablonPeriodeListe);
     assertEquals(BigDecimal.valueOf(8322),
         bidragsevneberegning.beregn(grunnlagBeregning2).getResultatEvneBelop());
 
     inntekter.set(0, new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(666000)));
     GrunnlagBeregning grunnlagBeregning3
-        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 1), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE), new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 3),
+        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 1), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE),
+        new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 3),
         new Saerfradrag(SAERFRADRAG_REFERANSE, SaerfradragKode.INGEN), sjablonPeriodeListe);
     assertEquals(BigDecimal.valueOf(8424),
         bidragsevneberegning.beregn(grunnlagBeregning3).getResultatEvneBelop());
@@ -73,54 +76,64 @@ class BidragsevneberegningTest {
     // Test på at beregnet bidragsevne blir satt til 0 når evne er negativ
     inntekter.set(0, new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(100000)));
     GrunnlagBeregning grunnlagBeregning4
-        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 1), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.MED_ANDRE), new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 3),
+        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 1), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.MED_ANDRE),
+        new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 3),
         new Saerfradrag(SAERFRADRAG_REFERANSE, SaerfradragKode.HELT), sjablonPeriodeListe);
     assertEquals(BigDecimal.ZERO,
         bidragsevneberegning.beregn(grunnlagBeregning4).getResultatEvneBelop());
 
     // Test at fordel skatteklasse 2 ikke legges til beregnet evne når skatteklasse = 1
     inntekter.set(0, new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(666000)));
-    sjablonPeriodeListe.set(0, new SjablonPeriode(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")), new Sjablon(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn(), emptyList(),
-        singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(12000))))));
+    sjablonPeriodeListe.set(0, new SjablonPeriode(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
+        new Sjablon(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn(), emptyList(),
+            singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(12000))))));
     GrunnlagBeregning grunnlagBeregning5
-        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 1), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE), new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 3),
+        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 1), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE),
+        new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 3),
         new Saerfradrag(SAERFRADRAG_REFERANSE, SaerfradragKode.INGEN), sjablonPeriodeListe);
     assertEquals(BigDecimal.valueOf(8424),
         bidragsevneberegning.beregn(grunnlagBeregning5).getResultatEvneBelop());
 
     // Test at fordel skatteklasse 2 legges til beregnet evne når skatteklasse = 2
     inntekter.set(0, new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(666000)));
-    sjablonPeriodeListe.set(0, new SjablonPeriode(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")), new Sjablon(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn(), emptyList(),
-        singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(12000))))));
+    sjablonPeriodeListe.set(0, new SjablonPeriode(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
+        new Sjablon(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn(), emptyList(),
+            singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(12000))))));
     GrunnlagBeregning grunnlagBeregning6
-        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 2), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE), new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 3),
+        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 2), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE),
+        new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 3),
         new Saerfradrag(SAERFRADRAG_REFERANSE, SaerfradragKode.INGEN), sjablonPeriodeListe);
     assertEquals(BigDecimal.valueOf(9424),
         bidragsevneberegning.beregn(grunnlagBeregning6).getResultatEvneBelop());
 
     // Test at personfradrag skatteklasse 2 brukes hvis skatteklasse 2 er angitt
-    sjablonPeriodeListe.set(0, new SjablonPeriode(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")), new Sjablon(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn(), emptyList(),
-        singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.ZERO)))));
+    sjablonPeriodeListe.set(0, new SjablonPeriode(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
+        new Sjablon(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn(), emptyList(),
+            singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.ZERO)))));
 
-    sjablonPeriodeListe.set(1, new SjablonPeriode(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")), new Sjablon(SjablonTallNavn.PERSONFRADRAG_KLASSE2_BELOP.getNavn(), emptyList(),
-        singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(24000))))));
+    sjablonPeriodeListe.set(1, new SjablonPeriode(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
+        new Sjablon(SjablonTallNavn.PERSONFRADRAG_KLASSE2_BELOP.getNavn(), emptyList(),
+            singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(24000))))));
 
     GrunnlagBeregning grunnlagBeregning7
-        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 2), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE), new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 3),
+        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 2), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE),
+        new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 3),
         new Saerfradrag(SAERFRADRAG_REFERANSE, SaerfradragKode.INGEN), sjablonPeriodeListe);
     assertEquals(BigDecimal.valueOf(7923),
         bidragsevneberegning.beregn(grunnlagBeregning7).getResultatEvneBelop());
 
     // Test av halvt særfradrag
     GrunnlagBeregning grunnlagBeregning8
-        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 1), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE), new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 3),
+        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 1), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE),
+        new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 3),
         new Saerfradrag(SAERFRADRAG_REFERANSE, SaerfradragKode.HALVT), sjablonPeriodeListe);
     assertEquals(BigDecimal.valueOf(8965),
         bidragsevneberegning.beregn(grunnlagBeregning8).getResultatEvneBelop());
 
     // Test av bostatus MED_FLERE
     GrunnlagBeregning grunnlagBeregning9
-        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 1), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.MED_ANDRE), new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 3),
+        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 1), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.MED_ANDRE),
+        new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 3),
         new Saerfradrag(SAERFRADRAG_REFERANSE, SaerfradragKode.HALVT), sjablonPeriodeListe);
     assertEquals(BigDecimal.valueOf(14253),
         bidragsevneberegning.beregn(grunnlagBeregning9).getResultatEvneBelop());
@@ -135,7 +148,8 @@ class BidragsevneberegningTest {
     BidragsevneberegningImpl bidragsevneberegning = new BidragsevneberegningImpl();
 
     GrunnlagBeregning grunnlagBeregning
-        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 1), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE), new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 1),
+        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 1), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE),
+        new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 1),
         new Saerfradrag(SAERFRADRAG_REFERANSE, SaerfradragKode.HELT), sjablonPeriodeListe);
 
     System.out.println(bidragsevneberegning.beregnMinstefradrag(grunnlagBeregning,
@@ -148,7 +162,8 @@ class BidragsevneberegningTest {
 
     inntekter.set(0, new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(1000000)));
     GrunnlagBeregning grunnlagBeregning2
-        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 1), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE), new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 1),
+        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 1), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE),
+        new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 1),
         new Saerfradrag(SAERFRADRAG_REFERANSE, SaerfradragKode.HELT), sjablonPeriodeListe);
 
     System.out.println(bidragsevneberegning.beregnMinstefradrag(grunnlagBeregning2,
@@ -169,15 +184,17 @@ class BidragsevneberegningTest {
     inntekter.add(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(666000)));
 
     GrunnlagBeregning grunnlagBeregning
-        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 1), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE), new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 1),
+        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 1), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE),
+        new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 1),
         new Saerfradrag(SAERFRADRAG_REFERANSE, SaerfradragKode.HELT), sjablonPeriodeListe);
 
-    assertEquals(BigDecimal.valueOf(1400+16181+3465+0),
+    assertEquals(BigDecimal.valueOf(1400 + 16181 + 3465 + 0),
         bidragsevneberegning.beregnSkattetrinnBelop(grunnlagBeregning));
 
     inntekter.set(0, new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(174600)));
     GrunnlagBeregning grunnlagBeregning2
-        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 1), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE), new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 1),
+        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 1), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE),
+        new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 1),
         new Saerfradrag(SAERFRADRAG_REFERANSE, SaerfradragKode.HELT), sjablonPeriodeListe);
 
     assertEquals(BigDecimal.ZERO,
@@ -185,7 +202,8 @@ class BidragsevneberegningTest {
 
     inntekter.set(0, new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(250000)));
     GrunnlagBeregning grunnlagBeregning3
-        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 1), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE), new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 1),
+        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 1), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE),
+        new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 1),
         new Saerfradrag(SAERFRADRAG_REFERANSE, SaerfradragKode.HELT), sjablonPeriodeListe);
 
     assertEquals(BigDecimal.valueOf(1315),
@@ -202,7 +220,8 @@ class BidragsevneberegningTest {
     // Tester beregning med ulike inntekter
     inntekter.add(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(480000)));
     GrunnlagBeregning grunnlagBeregning
-        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 1), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE), new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 0),
+        = new GrunnlagBeregning(inntekter, new Skatteklasse(SKATTEKLASSE_REFERANSE, 1), new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE),
+        new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 0),
         new Saerfradrag(SAERFRADRAG_REFERANSE, SaerfradragKode.INGEN), sjablonPeriodeListe);
 
     assertEquals(BigDecimal.valueOf(9976),

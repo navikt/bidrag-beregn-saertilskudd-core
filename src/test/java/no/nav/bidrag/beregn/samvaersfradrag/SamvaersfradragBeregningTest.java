@@ -1,4 +1,5 @@
 package no.nav.bidrag.beregn.samvaersfradrag;
+
 import static no.nav.bidrag.beregn.TestUtil.SAMVAERSFRADRAG_REFERANSE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;

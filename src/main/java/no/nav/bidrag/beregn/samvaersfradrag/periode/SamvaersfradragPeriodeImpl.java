@@ -82,8 +82,6 @@ public class SamvaersfradragPeriodeImpl implements SamvaersfradragPeriode {
   public Integer beregnBarnAlder(LocalDate barnFodselsdato, LocalDate beregnDatoFra) {
     Integer beregnetAlder = Period.between(barnFodselsdato, beregnDatoFra).getYears();
 
-    System.out.println("Beregnet alder: " + beregnetAlder);
-
     return beregnetAlder;
   }
 

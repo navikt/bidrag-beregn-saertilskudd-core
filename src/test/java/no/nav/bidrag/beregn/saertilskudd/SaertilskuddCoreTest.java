@@ -120,7 +120,7 @@ public class SaertilskuddCoreTest {
             .isEqualTo(LocalDate.parse("2017-01-01")),
         () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe().get(0).getPeriode().getDatoTil())
             .isEqualTo(LocalDate.parse("2020-01-01")),
-        () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().size()).isEqualTo(6)
+        () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().size()).isEqualTo(4)
 
     );
   }
@@ -148,7 +148,6 @@ public class SaertilskuddCoreTest {
 
 
   private void byggSaertilskuddPeriodeGrunnlagCore() {
-
 
     var bidragsevnePeriode = new BidragsevnePeriodeCore(TestUtil.BIDRAGSEVNE_REFERANSE,
         new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
@@ -188,8 +187,10 @@ public class SaertilskuddCoreTest {
         .map(sjablon -> new SjablonPeriodeCore(
             new PeriodeCore(sjablon.getPeriode().getDatoFom(), sjablon.getPeriode().getDatoTil()),
             sjablon.getSjablon().getNavn(),
-            sjablon.getSjablon().getNokkelListe().stream().map(sjablonNokkel -> new SjablonNokkelCore(sjablonNokkel.getNavn(), sjablonNokkel.getVerdi())).collect(toList()),
-            sjablon.getSjablon().getInnholdListe().stream().map(sjablonInnhold -> new SjablonInnholdCore(sjablonInnhold.getNavn(), sjablonInnhold.getVerdi())).collect(toList())))
+            sjablon.getSjablon().getNokkelListe().stream()
+                .map(sjablonNokkel -> new SjablonNokkelCore(sjablonNokkel.getNavn(), sjablonNokkel.getVerdi())).collect(toList()),
+            sjablon.getSjablon().getInnholdListe().stream()
+                .map(sjablonInnhold -> new SjablonInnholdCore(sjablonInnhold.getNavn(), sjablonInnhold.getVerdi())).collect(toList())))
         .collect(toList());
   }
 
@@ -197,24 +198,22 @@ public class SaertilskuddCoreTest {
     List<ResultatPeriode> periodeResultatListe = new ArrayList<>();
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
 
-    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE,1,
-            BigDecimal.valueOf(100),
-            BigDecimal.valueOf(1000), BigDecimal.valueOf(1000), BigDecimal.valueOf(1000)
+    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE, 1,
+        BigDecimal.valueOf(100),
+        BigDecimal.valueOf(1000), BigDecimal.valueOf(1000), BigDecimal.valueOf(1000)
     ));
 
     var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
 
-    samvaersfradragListe.add(new SamvaersfradragGrunnlag(TestUtil.SAMVAERSFRADRAG_REFERANSE,1,
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(TestUtil.SAMVAERSFRADRAG_REFERANSE, 1,
         BigDecimal.valueOf(100)));
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")), 1,
-        new ResultatBeregning(BigDecimal.valueOf(1000), ResultatKode.KOSTNADSBEREGNET_BIDRAG, singletonList(new SjablonPeriodeNavnVerdi(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
-            SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22)))
-        ),
+        new ResultatBeregning(BigDecimal.valueOf(1000), ResultatKode.KOSTNADSBEREGNET_BIDRAG),
         new GrunnlagBeregning(new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(1000)),
             new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(60), BigDecimal.valueOf(8000), false),
-            lopendeBidragListe, samvaersfradragListe, TestUtil.byggSjablonPeriodeListe()
+            lopendeBidragListe, samvaersfradragListe
         )));
 
     beregnSaertilskuddPeriodeResultat = new BeregnSaertilskuddResultat(periodeResultatListe);

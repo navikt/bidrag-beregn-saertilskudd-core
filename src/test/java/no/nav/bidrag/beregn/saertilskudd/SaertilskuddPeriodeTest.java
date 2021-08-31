@@ -53,9 +53,9 @@ public class SaertilskuddPeriodeTest {
     var lopendeBidragPeriode = new LopendeBidragPeriode(TestUtil.LOPENDE_BIDRAG_REFERANSE,
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2020-01-01")), 1,
         BigDecimal.valueOf(2500), // lopendeBidragBelop
-            BigDecimal.valueOf(2958), // opprinneligBPsAndelSaertilskuddBelop
-            BigDecimal.valueOf(2500), // opprinneligBidragBelop
-            BigDecimal.valueOf(457)  // opprinneligSamvaersfradragBelop
+        BigDecimal.valueOf(2958), // opprinneligBPsAndelSaertilskuddBelop
+        BigDecimal.valueOf(2500), // opprinneligBidragBelop
+        BigDecimal.valueOf(457)  // opprinneligSamvaersfradragBelop
     );
     var lopendeBidragPeriodeListe = new ArrayList<LopendeBidragPeriode>();
     lopendeBidragPeriodeListe.add(lopendeBidragPeriode);
@@ -87,11 +87,11 @@ public class SaertilskuddPeriodeTest {
   private void printGrunnlagResultat(
       BeregnSaertilskuddResultat beregnSaertilskuddResultat) {
     beregnSaertilskuddResultat.getResultatPeriodeListe().stream().sorted(
-        Comparator.comparing(pR -> pR.getPeriode().getDatoFom()))
+            Comparator.comparing(pR -> pR.getPeriode().getDatoFom()))
         .forEach(sortedPR -> System.out
             .println("Dato fra: " + sortedPR.getPeriode().getDatoFom() + "; " + "Dato til: "
                 + sortedPR.getPeriode().getDatoTil()
                 + "; " + "Resultat: " + sortedPR.getResultat().getResultatBelop()
-            + sortedPR.getResultat().getResultatkode()));
+                + sortedPR.getResultat().getResultatkode()));
   }
 }

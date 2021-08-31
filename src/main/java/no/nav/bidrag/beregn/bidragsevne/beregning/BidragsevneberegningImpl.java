@@ -54,10 +54,8 @@ public class BidragsevneberegningImpl extends FellesBeregning implements Bidrags
     // finner personfradragklasse ut fra angitt skatteklasse
     var personfradrag = BigDecimal.ZERO;
     if (grunnlagBeregning.getSkatteklasse().getSkatteklasse() == 1) {
-//      System.out.println("Skatteklasse 1");
       personfradrag = sjablonNavnVerdiMap.get(SjablonTallNavn.PERSONFRADRAG_KLASSE1_BELOP.getNavn());
     } else {
-//      System.out.println("Skatteklasse 2");
       personfradrag = sjablonNavnVerdiMap.get(SjablonTallNavn.PERSONFRADRAG_KLASSE2_BELOP.getNavn());
     }
 
@@ -80,10 +78,6 @@ public class BidragsevneberegningImpl extends FellesBeregning implements Bidrags
     // Trekker fra boutgifter og midler til eget underhold
     forelopigBidragsevne = forelopigBidragsevne.subtract(
         sjablonNavnVerdiMap.get(SjablonInnholdNavn.BOUTGIFT_BELOP.getNavn()).multiply(BigDecimal.valueOf(12)));
-
-    System.out.println(
-        "Foreløpig evne etter fratrekk av boutgifter, bostatus " + grunnlagBeregning.getBostatus().getKode().toString() + ": "
-            + forelopigBidragsevne);
 
     forelopigBidragsevne = forelopigBidragsevne.subtract(
         sjablonNavnVerdiMap.get(SjablonInnholdNavn.UNDERHOLD_BELOP.getNavn()).multiply(BigDecimal.valueOf(12)));

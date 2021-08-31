@@ -377,7 +377,6 @@ public class BPsAndelSaertilskuddPeriodeTest {
     var beregnDatoTil = LocalDate.parse("2020-01-01");
     var nettoSaertilskuddPeriodeListe = new ArrayList<NettoSaertilskuddPeriode>();
 
-
     var inntektBPPeriodeListe = new ArrayList<InntektPeriode>();
     var inntektBMPeriodeListe = new ArrayList<InntektPeriode>();
     var inntektBBPeriodeListe = new ArrayList<InntektPeriode>();
@@ -390,11 +389,13 @@ public class BPsAndelSaertilskuddPeriodeTest {
         .add(new InntektPeriode("Inntekt_20180701", new Periode(beregnDatoFra, beregnDatoTil), InntektType.SKATTEGRUNNLAG_KORRIGERT_BARNETILLEGG,
             BigDecimal.valueOf(666001), false, false));
 
-    inntektBMPeriodeListe.add(new InntektPeriode("Inntekt_20180701", new Periode(beregnDatoFra, beregnDatoTil), InntektType.PENSJON_KORRIGERT_BARNETILLEGG,
-        BigDecimal.valueOf(400000), false, false));
+    inntektBMPeriodeListe.add(
+        new InntektPeriode("Inntekt_20180701", new Periode(beregnDatoFra, beregnDatoTil), InntektType.PENSJON_KORRIGERT_BARNETILLEGG,
+            BigDecimal.valueOf(400000), false, false));
 
-    inntektBBPeriodeListe.add(new InntektPeriode("Inntekt_20180701", new Periode(beregnDatoFra, beregnDatoTil), InntektType.BARNETRYGD_MANUELL_VURDERING,
-        BigDecimal.valueOf(40000), false, false));
+    inntektBBPeriodeListe.add(
+        new InntektPeriode("Inntekt_20180701", new Periode(beregnDatoFra, beregnDatoTil), InntektType.BARNETRYGD_MANUELL_VURDERING,
+            BigDecimal.valueOf(40000), false, false));
 
     grunnlag = new BeregnBPsAndelSaertilskuddGrunnlag(beregnDatoFra, beregnDatoTil,
         nettoSaertilskuddPeriodeListe, inntektBPPeriodeListe, inntektBMPeriodeListe, inntektBBPeriodeListe, lagSjablonGrunnlag());
@@ -487,7 +488,7 @@ public class BPsAndelSaertilskuddPeriodeTest {
   private void printGrunnlagResultat(
       BeregnBPsAndelSaertilskuddResultat beregnBPsAndelSaertilskuddResultat) {
     beregnBPsAndelSaertilskuddResultat.getResultatPeriodeListe().stream().sorted(
-        Comparator.comparing(pR -> pR.getResultatDatoFraTil().getDatoFom()))
+            Comparator.comparing(pR -> pR.getResultatDatoFraTil().getDatoFom()))
         .forEach(sortedPR -> System.out
             .println("Dato fra: " + sortedPR.getResultatDatoFraTil().getDatoFom() + "; " + "Dato til: "
                 + sortedPR.getResultatDatoFraTil().getDatoTil()

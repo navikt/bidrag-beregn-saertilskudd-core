@@ -25,29 +25,29 @@ public class BPsAndelSaertilskuddBeregningTest {
 
 
   @DisplayName("Beregning med inntekter for alle parter")
-    @Test
-    void testBeregningMedInntekterForAlle() {
-      var bPsAndelUnderholdskostnadBeregning = new BPsAndelSaertilskuddBeregningImpl();
+  @Test
+  void testBeregningMedInntekterForAlle() {
+    var bPsAndelUnderholdskostnadBeregning = new BPsAndelSaertilskuddBeregningImpl();
 
-      var nettoSaertilskuddBelop = BigDecimal.valueOf(1000);
-      var inntektBP = new ArrayList<Inntekt>();
-      var inntektBM = new ArrayList<Inntekt>();
-      var inntektBB = new ArrayList<Inntekt>();
+    var nettoSaertilskuddBelop = BigDecimal.valueOf(1000);
+    var inntektBP = new ArrayList<Inntekt>();
+    var inntektBM = new ArrayList<Inntekt>();
+    var inntektBB = new ArrayList<Inntekt>();
 
-      inntektBP.add(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(217666), false, false));
-      inntektBM.add(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(400000), false, false));
-      inntektBB.add(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(40000), false, false));
+    inntektBP.add(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(217666), false, false));
+    inntektBM.add(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(400000), false, false));
+    inntektBB.add(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(40000), false, false));
 
-      var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
-          new GrunnlagBeregning(nettoSaertilskuddBelop, inntektBP, inntektBM, inntektBB, sjablonPeriodeListe);
+    var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
+        new GrunnlagBeregning(nettoSaertilskuddBelop, inntektBP, inntektBM, inntektBB, sjablonPeriodeListe);
 
-      ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
+    ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
 
-      assertAll(
-          () -> assertThat(resultat).isNotNull(),
-          () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(BigDecimal.valueOf(35.2))
-      );
-    }
+    assertAll(
+        () -> assertThat(resultat).isNotNull(),
+        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(BigDecimal.valueOf(35.2))
+    );
+  }
 
   @DisplayName("Beregning med flere inntekter for alle parter, tester også det kalkuleres"
       + "riktig etter fratrekk av 30 * forhøyet forskudd på barnets inntekt")
@@ -126,7 +126,6 @@ public class BPsAndelSaertilskuddBeregningTest {
     inntektBM.add(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(40000), false, false));
     inntektBB.add(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(40000), false, false));
 
-
     // Beregnet andel skal da bli 92,6%, overstyres til 5/6 (83,3333333333%)
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
         new GrunnlagBeregning(nettoSaertilskuddBelop, inntektBP, inntektBM, inntektBB, sjablonPeriodeListe);
@@ -155,7 +154,7 @@ public class BPsAndelSaertilskuddBeregningTest {
     inntektBM.add(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(500000), false, false));
     inntektBB.add(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.ZERO, false, false));
 
-   var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
+    var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
         new GrunnlagBeregning(nettoSaertilskuddBelop, inntektBP, inntektBM, inntektBB, sjablonPeriodeListe);
 
     ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);

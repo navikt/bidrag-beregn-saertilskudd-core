@@ -176,36 +176,42 @@ public class BPsAndelSaertilskuddPeriodeCoreTest {
     var inntektBMListe = new ArrayList<Inntekt>();
     var inntektBBListe = new ArrayList<Inntekt>();
 
-    inntektBPListe.add(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE,BigDecimal.valueOf(111d), false, false));
-    inntektBMListe.add(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE,BigDecimal.valueOf(222d), false, false));
-    inntektBBListe.add(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE,BigDecimal.valueOf(333d), false, false));
+    inntektBPListe.add(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(111d), false, false));
+    inntektBMListe.add(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(222d), false, false));
+    inntektBBListe.add(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(333d), false, false));
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
-        new ResultatBeregning(BigDecimal.valueOf(10), BigDecimal.valueOf(1000),false,
-            singletonList(new SjablonPeriodeNavnVerdi(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")), SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), BigDecimal.valueOf(1600)))),
+        new ResultatBeregning(BigDecimal.valueOf(10), BigDecimal.valueOf(1000), false,
+            singletonList(new SjablonPeriodeNavnVerdi(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
+                SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), BigDecimal.valueOf(1600)))),
         new GrunnlagBeregning(nettoSaertilskuddBelop, inntektBPListe, inntektBMListe, inntektBBListe,
-            singletonList(new SjablonPeriode(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")), new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
-                singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                    BigDecimal.valueOf(1600)))))))));
+            singletonList(new SjablonPeriode(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
+                new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
+                    singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
+                        BigDecimal.valueOf(1600)))))))));
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-01-01")),
-        new ResultatBeregning(BigDecimal.valueOf(20), BigDecimal.valueOf(1000),false,
-            singletonList(new SjablonPeriodeNavnVerdi(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")), SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), BigDecimal.valueOf(1600)))),
+        new ResultatBeregning(BigDecimal.valueOf(20), BigDecimal.valueOf(1000), false,
+            singletonList(new SjablonPeriodeNavnVerdi(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
+                SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), BigDecimal.valueOf(1600)))),
         new GrunnlagBeregning(nettoSaertilskuddBelop, inntektBPListe, inntektBMListe, inntektBBListe,
-            singletonList(new SjablonPeriode(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")), new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
-                singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                    BigDecimal.valueOf(1640)))))))));
+            singletonList(new SjablonPeriode(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
+                new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
+                    singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
+                        BigDecimal.valueOf(1640)))))))));
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
-        new ResultatBeregning(BigDecimal.valueOf(30), BigDecimal.valueOf(1000),false,
-            singletonList(new SjablonPeriodeNavnVerdi(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")), SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), BigDecimal.valueOf(1600)))),
+        new ResultatBeregning(BigDecimal.valueOf(30), BigDecimal.valueOf(1000), false,
+            singletonList(new SjablonPeriodeNavnVerdi(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
+                SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), BigDecimal.valueOf(1600)))),
         new GrunnlagBeregning(nettoSaertilskuddBelop, inntektBPListe, inntektBMListe, inntektBBListe,
-            singletonList(new SjablonPeriode(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")), new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
-                singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                    BigDecimal.valueOf(1680)))))))));
+            singletonList(new SjablonPeriode(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
+                new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
+                    singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
+                        BigDecimal.valueOf(1680)))))))));
 
     bPsAndelSaertilskuddPeriodeResultat = new BeregnBPsAndelSaertilskuddResultat(periodeResultatListe);
   }

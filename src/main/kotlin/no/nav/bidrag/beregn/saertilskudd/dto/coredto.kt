@@ -4,7 +4,6 @@ import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.IResultatPeriode
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
-import no.nav.bidrag.beregn.felles.dto.SjablonResultatGrunnlagCore
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -54,7 +53,6 @@ data class SamvaersfradragPeriodeCore(
 // Resultatperiode
 data class BeregnSaertilskuddResultatCore(
     val resultatPeriodeListe: List<ResultatPeriodeCore>,
-    val sjablonListe: List<SjablonResultatGrunnlagCore>,
     val avvikListe: List<AvvikCore>
 )
 
