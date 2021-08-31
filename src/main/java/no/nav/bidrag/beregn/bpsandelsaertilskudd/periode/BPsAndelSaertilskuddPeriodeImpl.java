@@ -127,7 +127,6 @@ public class BPsAndelSaertilskuddPeriodeImpl implements BPsAndelSaertilskuddPeri
       resultatPeriodeListe.add(new ResultatPeriode(
           beregningsperiode, bPsAndelSaertilskuddBeregning.beregn(beregnBPsAndelSaertilskuddGrunnlagPeriodisert),
           beregnBPsAndelSaertilskuddGrunnlagPeriodisert));
-
     }
 
     //Slår sammen perioder med samme resultat

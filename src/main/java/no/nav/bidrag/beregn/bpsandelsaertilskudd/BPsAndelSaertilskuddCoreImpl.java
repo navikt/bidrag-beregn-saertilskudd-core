@@ -8,11 +8,13 @@ import java.util.Collections;
 import java.util.List;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.BeregnBPsAndelSaertilskuddGrunnlag;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.BeregnBPsAndelSaertilskuddResultat;
+import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.GrunnlagBeregning;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.InntektPeriode;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.NettoSaertilskuddPeriode;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.ResultatPeriode;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.dto.BeregnBPsAndelSaertilskuddGrunnlagCore;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.dto.BeregnBPsAndelSaertilskuddResultatCore;
+import no.nav.bidrag.beregn.bpsandelsaertilskudd.dto.BeregnedeGrunnlagCore;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.dto.InntektPeriodeCore;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.dto.NettoSaertilskuddPeriodeCore;
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.dto.ResultatBeregningCore;
@@ -51,7 +53,7 @@ public class BPsAndelSaertilskuddCoreImpl extends FellesCore implements BPsAndel
     if (avvikListe.isEmpty()) {
       beregnBPsAndelSaertilskuddResultat = bPsAndelSaertilskuddPeriode.beregnPerioder(beregnBPsAndelSaertilskuddGrunnlag);
     }
-    return mapFraBusinessObject(avvikListe, beregnBPsAndelSaertilskuddResultat);
+    return mapFraBusinessObject(avvikListe, beregnBPsAndelSaertilskuddResultat, beregnBPsAndelSaertilskuddGrunnlag);
   }
 
   private BeregnBPsAndelSaertilskuddGrunnlag mapTilBusinessObject(
@@ -115,8 +117,8 @@ public class BPsAndelSaertilskuddCoreImpl extends FellesCore implements BPsAndel
   }
 
   private BeregnBPsAndelSaertilskuddResultatCore mapFraBusinessObject(
-      List<Avvik> avvikListe, BeregnBPsAndelSaertilskuddResultat resultat) {
-    return new BeregnBPsAndelSaertilskuddResultatCore(mapResultatPeriode(resultat.getResultatPeriodeListe()),
+      List<Avvik> avvikListe, BeregnBPsAndelSaertilskuddResultat resultat, BeregnBPsAndelSaertilskuddGrunnlag beregnBPsAndelSaertilskuddGrunnlag) {
+    return new BeregnBPsAndelSaertilskuddResultatCore(mapResultatPeriode(resultat.getResultatPeriodeListe(), beregnBPsAndelSaertilskuddGrunnlag),
         mapSjablonGrunnlagListe(resultat.getResultatPeriodeListe()), mapAvvik(avvikListe));
   }
 
@@ -128,7 +130,7 @@ public class BPsAndelSaertilskuddCoreImpl extends FellesCore implements BPsAndel
     return avvikCoreListe;
   }
 
-  private List<ResultatPeriodeCore> mapResultatPeriode(List<ResultatPeriode> periodeResultatListe) {
+  private List<ResultatPeriodeCore> mapResultatPeriode(List<ResultatPeriode> periodeResultatListe, BeregnBPsAndelSaertilskuddGrunnlag beregnBPsAndelSaertilskuddGrunnlag) {
     var resultatPeriodeCoreListe = new ArrayList<ResultatPeriodeCore>();
     for (ResultatPeriode periodeResultat : periodeResultatListe) {
       var bPsAndelSaertilskuddResultat = periodeResultat.getResultatBeregning();
@@ -137,9 +139,19 @@ public class BPsAndelSaertilskuddCoreImpl extends FellesCore implements BPsAndel
           new ResultatBeregningCore(bPsAndelSaertilskuddResultat.getResultatAndelProsent(),
               bPsAndelSaertilskuddResultat.getResultatAndelBelop(),
               bPsAndelSaertilskuddResultat.getBarnetErSelvforsorget()),
+          mapBeregnedeInnteksGrunnlag(periodeResultat.getResultatGrunnlagBeregning(), beregnBPsAndelSaertilskuddGrunnlag),
           mapReferanseListe(periodeResultat)));
     }
     return resultatPeriodeCoreListe;
+  }
+
+  private BeregnedeGrunnlagCore mapBeregnedeInnteksGrunnlag(GrunnlagBeregning grunnlagBeregning, BeregnBPsAndelSaertilskuddGrunnlag beregnBPsAndelSaertilskuddGrunnlag) {
+    BeregnedeGrunnlagCore beregnedeGrunnlag = new BeregnedeGrunnlagCore(
+        grunnlagBeregning.getInntektBPListe().stream().filter(inntekt -> beregnBPsAndelSaertilskuddGrunnlag.getInntektBPPeriodeListe().stream().filter(inntektPeriode -> inntektPeriode.getReferanse().equals(inntekt.getReferanse())).collect(toList()).isEmpty()).collect(toList()),
+        grunnlagBeregning.getInntektBMListe().stream().filter(inntekt -> beregnBPsAndelSaertilskuddGrunnlag.getInntektBMPeriodeListe().stream().filter(inntektPeriode -> inntektPeriode.getReferanse().equals(inntekt.getReferanse())).collect(toList()).isEmpty()).collect(toList()),
+        grunnlagBeregning.getInntektBBListe().stream().filter(inntekt -> beregnBPsAndelSaertilskuddGrunnlag.getInntektBBPeriodeListe().stream().filter(inntektPeriode -> inntektPeriode.getReferanse().equals(inntekt.getReferanse())).collect(toList()).isEmpty()).collect(toList())
+    );
+    return beregnedeGrunnlag;
   }
 
   private List<String> mapReferanseListe(ResultatPeriode resultatPeriode) {
