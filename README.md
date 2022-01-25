@@ -71,6 +71,7 @@ opprinneligSamvaersfradragBelop  | Samværsfradragsbeløp fra siste vedtak i bar
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.5.9   | Endret       | Oppdatert til Java 17 + oppdatert andre avhengigheter (nytt forsøk)
 0.5.8   | Endret       | Oppdatert til Java 17 + oppdatert andre avhengigheter
 0.5.7   | Endret       | Oppdatert returverdi for de ulike beregningene for støtte nytt output-grensesnitt
 0.5.6   | Endret       | Lagt til referanse-felt i dataklasser for å støtte nytt input-grensesnitt
