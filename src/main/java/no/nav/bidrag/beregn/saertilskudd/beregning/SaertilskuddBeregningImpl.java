@@ -42,6 +42,8 @@ public class SaertilskuddBeregningImpl extends FellesBeregning implements Saerti
     if (grunnlagBeregning.getBidragsevne().getBidragsevneBelop().compareTo(
         totaltBidragBelop) < 0) {
       resultatkode = ResultatKode.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE;
+      return
+          new ResultatBeregning(BigDecimal.ZERO, resultatkode);
     }
 
     if (grunnlagBeregning.getBPsAndelSaertilskudd().getBarnetErSelvforsorget()) {

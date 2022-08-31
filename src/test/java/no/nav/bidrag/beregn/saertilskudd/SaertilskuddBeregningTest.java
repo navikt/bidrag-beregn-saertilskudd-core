@@ -81,7 +81,7 @@ public class SaertilskuddBeregningTest {
             false), lopendeBidragListe, samvaersfradragListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
-    assertEquals(4242, resultat.getResultatBelop().doubleValue());
+    assertEquals(0d, resultat.getResultatBelop().doubleValue());
     assertEquals(ResultatKode.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultat.getResultatkode());
   }
 
@@ -110,7 +110,7 @@ public class SaertilskuddBeregningTest {
             false), lopendeBidragListe, samvaersfradragListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
-    assertEquals(4242, resultat.getResultatBelop().doubleValue());
+    assertEquals(0d, resultat.getResultatBelop().doubleValue());
     assertEquals(ResultatKode.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultat.getResultatkode());
   }
 
@@ -244,7 +244,7 @@ public class SaertilskuddBeregningTest {
             false), lopendeBidragListe, samvaersfradragListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
-    assertEquals(6684d, resultat.getResultatBelop().doubleValue());
+    assertEquals(0d, resultat.getResultatBelop().doubleValue());
     assertEquals(ResultatKode.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultat.getResultatkode());
   }
 
@@ -272,7 +272,7 @@ public class SaertilskuddBeregningTest {
             false), lopendeBidragListe, samvaersfradragListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
-    assertEquals(5000, resultat.getResultatBelop().doubleValue());
+    assertEquals(0d, resultat.getResultatBelop().doubleValue());
     assertEquals(ResultatKode.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultat.getResultatkode());
   }
 
@@ -308,7 +308,7 @@ public class SaertilskuddBeregningTest {
             false), lopendeBidragListe, samvaersfradragListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
-    assertEquals(7536, resultat.getResultatBelop().doubleValue());
+    assertEquals(0d, resultat.getResultatBelop().doubleValue());
     assertEquals(ResultatKode.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultat.getResultatkode());
   }
 
@@ -380,7 +380,7 @@ public class SaertilskuddBeregningTest {
             false), lopendeBidragListe, samvaersfradragListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
-    assertEquals(6684, resultat.getResultatBelop().doubleValue());
+    assertEquals(0d, resultat.getResultatBelop().doubleValue());
     assertEquals(ResultatKode.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultat.getResultatkode());
   }
 
@@ -416,7 +416,7 @@ public class SaertilskuddBeregningTest {
             false), lopendeBidragListe, samvaersfradragListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
-    assertEquals(6684, resultat.getResultatBelop().doubleValue());
+    assertEquals(0d, resultat.getResultatBelop().doubleValue());
     assertEquals(ResultatKode.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultat.getResultatkode());
   }
 

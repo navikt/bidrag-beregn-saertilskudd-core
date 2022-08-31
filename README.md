@@ -69,6 +69,7 @@ Disse beregningene gjøres:
 
 | Versjon | Endringstype | Beskrivelse                                                                                                                                                                                           |
 |---------|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 0.5.12  | Endret       | Ikke full bidragsevne skal resultere i 0,- i særtilskudd-beløp                                                                                                                                        |
 | 0.5.11  | Endret       | Oppdaterte avhengigheter (Snyk)                                                                                                                                                                       |
 | 0.5.10  | Endret       | Ny versjon av bidrag-beregn-felles                                                                                                                                                                    |
 | 0.5.9   | Endret       | Oppdatert til Java 17 + oppdatert andre avhengigheter (nytt forsøk)                                                                                                                                   |
