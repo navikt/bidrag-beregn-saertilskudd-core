@@ -4,7 +4,7 @@
 
   <groupId>no.nav.bidrag</groupId>
   <artifactId>bidrag-beregn-saertilskudd-core</artifactId>
-  <version>0.5.13-SNAPSHOT</version>
+  <version>0.6.0-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>bidrag-beregn-saertilskudd-core</name>
   <description>Repo for beregning av saertilskudd</description>
@@ -37,7 +37,7 @@
 
     <!-- dependencies -->
     <spring-boot.version>3.0.6</spring-boot.version>
-    <bidrag-beregn-felles.version>0.18.4</bidrag-beregn-felles.version>
+    <bidrag-beregn-felles.version>0.19.3</bidrag-beregn-felles.version>
   </properties>
 
   <repositories>

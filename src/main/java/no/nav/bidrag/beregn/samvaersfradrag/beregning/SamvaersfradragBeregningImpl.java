@@ -1,7 +1,6 @@
 package no.nav.bidrag.beregn.samvaersfradrag.beregning;
 
 import static java.util.Collections.singletonList;
-import static java.util.stream.Collectors.toList;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -38,7 +37,6 @@ public class SamvaersfradragBeregningImpl extends FellesBeregning implements Sam
     }
 
     return resultatBeregningListe;
-
   }
 
   // Henter sjablonverdier
@@ -48,7 +46,7 @@ public class SamvaersfradragBeregningImpl extends FellesBeregning implements Sam
 
     var sjablonListe = sjablonPeriodeListe.stream()
         .map(SjablonPeriode::getSjablon)
-        .collect(toList());
+        .toList();
 
     // Samværsfradrag
     sjablonNavnVerdiMap.put(SjablonNavn.SAMVAERSFRADRAG.getNavn(), SjablonUtil.hentSjablonverdi(sjablonListe, SjablonNavn.SAMVAERSFRADRAG,

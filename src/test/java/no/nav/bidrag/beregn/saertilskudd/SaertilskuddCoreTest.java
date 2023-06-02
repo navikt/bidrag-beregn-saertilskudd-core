@@ -1,7 +1,5 @@
 package no.nav.bidrag.beregn.saertilskudd;
 
-import static java.util.Collections.emptyList;
-import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -12,21 +10,16 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-import java.util.Map;
 import no.nav.bidrag.beregn.TestUtil;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
-import no.nav.bidrag.beregn.felles.bo.SjablonPeriodeNavnVerdi;
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonInnholdCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonNokkelCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore;
 import no.nav.bidrag.beregn.felles.enums.AvvikType;
 import no.nav.bidrag.beregn.felles.enums.ResultatKode;
-import no.nav.bidrag.beregn.felles.enums.SjablonInnholdNavn;
-import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
 import no.nav.bidrag.beregn.saertilskudd.beregning.SaertilskuddBeregning;
 import no.nav.bidrag.beregn.saertilskudd.beregning.SaertilskuddBeregningImpl;
 import no.nav.bidrag.beregn.saertilskudd.bo.BPsAndelSaertilskudd;
@@ -47,21 +40,18 @@ import no.nav.bidrag.beregn.saertilskudd.periode.SaertilskuddPeriodeImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 @DisplayName("SaertilskuddCore (dto-test)")
-public class SaertilskuddCoreTest {
+class SaertilskuddCoreTest {
 
-  private SaertilskuddCore SaertilskuddCoreWithMock;
+  private SaertilskuddCore saertilskuddCoreWithMock;
 
   @Mock
   private SaertilskuddPeriode SaertilskuddPeriodeMock;
-
-  private SaertilskuddPeriodeImpl saertilskuddPeriode;
-
-  private SaertilskuddBeregning saertilskuddBeregning;
 
   private SaertilskuddCore saertilskuddCore;
 
@@ -71,10 +61,9 @@ public class SaertilskuddCoreTest {
 
   @BeforeEach
   void initMocksAndService() {
-    MockitoAnnotations.initMocks(this);
-    SaertilskuddCoreWithMock = new SaertilskuddCoreImpl(SaertilskuddPeriodeMock);
-    saertilskuddBeregning = new SaertilskuddBeregningImpl();
-    saertilskuddPeriode = new SaertilskuddPeriodeImpl(saertilskuddBeregning);
+    saertilskuddCoreWithMock = new SaertilskuddCoreImpl(SaertilskuddPeriodeMock);
+    SaertilskuddBeregning saertilskuddBeregning = new SaertilskuddBeregningImpl();
+    SaertilskuddPeriodeImpl saertilskuddPeriode = new SaertilskuddPeriodeImpl(saertilskuddBeregning);
     saertilskuddCore = new SaertilskuddCoreImpl(saertilskuddPeriode);
   }
 
@@ -84,22 +73,19 @@ public class SaertilskuddCoreTest {
     byggSaertilskuddPeriodeGrunnlagCore();
     byggSaertilskuddPeriodeResultat();
 
-    when(SaertilskuddPeriodeMock.beregnPerioder(any())).thenReturn(
-        beregnSaertilskuddPeriodeResultat);
-    var beregnSaertilskuddResultatCore = SaertilskuddCoreWithMock.beregnSaertilskudd(
-        beregnSaertilskuddGrunnlagCore);
+    when(SaertilskuddPeriodeMock.beregnPerioder(any())).thenReturn(beregnSaertilskuddPeriodeResultat);
+    var beregnSaertilskuddResultatCore = saertilskuddCoreWithMock.beregnSaertilskudd(beregnSaertilskuddGrunnlagCore);
 
     assertAll(
         () -> assertThat(beregnSaertilskuddResultatCore).isNotNull(),
         () -> assertThat(beregnSaertilskuddResultatCore.getAvvikListe()).isEmpty(),
         () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe()).isNotEmpty(),
-        () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe().size()).isEqualTo(1),
+        () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe()).hasSize(1),
 
         () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe().get(0).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2017-01-01")),
         () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe().get(0).getPeriode().getDatoTil())
             .isEqualTo(LocalDate.parse("2018-01-01"))
-
     );
   }
 
@@ -107,21 +93,19 @@ public class SaertilskuddCoreTest {
   @DisplayName("Skal beregne Saertilskudd uten mocks")
   void skalBeregneSaertilskuddUtenMocks() {
     byggSaertilskuddPeriodeGrunnlagCore();
-    var beregnSaertilskuddResultatCore = saertilskuddCore.beregnSaertilskudd(
-        beregnSaertilskuddGrunnlagCore);
+    var beregnSaertilskuddResultatCore = saertilskuddCore.beregnSaertilskudd(beregnSaertilskuddGrunnlagCore);
 
     assertAll(
         () -> assertThat(beregnSaertilskuddResultatCore).isNotNull(),
         () -> assertThat(beregnSaertilskuddResultatCore.getAvvikListe()).isEmpty(),
         () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe()).isNotEmpty(),
-        () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe().size()).isEqualTo(1),
+        () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe()).hasSize(1),
 
         () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe().get(0).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2017-01-01")),
         () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe().get(0).getPeriode().getDatoTil())
             .isEqualTo(LocalDate.parse("2020-01-01")),
-        () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().size()).isEqualTo(4)
-
+        () -> assertThat(beregnSaertilskuddResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe()).hasSize(4)
     );
   }
 
@@ -132,16 +116,14 @@ public class SaertilskuddCoreTest {
     byggAvvik();
 
     when(SaertilskuddPeriodeMock.validerInput(any())).thenReturn(avvikListe);
-    var beregnbidragsevneResultatCore = SaertilskuddCoreWithMock.beregnSaertilskudd(
-        beregnSaertilskuddGrunnlagCore);
+    var beregnbidragsevneResultatCore = saertilskuddCoreWithMock.beregnSaertilskudd(beregnSaertilskuddGrunnlagCore);
 
     assertAll(
         () -> assertThat(beregnbidragsevneResultatCore).isNotNull(),
         () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe()).isNotEmpty(),
         () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe()).hasSize(1),
         () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe().get(0).getAvvikTekst()).isEqualTo("beregnDatoTil må være etter beregnDatoFra"),
-        () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe().get(0).getAvvikType()).isEqualTo(
-            AvvikType.DATO_FOM_ETTER_DATO_TIL.toString()),
+        () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe().get(0).getAvvikType()).isEqualTo(AvvikType.DATO_FOM_ETTER_DATO_TIL.toString()),
         () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe()).isEmpty()
     );
   }
@@ -150,27 +132,23 @@ public class SaertilskuddCoreTest {
   private void byggSaertilskuddPeriodeGrunnlagCore() {
 
     var bidragsevnePeriode = new BidragsevnePeriodeCore(TestUtil.BIDRAGSEVNE_REFERANSE,
-        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(100000));
+        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), BigDecimal.valueOf(100000));
     var bidragsevnePeriodeListe = new ArrayList<BidragsevnePeriodeCore>();
     bidragsevnePeriodeListe.add(bidragsevnePeriode);
 
     var bPsAndelSaertilskuddPeriode = new BPsAndelSaertilskuddPeriodeCore(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE,
-        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(100000), BigDecimal.valueOf(20000), false);
+        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), BigDecimal.valueOf(100000), BigDecimal.valueOf(20000), false);
     var bPsAndelSaertilskuddPeriodeListe = new ArrayList<BPsAndelSaertilskuddPeriodeCore>();
     bPsAndelSaertilskuddPeriodeListe.add(bPsAndelSaertilskuddPeriode);
 
     var lopendeBidragPeriode = new LopendeBidragPeriodeCore(TestUtil.LOPENDE_BIDRAG_REFERANSE,
-        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), 1,
-        BigDecimal.valueOf(1000), BigDecimal.valueOf(1000), BigDecimal.valueOf(1000),
-        BigDecimal.valueOf(1000));
+        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), 1, BigDecimal.valueOf(1000), BigDecimal.valueOf(1000),
+        BigDecimal.valueOf(1000), BigDecimal.valueOf(1000));
     var lopendeBidragPeriodeListe = new ArrayList<LopendeBidragPeriodeCore>();
     lopendeBidragPeriodeListe.add(lopendeBidragPeriode);
 
     var samvaersfradragPeriode = new SamvaersfradragPeriodeCore(TestUtil.SAMVAERSFRADRAG_REFERANSE,
-        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), 1,
-        BigDecimal.valueOf(1000));
+        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), 1, BigDecimal.valueOf(1000));
     var samvaersfradragPeriodeListe = new ArrayList<SamvaersfradragPeriodeCore>();
     samvaersfradragPeriodeListe.add(samvaersfradragPeriode);
 
@@ -182,8 +160,7 @@ public class SaertilskuddCoreTest {
   }
 
   public List<SjablonPeriodeCore> mapSjablonSjablontall(List<SjablonPeriode> sjablonPeriodeListe) {
-    return sjablonPeriodeListe
-        .stream()
+    return sjablonPeriodeListe.stream()
         .map(sjablon -> new SjablonPeriodeCore(
             new PeriodeCore(sjablon.getPeriode().getDatoFom(), sjablon.getPeriode().getDatoTil()),
             sjablon.getSjablon().getNavn(),
@@ -198,23 +175,20 @@ public class SaertilskuddCoreTest {
     List<ResultatPeriode> periodeResultatListe = new ArrayList<>();
     var lopendeBidragListe = new ArrayList<LopendeBidrag>();
 
-    lopendeBidragListe.add(new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE, 1,
-        BigDecimal.valueOf(100),
-        BigDecimal.valueOf(1000), BigDecimal.valueOf(1000), BigDecimal.valueOf(1000)
-    ));
+    lopendeBidragListe.add(
+        new LopendeBidrag(TestUtil.LOPENDE_BIDRAG_REFERANSE, 1, BigDecimal.valueOf(100), BigDecimal.valueOf(1000), BigDecimal.valueOf(1000),
+            BigDecimal.valueOf(1000)));
 
     var samvaersfradragListe = new ArrayList<SamvaersfradragGrunnlag>();
 
-    samvaersfradragListe.add(new SamvaersfradragGrunnlag(TestUtil.SAMVAERSFRADRAG_REFERANSE, 1,
-        BigDecimal.valueOf(100)));
+    samvaersfradragListe.add(new SamvaersfradragGrunnlag(TestUtil.SAMVAERSFRADRAG_REFERANSE, 1, BigDecimal.valueOf(100)));
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")), 1,
         new ResultatBeregning(BigDecimal.valueOf(1000), ResultatKode.KOSTNADSBEREGNET_BIDRAG),
         new GrunnlagBeregning(new Bidragsevne(TestUtil.BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(1000)),
             new BPsAndelSaertilskudd(TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE, BigDecimal.valueOf(60), BigDecimal.valueOf(8000), false),
-            lopendeBidragListe, samvaersfradragListe
-        )));
+            lopendeBidragListe, samvaersfradragListe)));
 
     beregnSaertilskuddPeriodeResultat = new BeregnSaertilskuddResultat(periodeResultatListe);
   }
@@ -223,5 +197,4 @@ public class SaertilskuddCoreTest {
     avvikListe = new ArrayList<>();
     avvikListe.add(new Avvik("beregnDatoTil må være etter beregnDatoFra", AvvikType.DATO_FOM_ETTER_DATO_TIL));
   }
-
 }

@@ -6,8 +6,7 @@ import no.nav.bidrag.beregn.samvaersfradrag.periode.SamvaersfradragPeriode;
 
 public interface SamvaersfradragCore {
 
-  BeregnSamvaersfradragResultatCore beregnSamvaersfradrag(
-      BeregnSamvaersfradragGrunnlagCore beregnSamvaersfradragGrunnlagCore);
+  BeregnSamvaersfradragResultatCore beregnSamvaersfradrag(BeregnSamvaersfradragGrunnlagCore beregnSamvaersfradragGrunnlagCore);
 
   static SamvaersfradragCore getInstance() {
     return new SamvaersfradragCoreImpl(SamvaersfradragPeriode.getInstance());

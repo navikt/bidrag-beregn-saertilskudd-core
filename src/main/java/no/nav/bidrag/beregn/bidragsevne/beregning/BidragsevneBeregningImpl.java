@@ -1,7 +1,6 @@
 package no.nav.bidrag.beregn.bidragsevne.beregning;
 
 import static java.util.Collections.singletonList;
-import static java.util.stream.Collectors.toList;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -24,11 +23,10 @@ import no.nav.bidrag.beregn.felles.enums.SjablonNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonNokkelNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
 
-public class BidragsevneberegningImpl extends FellesBeregning implements Bidragsevneberegning {
+public class BidragsevneBeregningImpl extends FellesBeregning implements BidragsevneBeregning {
 
   @Override
-  public ResultatBeregning beregn(
-      GrunnlagBeregning grunnlagBeregning) {
+  public ResultatBeregning beregn(GrunnlagBeregning grunnlagBeregning) {
 
     // Henter sjablonverdier
     var sjablonNavnVerdiMap = hentSjablonVerdier(grunnlagBeregning.getSjablonListe(), grunnlagBeregning.getBostatus().getKode(),
@@ -44,33 +42,24 @@ public class BidragsevneberegningImpl extends FellesBeregning implements Bidrags
         .map(Inntekt::getInntektBelop)
         .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-    // finner 25% av inntekt og omregner til månedlig beløp
-    BigDecimal tjuefemProsentInntekt = inntekt
-        .divide(BigDecimal.valueOf(4), new MathContext(10, RoundingMode.HALF_UP))
-        .divide(BigDecimal.valueOf(12), new MathContext(10, RoundingMode.HALF_UP));
-
-    tjuefemProsentInntekt = tjuefemProsentInntekt.setScale(0, RoundingMode.HALF_UP);
-
     // finner personfradragklasse ut fra angitt skatteklasse
-    var personfradrag = BigDecimal.ZERO;
+    BigDecimal personfradrag;
     if (grunnlagBeregning.getSkatteklasse().getSkatteklasse() == 1) {
       personfradrag = sjablonNavnVerdiMap.get(SjablonTallNavn.PERSONFRADRAG_KLASSE1_BELOP.getNavn());
     } else {
       personfradrag = sjablonNavnVerdiMap.get(SjablonTallNavn.PERSONFRADRAG_KLASSE2_BELOP.getNavn());
     }
 
-    BigDecimal inntektMinusFradrag =
-        inntekt.subtract(minstefradrag).subtract(personfradrag);
+    BigDecimal inntektMinusFradrag = inntekt.subtract(minstefradrag).subtract(personfradrag);
 
     // Trekker fra skatt
     BigDecimal forelopigBidragsevne = inntekt.subtract(inntektMinusFradrag.multiply(
         sjablonNavnVerdiMap.get(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn()).divide(BigDecimal.valueOf(100),
             new MathContext(10, RoundingMode.HALF_UP))));
 
-    forelopigBidragsevne =
-        (forelopigBidragsevne.subtract((inntekt.multiply(
-            sjablonNavnVerdiMap.get(SjablonTallNavn.TRYGDEAVGIFT_PROSENT.getNavn()).divide(BigDecimal.valueOf(100),
-                new MathContext(10, RoundingMode.HALF_UP))))));
+    forelopigBidragsevne = (forelopigBidragsevne.subtract((inntekt.multiply(
+        sjablonNavnVerdiMap.get(SjablonTallNavn.TRYGDEAVGIFT_PROSENT.getNavn()).divide(BigDecimal.valueOf(100),
+            new MathContext(10, RoundingMode.HALF_UP))))));
 
     // Trekker fra trinnvis skatt
     forelopigBidragsevne = forelopigBidragsevne.subtract(beregnSkattetrinnBelop(grunnlagBeregning));
@@ -90,8 +79,7 @@ public class BidragsevneberegningImpl extends FellesBeregning implements Bidrags
 
     // Sjekker om og kalkulerer eventuell fordel særfradrag
     if (grunnlagBeregning.getSaerfradrag().getKode().equals(SaerfradragKode.HELT)) {
-      forelopigBidragsevne = forelopigBidragsevne.add(
-          sjablonNavnVerdiMap.get(SjablonTallNavn.FORDEL_SAERFRADRAG_BELOP.getNavn()));
+      forelopigBidragsevne = forelopigBidragsevne.add(sjablonNavnVerdiMap.get(SjablonTallNavn.FORDEL_SAERFRADRAG_BELOP.getNavn()));
     } else if (grunnlagBeregning.getSaerfradrag().getKode().equals(SaerfradragKode.HALVT)) {
       forelopigBidragsevne = forelopigBidragsevne.add(
           sjablonNavnVerdiMap.get(SjablonTallNavn.FORDEL_SAERFRADRAG_BELOP.getNavn()).divide(BigDecimal.valueOf(2),
@@ -100,13 +88,11 @@ public class BidragsevneberegningImpl extends FellesBeregning implements Bidrags
 
     // Legger til fordel skatteklasse2
     if (grunnlagBeregning.getSkatteklasse().getSkatteklasse() == 2) {
-      forelopigBidragsevne = forelopigBidragsevne.add(
-          sjablonNavnVerdiMap.get(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn()));
+      forelopigBidragsevne = forelopigBidragsevne.add(sjablonNavnVerdiMap.get(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn()));
     }
 
     // Finner månedlig beløp for bidragsevne
-    BigDecimal maanedligBidragsevne = forelopigBidragsevne.divide(BigDecimal.valueOf(12),
-        new MathContext(10, RoundingMode.HALF_UP));
+    BigDecimal maanedligBidragsevne = forelopigBidragsevne.divide(BigDecimal.valueOf(12), new MathContext(10, RoundingMode.HALF_UP));
 
     maanedligBidragsevne = maanedligBidragsevne.setScale(0, RoundingMode.HALF_UP);
 
@@ -118,8 +104,7 @@ public class BidragsevneberegningImpl extends FellesBeregning implements Bidrags
   }
 
   @Override
-  public BigDecimal beregnMinstefradrag(
-      GrunnlagBeregning grunnlagBeregning, BigDecimal minstefradragInntektSjablonBelop,
+  public BigDecimal beregnMinstefradrag(GrunnlagBeregning grunnlagBeregning, BigDecimal minstefradragInntektSjablonBelop,
       BigDecimal minstefradragInntektSjablonProsent) {
 
     // Legger sammen inntektene
@@ -129,9 +114,7 @@ public class BidragsevneberegningImpl extends FellesBeregning implements Bidrags
         .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     var minstefradrag = inntekt.multiply(
-        minstefradragInntektSjablonProsent
-            .divide(BigDecimal.valueOf(100),
-                new MathContext(2, RoundingMode.HALF_UP)));
+        minstefradragInntektSjablonProsent.divide(BigDecimal.valueOf(100), new MathContext(2, RoundingMode.HALF_UP)));
 
     if (minstefradrag.compareTo(minstefradragInntektSjablonBelop) > 0) {
       minstefradrag = minstefradragInntektSjablonBelop;
@@ -143,8 +126,7 @@ public class BidragsevneberegningImpl extends FellesBeregning implements Bidrags
   }
 
   @Override
-  public BigDecimal beregnSkattetrinnBelop(
-      GrunnlagBeregning grunnlagBeregning) {
+  public BigDecimal beregnSkattetrinnBelop(GrunnlagBeregning grunnlagBeregning) {
 
     // Legger sammen inntektene
     var inntekt = grunnlagBeregning.getInntektListe()
@@ -152,10 +134,10 @@ public class BidragsevneberegningImpl extends FellesBeregning implements Bidrags
         .map(Inntekt::getInntektBelop)
         .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-    var sortertTrinnvisSkattesatsListe = SjablonUtil.hentTrinnvisSkattesats(
-        grunnlagBeregning.getSjablonListe().stream()
+    var sortertTrinnvisSkattesatsListe = SjablonUtil.hentTrinnvisSkattesats(grunnlagBeregning.getSjablonListe()
+            .stream()
             .map(SjablonPeriode::getSjablon)
-            .collect(toList()),
+            .toList(),
         SjablonNavn.TRINNVIS_SKATTESATS);
 
     BigDecimal samletSkattetrinnBelop = BigDecimal.ZERO;
@@ -163,36 +145,29 @@ public class BidragsevneberegningImpl extends FellesBeregning implements Bidrags
 
     // Beregn skattetrinnbeløp
     while (indeks < sortertTrinnvisSkattesatsListe.size()) {
-      if (inntekt.compareTo(
-          sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense()) > 0) {
-        if (inntekt.compareTo(
-            sortertTrinnvisSkattesatsListe.get(indeks).getInntektGrense()) < 0) {
-          samletSkattetrinnBelop = samletSkattetrinnBelop.add(
-              inntekt.subtract(
-                      sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense())
+      if (inntekt.compareTo(sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense()) > 0) {
+        if (inntekt.compareTo(sortertTrinnvisSkattesatsListe.get(indeks).getInntektGrense()) < 0) {
+          samletSkattetrinnBelop = samletSkattetrinnBelop
+              .add(inntekt.subtract(sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense())
                   .multiply(sortertTrinnvisSkattesatsListe.get(indeks - 1).getSats())
-                  .divide(BigDecimal.valueOf(100),
-                      new MathContext(10, RoundingMode.HALF_UP)));
+                  .divide(BigDecimal.valueOf(100), new MathContext(10, RoundingMode.HALF_UP)));
 
         } else {
-          samletSkattetrinnBelop = samletSkattetrinnBelop.add(
-              sortertTrinnvisSkattesatsListe.get(indeks).getInntektGrense()
+          samletSkattetrinnBelop = samletSkattetrinnBelop
+              .add(sortertTrinnvisSkattesatsListe.get(indeks).getInntektGrense()
                   .subtract(sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense())
-                  .multiply(sortertTrinnvisSkattesatsListe.get(indeks - 1).getSats()
-                      .divide(BigDecimal.valueOf(100),
-                          new MathContext(10, RoundingMode.HALF_UP))));
-
+                  .multiply(sortertTrinnvisSkattesatsListe.get(indeks - 1).getSats().divide(BigDecimal.valueOf(100),
+                      new MathContext(10, RoundingMode.HALF_UP))));
         }
       }
       indeks = indeks + 1;
     }
 
     if (inntekt.compareTo(sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense()) > 0) {
-      samletSkattetrinnBelop = samletSkattetrinnBelop.add(
-          (inntekt.subtract(sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense())
+      samletSkattetrinnBelop = samletSkattetrinnBelop
+          .add((inntekt.subtract(sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense())
               .multiply(sortertTrinnvisSkattesatsListe.get(indeks - 1).getSats())
-              .divide(BigDecimal.valueOf(100),
-                  new MathContext(1, RoundingMode.HALF_UP))));
+              .divide(BigDecimal.valueOf(100), new MathContext(1, RoundingMode.HALF_UP))));
     }
 
     samletSkattetrinnBelop = samletSkattetrinnBelop.setScale(0, RoundingMode.HALF_UP);
@@ -207,7 +182,7 @@ public class BidragsevneberegningImpl extends FellesBeregning implements Bidrags
 
     var sjablonListe = sjablonPeriodeListe.stream()
         .map(SjablonPeriode::getSjablon)
-        .collect(toList());
+        .toList();
 
     // Sjablontall
     if (skatteklasse == 1) {

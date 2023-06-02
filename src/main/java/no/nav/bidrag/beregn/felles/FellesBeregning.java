@@ -1,7 +1,6 @@
 package no.nav.bidrag.beregn.felles;
 
 import static java.util.Comparator.comparing;
-import static java.util.stream.Collectors.toList;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -20,7 +19,7 @@ public class FellesBeregning {
     var sjablonPeriodeNavnVerdiListe = new ArrayList<SjablonPeriodeNavnVerdi>();
     sjablonNavnVerdiMap.forEach((sjablonNavn, sjablonVerdi) ->
         sjablonPeriodeNavnVerdiListe.add(new SjablonPeriodeNavnVerdi(hentPeriode(sjablonPeriodeListe, sjablonNavn), sjablonNavn, sjablonVerdi)));
-    return sjablonPeriodeNavnVerdiListe.stream().sorted(comparing(SjablonPeriodeNavnVerdi::getNavn)).collect(toList());
+    return sjablonPeriodeNavnVerdiListe.stream().sorted(comparing(SjablonPeriodeNavnVerdi::getNavn)).toList();
   }
 
   private Periode hentPeriode(List<SjablonPeriode> sjablonPeriodeListe, String sjablonNavn) {

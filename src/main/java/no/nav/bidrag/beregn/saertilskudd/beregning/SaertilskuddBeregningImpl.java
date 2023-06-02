@@ -2,10 +2,10 @@ package no.nav.bidrag.beregn.saertilskudd.beregning;
 
 import java.math.BigDecimal;
 import no.nav.bidrag.beregn.felles.FellesBeregning;
+import no.nav.bidrag.beregn.felles.enums.ResultatKode;
 import no.nav.bidrag.beregn.saertilskudd.bo.GrunnlagBeregning;
 import no.nav.bidrag.beregn.saertilskudd.bo.LopendeBidrag;
 import no.nav.bidrag.beregn.saertilskudd.bo.ResultatBeregning;
-import no.nav.bidrag.beregn.felles.enums.ResultatKode;
 import no.nav.bidrag.beregn.saertilskudd.bo.SamvaersfradragGrunnlag;
 
 public class SaertilskuddBeregningImpl extends FellesBeregning implements SaertilskuddBeregning {
@@ -18,43 +18,29 @@ public class SaertilskuddBeregningImpl extends FellesBeregning implements Saerti
     var totaltLopendeBidragBelop = BigDecimal.ZERO;
     var totaltSamvaersfradragBelop = BigDecimal.ZERO;
     for (LopendeBidrag lopendeBidrag : grunnlagBeregning.getLopendeBidragListe()) {
-      totaltBidragBleRedusertMedBelop = totaltBidragBleRedusertMedBelop.add(
-          lopendeBidrag.getOpprinneligBPsAndelUnderholdskostnadBelop()
-              .subtract(
-                  lopendeBidrag.getOpprinneligBidragBelop().add(
-                      lopendeBidrag.getOpprinneligSamvaersfradragBelop()
-                  )));
+      totaltBidragBleRedusertMedBelop = totaltBidragBleRedusertMedBelop
+          .add(lopendeBidrag.getOpprinneligBPsAndelUnderholdskostnadBelop()
+              .subtract(lopendeBidrag.getOpprinneligBidragBelop()
+                  .add(lopendeBidrag.getOpprinneligSamvaersfradragBelop())));
 
-      totaltLopendeBidragBelop = totaltLopendeBidragBelop.add(
-          lopendeBidrag.getLopendeBidragBelop()
-      );
+      totaltLopendeBidragBelop = totaltLopendeBidragBelop.add(lopendeBidrag.getLopendeBidragBelop());
     }
 
     for (SamvaersfradragGrunnlag samvaersfradragGrunnlag : grunnlagBeregning.getSamvaersfradragGrunnlagListe()) {
-      totaltSamvaersfradragBelop = totaltSamvaersfradragBelop.add(
-          samvaersfradragGrunnlag.getSamvaersfradragBelop()
-      );
+      totaltSamvaersfradragBelop = totaltSamvaersfradragBelop.add(samvaersfradragGrunnlag.getSamvaersfradragBelop());
     }
 
-    var totaltBidragBelop = totaltBidragBleRedusertMedBelop.add(
-        totaltLopendeBidragBelop.add(totaltSamvaersfradragBelop));
+    var totaltBidragBelop = totaltBidragBleRedusertMedBelop.add(totaltLopendeBidragBelop.add(totaltSamvaersfradragBelop));
 
-    if (grunnlagBeregning.getBidragsevne().getBidragsevneBelop().compareTo(
-        totaltBidragBelop) < 0) {
+    if (grunnlagBeregning.getBidragsevne().getBidragsevneBelop().compareTo(totaltBidragBelop) < 0) {
       resultatkode = ResultatKode.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE;
-      return
-          new ResultatBeregning(BigDecimal.ZERO, resultatkode);
+      return new ResultatBeregning(BigDecimal.ZERO, resultatkode);
     }
 
     if (grunnlagBeregning.getBPsAndelSaertilskudd().getBarnetErSelvforsorget()) {
-      resultatkode = ResultatKode.BARNET_ER_SELVFORSORGET;
-      return
-          new ResultatBeregning(BigDecimal.ZERO, resultatkode);
+      return new ResultatBeregning(BigDecimal.ZERO, ResultatKode.BARNET_ER_SELVFORSORGET);
     } else {
-      return
-          new ResultatBeregning(
-              grunnlagBeregning.getBPsAndelSaertilskudd().getBPsAndelSaertilskuddBelop(),
-              resultatkode);
+      return new ResultatBeregning(grunnlagBeregning.getBPsAndelSaertilskudd().getBPsAndelSaertilskuddBelop(), resultatkode);
     }
   }
 }

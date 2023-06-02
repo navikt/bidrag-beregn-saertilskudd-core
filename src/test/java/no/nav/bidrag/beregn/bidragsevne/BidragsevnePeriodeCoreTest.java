@@ -51,11 +51,13 @@ import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 @DisplayName("BidragsevneCore (dto-test)")
-public class BidragsevnePeriodeCoreTest {
+class BidragsevnePeriodeCoreTest {
 
   private BidragsevneCore bidragsevneCore;
 
@@ -68,7 +70,6 @@ public class BidragsevnePeriodeCoreTest {
 
   @BeforeEach
   void initMocksAndService() {
-    MockitoAnnotations.initMocks(this);
     bidragsevneCore = new BidragsevneCoreImpl(bidragsevnePeriodeMock);
   }
 
@@ -79,14 +80,13 @@ public class BidragsevnePeriodeCoreTest {
     byggBidragsevnePeriodeResultat();
 
     when(bidragsevnePeriodeMock.beregnPerioder(any())).thenReturn(bidragsevnePeriodeResultat);
-    var beregnbidragsevneResultatCore = bidragsevneCore.beregnBidragsevne(
-        beregnBidragsevneGrunnlagCore);
+    var beregnbidragsevneResultatCore = bidragsevneCore.beregnBidragsevne(beregnBidragsevneGrunnlagCore);
 
     assertAll(
         () -> assertThat(beregnbidragsevneResultatCore).isNotNull(),
         () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe()).isEmpty(),
         () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe()).isNotEmpty(),
-        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().size()).isEqualTo(3),
+        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe()).hasSize(3),
 
         () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(0).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2017-01-01")),
@@ -129,16 +129,14 @@ public class BidragsevnePeriodeCoreTest {
     byggAvvik();
 
     when(bidragsevnePeriodeMock.validerInput(any())).thenReturn(avvikListe);
-    var beregnbidragsevneResultatCore = bidragsevneCore.beregnBidragsevne(
-        beregnBidragsevneGrunnlagCore);
+    var beregnbidragsevneResultatCore = bidragsevneCore.beregnBidragsevne(beregnBidragsevneGrunnlagCore);
 
     assertAll(
         () -> assertThat(beregnbidragsevneResultatCore).isNotNull(),
         () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe()).isNotEmpty(),
         () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe()).hasSize(1),
         () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe().get(0).getAvvikTekst()).isEqualTo("beregnDatoTil må være etter beregnDatoFra"),
-        () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe().get(0).getAvvikType()).isEqualTo(
-            AvvikType.DATO_FOM_ETTER_DATO_TIL.toString()),
+        () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe().get(0).getAvvikType()).isEqualTo(AvvikType.DATO_FOM_ETTER_DATO_TIL.toString()),
         () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe()).isEmpty()
     );
   }
@@ -146,20 +144,17 @@ public class BidragsevnePeriodeCoreTest {
 
   private void byggBidragsevnePeriodeGrunnlagCore() {
 
-    var inntektPeriode = new InntektPeriodeCore(INNTEKT_REFERANSE,
-        new PeriodeCore(LocalDate.parse("2017-01-01"), null), InntektType.LONN_SKE.toString(),
-        BigDecimal.valueOf(666000));
+    var inntektPeriode = new InntektPeriodeCore(INNTEKT_REFERANSE, new PeriodeCore(LocalDate.parse("2017-01-01"), null),
+        InntektType.LONN_SKE.toString(), BigDecimal.valueOf(666000));
     var inntektPeriodeListe = new ArrayList<InntektPeriodeCore>();
     inntektPeriodeListe.add(inntektPeriode);
 
-    var skatteklassePeriode = new SkatteklassePeriodeCore(TestUtil.SKATTEKLASSE_REFERANSE,
-        new PeriodeCore(LocalDate.parse("2017-01-01"), null), 1);
+    var skatteklassePeriode = new SkatteklassePeriodeCore(TestUtil.SKATTEKLASSE_REFERANSE, new PeriodeCore(LocalDate.parse("2017-01-01"), null), 1);
     var skatteklassePeriodeListe = new ArrayList<SkatteklassePeriodeCore>();
     skatteklassePeriodeListe.add(skatteklassePeriode);
 
     var bostatusPeriode = new BostatusPeriodeCore(TestUtil.BOSTATUS_REFERANSE,
-        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
-        BostatusKode.MED_ANDRE.toString());
+        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), BostatusKode.MED_ANDRE.toString());
     var bostatusPeriodeListe = new ArrayList<BostatusPeriodeCore>();
     bostatusPeriodeListe.add(bostatusPeriode);
 
@@ -168,8 +163,8 @@ public class BidragsevnePeriodeCoreTest {
     var antallEgneBarnIHusstandPeriodeListe = new ArrayList<AntallBarnIEgetHusholdPeriodeCore>();
     antallEgneBarnIHusstandPeriodeListe.add(antallEgneBarnIHusstandPeriode);
 
-    var saerfradragPeriode = new SaerfradragPeriodeCore(TestUtil.SAERFRADRAG_REFERANSE,
-        new PeriodeCore(LocalDate.parse("2017-01-01"), null), SaerfradragKode.HELT.toString());
+    var saerfradragPeriode = new SaerfradragPeriodeCore(TestUtil.SAERFRADRAG_REFERANSE, new PeriodeCore(LocalDate.parse("2017-01-01"), null),
+        SaerfradragKode.HELT.toString());
     var saerfradragPeriodeListe = new ArrayList<SaerfradragPeriodeCore>();
     saerfradragPeriodeListe.add(saerfradragPeriode);
 
@@ -180,8 +175,8 @@ public class BidragsevnePeriodeCoreTest {
     sjablonPeriodeListe.add(sjablonPeriode);
 
     beregnBidragsevneGrunnlagCore = new BeregnBidragsevneGrunnlagCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01"),
-        inntektPeriodeListe, skatteklassePeriodeListe, bostatusPeriodeListe, antallEgneBarnIHusstandPeriodeListe,
-        saerfradragPeriodeListe, sjablonPeriodeListe);
+        inntektPeriodeListe, skatteklassePeriodeListe, bostatusPeriodeListe, antallEgneBarnIHusstandPeriodeListe, saerfradragPeriodeListe,
+        sjablonPeriodeListe);
   }
 
   private void byggBidragsevnePeriodeResultat() {

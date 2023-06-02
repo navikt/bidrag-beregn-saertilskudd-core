@@ -1,7 +1,6 @@
 package no.nav.bidrag.beregn.samvaersfradrag.periode;
 
 import static java.util.stream.Collectors.toCollection;
-import static java.util.stream.Collectors.toList;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -26,10 +25,9 @@ public class SamvaersfradragPeriodeImpl implements SamvaersfradragPeriode {
     this.samvaersfradragBeregning = samvaersfradragBeregning;
   }
 
-  private SamvaersfradragBeregning samvaersfradragBeregning;
+  private final SamvaersfradragBeregning samvaersfradragBeregning;
 
-  public BeregnSamvaersfradragResultat beregnPerioder(
-      BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag) {
+  public BeregnSamvaersfradragResultat beregnPerioder(BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag) {
 
     var resultatPeriodeListe = new ArrayList<ResultatPeriode>();
 
@@ -52,37 +50,33 @@ public class SamvaersfradragPeriodeImpl implements SamvaersfradragPeriode {
     // Løper gjennom periodene og finner matchende verdi for hver kategori. Kaller beregningsmodulen for hver beregningsperiode
     for (Periode beregningsperiode : perioder) {
 
-      var samvaersfradragGrunnnlagPerBarnliste = justertSamvaersfradragPeriodeListe
-          .stream().filter(i -> i.getPeriode().overlapperMed(beregningsperiode))
-          .map(samvaersfradragGrunnnlagPerBarn -> new SamvaersfradragGrunnlagPerBarn(samvaersfradragGrunnnlagPerBarn.getReferanse(),
+      var samvaersfradragGrunnnlagPerBarnliste = justertSamvaersfradragPeriodeListe.stream()
+          .filter(i -> i.getPeriode().overlapperMed(beregningsperiode))
+          .map(samvaersfradragGrunnnlagPerBarn -> new SamvaersfradragGrunnlagPerBarn(
+              samvaersfradragGrunnnlagPerBarn.getReferanse(),
               samvaersfradragGrunnnlagPerBarn.getBarnPersonId(),
-//              alderBarn,
-              beregnBarnAlder(samvaersfradragGrunnnlagPerBarn.getBarnFodselsdato(), beregningsperiode.getDatoFom()),
-              samvaersfradragGrunnnlagPerBarn.getSamvaersklasse())).collect(toList());
+              beregnBarnAlder(samvaersfradragGrunnnlagPerBarn.getBarnFodselsdato(),
+                  beregningsperiode.getDatoFom()),
+              samvaersfradragGrunnnlagPerBarn.getSamvaersklasse()))
+          .toList();
 
-      var sjablonliste = justertSjablonPeriodeListe.stream().filter(i -> i.getPeriode().overlapperMed(beregningsperiode)).collect(toList());
+      var sjablonliste = justertSjablonPeriodeListe.stream()
+          .filter(i -> i.getPeriode().overlapperMed(beregningsperiode))
+          .toList();
 
       // Kaller beregningsmodulen for hver beregningsperiode
-      var beregnSamvaersfradragGrunnlagPeriodisert = new GrunnlagBeregningPeriodisert(
-          samvaersfradragGrunnnlagPerBarnliste, sjablonliste);
+      var beregnSamvaersfradragGrunnlagPeriodisert = new GrunnlagBeregningPeriodisert(samvaersfradragGrunnnlagPerBarnliste, sjablonliste);
 
-      resultatPeriodeListe.add(new ResultatPeriode(
-          beregningsperiode,
-          samvaersfradragBeregning.beregn(beregnSamvaersfradragGrunnlagPeriodisert),
+      resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode, samvaersfradragBeregning.beregn(beregnSamvaersfradragGrunnlagPeriodisert),
           beregnSamvaersfradragGrunnlagPeriodisert));
-
     }
 
     //Slår sammen perioder med samme resultat
     return new BeregnSamvaersfradragResultat(resultatPeriodeListe);
-
   }
 
-
   public Integer beregnBarnAlder(LocalDate barnFodselsdato, LocalDate beregnDatoFra) {
-    Integer beregnetAlder = Period.between(barnFodselsdato, beregnDatoFra).getYears();
-
-    return beregnetAlder;
+    return Period.between(barnFodselsdato, beregnDatoFra).getYears();
   }
 
 
@@ -94,9 +88,8 @@ public class SamvaersfradragPeriodeImpl implements SamvaersfradragPeriode {
     for (SjablonPeriode sjablonPeriode : grunnlag.getSjablonPeriodeListe()) {
       sjablonPeriodeListe.add(sjablonPeriode.getPeriode());
     }
-    var avvikListe = new ArrayList<>(
-        PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(), "sjablonPeriodeListe", sjablonPeriodeListe,
-            false, false, false, false));
+    var avvikListe = new ArrayList<>(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(), "sjablonPeriodeListe",
+        sjablonPeriodeListe, false, false, false, false));
 
     // Sjekk perioder for samværsklasse
     var samvaersklassePeriodeListe = new ArrayList<Periode>();
@@ -109,5 +102,3 @@ public class SamvaersfradragPeriodeImpl implements SamvaersfradragPeriode {
     return avvikListe;
   }
 }
-
-
