@@ -3,10 +3,10 @@ package no.nav.bidrag.beregn.samvaersfradrag;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static no.nav.bidrag.beregn.TestUtil.SAMVAERSFRADRAG_REFERANSE;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -36,11 +36,13 @@ import no.nav.bidrag.beregn.samvaersfradrag.periode.SamvaersfradragPeriode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 @DisplayName("SamvaersfradragCore (dto-test)")
-public class SamvaersfradragCoreTest {
+class SamvaersfradragCoreTest {
 
   private SamvaersfradragCore samvaersfradragCore;
 
@@ -53,9 +55,7 @@ public class SamvaersfradragCoreTest {
 
   @BeforeEach
   void initMocksAndService() {
-    MockitoAnnotations.initMocks(this);
-    samvaersfradragCore = new SamvaersfradragCoreImpl(
-        samvaersfradragPeriodeMock);
+    samvaersfradragCore = new SamvaersfradragCoreImpl(samvaersfradragPeriodeMock);
   }
 
   @Test
@@ -64,19 +64,17 @@ public class SamvaersfradragCoreTest {
     byggSamvaersfradragPeriodeGrunnlagCore();
     byggSamvaersfradragPeriodeResultat();
 
-    when(samvaersfradragPeriodeMock.beregnPerioder(any())).thenReturn(
-        samvaersfradragPeriodeResultat);
-    var beregnSamvaersfradragResultatCore = samvaersfradragCore.beregnSamvaersfradrag(
-        beregnSamvaersfradragGrunnlagCore);
+    when(samvaersfradragPeriodeMock.beregnPerioder(any())).thenReturn(samvaersfradragPeriodeResultat);
+    var beregnSamvaersfradragResultatCore = samvaersfradragCore.beregnSamvaersfradrag(beregnSamvaersfradragGrunnlagCore);
 
     assertAll(
         () -> assertThat(beregnSamvaersfradragResultatCore).isNotNull(),
         () -> assertThat(beregnSamvaersfradragResultatCore.getAvvikListe()).isEmpty(),
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe()).isNotEmpty(),
-        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().size()).isEqualTo(3),
+        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe()).hasSize(3),
 
-        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(0).getPeriode().getDatoFom())
-            .isEqualTo(LocalDate.parse("2017-01-01")),
+        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(0).getPeriode().getDatoFom()).isEqualTo(
+            LocalDate.parse("2017-01-01")),
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(0).getPeriode().getDatoTil())
             .isEqualTo(LocalDate.parse("2018-01-01")),
         () -> assertThat(
@@ -108,8 +106,7 @@ public class SamvaersfradragCoreTest {
     byggAvvik();
 
     when(samvaersfradragPeriodeMock.validerInput(any())).thenReturn(avvikListe);
-    var beregnSamvaersfradragResultatCore = samvaersfradragCore.beregnSamvaersfradrag(
-        beregnSamvaersfradragGrunnlagCore);
+    var beregnSamvaersfradragResultatCore = samvaersfradragCore.beregnSamvaersfradrag(beregnSamvaersfradragGrunnlagCore);
 
     assertAll(
         () -> assertThat(beregnSamvaersfradragResultatCore).isNotNull(),
@@ -145,8 +142,7 @@ public class SamvaersfradragCoreTest {
   private void byggSamvaersfradragPeriodeResultat() {
     List<ResultatPeriode> periodeResultatListe = new ArrayList<>();
 
-    periodeResultatListe.add(new ResultatPeriode(
-        new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
+    periodeResultatListe.add(new ResultatPeriode(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
         singletonList(new ResultatBeregning(1, BigDecimal.valueOf(666),
             singletonList(new SjablonPeriodeNavnVerdi(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
                 SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22))))),
@@ -154,11 +150,9 @@ public class SamvaersfradragCoreTest {
             singletonList(new SamvaersfradragGrunnlagPerBarn(SAMVAERSFRADRAG_REFERANSE, 1, 4, "02")),
             singletonList(new SjablonPeriode(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
                 new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
-                    singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                        BigDecimal.valueOf(1600)))))))));
+                    singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(1600)))))))));
 
-    periodeResultatListe.add(new ResultatPeriode(
-        new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-01-01")),
+    periodeResultatListe.add(new ResultatPeriode(new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-01-01")),
         singletonList(new ResultatBeregning(1, BigDecimal.valueOf(667),
             singletonList(new SjablonPeriodeNavnVerdi(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
                 SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22))))),
@@ -166,11 +160,9 @@ public class SamvaersfradragCoreTest {
             singletonList(new SamvaersfradragGrunnlagPerBarn(SAMVAERSFRADRAG_REFERANSE, 1, 4, "02")),
             singletonList(new SjablonPeriode(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
                 new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
-                    singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                        BigDecimal.valueOf(1600)))))))));
+                    singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(1600)))))))));
 
-    periodeResultatListe.add(new ResultatPeriode(
-        new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
+    periodeResultatListe.add(new ResultatPeriode(new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
         singletonList(new ResultatBeregning(1, BigDecimal.valueOf(668),
             singletonList(new SjablonPeriodeNavnVerdi(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
                 SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22))))),
@@ -178,8 +170,7 @@ public class SamvaersfradragCoreTest {
             singletonList(new SamvaersfradragGrunnlagPerBarn(SAMVAERSFRADRAG_REFERANSE, 1, 4, "02")),
             singletonList(new SjablonPeriode(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
                 new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
-                    singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                        BigDecimal.valueOf(1600)))))))));
+                    singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(1600)))))))));
 
     samvaersfradragPeriodeResultat = new BeregnSamvaersfradragResultat(periodeResultatListe);
   }
@@ -188,5 +179,4 @@ public class SamvaersfradragCoreTest {
     avvikListe = new ArrayList<>();
     avvikListe.add(new Avvik("beregnDatoTil må være etter beregnDatoFra", AvvikType.DATO_FOM_ETTER_DATO_TIL));
   }
-
 }

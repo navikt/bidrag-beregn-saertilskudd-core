@@ -17,7 +17,5 @@ public interface SamvaersfradragPeriode {
     return new SamvaersfradragPeriodeImpl(SamvaersfradragBeregning.getInstance());
   }
 
-  Integer beregnBarnAlder(
-      LocalDate barnFodselsdato,
-      LocalDate beregnDatoFra);
+  Integer beregnBarnAlder(LocalDate barnFodselsdato, LocalDate beregnDatoFra);
 }

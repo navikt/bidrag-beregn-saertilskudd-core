@@ -8,13 +8,11 @@ import no.nav.bidrag.beregn.saertilskudd.bo.BeregnSaertilskuddResultat;
 
 public interface SaertilskuddPeriode {
 
-  BeregnSaertilskuddResultat beregnPerioder(
-      BeregnSaertilskuddGrunnlag beregnSaertilskuddGrunnlag);
+  BeregnSaertilskuddResultat beregnPerioder(BeregnSaertilskuddGrunnlag beregnSaertilskuddGrunnlag);
 
   List<Avvik> validerInput(BeregnSaertilskuddGrunnlag beregnSaertilskuddGrunnlag);
 
   static SaertilskuddPeriode getInstance() {
     return new SaertilskuddPeriodeImpl(SaertilskuddBeregning.getInstance());
   }
-
 }
