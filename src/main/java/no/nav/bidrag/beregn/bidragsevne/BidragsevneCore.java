@@ -6,12 +6,10 @@ import no.nav.bidrag.beregn.bidragsevne.periode.BidragsevnePeriode;
 
 public interface BidragsevneCore {
 
-  BeregnBidragsevneResultatCore beregnBidragsevne(
-      BeregnBidragsevneGrunnlagCore beregnBidragsevneGrunnlagCore);
+  BeregnBidragsevneResultatCore beregnBidragsevne(BeregnBidragsevneGrunnlagCore beregnBidragsevneGrunnlagCore);
 
   static BidragsevneCore getInstance() {
-    return new BidragsevneCoreImpl(
-        BidragsevnePeriode.getInstance());
+    return new BidragsevneCoreImpl(BidragsevnePeriode.getInstance());
   }
 }
 

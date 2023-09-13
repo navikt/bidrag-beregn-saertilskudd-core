@@ -5,8 +5,7 @@ import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.ResultatBeregning;
 
 public interface BPsAndelSaertilskuddBeregning {
 
-  ResultatBeregning beregn(
-      GrunnlagBeregning grunnlagBeregning);
+  ResultatBeregning beregn(GrunnlagBeregning grunnlagBeregning);
 
   static BPsAndelSaertilskuddBeregning getInstance() {
     return new BPsAndelSaertilskuddBeregningImpl();

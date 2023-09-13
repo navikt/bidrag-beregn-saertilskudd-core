@@ -1,6 +1,5 @@
 package no.nav.bidrag.beregn.bpsandelsaertilskudd;
 
-import static java.util.stream.Collectors.toList;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,8 +36,7 @@ import no.nav.bidrag.beregn.felles.enums.InntektType;
 
 public class BPsAndelSaertilskuddCoreImpl extends FellesCore implements BPsAndelSaertilskuddCore {
 
-  public BPsAndelSaertilskuddCoreImpl(
-      BPsAndelSaertilskuddPeriode bPsAndelSaertilskuddPeriode) {
+  public BPsAndelSaertilskuddCoreImpl(BPsAndelSaertilskuddPeriode bPsAndelSaertilskuddPeriode) {
     this.bPsAndelSaertilskuddPeriode = bPsAndelSaertilskuddPeriode;
   }
 
@@ -53,11 +51,11 @@ public class BPsAndelSaertilskuddCoreImpl extends FellesCore implements BPsAndel
     if (avvikListe.isEmpty()) {
       beregnBPsAndelSaertilskuddResultat = bPsAndelSaertilskuddPeriode.beregnPerioder(beregnBPsAndelSaertilskuddGrunnlag);
     }
+
     return mapFraBusinessObject(avvikListe, beregnBPsAndelSaertilskuddResultat, beregnBPsAndelSaertilskuddGrunnlag);
   }
 
-  private BeregnBPsAndelSaertilskuddGrunnlag mapTilBusinessObject(
-      BeregnBPsAndelSaertilskuddGrunnlagCore beregnBPsAndelSaertilskuddGrunnlagCore) {
+  private BeregnBPsAndelSaertilskuddGrunnlag mapTilBusinessObject(BeregnBPsAndelSaertilskuddGrunnlagCore beregnBPsAndelSaertilskuddGrunnlagCore) {
     var beregnDatoFra = beregnBPsAndelSaertilskuddGrunnlagCore.getBeregnDatoFra();
     var beregnDatoTil = beregnBPsAndelSaertilskuddGrunnlagCore.getBeregnDatoTil();
     var sjablonPeriodeListe = mapSjablonPeriodeListe(beregnBPsAndelSaertilskuddGrunnlagCore.getSjablonPeriodeListe());
@@ -66,8 +64,7 @@ public class BPsAndelSaertilskuddCoreImpl extends FellesCore implements BPsAndel
     var inntektBMPeriodeListe = mapInntektPeriodeListe(beregnBPsAndelSaertilskuddGrunnlagCore.getInntektBMPeriodeListe());
     var inntektBBPeriodeListe = mapInntektPeriodeListe(beregnBPsAndelSaertilskuddGrunnlagCore.getInntektBBPeriodeListe());
 
-    return new BeregnBPsAndelSaertilskuddGrunnlag(beregnDatoFra, beregnDatoTil,
-        nettoSaertilskudd, inntektBPPeriodeListe, inntektBMPeriodeListe,
+    return new BeregnBPsAndelSaertilskuddGrunnlag(beregnDatoFra, beregnDatoTil, nettoSaertilskudd, inntektBPPeriodeListe, inntektBMPeriodeListe,
         inntektBBPeriodeListe, sjablonPeriodeListe);
   }
 
@@ -90,8 +87,7 @@ public class BPsAndelSaertilskuddCoreImpl extends FellesCore implements BPsAndel
     return sjablonPeriodeListe;
   }
 
-  private List<NettoSaertilskuddPeriode> mapNettoSaertilskuddPeriodeListe(
-      List<NettoSaertilskuddPeriodeCore> nettoSaertilskuddPeriodeListeCore) {
+  private List<NettoSaertilskuddPeriode> mapNettoSaertilskuddPeriodeListe(List<NettoSaertilskuddPeriodeCore> nettoSaertilskuddPeriodeListeCore) {
     var nettoSaertilskuddPeriodeListe = new ArrayList<NettoSaertilskuddPeriode>();
     for (NettoSaertilskuddPeriodeCore nettoSaertilskuddPeriodeCore : nettoSaertilskuddPeriodeListeCore) {
       nettoSaertilskuddPeriodeListe.add(new NettoSaertilskuddPeriode(nettoSaertilskuddPeriodeCore.getReferanse(),
@@ -148,15 +144,14 @@ public class BPsAndelSaertilskuddCoreImpl extends FellesCore implements BPsAndel
 
   private BeregnedeGrunnlagCore mapBeregnedeInnteksGrunnlag(GrunnlagBeregning grunnlagBeregning,
       BeregnBPsAndelSaertilskuddGrunnlag beregnBPsAndelSaertilskuddGrunnlag) {
-    BeregnedeGrunnlagCore beregnedeGrunnlag = new BeregnedeGrunnlagCore(
+    return new BeregnedeGrunnlagCore(
         grunnlagBeregning.getInntektBPListe().stream().filter(inntekt -> beregnBPsAndelSaertilskuddGrunnlag.getInntektBPPeriodeListe().stream()
-            .filter(inntektPeriode -> inntektPeriode.getReferanse().equals(inntekt.getReferanse())).collect(toList()).isEmpty()).collect(toList()),
+            .noneMatch(inntektPeriode -> inntektPeriode.getReferanse().equals(inntekt.getReferanse()))).toList(),
         grunnlagBeregning.getInntektBMListe().stream().filter(inntekt -> beregnBPsAndelSaertilskuddGrunnlag.getInntektBMPeriodeListe().stream()
-            .filter(inntektPeriode -> inntektPeriode.getReferanse().equals(inntekt.getReferanse())).collect(toList()).isEmpty()).collect(toList()),
+            .noneMatch(inntektPeriode -> inntektPeriode.getReferanse().equals(inntekt.getReferanse()))).toList(),
         grunnlagBeregning.getInntektBBListe().stream().filter(inntekt -> beregnBPsAndelSaertilskuddGrunnlag.getInntektBBPeriodeListe().stream()
-            .filter(inntektPeriode -> inntektPeriode.getReferanse().equals(inntekt.getReferanse())).collect(toList()).isEmpty()).collect(toList())
+            .noneMatch(inntektPeriode -> inntektPeriode.getReferanse().equals(inntekt.getReferanse()))).toList()
     );
-    return beregnedeGrunnlag;
   }
 
   private List<String> mapReferanseListe(ResultatPeriode resultatPeriode) {
@@ -167,8 +162,8 @@ public class BPsAndelSaertilskuddCoreImpl extends FellesCore implements BPsAndel
     resultatGrunnlag.getInntektBPListe().forEach(inntekt -> referanseListe.add(inntekt.getReferanse()));
     resultatGrunnlag.getInntektBMListe().forEach(inntekt -> referanseListe.add(inntekt.getReferanse()));
     resultatGrunnlag.getInntektBBListe().forEach(inntekt -> referanseListe.add(inntekt.getReferanse()));
-    referanseListe.addAll(sjablonListe.stream().map(this::lagSjablonReferanse).distinct().collect(toList()));
-    return referanseListe.stream().sorted().collect(toList());
+    referanseListe.addAll(sjablonListe.stream().map(this::lagSjablonReferanse).distinct().toList());
+    return referanseListe.stream().sorted().toList();
   }
 
   private List<SjablonResultatGrunnlagCore> mapSjablonGrunnlagListe(List<ResultatPeriode> resultatPeriodeListe) {
@@ -176,6 +171,6 @@ public class BPsAndelSaertilskuddCoreImpl extends FellesCore implements BPsAndel
         .map(resultatPeriode -> mapSjablonListe(resultatPeriode.getResultatBeregning().getSjablonListe()))
         .flatMap(Collection::stream)
         .distinct()
-        .collect(toList());
+        .toList();
   }
 }

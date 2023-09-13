@@ -1,7 +1,5 @@
 package no.nav.bidrag.beregn.bpsandelsaertilskudd.beregning;
 
-import static java.util.stream.Collectors.toList;
-
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -19,8 +17,7 @@ import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
 public class BPsAndelSaertilskuddBeregningImpl extends FellesBeregning implements BPsAndelSaertilskuddBeregning {
 
   @Override
-  public ResultatBeregning beregn(
-      GrunnlagBeregning grunnlagBeregning) {
+  public ResultatBeregning beregn(GrunnlagBeregning grunnlagBeregning) {
 
     // Henter sjablonverdier
     var sjablonNavnVerdiMap = hentSjablonVerdier(grunnlagBeregning.getSjablonListe());
@@ -48,21 +45,18 @@ public class BPsAndelSaertilskuddBeregningImpl extends FellesBeregning implement
         .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     // Test på om barnets inntekt er høyere enn 100 ganger sats for forhøyet forskudd. Hvis så så skal ikke BPs andel regnes ut.
-    if (inntektBB.compareTo(
-        sjablonNavnVerdiMap.get(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn()).multiply(BigDecimal.valueOf(100))) > 0) {
+    if (inntektBB.compareTo(sjablonNavnVerdiMap.get(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn()).multiply(BigDecimal.valueOf(100))) > 0) {
       barnetErSelvforsorget = true;
     } else {
-      inntektBB = inntektBB.subtract(
-          sjablonNavnVerdiMap.get(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn()).multiply(BigDecimal.valueOf(30)));
+      inntektBB = inntektBB.subtract(sjablonNavnVerdiMap.get(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn()).multiply(BigDecimal.valueOf(30)));
 
       if (inntektBB.compareTo(BigDecimal.ZERO) < 0) {
         inntektBB = BigDecimal.ZERO;
       }
 
-      andelProsent = (inntektBP.divide(
-              inntektBP.add(inntektBM).add(inntektBB),
-              new MathContext(10, RoundingMode.HALF_UP))
-          .multiply(BigDecimal.valueOf(100)));
+      andelProsent = inntektBP
+          .divide(inntektBP.add(inntektBM).add(inntektBB), new MathContext(10, RoundingMode.HALF_UP))
+          .multiply(BigDecimal.valueOf(100));
 
       andelProsent = andelProsent.setScale(1, RoundingMode.HALF_UP);
 
@@ -71,9 +65,9 @@ public class BPsAndelSaertilskuddBeregningImpl extends FellesBeregning implement
         andelProsent = BigDecimal.valueOf(83.3333333333);
       }
 
-      andelBelop = grunnlagBeregning.getNettoSaertilskuddBelop().multiply(andelProsent)
+      andelBelop = grunnlagBeregning.getNettoSaertilskuddBelop()
+          .multiply(andelProsent)
           .divide(BigDecimal.valueOf(100), 0, RoundingMode.HALF_UP);
-
     }
 
     return new ResultatBeregning(andelProsent, andelBelop, barnetErSelvforsorget,
@@ -87,7 +81,7 @@ public class BPsAndelSaertilskuddBeregningImpl extends FellesBeregning implement
 
     var sjablonListe = sjablonPeriodeListe.stream()
         .map(SjablonPeriode::getSjablon)
-        .collect(toList());
+        .toList();
 
     // Sjablontall
     sjablonNavnVerdiMap.put(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(),

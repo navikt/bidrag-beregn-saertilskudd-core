@@ -8,13 +8,11 @@ import no.nav.bidrag.beregn.felles.bo.Avvik;
 
 public interface BPsAndelSaertilskuddPeriode {
 
-  BeregnBPsAndelSaertilskuddResultat beregnPerioder(
-      BeregnBPsAndelSaertilskuddGrunnlag beregnBPsAndelSaertilskuddGrunnlag);
+  BeregnBPsAndelSaertilskuddResultat beregnPerioder(BeregnBPsAndelSaertilskuddGrunnlag beregnBPsAndelSaertilskuddGrunnlag);
 
   List<Avvik> validerInput(BeregnBPsAndelSaertilskuddGrunnlag beregnBPsAndelSaertilskuddGrunnlag);
 
   static BPsAndelSaertilskuddPeriode getInstance() {
     return new BPsAndelSaertilskuddPeriodeImpl(BPsAndelSaertilskuddBeregning.getInstance());
   }
-
 }
