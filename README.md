@@ -69,6 +69,7 @@ Disse beregningene gjøres:
 
 | Versjon | Endringstype | Beskrivelse                                                                                                                                                                                           |
 |---------|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 0.6.1   | Endret       | Skrevet om til Kotlin og refaktorert kode                                                                                                                                                             |
 | 0.6.0   | Endret       | Refaktorert og oppgradert kode                                                                                                                                                                        |
 | 0.5.12  | Endret       | Ikke full bidragsevne skal resultere i 0,- i særtilskudd-beløp                                                                                                                                        |
 | 0.5.11  | Endret       | Oppdaterte avhengigheter (Snyk)                                                                                                                                                                       |
