@@ -10,7 +10,6 @@ import no.nav.bidrag.beregn.felles.bo.Sjablon
 import no.nav.bidrag.beregn.felles.bo.SjablonInnhold
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.domain.enums.AvvikType
-import no.nav.bidrag.domain.enums.InntektType
 import no.nav.bidrag.domain.enums.sjablon.SjablonInnholdNavn
 import no.nav.bidrag.domain.enums.sjablon.SjablonTallNavn
 import org.assertj.core.api.Assertions.assertThat
@@ -73,7 +72,7 @@ internal class BPsAndelSaertilskuddPeriodeTest {
             InntektPeriode(
                 referanse = "Inntekt_20180101",
                 periodeDatoFraTil = Periode(datoFom = LocalDate.parse("2018-01-01"), datoTil = LocalDate.parse("2020-08-01")),
-                inntektType = InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER,
+                inntektType = "INNTEKTSOPPLYSNINGER_ARBEIDSGIVER",
                 inntektBelop = BigDecimal.valueOf(217666),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -83,7 +82,7 @@ internal class BPsAndelSaertilskuddPeriodeTest {
             InntektPeriode(
                 referanse = "Inntekt_20180101",
                 periodeDatoFraTil = Periode(datoFom = LocalDate.parse("2018-01-01"), datoTil = LocalDate.parse("2020-08-01")),
-                inntektType = InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER,
+                inntektType = "INNTEKTSOPPLYSNINGER_ARBEIDSGIVER",
                 inntektBelop = BigDecimal.valueOf(400000),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -93,7 +92,7 @@ internal class BPsAndelSaertilskuddPeriodeTest {
             InntektPeriode(
                 referanse = "Inntekt_20180101",
                 periodeDatoFraTil = Periode(datoFom = LocalDate.parse("2018-01-01"), datoTil = LocalDate.parse("2020-08-01")),
-                inntektType = InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER,
+                inntektType = "INNTEKTSOPPLYSNINGER_ARBEIDSGIVER",
                 inntektBelop = BigDecimal.valueOf(40000),
                 deltFordel = false,
                 skatteklasse2 = false

@@ -19,7 +19,6 @@ import no.nav.bidrag.beregn.felles.bo.Avvik
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.core.FellesCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
-import no.nav.bidrag.domain.enums.InntektType
 
 class BPsAndelSaertilskuddCoreImpl(private val bPsAndelSaertilskuddPeriode: BPsAndelSaertilskuddPeriode) : FellesCore(), BPsAndelSaertilskuddCore {
 
@@ -82,7 +81,7 @@ class BPsAndelSaertilskuddCoreImpl(private val bPsAndelSaertilskuddPeriode: BPsA
                 InntektPeriode(
                     referanse = it.referanse,
                     periodeDatoFraTil = Periode(datoFom = it.periodeDatoFraTil.datoFom, datoTil = it.periodeDatoFraTil.datoTil),
-                    inntektType = InntektType.valueOf(it.inntektType),
+                    inntektType = it.inntektType,
                     inntektBelop = it.inntektBelop,
                     deltFordel = it.deltFordel,
                     skatteklasse2 = it.skatteklasse2

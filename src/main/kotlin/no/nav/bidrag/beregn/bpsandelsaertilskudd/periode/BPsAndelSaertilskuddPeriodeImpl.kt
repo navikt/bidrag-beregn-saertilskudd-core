@@ -12,11 +12,10 @@ import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.ResultatPeriode
 import no.nav.bidrag.beregn.felles.bo.Avvik
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
-import no.nav.bidrag.beregn.felles.inntekt.InntektPeriodeGrunnlag
+import no.nav.bidrag.beregn.felles.inntekt.InntektPeriodeGrunnlagUtenInntektType
 import no.nav.bidrag.beregn.felles.periode.Periodiserer
 import no.nav.bidrag.beregn.felles.util.InntektUtil.behandlUtvidetBarnetrygd
 import no.nav.bidrag.beregn.felles.util.PeriodeUtil
-import no.nav.bidrag.domain.enums.InntektType
 import java.time.LocalDate
 
 class BPsAndelSaertilskuddPeriodeImpl(private val bPsAndelSaertilskuddBeregning: BPsAndelSaertilskuddBeregning) : BPsAndelSaertilskuddPeriode {
@@ -176,10 +175,10 @@ class BPsAndelSaertilskuddPeriodeImpl(private val bPsAndelSaertilskuddBeregning:
         val justertInntektPeriodeListe = behandlUtvidetBarnetrygd(
             inntektPeriodeGrunnlagListe = inntektPeriodeListe
                 .map {
-                    InntektPeriodeGrunnlag(
+                    InntektPeriodeGrunnlagUtenInntektType(
                         referanse = it.referanse,
                         inntektPeriode = it.getPeriode(),
-                        type = InntektType.valueOf(it.inntektType.toString()),
+                        type = it.inntektType,
                         belop = it.inntektBelop,
                         deltFordel = it.deltFordel,
                         skatteklasse2 = it.skatteklasse2
@@ -193,7 +192,7 @@ class BPsAndelSaertilskuddPeriodeImpl(private val bPsAndelSaertilskuddBeregning:
                 InntektPeriode(
                     referanse = it.referanse,
                     periodeDatoFraTil = it.getPeriode(),
-                    inntektType = InntektType.valueOf(it.type.toString()),
+                    inntektType = it.type,
                     inntektBelop = it.belop,
                     deltFordel = it.deltFordel,
                     skatteklasse2 = it.skatteklasse2

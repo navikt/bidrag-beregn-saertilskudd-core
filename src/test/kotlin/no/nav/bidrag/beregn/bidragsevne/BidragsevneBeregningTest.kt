@@ -14,7 +14,6 @@ import no.nav.bidrag.beregn.felles.bo.SjablonInnhold
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.beregn.felles.util.SjablonUtil
 import no.nav.bidrag.domain.enums.BostatusKode
-import no.nav.bidrag.domain.enums.InntektType
 import no.nav.bidrag.domain.enums.SaerfradragKode
 import no.nav.bidrag.domain.enums.sjablon.SjablonInnholdNavn
 import no.nav.bidrag.domain.enums.sjablon.SjablonTallNavn
@@ -54,7 +53,7 @@ internal class BidragsevneBeregningTest {
         saerfradragKode: SaerfradragKode,
         expectedResult: Int
     ) {
-        val inntekter = listOf(Inntekt(TestUtil.INNTEKT_REFERANSE, InntektType.LONN_SKE, inntektBelop))
+        val inntekter = listOf(Inntekt(TestUtil.INNTEKT_REFERANSE, "LONN_SKE", inntektBelop))
         val grunnlagBeregning = GrunnlagBeregning(
             inntektListe = inntekter,
             skatteklasse = Skatteklasse(TestUtil.SKATTEKLASSE_REFERANSE, skatteklasse),
@@ -75,7 +74,7 @@ internal class BidragsevneBeregningTest {
         inntekter.add(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(666000)
             )
         )
@@ -100,7 +99,7 @@ internal class BidragsevneBeregningTest {
         // Test at fordel skatteklasse 2 legges til beregnet evne når skatteklasse = 2
         inntekter[0] = Inntekt(
             referanse = TestUtil.INNTEKT_REFERANSE,
-            inntektType = InntektType.LONN_SKE,
+            inntektType = "LONN_SKE",
             inntektBelop = BigDecimal.valueOf(666000)
         )
         sjablonPeriodeListe[0] = SjablonPeriode(
@@ -156,7 +155,7 @@ internal class BidragsevneBeregningTest {
         inntekter.add(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(200000)
             )
         )
@@ -186,7 +185,7 @@ internal class BidragsevneBeregningTest {
 
         inntekter[0] = Inntekt(
             referanse = TestUtil.INNTEKT_REFERANSE,
-            inntektType = InntektType.LONN_SKE,
+            inntektType = "LONN_SKE",
             inntektBelop = BigDecimal.valueOf(1000000)
         )
         grunnlagBeregning = GrunnlagBeregning(
@@ -221,7 +220,7 @@ internal class BidragsevneBeregningTest {
         inntekter.add(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(666000)
             )
         )
@@ -237,7 +236,7 @@ internal class BidragsevneBeregningTest {
 
         inntekter[0] = Inntekt(
             referanse = TestUtil.INNTEKT_REFERANSE,
-            inntektType = InntektType.LONN_SKE,
+            inntektType = "LONN_SKE",
             inntektBelop = BigDecimal.valueOf(174600)
         )
         grunnlagBeregning = GrunnlagBeregning(
@@ -252,7 +251,7 @@ internal class BidragsevneBeregningTest {
 
         inntekter[0] = Inntekt(
             referanse = TestUtil.INNTEKT_REFERANSE,
-            inntektType = InntektType.LONN_SKE,
+            inntektType = "LONN_SKE",
             inntektBelop = BigDecimal.valueOf(250000)
         )
         grunnlagBeregning = GrunnlagBeregning(

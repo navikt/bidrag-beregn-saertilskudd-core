@@ -3,7 +3,6 @@ package no.nav.bidrag.beregn.bpsandelsaertilskudd.bo
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriodeNavnVerdi
-import no.nav.bidrag.domain.enums.InntektType
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -48,7 +47,7 @@ data class GrunnlagBeregning(
 
 data class Inntekt(
     val referanse: String,
-    val inntektType: InntektType,
+    val inntektType: String,
     val inntektBelop: BigDecimal,
     val deltFordel: Boolean,
     val skatteklasse2: Boolean

@@ -4,7 +4,6 @@ import no.nav.bidrag.beregn.TestUtil
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.beregning.BPsAndelSaertilskuddBeregningImpl
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.GrunnlagBeregning
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.Inntekt
-import no.nav.bidrag.domain.enums.InntektType
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.DisplayName
@@ -23,7 +22,7 @@ class BPsAndelSaertilskuddBeregningTest {
         val inntektBP = listOf(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(217666),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -32,7 +31,7 @@ class BPsAndelSaertilskuddBeregningTest {
         val inntektBM = listOf(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(400000),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -41,7 +40,7 @@ class BPsAndelSaertilskuddBeregningTest {
         val inntektBB = listOf(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(40000),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -72,7 +71,7 @@ class BPsAndelSaertilskuddBeregningTest {
         inntektBP.add(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(200000),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -81,7 +80,7 @@ class BPsAndelSaertilskuddBeregningTest {
         inntektBP.add(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(17666),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -92,7 +91,7 @@ class BPsAndelSaertilskuddBeregningTest {
         inntektBM.add(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(100000),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -101,7 +100,7 @@ class BPsAndelSaertilskuddBeregningTest {
         inntektBM.add(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(200000),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -110,7 +109,7 @@ class BPsAndelSaertilskuddBeregningTest {
         inntektBM.add(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(100000),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -121,7 +120,7 @@ class BPsAndelSaertilskuddBeregningTest {
         inntektBB.add(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(10000),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -130,7 +129,7 @@ class BPsAndelSaertilskuddBeregningTest {
         inntektBB.add(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(10000),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -139,7 +138,7 @@ class BPsAndelSaertilskuddBeregningTest {
         inntektBB.add(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(10000),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -148,7 +147,7 @@ class BPsAndelSaertilskuddBeregningTest {
         inntektBB.add(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(10000),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -157,7 +156,7 @@ class BPsAndelSaertilskuddBeregningTest {
         inntektBB.add(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(10000),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -166,7 +165,7 @@ class BPsAndelSaertilskuddBeregningTest {
         inntektBB.add(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(10000),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -197,7 +196,7 @@ class BPsAndelSaertilskuddBeregningTest {
         val inntektBP = listOf(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(217666),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -206,7 +205,7 @@ class BPsAndelSaertilskuddBeregningTest {
         val inntektBM = listOf(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(400000),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -215,7 +214,7 @@ class BPsAndelSaertilskuddBeregningTest {
         val inntektBB = listOf(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(400000),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -246,7 +245,7 @@ class BPsAndelSaertilskuddBeregningTest {
         val inntektBP = listOf(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(1000000),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -255,7 +254,7 @@ class BPsAndelSaertilskuddBeregningTest {
         val inntektBM = listOf(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(40000),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -264,7 +263,7 @@ class BPsAndelSaertilskuddBeregningTest {
         val inntektBB = listOf(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(40000),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -295,7 +294,7 @@ class BPsAndelSaertilskuddBeregningTest {
         val inntektBP = listOf(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(502000),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -304,7 +303,7 @@ class BPsAndelSaertilskuddBeregningTest {
         val inntektBM = listOf(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(500000),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -313,7 +312,7 @@ class BPsAndelSaertilskuddBeregningTest {
         val inntektBB = listOf(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.ZERO,
                 deltFordel = false,
                 skatteklasse2 = false
@@ -343,7 +342,7 @@ class BPsAndelSaertilskuddBeregningTest {
         val inntektBP = listOf(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(550000),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -352,7 +351,7 @@ class BPsAndelSaertilskuddBeregningTest {
         val inntektBM = listOf(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(300000),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -361,7 +360,7 @@ class BPsAndelSaertilskuddBeregningTest {
         val inntektBB = listOf(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.ZERO,
                 deltFordel = false,
                 skatteklasse2 = false

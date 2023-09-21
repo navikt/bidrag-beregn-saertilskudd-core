@@ -14,7 +14,6 @@ import no.nav.bidrag.beregn.felles.bo.SjablonNokkel
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.domain.enums.AvvikType
 import no.nav.bidrag.domain.enums.BostatusKode
-import no.nav.bidrag.domain.enums.InntektType
 import no.nav.bidrag.domain.enums.SaerfradragKode
 import no.nav.bidrag.domain.enums.sjablon.SjablonInnholdNavn
 import no.nav.bidrag.domain.enums.sjablon.SjablonNavn
@@ -152,7 +151,7 @@ internal class BidragsevnePeriodeTest {
                 InntektPeriode(
                     referanse = "Inntekt_20030101",
                     periodeDatoFraTil = Periode(datoFom = LocalDate.parse("2003-01-01"), datoTil = LocalDate.parse("2004-01-01")),
-                    inntektType = InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER,
+                    inntektType = "INNTEKTSOPPLYSNINGER_ARBEIDSGIVER",
                     inntektBelop = BigDecimal.valueOf(666000)
                 )
             )
@@ -161,7 +160,7 @@ internal class BidragsevnePeriodeTest {
                 InntektPeriode(
                     referanse = "Inntekt_20040101",
                     periodeDatoFraTil = Periode(datoFom = LocalDate.parse("2004-01-01"), datoTil = LocalDate.parse("2016-01-01")),
-                    inntektType = InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER,
+                    inntektType = "INNTEKTSOPPLYSNINGER_ARBEIDSGIVER",
                     inntektBelop = BigDecimal.valueOf(555000)
                 )
             )
@@ -170,7 +169,7 @@ internal class BidragsevnePeriodeTest {
                 InntektPeriode(
                     referanse = "Inntekt_20160101",
                     periodeDatoFraTil = Periode(datoFom = LocalDate.parse("2016-01-01"), datoTil = LocalDate.parse("2019-01-01")),
-                    inntektType = InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER,
+                    inntektType = "INNTEKTSOPPLYSNINGER_ARBEIDSGIVER",
                     inntektBelop = BigDecimal.valueOf(444000)
                 )
             )
@@ -179,7 +178,7 @@ internal class BidragsevnePeriodeTest {
                 InntektPeriode(
                     referanse = "Inntekt_20190101",
                     periodeDatoFraTil = Periode(datoFom = LocalDate.parse("2019-01-01"), datoTil = LocalDate.parse("2019-04-01")),
-                    inntektType = InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER,
+                    inntektType = "INNTEKTSOPPLYSNINGER_ARBEIDSGIVER",
                     inntektBelop = BigDecimal.valueOf(666000)
                 )
             )
@@ -188,7 +187,7 @@ internal class BidragsevnePeriodeTest {
                 InntektPeriode(
                     referanse = "Inntekt_20190401",
                     periodeDatoFraTil = Periode(datoFom = LocalDate.parse("2019-04-01"), datoTil = LocalDate.parse("2020-01-01")),
-                    inntektType = InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER,
+                    inntektType = "INNTEKTSOPPLYSNINGER_ARBEIDSGIVER",
                     inntektBelop = BigDecimal.valueOf(666001)
                 )
             )
@@ -197,7 +196,7 @@ internal class BidragsevnePeriodeTest {
                 InntektPeriode(
                     referanse = "20190501",
                     periodeDatoFraTil = Periode(datoFom = LocalDate.parse("2019-05-01"), datoTil = LocalDate.parse("2020-01-01")),
-                    inntektType = InntektType.OVERGANGSSTONAD,
+                    inntektType = "OVERGANGSSTONAD",
                     inntektBelop = BigDecimal.valueOf(2)
                 )
             )
@@ -206,7 +205,7 @@ internal class BidragsevnePeriodeTest {
                 InntektPeriode(
                     referanse = "20190701",
                     periodeDatoFraTil = Periode(datoFom = LocalDate.parse("2019-07-01"), datoTil = LocalDate.parse("2020-01-01")),
-                    inntektType = InntektType.KONTANTSTOTTE,
+                    inntektType = "KONTANTSTOTTE",
                     inntektBelop = BigDecimal.valueOf(3)
                 )
             )

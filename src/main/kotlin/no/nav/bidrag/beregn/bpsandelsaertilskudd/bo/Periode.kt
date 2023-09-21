@@ -2,7 +2,6 @@ package no.nav.bidrag.beregn.bpsandelsaertilskudd.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.PeriodisertGrunnlag
-import no.nav.bidrag.domain.enums.InntektType
 import java.math.BigDecimal
 
 data class NettoSaertilskuddPeriode(
@@ -25,7 +24,7 @@ data class NettoSaertilskuddPeriode(
 data class InntektPeriode(
     val referanse: String,
     val periodeDatoFraTil: Periode,
-    val inntektType: InntektType,
+    val inntektType: String,
     val inntektBelop: BigDecimal,
     val deltFordel: Boolean,
     val skatteklasse2: Boolean
