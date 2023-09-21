@@ -23,7 +23,6 @@ import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.core.FellesCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
 import no.nav.bidrag.domain.enums.BostatusKode
-import no.nav.bidrag.domain.enums.InntektType
 import no.nav.bidrag.domain.enums.SaerfradragKode
 
 class BidragsevneCoreImpl(private val bidragsevnePeriode: BidragsevnePeriode) : FellesCore(), BidragsevneCore {
@@ -66,7 +65,7 @@ class BidragsevneCoreImpl(private val bidragsevnePeriode: BidragsevnePeriode) : 
                 InntektPeriode(
                     referanse = it.referanse,
                     periodeDatoFraTil = Periode(datoFom = it.periodeDatoFraTil.datoFom, datoTil = it.periodeDatoFraTil.datoTil),
-                    inntektType = InntektType.valueOf(it.inntektType),
+                    inntektType = it.inntektType,
                     inntektBelop = it.inntektBelop
                 )
             )

@@ -3,14 +3,13 @@ package no.nav.bidrag.beregn.bidragsevne.bo
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.PeriodisertGrunnlag
 import no.nav.bidrag.domain.enums.BostatusKode
-import no.nav.bidrag.domain.enums.InntektType
 import no.nav.bidrag.domain.enums.SaerfradragKode
 import java.math.BigDecimal
 
 data class InntektPeriode(
     val referanse: String,
     val periodeDatoFraTil: Periode,
-    val inntektType: InntektType,
+    val inntektType: String,
     val inntektBelop: BigDecimal
 ) : PeriodisertGrunnlag {
     constructor(inntektPeriode: InntektPeriode) : this(

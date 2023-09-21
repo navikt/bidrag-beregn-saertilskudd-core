@@ -20,7 +20,6 @@ import no.nav.bidrag.beregn.felles.dto.PeriodeCore
 import no.nav.bidrag.beregn.felles.dto.SjablonInnholdCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
 import no.nav.bidrag.domain.enums.AvvikType
-import no.nav.bidrag.domain.enums.InntektType
 import no.nav.bidrag.domain.enums.sjablon.SjablonInnholdNavn
 import no.nav.bidrag.domain.enums.sjablon.SjablonTallNavn
 import org.assertj.core.api.Assertions.assertThat
@@ -115,7 +114,7 @@ internal class BPsAndelSaertilskuddPeriodeCoreTest {
             InntektPeriodeCore(
                 referanse = TestUtil.INNTEKT_REFERANSE,
                 periodeDatoFraTil = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2020-01-01")),
-                inntektType = InntektType.LONN_SKE.toString(),
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(111),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -126,7 +125,7 @@ internal class BPsAndelSaertilskuddPeriodeCoreTest {
             InntektPeriodeCore(
                 referanse = TestUtil.INNTEKT_REFERANSE,
                 periodeDatoFraTil = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2020-01-01")),
-                inntektType = InntektType.LONN_SKE.toString(),
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(222),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -137,7 +136,7 @@ internal class BPsAndelSaertilskuddPeriodeCoreTest {
             InntektPeriodeCore(
                 referanse = TestUtil.INNTEKT_REFERANSE,
                 periodeDatoFraTil = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2020-01-01")),
-                inntektType = InntektType.LONN_SKE.toString(),
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(333),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -168,7 +167,7 @@ internal class BPsAndelSaertilskuddPeriodeCoreTest {
         val inntektBPListe = listOf(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(111.0),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -177,7 +176,7 @@ internal class BPsAndelSaertilskuddPeriodeCoreTest {
         val inntektBMListe = listOf(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(222.0),
                 deltFordel = false,
                 skatteklasse2 = false
@@ -186,7 +185,7 @@ internal class BPsAndelSaertilskuddPeriodeCoreTest {
         val inntektBBListe = listOf(
             Inntekt(
                 referanse = TestUtil.INNTEKT_REFERANSE,
-                inntektType = InntektType.LONN_SKE,
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(333.0),
                 deltFordel = false,
                 skatteklasse2 = false

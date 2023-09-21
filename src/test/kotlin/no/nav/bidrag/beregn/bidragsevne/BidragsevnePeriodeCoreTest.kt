@@ -28,7 +28,6 @@ import no.nav.bidrag.beregn.felles.dto.SjablonInnholdCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
 import no.nav.bidrag.domain.enums.AvvikType
 import no.nav.bidrag.domain.enums.BostatusKode
-import no.nav.bidrag.domain.enums.InntektType
 import no.nav.bidrag.domain.enums.SaerfradragKode
 import no.nav.bidrag.domain.enums.sjablon.SjablonInnholdNavn
 import no.nav.bidrag.domain.enums.sjablon.SjablonTallNavn
@@ -120,7 +119,7 @@ internal class BidragsevnePeriodeCoreTest {
             InntektPeriodeCore(
                 referanse = TestUtil.INNTEKT_REFERANSE,
                 periodeDatoFraTil = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = null),
-                inntektType = InntektType.LONN_SKE.toString(),
+                inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(666000)
             )
         )
@@ -200,7 +199,7 @@ internal class BidragsevnePeriodeCoreTest {
                     inntektListe = listOf(
                         Inntekt(
                             referanse = TestUtil.INNTEKT_REFERANSE,
-                            inntektType = InntektType.LONN_SKE,
+                            inntektType = "LONN_SKE",
                             inntektBelop = BigDecimal.valueOf(666000)
                         )
                     ),
@@ -244,7 +243,7 @@ internal class BidragsevnePeriodeCoreTest {
                     inntektListe = listOf(
                         Inntekt(
                             referanse = TestUtil.INNTEKT_REFERANSE,
-                            inntektType = InntektType.LONN_SKE,
+                            inntektType = "LONN_SKE",
                             inntektBelop = BigDecimal.valueOf(666000)
                         )
                     ),
@@ -285,7 +284,7 @@ internal class BidragsevnePeriodeCoreTest {
                     )
                 ),
                 resultatGrunnlagBeregning = GrunnlagBeregning(
-                    inntektListe = listOf(Inntekt(TestUtil.INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(666000))),
+                    inntektListe = listOf(Inntekt(TestUtil.INNTEKT_REFERANSE, "LONN_SKE", BigDecimal.valueOf(666000))),
                     skatteklasse = Skatteklasse(referanse = TestUtil.SKATTEKLASSE_REFERANSE, skatteklasse = 1),
                     bostatus = Bostatus(referanse = TestUtil.BOSTATUS_REFERANSE, kode = BostatusKode.MED_ANDRE),
                     barnIHusstand = BarnIHusstand(referanse = TestUtil.BARN_I_HUSSTAND_REFERANSE, antallBarn = 1.0),
