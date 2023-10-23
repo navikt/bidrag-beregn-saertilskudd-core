@@ -1,9 +1,9 @@
 package no.nav.bidrag.beregn.samvaersfradrag
 
+import no.nav.bidrag.beregn.felles.FellesCore
 import no.nav.bidrag.beregn.felles.bo.Avvik
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriodeNavnVerdi
-import no.nav.bidrag.beregn.felles.core.FellesCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
 import no.nav.bidrag.beregn.samvaersfradrag.bo.BeregnSamvaersfradragGrunnlag
 import no.nav.bidrag.beregn.samvaersfradrag.bo.BeregnSamvaersfradragResultat

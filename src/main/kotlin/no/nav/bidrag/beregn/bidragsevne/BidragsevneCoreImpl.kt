@@ -18,9 +18,9 @@ import no.nav.bidrag.beregn.bidragsevne.dto.ResultatPeriodeCore
 import no.nav.bidrag.beregn.bidragsevne.dto.SaerfradragPeriodeCore
 import no.nav.bidrag.beregn.bidragsevne.dto.SkatteklassePeriodeCore
 import no.nav.bidrag.beregn.bidragsevne.periode.BidragsevnePeriode
+import no.nav.bidrag.beregn.felles.FellesCore
 import no.nav.bidrag.beregn.felles.bo.Avvik
 import no.nav.bidrag.beregn.felles.bo.Periode
-import no.nav.bidrag.beregn.felles.core.FellesCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
 import no.nav.bidrag.domain.enums.BostatusKode
 import no.nav.bidrag.domain.enums.SaerfradragKode

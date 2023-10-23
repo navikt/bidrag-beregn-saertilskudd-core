@@ -1,4 +1,4 @@
-package no.nav.bidrag.beregn.felles.beregning
+package no.nav.bidrag.beregn.felles
 
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode

@@ -1,6 +1,6 @@
 package no.nav.bidrag.beregn.saertilskudd.beregning
 
-import no.nav.bidrag.beregn.felles.beregning.FellesBeregning
+import no.nav.bidrag.beregn.felles.FellesBeregning
 import no.nav.bidrag.beregn.saertilskudd.bo.GrunnlagBeregning
 import no.nav.bidrag.beregn.saertilskudd.bo.ResultatBeregning
 import no.nav.bidrag.domain.enums.resultatkoder.ResultatKodeSaertilskudd

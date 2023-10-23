@@ -1,5 +1,6 @@
 package no.nav.bidrag.beregn.samvaersfradrag.periode
 
+import no.nav.bidrag.beregn.felles.FellesPeriode
 import no.nav.bidrag.beregn.felles.bo.Avvik
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
@@ -15,7 +16,7 @@ import no.nav.bidrag.beregn.samvaersfradrag.bo.SamvaersfradragGrunnlagPerBarn
 import no.nav.bidrag.beregn.samvaersfradrag.bo.SamvaersfradragGrunnlagPeriode
 import java.time.Period
 
-class SamvaersfradragPeriodeImpl(private val samvaersfradragBeregning: SamvaersfradragBeregning) : SamvaersfradragPeriode {
+class SamvaersfradragPeriodeImpl(private val samvaersfradragBeregning: SamvaersfradragBeregning) : FellesPeriode(), SamvaersfradragPeriode {
 
     override fun beregnPerioder(grunnlag: BeregnSamvaersfradragGrunnlag): BeregnSamvaersfradragResultat {
         val beregnSamvaersfradragListeGrunnlag = BeregnSamvaersfradragListeGrunnlag()
@@ -25,6 +26,9 @@ class SamvaersfradragPeriodeImpl(private val samvaersfradragBeregning: Samvaersf
 
         // Lag bruddperioder
         lagBruddperioder(periodeGrunnlag = grunnlag, beregnSamvaersfradragListeGrunnlag = beregnSamvaersfradragListeGrunnlag)
+
+        // Hvis det ligger 2 perioder på slutten som i til-dato inneholder hhv. beregningsperiodens til-dato og null slås de sammen
+        mergeSluttperiode(periodeListe = beregnSamvaersfradragListeGrunnlag.bruddPeriodeListe, datoTil = grunnlag.beregnDatoTil)
 
         // Foreta beregning
         beregnSamvaersfradragPerPeriode(beregnSamvaersfradragListeGrunnlag)
@@ -57,22 +61,6 @@ class SamvaersfradragPeriodeImpl(private val samvaersfradragBeregning: Samvaersf
             .addBruddpunkter(beregnSamvaersfradragListeGrunnlag.justertSjablonPeriodeListe)
             .finnPerioder(beregnDatoFom = periodeGrunnlag.beregnDatoFra, beregnDatoTil = periodeGrunnlag.beregnDatoTil)
             .toMutableList()
-
-        // Hvis det ligger 2 perioder på slutten som i til-dato inneholder hhv. beregningsperiodens til-dato og null slås de sammen
-        val bruddPeriodeListeAntallElementer = beregnSamvaersfradragListeGrunnlag.bruddPeriodeListe.size
-        if (bruddPeriodeListeAntallElementer > 1) {
-            val nestSisteTilDato = beregnSamvaersfradragListeGrunnlag.bruddPeriodeListe[bruddPeriodeListeAntallElementer - 2].datoTil
-            val sisteTilDato = beregnSamvaersfradragListeGrunnlag.bruddPeriodeListe[bruddPeriodeListeAntallElementer - 1].datoTil
-            if (periodeGrunnlag.beregnDatoTil == nestSisteTilDato && null == sisteTilDato) {
-                val nyPeriode = Periode(
-                    datoFom = beregnSamvaersfradragListeGrunnlag.bruddPeriodeListe[bruddPeriodeListeAntallElementer - 2].datoFom,
-                    datoTil = null
-                )
-                beregnSamvaersfradragListeGrunnlag.bruddPeriodeListe.removeAt(bruddPeriodeListeAntallElementer - 1)
-                beregnSamvaersfradragListeGrunnlag.bruddPeriodeListe.removeAt(bruddPeriodeListeAntallElementer - 2)
-                beregnSamvaersfradragListeGrunnlag.bruddPeriodeListe.add(nyPeriode)
-            }
-        }
     }
 
     // Løper gjennom periodene og finner matchende verdi for hver kategori. Kaller beregningsmodulen for hver beregningsperiode

@@ -2,7 +2,7 @@ package no.nav.bidrag.beregn.bpsandelsaertilskudd.beregning
 
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.GrunnlagBeregning
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.ResultatBeregning
-import no.nav.bidrag.beregn.felles.beregning.FellesBeregning
+import no.nav.bidrag.beregn.felles.FellesBeregning
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.beregn.felles.util.SjablonUtil
 import no.nav.bidrag.domain.enums.sjablon.SjablonTallNavn

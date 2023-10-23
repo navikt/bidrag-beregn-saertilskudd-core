@@ -1,6 +1,6 @@
 package no.nav.bidrag.beregn.samvaersfradrag.beregning
 
-import no.nav.bidrag.beregn.felles.beregning.FellesBeregning
+import no.nav.bidrag.beregn.felles.FellesBeregning
 import no.nav.bidrag.beregn.felles.bo.SjablonNokkel
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.beregn.felles.util.SjablonUtil

@@ -9,6 +9,7 @@ import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.Inntekt
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.InntektPeriode
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.NettoSaertilskuddPeriode
 import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.ResultatPeriode
+import no.nav.bidrag.beregn.felles.FellesPeriode
 import no.nav.bidrag.beregn.felles.bo.Avvik
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
@@ -18,7 +19,8 @@ import no.nav.bidrag.beregn.felles.util.InntektUtil.behandlUtvidetBarnetrygd
 import no.nav.bidrag.beregn.felles.util.PeriodeUtil
 import java.time.LocalDate
 
-class BPsAndelSaertilskuddPeriodeImpl(private val bPsAndelSaertilskuddBeregning: BPsAndelSaertilskuddBeregning) : BPsAndelSaertilskuddPeriode {
+class BPsAndelSaertilskuddPeriodeImpl(private val bPsAndelSaertilskuddBeregning: BPsAndelSaertilskuddBeregning) :
+    FellesPeriode(), BPsAndelSaertilskuddPeriode {
 
     override fun beregnPerioder(grunnlag: BeregnBPsAndelSaertilskuddGrunnlag): BeregnBPsAndelSaertilskuddResultat {
         val beregnBPsAndelSaertilskuddListeGrunnlag = BeregnBPsAndelSaertilskuddListeGrunnlag()
@@ -28,6 +30,9 @@ class BPsAndelSaertilskuddPeriodeImpl(private val bPsAndelSaertilskuddBeregning:
 
         // Lag bruddperioder
         lagBruddperioder(periodeGrunnlag = grunnlag, beregnBPsAndelSaertilskuddListeGrunnlag = beregnBPsAndelSaertilskuddListeGrunnlag)
+
+        // Hvis det ligger 2 perioder på slutten som i til-dato inneholder hhv. beregningsperiodens til-dato og null slås de sammen
+        mergeSluttperiode(periodeListe = beregnBPsAndelSaertilskuddListeGrunnlag.bruddPeriodeListe, datoTil = grunnlag.beregnDatoTil)
 
         // Foreta beregning
         beregnBPsAndelSaertilskuddPerPeriode(beregnBPsAndelSaertilskuddListeGrunnlag)
@@ -80,22 +85,6 @@ class BPsAndelSaertilskuddPeriodeImpl(private val bPsAndelSaertilskuddBeregning:
             .addBruddpunkter(datoRegelendringer)
             .finnPerioder(beregnDatoFom = periodeGrunnlag.beregnDatoFra, beregnDatoTil = periodeGrunnlag.beregnDatoTil)
             .toMutableList()
-
-        // Hvis det ligger 2 perioder på slutten som i til-dato inneholder hhv. beregningsperiodens til-dato og null slås de sammen
-        val bruddPeriodeListeAntallElementer = beregnBPsAndelSaertilskuddListeGrunnlag.bruddPeriodeListe.size
-        if (bruddPeriodeListeAntallElementer > 1) {
-            val nestSisteTilDato = beregnBPsAndelSaertilskuddListeGrunnlag.bruddPeriodeListe[bruddPeriodeListeAntallElementer - 2].datoTil
-            val sisteTilDato = beregnBPsAndelSaertilskuddListeGrunnlag.bruddPeriodeListe[bruddPeriodeListeAntallElementer - 1].datoTil
-            if (periodeGrunnlag.beregnDatoTil == nestSisteTilDato && null == sisteTilDato) {
-                val nyPeriode = Periode(
-                    datoFom = beregnBPsAndelSaertilskuddListeGrunnlag.bruddPeriodeListe[bruddPeriodeListeAntallElementer - 2].datoFom,
-                    datoTil = null
-                )
-                beregnBPsAndelSaertilskuddListeGrunnlag.bruddPeriodeListe.removeAt(bruddPeriodeListeAntallElementer - 1)
-                beregnBPsAndelSaertilskuddListeGrunnlag.bruddPeriodeListe.removeAt(bruddPeriodeListeAntallElementer - 2)
-                beregnBPsAndelSaertilskuddListeGrunnlag.bruddPeriodeListe.add(nyPeriode)
-            }
-        }
     }
 
     // Løper gjennom periodene og finner matchende verdi for hver kategori. Kaller beregningsmodulen for hver beregningsperiode

@@ -1,4 +1,4 @@
-package no.nav.bidrag.beregn.felles.core
+package no.nav.bidrag.beregn.felles
 
 import no.nav.bidrag.beregn.felles.bo.Avvik
 import no.nav.bidrag.beregn.felles.bo.Periode
