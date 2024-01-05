@@ -7,12 +7,12 @@ import no.nav.bidrag.beregn.felles.FellesBeregning
 import no.nav.bidrag.beregn.felles.bo.SjablonNokkel
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.beregn.felles.util.SjablonUtil
-import no.nav.bidrag.domain.enums.BostatusKode
-import no.nav.bidrag.domain.enums.SaerfradragKode
-import no.nav.bidrag.domain.enums.sjablon.SjablonInnholdNavn
-import no.nav.bidrag.domain.enums.sjablon.SjablonNavn
-import no.nav.bidrag.domain.enums.sjablon.SjablonNokkelNavn
-import no.nav.bidrag.domain.enums.sjablon.SjablonTallNavn
+import no.nav.bidrag.domene.enums.beregning.Særfradragskode
+import no.nav.bidrag.domene.enums.person.Bostatuskode
+import no.nav.bidrag.domene.enums.sjablon.SjablonInnholdNavn
+import no.nav.bidrag.domene.enums.sjablon.SjablonNavn
+import no.nav.bidrag.domene.enums.sjablon.SjablonNøkkelNavn
+import no.nav.bidrag.domene.enums.sjablon.SjablonTallNavn
 import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode
@@ -24,14 +24,14 @@ class BidragsevneBeregningImpl : FellesBeregning(), BidragsevneBeregning {
         val sjablonNavnVerdiMap = hentSjablonVerdier(
             sjablonPeriodeListe = grunnlag.sjablonListe,
             bostatusKode = grunnlag.bostatus.kode,
-            skatteklasse = grunnlag.skatteklasse.skatteklasse
+            skatteklasse = grunnlag.skatteklasse.skatteklasse,
         )
 
         // Beregner minstefradrag
         val minstefradrag = beregnMinstefradrag(
             grunnlag = grunnlag,
-            minstefradragInntektSjablonBelop = (sjablonNavnVerdiMap[SjablonTallNavn.MINSTEFRADRAG_INNTEKT_BELOP.navn])!!,
-            minstefradragInntektSjablonProsent = (sjablonNavnVerdiMap[SjablonTallNavn.MINSTEFRADRAG_INNTEKT_PROSENT.navn])!!
+            minstefradragInntektSjablonBelop = (sjablonNavnVerdiMap[SjablonTallNavn.MINSTEFRADRAG_INNTEKT_BELØP.navn])!!,
+            minstefradragInntektSjablonProsent = (sjablonNavnVerdiMap[SjablonTallNavn.MINSTEFRADRAG_INNTEKT_PROSENT.navn])!!,
         )
 
         // Legger sammen inntektene
@@ -41,9 +41,9 @@ class BidragsevneBeregningImpl : FellesBeregning(), BidragsevneBeregning {
 
         // Finner personfradragklasse ut fra angitt skatteklasse
         val personfradrag = if (grunnlag.skatteklasse.skatteklasse == 1) {
-            sjablonNavnVerdiMap[SjablonTallNavn.PERSONFRADRAG_KLASSE1_BELOP.navn]
+            sjablonNavnVerdiMap[SjablonTallNavn.PERSONFRADRAG_KLASSE1_BELØP.navn]
         } else {
-            sjablonNavnVerdiMap[SjablonTallNavn.PERSONFRADRAG_KLASSE2_BELOP.navn]
+            sjablonNavnVerdiMap[SjablonTallNavn.PERSONFRADRAG_KLASSE2_BELØP.navn]
         }
 
         val inntektMinusFradrag = inntekt.subtract(minstefradrag).subtract(personfradrag)
@@ -54,35 +54,35 @@ class BidragsevneBeregningImpl : FellesBeregning(), BidragsevneBeregning {
                 inntektMinusFradrag.multiply(
                     sjablonNavnVerdiMap[SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.navn]!!.divide(
                         BigDecimal.valueOf(100),
-                        MathContext(10, RoundingMode.HALF_UP)
-                    )
-                )
+                        MathContext(10, RoundingMode.HALF_UP),
+                    ),
+                ),
             )
             .subtract(
                 inntekt.multiply(
                     sjablonNavnVerdiMap[SjablonTallNavn.TRYGDEAVGIFT_PROSENT.navn]!!.divide(
                         BigDecimal.valueOf(100),
-                        MathContext(10, RoundingMode.HALF_UP)
-                    )
-                )
+                        MathContext(10, RoundingMode.HALF_UP),
+                    ),
+                ),
             )
             // Trekker fra trinnvis skatt
             .subtract(beregnSkattetrinnBelop(grunnlag))
             // Trekker fra boutgifter og midler til eget underhold
-            .subtract(sjablonNavnVerdiMap[SjablonInnholdNavn.BOUTGIFT_BELOP.navn]!!.multiply(BigDecimal.valueOf(12)))
-            .subtract(sjablonNavnVerdiMap[SjablonInnholdNavn.UNDERHOLD_BELOP.navn]!!.multiply(BigDecimal.valueOf(12)))
+            .subtract(sjablonNavnVerdiMap[SjablonInnholdNavn.BOUTGIFT_BELØP.navn]!!.multiply(BigDecimal.valueOf(12)))
+            .subtract(sjablonNavnVerdiMap[SjablonInnholdNavn.UNDERHOLD_BELØP.navn]!!.multiply(BigDecimal.valueOf(12)))
             // Trekker fra midler til underhold egne barn i egen husstand
             .subtract(
-                sjablonNavnVerdiMap[SjablonTallNavn.UNDERHOLD_EGNE_BARN_I_HUSSTAND_BELOP.navn]!!
+                sjablonNavnVerdiMap[SjablonTallNavn.UNDERHOLD_EGNE_BARN_I_HUSSTAND_BELØP.navn]!!
                     .multiply(BigDecimal.valueOf(grunnlag.barnIHusstand.antallBarn))
-                    .multiply(BigDecimal.valueOf(12))
+                    .multiply(BigDecimal.valueOf(12)),
             )
 
         // Sjekker om og kalkulerer eventuell fordel særfradrag
-        val fordelSaerfradragBelop = sjablonNavnVerdiMap[SjablonTallNavn.FORDEL_SAERFRADRAG_BELOP.navn]
+        val fordelSaerfradragBelop = sjablonNavnVerdiMap[SjablonTallNavn.FORDEL_SÆRFRADRAG_BELØP.navn]
         forelopigBidragsevne = when (grunnlag.saerfradrag.kode) {
-            SaerfradragKode.HELT -> forelopigBidragsevne + (fordelSaerfradragBelop ?: BigDecimal.ZERO)
-            SaerfradragKode.HALVT -> {
+            Særfradragskode.HELT -> forelopigBidragsevne + (fordelSaerfradragBelop ?: BigDecimal.ZERO)
+            Særfradragskode.HALVT -> {
                 val halvVerdi = fordelSaerfradragBelop?.divide(BigDecimal.valueOf(2), MathContext(10, RoundingMode.HALF_UP))
                 forelopigBidragsevne + (halvVerdi ?: BigDecimal.ZERO)
             }
@@ -92,25 +92,25 @@ class BidragsevneBeregningImpl : FellesBeregning(), BidragsevneBeregning {
 
         // Legger til fordel skatteklasse2
         if (grunnlag.skatteklasse.skatteklasse == 2) {
-            forelopigBidragsevne = forelopigBidragsevne.add(sjablonNavnVerdiMap[SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.navn])
+            forelopigBidragsevne = forelopigBidragsevne.add(sjablonNavnVerdiMap[SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELØP.navn])
         }
 
         // Finner månedlig beløp for bidragsevne
         val maanedligBidragsevne = maxOf(
             forelopigBidragsevne.divide(BigDecimal.valueOf(12), MathContext(10, RoundingMode.HALF_UP)).setScale(0, RoundingMode.HALF_UP),
-            BigDecimal.ZERO
+            BigDecimal.ZERO,
         )
 
         return ResultatBeregning(
             belop = maanedligBidragsevne,
-            sjablonListe = byggSjablonResultatListe(sjablonNavnVerdiMap = sjablonNavnVerdiMap, sjablonPeriodeListe = grunnlag.sjablonListe)
+            sjablonListe = byggSjablonResultatListe(sjablonNavnVerdiMap = sjablonNavnVerdiMap, sjablonPeriodeListe = grunnlag.sjablonListe),
         )
     }
 
     override fun beregnMinstefradrag(
         grunnlag: GrunnlagBeregning,
         minstefradragInntektSjablonBelop: BigDecimal,
-        minstefradragInntektSjablonProsent: BigDecimal
+        minstefradragInntektSjablonProsent: BigDecimal,
     ): BigDecimal {
         // Legger sammen inntektene
         val inntekt = grunnlag.inntektListe.stream()
@@ -119,7 +119,7 @@ class BidragsevneBeregningImpl : FellesBeregning(), BidragsevneBeregning {
 
         return minOf(
             inntekt.multiply(minstefradragInntektSjablonProsent.divide(BigDecimal.valueOf(100), MathContext(2, RoundingMode.HALF_UP))),
-            minstefradragInntektSjablonBelop
+            minstefradragInntektSjablonBelop,
         ).setScale(0, RoundingMode.HALF_UP)
     }
 
@@ -131,7 +131,7 @@ class BidragsevneBeregningImpl : FellesBeregning(), BidragsevneBeregning {
 
         val sortertTrinnvisSkattesatsListe = SjablonUtil.hentTrinnvisSkattesats(
             sjablonListe = grunnlag.sjablonListe.map { it.sjablon }.toList(),
-            sjablonNavn = SjablonNavn.TRINNVIS_SKATTESATS
+            sjablonNavn = SjablonNavn.TRINNVIS_SKATTESATS,
         )
 
         var samletSkattetrinnBelop = BigDecimal.ZERO
@@ -164,48 +164,48 @@ class BidragsevneBeregningImpl : FellesBeregning(), BidragsevneBeregning {
     // Henter sjablonverdier
     private fun hentSjablonVerdier(
         sjablonPeriodeListe: List<SjablonPeriode>,
-        bostatusKode: BostatusKode,
-        skatteklasse: Int
+        bostatusKode: Bostatuskode,
+        skatteklasse: Int,
     ): Map<String, BigDecimal> {
         val sjablonNavnVerdiMap = HashMap<String, BigDecimal>()
         val sjablonListe = sjablonPeriodeListe.map { it.sjablon }.toList()
 
         // Sjablontall
         if (skatteklasse == 1) {
-            sjablonNavnVerdiMap[SjablonTallNavn.PERSONFRADRAG_KLASSE1_BELOP.navn] =
-                SjablonUtil.hentSjablonverdi(sjablonListe = sjablonListe, sjablonTallNavn = SjablonTallNavn.PERSONFRADRAG_KLASSE1_BELOP)
+            sjablonNavnVerdiMap[SjablonTallNavn.PERSONFRADRAG_KLASSE1_BELØP.navn] =
+                SjablonUtil.hentSjablonverdi(sjablonListe = sjablonListe, sjablonTallNavn = SjablonTallNavn.PERSONFRADRAG_KLASSE1_BELØP)
         } else {
-            sjablonNavnVerdiMap[SjablonTallNavn.PERSONFRADRAG_KLASSE2_BELOP.navn] =
-                SjablonUtil.hentSjablonverdi(sjablonListe = sjablonListe, sjablonTallNavn = SjablonTallNavn.PERSONFRADRAG_KLASSE2_BELOP)
-            sjablonNavnVerdiMap[SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.navn] =
-                SjablonUtil.hentSjablonverdi(sjablonListe = sjablonListe, sjablonTallNavn = SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP)
+            sjablonNavnVerdiMap[SjablonTallNavn.PERSONFRADRAG_KLASSE2_BELØP.navn] =
+                SjablonUtil.hentSjablonverdi(sjablonListe = sjablonListe, sjablonTallNavn = SjablonTallNavn.PERSONFRADRAG_KLASSE2_BELØP)
+            sjablonNavnVerdiMap[SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELØP.navn] =
+                SjablonUtil.hentSjablonverdi(sjablonListe = sjablonListe, sjablonTallNavn = SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELØP)
         }
         sjablonNavnVerdiMap[SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.navn] =
             SjablonUtil.hentSjablonverdi(sjablonListe = sjablonListe, sjablonTallNavn = SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT)
         sjablonNavnVerdiMap[SjablonTallNavn.TRYGDEAVGIFT_PROSENT.navn] =
             SjablonUtil.hentSjablonverdi(sjablonListe = sjablonListe, sjablonTallNavn = SjablonTallNavn.TRYGDEAVGIFT_PROSENT)
-        sjablonNavnVerdiMap[SjablonTallNavn.UNDERHOLD_EGNE_BARN_I_HUSSTAND_BELOP.navn] =
-            SjablonUtil.hentSjablonverdi(sjablonListe = sjablonListe, sjablonTallNavn = SjablonTallNavn.UNDERHOLD_EGNE_BARN_I_HUSSTAND_BELOP)
-        sjablonNavnVerdiMap[SjablonTallNavn.FORDEL_SAERFRADRAG_BELOP.navn] =
-            SjablonUtil.hentSjablonverdi(sjablonListe = sjablonListe, sjablonTallNavn = SjablonTallNavn.FORDEL_SAERFRADRAG_BELOP)
+        sjablonNavnVerdiMap[SjablonTallNavn.UNDERHOLD_EGNE_BARN_I_HUSSTAND_BELØP.navn] =
+            SjablonUtil.hentSjablonverdi(sjablonListe = sjablonListe, sjablonTallNavn = SjablonTallNavn.UNDERHOLD_EGNE_BARN_I_HUSSTAND_BELØP)
+        sjablonNavnVerdiMap[SjablonTallNavn.FORDEL_SÆRFRADRAG_BELØP.navn] =
+            SjablonUtil.hentSjablonverdi(sjablonListe = sjablonListe, sjablonTallNavn = SjablonTallNavn.FORDEL_SÆRFRADRAG_BELØP)
         sjablonNavnVerdiMap[SjablonTallNavn.MINSTEFRADRAG_INNTEKT_PROSENT.navn] =
             SjablonUtil.hentSjablonverdi(sjablonListe = sjablonListe, sjablonTallNavn = SjablonTallNavn.MINSTEFRADRAG_INNTEKT_PROSENT)
-        sjablonNavnVerdiMap[SjablonTallNavn.MINSTEFRADRAG_INNTEKT_BELOP.navn] =
-            SjablonUtil.hentSjablonverdi(sjablonListe = sjablonListe, sjablonTallNavn = SjablonTallNavn.MINSTEFRADRAG_INNTEKT_BELOP)
+        sjablonNavnVerdiMap[SjablonTallNavn.MINSTEFRADRAG_INNTEKT_BELØP.navn] =
+            SjablonUtil.hentSjablonverdi(sjablonListe = sjablonListe, sjablonTallNavn = SjablonTallNavn.MINSTEFRADRAG_INNTEKT_BELØP)
 
         // Bidragsevne
-        val sjablonNokkelVerdi = if ((bostatusKode == BostatusKode.ALENE)) "EN" else "GS"
-        sjablonNavnVerdiMap[SjablonInnholdNavn.BOUTGIFT_BELOP.navn] = SjablonUtil.hentSjablonverdi(
+        val sjablonNokkelVerdi = if ((bostatusKode == Bostatuskode.ALENE)) "EN" else "GS"
+        sjablonNavnVerdiMap[SjablonInnholdNavn.BOUTGIFT_BELØP.navn] = SjablonUtil.hentSjablonverdi(
             sjablonListe = sjablonListe,
             sjablonNavn = SjablonNavn.BIDRAGSEVNE,
-            sjablonNokkelListe = listOf(SjablonNokkel(navn = SjablonNokkelNavn.BOSTATUS.navn, verdi = sjablonNokkelVerdi)),
-            sjablonInnholdNavn = SjablonInnholdNavn.BOUTGIFT_BELOP
+            sjablonNokkelListe = listOf(SjablonNokkel(navn = SjablonNøkkelNavn.BOSTATUS.navn, verdi = sjablonNokkelVerdi)),
+            sjablonInnholdNavn = SjablonInnholdNavn.BOUTGIFT_BELØP,
         )
-        sjablonNavnVerdiMap[SjablonInnholdNavn.UNDERHOLD_BELOP.navn] = SjablonUtil.hentSjablonverdi(
+        sjablonNavnVerdiMap[SjablonInnholdNavn.UNDERHOLD_BELØP.navn] = SjablonUtil.hentSjablonverdi(
             sjablonListe = sjablonListe,
             sjablonNavn = SjablonNavn.BIDRAGSEVNE,
-            sjablonNokkelListe = listOf(SjablonNokkel(navn = SjablonNokkelNavn.BOSTATUS.navn, verdi = sjablonNokkelVerdi)),
-            sjablonInnholdNavn = SjablonInnholdNavn.UNDERHOLD_BELOP
+            sjablonNokkelListe = listOf(SjablonNokkel(navn = SjablonNøkkelNavn.BOSTATUS.navn, verdi = sjablonNokkelVerdi)),
+            sjablonInnholdNavn = SjablonInnholdNavn.UNDERHOLD_BELØP,
         )
 
         // TrinnvisSkattesats

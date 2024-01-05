@@ -13,7 +13,7 @@ data class BeregnSamvaersfradragGrunnlagCore(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
     val samvaersklassePeriodeListe: List<SamvaersklassePeriodeCore>,
-    var sjablonPeriodeListe: List<SjablonPeriodeCore>
+    var sjablonPeriodeListe: List<SjablonPeriodeCore>,
 )
 
 data class SamvaersklassePeriodeCore(
@@ -21,23 +21,23 @@ data class SamvaersklassePeriodeCore(
     val samvaersklassePeriodeDatoFraTil: PeriodeCore,
     val barnPersonId: Int,
     val barnFodselsdato: LocalDate,
-    val samvaersklasse: String
+    val samvaersklasse: String,
 )
 
 // Resultatperiode
 data class BeregnSamvaersfradragResultatCore(
     val resultatPeriodeListe: List<ResultatPeriodeCore>,
     val sjablonListe: List<SjablonResultatGrunnlagCore>,
-    val avvikListe: List<AvvikCore>
+    val avvikListe: List<AvvikCore>,
 )
 
 data class ResultatPeriodeCore(
     override val periode: PeriodeCore,
     val resultatBeregningListe: List<ResultatBeregningCore>,
-    override val grunnlagReferanseListe: List<String>
+    override val grunnlagReferanseListe: List<String>,
 ) : IResultatPeriode
 
 data class ResultatBeregningCore(
     val barnPersonId: Int,
-    val belop: BigDecimal
+    val belop: BigDecimal,
 )

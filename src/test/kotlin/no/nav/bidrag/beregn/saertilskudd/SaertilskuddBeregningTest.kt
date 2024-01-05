@@ -7,7 +7,7 @@ import no.nav.bidrag.beregn.saertilskudd.bo.Bidragsevne
 import no.nav.bidrag.beregn.saertilskudd.bo.GrunnlagBeregning
 import no.nav.bidrag.beregn.saertilskudd.bo.LopendeBidrag
 import no.nav.bidrag.beregn.saertilskudd.bo.SamvaersfradragGrunnlag
-import no.nav.bidrag.domain.enums.resultatkoder.ResultatKodeSaertilskudd
+import no.nav.bidrag.domene.enums.beregning.ResultatkodeSærtilskudd
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
@@ -29,15 +29,15 @@ internal class SaertilskuddBeregningTest {
                 lopendeBidragBelop = BigDecimal.valueOf(2500),
                 opprinneligBPsAndelUnderholdskostnadBelop = BigDecimal.valueOf(2957),
                 opprinneligBidragBelop = BigDecimal.valueOf(2500),
-                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(457)
-            )
+                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(457),
+            ),
         )
         val samvaersfradragListe = listOf(
             SamvaersfradragGrunnlag(
-                referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                 barnPersonId = 1,
-                samvaersfradragBelop = BigDecimal.valueOf(457)
-            )
+                samvaersfradragBelop = BigDecimal.valueOf(457),
+            ),
         )
         val grunnlagBeregningPeriodisert = GrunnlagBeregning(
             bidragsevne = Bidragsevne(referanse = TestUtil.BIDRAGSEVNE_REFERANSE, bidragsevneBelop = BigDecimal.valueOf(11069)),
@@ -45,17 +45,17 @@ internal class SaertilskuddBeregningTest {
                 referanse = TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE,
                 bPsAndelSaertilskuddProsent = BigDecimal.valueOf(60.6),
                 bPsAndelSaertilskuddBelop = BigDecimal.valueOf(4242),
-                barnetErSelvforsorget = false
+                barnetErSelvforsorget = false,
             ),
             lopendeBidragListe = lopendeBidragListe,
-            samvaersfradragGrunnlagListe = samvaersfradragListe
+            samvaersfradragGrunnlagListe = samvaersfradragListe,
         )
 
         val (resultatBelop, resultatkode) = saertilskuddBeregning.beregn(grunnlagBeregningPeriodisert)
 
         assertAll(
             Executable { assertEquals(4242.0, resultatBelop.toDouble()) },
-            Executable { assertEquals(ResultatKodeSaertilskudd.SAERTILSKUDD_INNVILGET, resultatkode) }
+            Executable { assertEquals(ResultatkodeSærtilskudd.SÆRTILSKUDD_INNVILGET, resultatkode) },
         )
     }
 
@@ -69,15 +69,15 @@ internal class SaertilskuddBeregningTest {
                 lopendeBidragBelop = BigDecimal.valueOf(2500),
                 opprinneligBPsAndelUnderholdskostnadBelop = BigDecimal.valueOf(2958),
                 opprinneligBidragBelop = BigDecimal.valueOf(2500),
-                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(457)
-            )
+                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(457),
+            ),
         )
         val samvaersfradragListe = listOf(
             SamvaersfradragGrunnlag(
-                referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                 barnPersonId = 1,
-                samvaersfradragBelop = BigDecimal.valueOf(800)
-            )
+                samvaersfradragBelop = BigDecimal.valueOf(800),
+            ),
         )
         val grunnlagBeregningPeriodisert = GrunnlagBeregning(
             bidragsevne = Bidragsevne(referanse = TestUtil.BIDRAGSEVNE_REFERANSE, bidragsevneBelop = BigDecimal.valueOf(3100)),
@@ -85,17 +85,17 @@ internal class SaertilskuddBeregningTest {
                 referanse = TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE,
                 bPsAndelSaertilskuddProsent = BigDecimal.valueOf(60.6),
                 bPsAndelSaertilskuddBelop = BigDecimal.valueOf(4242),
-                barnetErSelvforsorget = false
+                barnetErSelvforsorget = false,
             ),
             lopendeBidragListe = lopendeBidragListe,
-            samvaersfradragGrunnlagListe = samvaersfradragListe
+            samvaersfradragGrunnlagListe = samvaersfradragListe,
         )
 
         val (resultatBelop, resultatkode) = saertilskuddBeregning.beregn(grunnlagBeregningPeriodisert)
 
         assertAll(
             Executable { assertEquals(0.0, resultatBelop.toDouble()) },
-            Executable { assertEquals(ResultatKodeSaertilskudd.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultatkode) }
+            Executable { assertEquals(ResultatkodeSærtilskudd.SÆRTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultatkode) },
         )
     }
 
@@ -109,11 +109,11 @@ internal class SaertilskuddBeregningTest {
                 lopendeBidragBelop = BigDecimal.valueOf(3000),
                 opprinneligBPsAndelUnderholdskostnadBelop = BigDecimal.valueOf(2958),
                 opprinneligBidragBelop = BigDecimal.valueOf(2500),
-                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(457)
-            )
+                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(457),
+            ),
         )
         val samvaersfradragListe = listOf(
-            SamvaersfradragGrunnlag(referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE, barnPersonId = 1, samvaersfradragBelop = BigDecimal.valueOf(457))
+            SamvaersfradragGrunnlag(referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE, barnPersonId = 1, samvaersfradragBelop = BigDecimal.valueOf(457)),
         )
         val grunnlagBeregningPeriodisert = GrunnlagBeregning(
             bidragsevne = Bidragsevne(referanse = TestUtil.BIDRAGSEVNE_REFERANSE, bidragsevneBelop = BigDecimal.valueOf(3456)),
@@ -121,17 +121,17 @@ internal class SaertilskuddBeregningTest {
                 referanse = TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE,
                 bPsAndelSaertilskuddProsent = BigDecimal.valueOf(60.6),
                 bPsAndelSaertilskuddBelop = BigDecimal.valueOf(4242),
-                barnetErSelvforsorget = false
+                barnetErSelvforsorget = false,
             ),
             lopendeBidragListe = lopendeBidragListe,
-            samvaersfradragGrunnlagListe = samvaersfradragListe
+            samvaersfradragGrunnlagListe = samvaersfradragListe,
         )
 
         val (resultatBelop, resultatkode) = saertilskuddBeregning.beregn(grunnlagBeregningPeriodisert)
 
         assertAll(
             Executable { assertEquals(0.0, resultatBelop.toDouble()) },
-            Executable { assertEquals(ResultatKodeSaertilskudd.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultatkode) }
+            Executable { assertEquals(ResultatkodeSærtilskudd.SÆRTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultatkode) },
         )
     }
 
@@ -145,15 +145,15 @@ internal class SaertilskuddBeregningTest {
                 lopendeBidragBelop = BigDecimal.valueOf(3000),
                 opprinneligBPsAndelUnderholdskostnadBelop = BigDecimal.valueOf(2958),
                 opprinneligBidragBelop = BigDecimal.valueOf(2500),
-                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(457)
-            )
+                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(457),
+            ),
         )
         val samvaersfradragListe = listOf(
             SamvaersfradragGrunnlag(
-                referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                 barnPersonId = 1,
-                samvaersfradragBelop = BigDecimal.valueOf(457)
-            )
+                samvaersfradragBelop = BigDecimal.valueOf(457),
+            ),
         )
         val grunnlagBeregningPeriodisert = GrunnlagBeregning(
             bidragsevne = Bidragsevne(referanse = TestUtil.BIDRAGSEVNE_REFERANSE, bidragsevneBelop = BigDecimal.valueOf(10000)),
@@ -161,17 +161,17 @@ internal class SaertilskuddBeregningTest {
                 referanse = TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE,
                 bPsAndelSaertilskuddProsent = BigDecimal.valueOf(60.6),
                 bPsAndelSaertilskuddBelop = BigDecimal.valueOf(4242),
-                barnetErSelvforsorget = true
+                barnetErSelvforsorget = true,
             ),
             lopendeBidragListe = lopendeBidragListe,
-            samvaersfradragGrunnlagListe = samvaersfradragListe
+            samvaersfradragGrunnlagListe = samvaersfradragListe,
         )
 
         val (resultatBelop, resultatkode) = saertilskuddBeregning.beregn(grunnlagBeregningPeriodisert)
 
         assertAll(
             Executable { assertEquals(0.0, resultatBelop.toDouble()) },
-            Executable { assertEquals(ResultatKodeSaertilskudd.BARNET_ER_SELVFORSORGET, resultatkode) }
+            Executable { assertEquals(ResultatkodeSærtilskudd.BARNET_ER_SELVFORSØRGET, resultatkode) },
         )
     }
 
@@ -186,8 +186,8 @@ internal class SaertilskuddBeregningTest {
                 lopendeBidragBelop = BigDecimal.valueOf(1700),
                 opprinneligBPsAndelUnderholdskostnadBelop = BigDecimal.valueOf(3215),
                 opprinneligBidragBelop = BigDecimal.valueOf(1700),
-                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1513)
-            )
+                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1513),
+            ),
         )
         lopendeBidragListe.add(
             LopendeBidrag(
@@ -196,24 +196,24 @@ internal class SaertilskuddBeregningTest {
                 lopendeBidragBelop = BigDecimal.valueOf(1700),
                 opprinneligBPsAndelUnderholdskostnadBelop = BigDecimal.valueOf(3215),
                 opprinneligBidragBelop = BigDecimal.valueOf(1700),
-                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1513)
-            )
+                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1513),
+            ),
         )
 
         val samvaersfradragListe = mutableListOf<SamvaersfradragGrunnlag>()
         samvaersfradragListe.add(
             SamvaersfradragGrunnlag(
-                referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                 barnPersonId = 1,
-                samvaersfradragBelop = BigDecimal.valueOf(1513)
-            )
+                samvaersfradragBelop = BigDecimal.valueOf(1513),
+            ),
         )
         samvaersfradragListe.add(
             SamvaersfradragGrunnlag(
-                referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                 barnPersonId = 2,
-                samvaersfradragBelop = BigDecimal.valueOf(1513)
-            )
+                samvaersfradragBelop = BigDecimal.valueOf(1513),
+            ),
         )
 
         val grunnlagBeregningPeriodisert = GrunnlagBeregning(
@@ -222,17 +222,17 @@ internal class SaertilskuddBeregningTest {
                 referanse = TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE,
                 bPsAndelSaertilskuddProsent = BigDecimal.valueOf(49.7),
                 bPsAndelSaertilskuddBelop = BigDecimal.valueOf(2982),
-                barnetErSelvforsorget = false
+                barnetErSelvforsorget = false,
             ),
             lopendeBidragListe = lopendeBidragListe,
-            samvaersfradragGrunnlagListe = samvaersfradragListe
+            samvaersfradragGrunnlagListe = samvaersfradragListe,
         )
 
         val (resultatBelop, resultatkode) = saertilskuddBeregning.beregn(grunnlagBeregningPeriodisert)
 
         assertAll(
             Executable { assertEquals(2982.0, resultatBelop.toDouble()) },
-            Executable { assertEquals(ResultatKodeSaertilskudd.SAERTILSKUDD_INNVILGET, resultatkode) }
+            Executable { assertEquals(ResultatkodeSærtilskudd.SÆRTILSKUDD_INNVILGET, resultatkode) },
         )
     }
 
@@ -247,8 +247,8 @@ internal class SaertilskuddBeregningTest {
                 lopendeBidragBelop = BigDecimal.valueOf(1500),
                 opprinneligBPsAndelUnderholdskostnadBelop = BigDecimal.valueOf(3015),
                 opprinneligBidragBelop = BigDecimal.valueOf(1500),
-                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1513)
-            )
+                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1513),
+            ),
         )
         lopendeBidragListe.add(
             LopendeBidrag(
@@ -257,24 +257,24 @@ internal class SaertilskuddBeregningTest {
                 lopendeBidragBelop = BigDecimal.valueOf(1500),
                 opprinneligBPsAndelUnderholdskostnadBelop = BigDecimal.valueOf(3015),
                 opprinneligBidragBelop = BigDecimal.valueOf(1500),
-                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1513)
-            )
+                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1513),
+            ),
         )
 
         val samvaersfradragListe = mutableListOf<SamvaersfradragGrunnlag>()
         samvaersfradragListe.add(
             SamvaersfradragGrunnlag(
-                referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                 barnPersonId = 1,
-                samvaersfradragBelop = BigDecimal.valueOf(1513)
-            )
+                samvaersfradragBelop = BigDecimal.valueOf(1513),
+            ),
         )
         samvaersfradragListe.add(
             SamvaersfradragGrunnlag(
-                referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                 barnPersonId = 2,
-                samvaersfradragBelop = BigDecimal.valueOf(1513)
-            )
+                samvaersfradragBelop = BigDecimal.valueOf(1513),
+            ),
         )
 
         val grunnlagBeregningPeriodisert = GrunnlagBeregning(
@@ -283,17 +283,17 @@ internal class SaertilskuddBeregningTest {
                 referanse = TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE,
                 bPsAndelSaertilskuddProsent = BigDecimal.valueOf(55.7),
                 bPsAndelSaertilskuddBelop = BigDecimal.valueOf(6684),
-                barnetErSelvforsorget = false
+                barnetErSelvforsorget = false,
             ),
             lopendeBidragListe = lopendeBidragListe,
-            samvaersfradragGrunnlagListe = samvaersfradragListe
+            samvaersfradragGrunnlagListe = samvaersfradragListe,
         )
 
         val (resultatBelop, resultatkode) = saertilskuddBeregning.beregn(grunnlagBeregningPeriodisert)
 
         assertAll(
             Executable { assertEquals(6684.0, resultatBelop.toDouble()) },
-            Executable { assertEquals(ResultatKodeSaertilskudd.SAERTILSKUDD_INNVILGET, resultatkode) }
+            Executable { assertEquals(ResultatkodeSærtilskudd.SÆRTILSKUDD_INNVILGET, resultatkode) },
         )
     }
 
@@ -308,8 +308,8 @@ internal class SaertilskuddBeregningTest {
                 lopendeBidragBelop = BigDecimal.valueOf(1800),
                 opprinneligBPsAndelUnderholdskostnadBelop = BigDecimal.valueOf(3315),
                 opprinneligBidragBelop = BigDecimal.valueOf(1800),
-                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1513)
-            )
+                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1513),
+            ),
         )
         lopendeBidragListe.add(
             LopendeBidrag(
@@ -318,24 +318,24 @@ internal class SaertilskuddBeregningTest {
                 lopendeBidragBelop = BigDecimal.valueOf(1800),
                 opprinneligBPsAndelUnderholdskostnadBelop = BigDecimal.valueOf(3315),
                 opprinneligBidragBelop = BigDecimal.valueOf(1800),
-                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1513)
-            )
+                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1513),
+            ),
         )
 
         val samvaersfradragListe = mutableListOf<SamvaersfradragGrunnlag>()
         samvaersfradragListe.add(
             SamvaersfradragGrunnlag(
-                referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                 barnPersonId = 1,
-                samvaersfradragBelop = BigDecimal.valueOf(1513)
-            )
+                samvaersfradragBelop = BigDecimal.valueOf(1513),
+            ),
         )
         samvaersfradragListe.add(
             SamvaersfradragGrunnlag(
-                referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                 barnPersonId = 2,
-                samvaersfradragBelop = BigDecimal.valueOf(1513)
-            )
+                samvaersfradragBelop = BigDecimal.valueOf(1513),
+            ),
         )
 
         val grunnlagBeregningPeriodisert = GrunnlagBeregning(
@@ -344,17 +344,17 @@ internal class SaertilskuddBeregningTest {
                 referanse = TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE,
                 bPsAndelSaertilskuddProsent = BigDecimal.valueOf(55.7),
                 bPsAndelSaertilskuddBelop = BigDecimal.valueOf(6684),
-                barnetErSelvforsorget = false
+                barnetErSelvforsorget = false,
             ),
             lopendeBidragListe = lopendeBidragListe,
-            samvaersfradragGrunnlagListe = samvaersfradragListe
+            samvaersfradragGrunnlagListe = samvaersfradragListe,
         )
 
         val (resultatBelop, resultatkode) = saertilskuddBeregning.beregn(grunnlagBeregningPeriodisert)
 
         assertAll(
             Executable { assertEquals(0.0, resultatBelop.toDouble()) },
-            Executable { assertEquals(ResultatKodeSaertilskudd.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultatkode) }
+            Executable { assertEquals(ResultatkodeSærtilskudd.SÆRTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultatkode) },
         )
     }
 
@@ -368,15 +368,15 @@ internal class SaertilskuddBeregningTest {
                 lopendeBidragBelop = BigDecimal.valueOf(1300),
                 opprinneligBPsAndelUnderholdskostnadBelop = BigDecimal.valueOf(2600),
                 opprinneligBidragBelop = BigDecimal.valueOf(1200),
-                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(600)
-            )
+                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(600),
+            ),
         )
         val samvaersfradragListe = listOf(
             SamvaersfradragGrunnlag(
-                referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                 barnPersonId = 1,
-                samvaersfradragBelop = BigDecimal.valueOf(700)
-            )
+                samvaersfradragBelop = BigDecimal.valueOf(700),
+            ),
         )
         val grunnlagBeregningPeriodisert = GrunnlagBeregning(
             bidragsevne = Bidragsevne(referanse = TestUtil.BIDRAGSEVNE_REFERANSE, bidragsevneBelop = BigDecimal.valueOf(2700)),
@@ -384,17 +384,17 @@ internal class SaertilskuddBeregningTest {
                 referanse = TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE,
                 bPsAndelSaertilskuddProsent = BigDecimal.valueOf(70),
                 bPsAndelSaertilskuddBelop = BigDecimal.valueOf(5000),
-                barnetErSelvforsorget = false
+                barnetErSelvforsorget = false,
             ),
             lopendeBidragListe = lopendeBidragListe,
-            samvaersfradragGrunnlagListe = samvaersfradragListe
+            samvaersfradragGrunnlagListe = samvaersfradragListe,
         )
 
         val (resultatBelop, resultatkode) = saertilskuddBeregning.beregn(grunnlagBeregningPeriodisert)
 
         assertAll(
             Executable { assertEquals(0.0, resultatBelop.toDouble()) },
-            Executable { assertEquals(ResultatKodeSaertilskudd.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultatkode) }
+            Executable { assertEquals(ResultatkodeSærtilskudd.SÆRTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultatkode) },
         )
     }
 
@@ -409,8 +409,8 @@ internal class SaertilskuddBeregningTest {
                 lopendeBidragBelop = BigDecimal.valueOf(1800),
                 opprinneligBPsAndelUnderholdskostnadBelop = BigDecimal.valueOf(5000),
                 opprinneligBidragBelop = BigDecimal.valueOf(1700),
-                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1323)
-            )
+                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1323),
+            ),
         )
         lopendeBidragListe.add(
             LopendeBidrag(
@@ -419,24 +419,24 @@ internal class SaertilskuddBeregningTest {
                 lopendeBidragBelop = BigDecimal.valueOf(1800),
                 opprinneligBPsAndelUnderholdskostnadBelop = BigDecimal.valueOf(5000),
                 opprinneligBidragBelop = BigDecimal.valueOf(1700),
-                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1323)
-            )
+                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1323),
+            ),
         )
 
         val samvaersfradragListe = mutableListOf<SamvaersfradragGrunnlag>()
         samvaersfradragListe.add(
             SamvaersfradragGrunnlag(
-                referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                 barnPersonId = 1,
-                samvaersfradragBelop = BigDecimal.valueOf(1513)
-            )
+                samvaersfradragBelop = BigDecimal.valueOf(1513),
+            ),
         )
         samvaersfradragListe.add(
             SamvaersfradragGrunnlag(
-                referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                 barnPersonId = 2,
-                samvaersfradragBelop = BigDecimal.valueOf(1513)
-            )
+                samvaersfradragBelop = BigDecimal.valueOf(1513),
+            ),
         )
 
         val grunnlagBeregningPeriodisert = GrunnlagBeregning(
@@ -445,17 +445,17 @@ internal class SaertilskuddBeregningTest {
                 referanse = TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE,
                 bPsAndelSaertilskuddProsent = BigDecimal.valueOf(62.8),
                 bPsAndelSaertilskuddBelop = BigDecimal.valueOf(7536),
-                barnetErSelvforsorget = false
+                barnetErSelvforsorget = false,
             ),
             lopendeBidragListe = lopendeBidragListe,
-            samvaersfradragGrunnlagListe = samvaersfradragListe
+            samvaersfradragGrunnlagListe = samvaersfradragListe,
         )
 
         val (resultatBelop, resultatkode) = saertilskuddBeregning.beregn(grunnlagBeregningPeriodisert)
 
         assertAll(
             Executable { assertEquals(0.0, resultatBelop.toDouble()) },
-            Executable { assertEquals(ResultatKodeSaertilskudd.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultatkode) }
+            Executable { assertEquals(ResultatkodeSærtilskudd.SÆRTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultatkode) },
         )
     }
 
@@ -470,8 +470,8 @@ internal class SaertilskuddBeregningTest {
                 lopendeBidragBelop = BigDecimal.valueOf(1800),
                 opprinneligBPsAndelUnderholdskostnadBelop = BigDecimal.valueOf(5000),
                 opprinneligBidragBelop = BigDecimal.valueOf(1700),
-                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1323)
-            )
+                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1323),
+            ),
         )
         lopendeBidragListe.add(
             LopendeBidrag(
@@ -480,24 +480,24 @@ internal class SaertilskuddBeregningTest {
                 lopendeBidragBelop = BigDecimal.valueOf(1800),
                 opprinneligBPsAndelUnderholdskostnadBelop = BigDecimal.valueOf(5000),
                 opprinneligBidragBelop = BigDecimal.valueOf(1700),
-                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1323)
-            )
+                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1323),
+            ),
         )
 
         val samvaersfradragListe = mutableListOf<SamvaersfradragGrunnlag>()
         samvaersfradragListe.add(
             SamvaersfradragGrunnlag(
-                referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                 barnPersonId = 1,
-                samvaersfradragBelop = BigDecimal.valueOf(1513)
-            )
+                samvaersfradragBelop = BigDecimal.valueOf(1513),
+            ),
         )
         samvaersfradragListe.add(
             SamvaersfradragGrunnlag(
-                referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                 barnPersonId = 2,
-                samvaersfradragBelop = BigDecimal.valueOf(1513)
-            )
+                samvaersfradragBelop = BigDecimal.valueOf(1513),
+            ),
         )
 
         val grunnlagBeregningPeriodisert = GrunnlagBeregning(
@@ -506,17 +506,17 @@ internal class SaertilskuddBeregningTest {
                 referanse = TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE,
                 bPsAndelSaertilskuddProsent = BigDecimal.valueOf(55.1),
                 bPsAndelSaertilskuddBelop = BigDecimal.valueOf(6612),
-                barnetErSelvforsorget = false
+                barnetErSelvforsorget = false,
             ),
             lopendeBidragListe = lopendeBidragListe,
-            samvaersfradragGrunnlagListe = samvaersfradragListe
+            samvaersfradragGrunnlagListe = samvaersfradragListe,
         )
 
         val (resultatBelop, resultatkode) = saertilskuddBeregning.beregn(grunnlagBeregningPeriodisert)
 
         assertAll(
             Executable { assertEquals(6612.0, resultatBelop.toDouble()) },
-            Executable { assertEquals(ResultatKodeSaertilskudd.SAERTILSKUDD_INNVILGET, resultatkode) }
+            Executable { assertEquals(ResultatkodeSærtilskudd.SÆRTILSKUDD_INNVILGET, resultatkode) },
         )
     }
 
@@ -531,8 +531,8 @@ internal class SaertilskuddBeregningTest {
                 lopendeBidragBelop = BigDecimal.valueOf(1800),
                 opprinneligBPsAndelUnderholdskostnadBelop = BigDecimal.valueOf(4000),
                 opprinneligBidragBelop = BigDecimal.valueOf(1700),
-                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1323)
-            )
+                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1323),
+            ),
         )
         lopendeBidragListe.add(
             LopendeBidrag(
@@ -541,24 +541,24 @@ internal class SaertilskuddBeregningTest {
                 lopendeBidragBelop = BigDecimal.valueOf(1800),
                 opprinneligBPsAndelUnderholdskostnadBelop = BigDecimal.valueOf(4000),
                 opprinneligBidragBelop = BigDecimal.valueOf(1700),
-                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1323)
-            )
+                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1323),
+            ),
         )
 
         val samvaersfradragListe = mutableListOf<SamvaersfradragGrunnlag>()
         samvaersfradragListe.add(
             SamvaersfradragGrunnlag(
-                referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                 barnPersonId = 1,
-                samvaersfradragBelop = BigDecimal.valueOf(1513)
-            )
+                samvaersfradragBelop = BigDecimal.valueOf(1513),
+            ),
         )
         samvaersfradragListe.add(
             SamvaersfradragGrunnlag(
-                referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                 barnPersonId = 2,
-                samvaersfradragBelop = BigDecimal.valueOf(1513)
-            )
+                samvaersfradragBelop = BigDecimal.valueOf(1513),
+            ),
         )
 
         val grunnlagBeregningPeriodisert = GrunnlagBeregning(
@@ -567,17 +567,17 @@ internal class SaertilskuddBeregningTest {
                 referanse = TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE,
                 bPsAndelSaertilskuddProsent = BigDecimal.valueOf(55.7),
                 bPsAndelSaertilskuddBelop = BigDecimal.valueOf(6684),
-                barnetErSelvforsorget = false
+                barnetErSelvforsorget = false,
             ),
             lopendeBidragListe = lopendeBidragListe,
-            samvaersfradragGrunnlagListe = samvaersfradragListe
+            samvaersfradragGrunnlagListe = samvaersfradragListe,
         )
 
         val (resultatBelop, resultatkode) = saertilskuddBeregning.beregn(grunnlagBeregningPeriodisert)
 
         assertAll(
             Executable { assertEquals(0.0, resultatBelop.toDouble()) },
-            Executable { assertEquals(ResultatKodeSaertilskudd.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultatkode) }
+            Executable { assertEquals(ResultatkodeSærtilskudd.SÆRTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultatkode) },
         )
     }
 
@@ -592,8 +592,8 @@ internal class SaertilskuddBeregningTest {
                 lopendeBidragBelop = BigDecimal.valueOf(2900),
                 opprinneligBPsAndelUnderholdskostnadBelop = BigDecimal.valueOf(4000),
                 opprinneligBidragBelop = BigDecimal.valueOf(2800),
-                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1323)
-            )
+                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1323),
+            ),
         )
         lopendeBidragListe.add(
             LopendeBidrag(
@@ -602,24 +602,24 @@ internal class SaertilskuddBeregningTest {
                 lopendeBidragBelop = BigDecimal.valueOf(2900),
                 opprinneligBPsAndelUnderholdskostnadBelop = BigDecimal.valueOf(4000),
                 opprinneligBidragBelop = BigDecimal.valueOf(2800),
-                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1323)
-            )
+                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1323),
+            ),
         )
 
         val samvaersfradragListe = mutableListOf<SamvaersfradragGrunnlag>()
         samvaersfradragListe.add(
             SamvaersfradragGrunnlag(
-                referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                 barnPersonId = 1,
-                samvaersfradragBelop = BigDecimal.valueOf(1513)
-            )
+                samvaersfradragBelop = BigDecimal.valueOf(1513),
+            ),
         )
         samvaersfradragListe.add(
             SamvaersfradragGrunnlag(
-                referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                 barnPersonId = 2,
-                samvaersfradragBelop = BigDecimal.valueOf(1513)
-            )
+                samvaersfradragBelop = BigDecimal.valueOf(1513),
+            ),
         )
 
         val grunnlagBeregningPeriodisert = GrunnlagBeregning(
@@ -628,16 +628,16 @@ internal class SaertilskuddBeregningTest {
                 referanse = TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE,
                 bPsAndelSaertilskuddProsent = BigDecimal.valueOf(55.7),
                 bPsAndelSaertilskuddBelop = BigDecimal.valueOf(6684),
-                barnetErSelvforsorget = false
+                barnetErSelvforsorget = false,
             ),
             lopendeBidragListe = lopendeBidragListe,
-            samvaersfradragGrunnlagListe = samvaersfradragListe
+            samvaersfradragGrunnlagListe = samvaersfradragListe,
         )
         val (resultatBelop, resultatkode) = saertilskuddBeregning.beregn(grunnlagBeregningPeriodisert)
 
         assertAll(
             Executable { assertEquals(0.0, resultatBelop.toDouble()) },
-            Executable { assertEquals(ResultatKodeSaertilskudd.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultatkode) }
+            Executable { assertEquals(ResultatkodeSærtilskudd.SÆRTILSKUDD_IKKE_FULL_BIDRAGSEVNE, resultatkode) },
         )
     }
 }

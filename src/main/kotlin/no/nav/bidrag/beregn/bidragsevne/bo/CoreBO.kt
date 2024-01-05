@@ -3,8 +3,8 @@ package no.nav.bidrag.beregn.bidragsevne.bo
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriodeNavnVerdi
-import no.nav.bidrag.domain.enums.BostatusKode
-import no.nav.bidrag.domain.enums.SaerfradragKode
+import no.nav.bidrag.domene.enums.beregning.Særfradragskode
+import no.nav.bidrag.domene.enums.person.Bostatuskode
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -17,23 +17,23 @@ data class BeregnBidragsevneGrunnlag(
     val bostatusPeriodeListe: List<BostatusPeriode>,
     val antallBarnIEgetHusholdPeriodeListe: List<BarnIHustandPeriode>,
     val saerfradragPeriodeListe: List<SaerfradragPeriode>,
-    val sjablonPeriodeListe: List<SjablonPeriode>
+    val sjablonPeriodeListe: List<SjablonPeriode>,
 )
 
 // Resultatperiode
 data class BeregnBidragsevneResultat(
-    val resultatPeriodeListe: List<ResultatPeriode>
+    val resultatPeriodeListe: List<ResultatPeriode>,
 )
 
 data class ResultatPeriode(
     val resultatDatoFraTil: Periode,
     val resultatBeregning: ResultatBeregning,
-    val resultatGrunnlagBeregning: GrunnlagBeregning
+    val resultatGrunnlagBeregning: GrunnlagBeregning,
 )
 
 data class ResultatBeregning(
     val belop: BigDecimal,
-    val sjablonListe: List<SjablonPeriodeNavnVerdi>
+    val sjablonListe: List<SjablonPeriodeNavnVerdi>,
 )
 
 // Grunnlag beregning
@@ -43,33 +43,33 @@ data class GrunnlagBeregning(
     val bostatus: Bostatus,
     val barnIHusstand: BarnIHusstand,
     val saerfradrag: Saerfradrag,
-    val sjablonListe: List<SjablonPeriode>
+    val sjablonListe: List<SjablonPeriode>,
 )
 
 data class Inntekt(
     val referanse: String,
     val inntektType: String,
-    val inntektBelop: BigDecimal
+    val inntektBelop: BigDecimal,
 )
 
 data class Skatteklasse(
     val referanse: String,
-    val skatteklasse: Int
+    val skatteklasse: Int,
 )
 
 data class Bostatus(
     val referanse: String,
-    val kode: BostatusKode
+    val kode: Bostatuskode,
 )
 
 data class BarnIHusstand(
     val referanse: String,
-    val antallBarn: Double
+    val antallBarn: Double,
 )
 
 data class Saerfradrag(
     val referanse: String,
-    val kode: SaerfradragKode
+    val kode: Særfradragskode,
 )
 
 // Hjelpeklasser
@@ -81,5 +81,5 @@ data class BeregnBidragsevneListeGrunnlag(
     var justertBarnIHusstandenPeriodeListe: List<BarnIHustandPeriode> = listOf(),
     var justertSaerfradragPeriodeListe: List<SaerfradragPeriode> = listOf(),
     var justertSjablonPeriodeListe: List<SjablonPeriode> = listOf(),
-    var bruddPeriodeListe: MutableList<Periode> = mutableListOf()
+    var bruddPeriodeListe: MutableList<Periode> = mutableListOf(),
 )

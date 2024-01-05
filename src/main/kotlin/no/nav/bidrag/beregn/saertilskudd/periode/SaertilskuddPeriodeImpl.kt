@@ -42,7 +42,7 @@ class SaertilskuddPeriodeImpl(private val saertilskuddberegning: SaertilskuddBer
 
     private fun justerDatoerGrunnlagslister(
         periodeGrunnlag: BeregnSaertilskuddGrunnlag,
-        beregnSaertilskuddListeGrunnlag: BeregnSaertilskuddListeGrunnlag
+        beregnSaertilskuddListeGrunnlag: BeregnSaertilskuddListeGrunnlag,
     ) {
         // Justerer datoer på grunnlagslistene (blir gjort implisitt i xxxPeriode(it))
         beregnSaertilskuddListeGrunnlag.justertBidragsevnePeriodeListe = periodeGrunnlag.bidragsevnePeriodeListe
@@ -88,11 +88,15 @@ class SaertilskuddPeriodeImpl(private val saertilskuddberegning: SaertilskuddBer
                         referanse = it.referanse,
                         bPsAndelSaertilskuddProsent = it.bPsAndelSaertilskuddProsent,
                         bPsAndelSaertilskuddBelop = it.bPsAndelSaertilskuddBelop,
-                        barnetErSelvforsorget = it.barnetErSelvforsorget
+                        barnetErSelvforsorget = it.barnetErSelvforsorget,
                     )
                 }
                 .findFirst()
-                .orElseThrow { IllegalArgumentException("Grunnlagsobjekt BP_ANDEL_SAERTILSKUDD mangler data for periode: ${beregningsperiode.getPeriode()}") }
+                .orElseThrow {
+                    IllegalArgumentException(
+                        "Grunnlagsobjekt BP_ANDEL_SAERTILSKUDD mangler data for periode: ${beregningsperiode.getPeriode()}",
+                    )
+                }
 
             val lopendeBidragListe = grunnlag.justertLopendeBidragPeriodeListe
                 .filter { it.getPeriode().overlapperMed(beregningsperiode) }
@@ -103,7 +107,7 @@ class SaertilskuddPeriodeImpl(private val saertilskuddberegning: SaertilskuddBer
                         lopendeBidragBelop = it.lopendeBidragBelop,
                         opprinneligBPsAndelUnderholdskostnadBelop = it.opprinneligBPsAndelUnderholdskostnadBelop,
                         opprinneligBidragBelop = it.opprinneligBidragBelop,
-                        opprinneligSamvaersfradragBelop = it.opprinneligSamvaersfradragBelop
+                        opprinneligSamvaersfradragBelop = it.opprinneligSamvaersfradragBelop,
                     )
                 }
 
@@ -113,7 +117,7 @@ class SaertilskuddPeriodeImpl(private val saertilskuddberegning: SaertilskuddBer
                     SamvaersfradragGrunnlag(
                         referanse = it.referanse,
                         barnPersonId = it.barnPersonId,
-                        samvaersfradragBelop = it.samvaersfradragBelop
+                        samvaersfradragBelop = it.samvaersfradragBelop,
                     )
                 }
 
@@ -123,7 +127,7 @@ class SaertilskuddPeriodeImpl(private val saertilskuddberegning: SaertilskuddBer
                     bidragsevne = bidragsevne,
                     bPsAndelSaertilskudd = bPsAndelSaertilskudd,
                     lopendeBidragListe = lopendeBidragListe,
-                    samvaersfradragGrunnlagListe = samvaersfradragGrunnlagListe
+                    samvaersfradragGrunnlagListe = samvaersfradragGrunnlagListe,
                 )
 
             grunnlag.periodeResultatListe.add(
@@ -131,8 +135,8 @@ class SaertilskuddPeriodeImpl(private val saertilskuddberegning: SaertilskuddBer
                     periode = beregningsperiode,
                     soknadsbarnPersonId = periodeGrunnlag.soknadsbarnPersonId,
                     resultat = saertilskuddberegning.beregn(beregnSaertilskuddGrunnlagPeriodisert),
-                    grunnlag = beregnSaertilskuddGrunnlagPeriodisert
-                )
+                    grunnlag = beregnSaertilskuddGrunnlagPeriodisert,
+                ),
             )
         }
     }
@@ -140,7 +144,7 @@ class SaertilskuddPeriodeImpl(private val saertilskuddberegning: SaertilskuddBer
     // Validerer at input-verdier til særtilskuddberegning er gyldige
     override fun validerInput(grunnlag: BeregnSaertilskuddGrunnlag): List<Avvik> {
         val avvikListe =
-            PeriodeUtil.validerBeregnPeriodeInput(beregnDatoFra = grunnlag.beregnDatoFra, beregnDatoTil = grunnlag.beregnDatoTil).toMutableList()
+            PeriodeUtil.validerBeregnPeriodeInput(beregnDatoFom = grunnlag.beregnDatoFra, beregnDatoTil = grunnlag.beregnDatoTil).toMutableList()
 
         avvikListe.addAll(
             PeriodeUtil.validerInputDatoer(
@@ -148,11 +152,12 @@ class SaertilskuddPeriodeImpl(private val saertilskuddberegning: SaertilskuddBer
                 beregnDatoTil = grunnlag.beregnDatoTil,
                 dataElement = "bidragsevnePeriodeListe",
                 periodeListe = grunnlag.bidragsevnePeriodeListe.map { it.getPeriode() },
-                sjekkOverlapp = true,
-                sjekkOpphold = true,
-                sjekkNull = true,
-                sjekkBeregnPeriode = true
-            )
+                sjekkOverlappendePerioder = true,
+                sjekkOppholdMellomPerioder = true,
+                sjekkDatoTilNull = true,
+                sjekkDatoStartSluttAvPerioden = true,
+                sjekkBeregnPeriode = true,
+            ),
         )
 
         avvikListe.addAll(
@@ -161,11 +166,12 @@ class SaertilskuddPeriodeImpl(private val saertilskuddberegning: SaertilskuddBer
                 beregnDatoTil = grunnlag.beregnDatoTil,
                 dataElement = "bPsAndelSaertilskuddPeriodeListe",
                 periodeListe = grunnlag.bPsAndelSaertilskuddPeriodeListe.map { it.getPeriode() },
-                sjekkOverlapp = true,
-                sjekkOpphold = true,
-                sjekkNull = true,
-                sjekkBeregnPeriode = true
-            )
+                sjekkOverlappendePerioder = true,
+                sjekkOppholdMellomPerioder = true,
+                sjekkDatoTilNull = true,
+                sjekkDatoStartSluttAvPerioden = true,
+                sjekkBeregnPeriode = true,
+            ),
         )
 
         avvikListe.addAll(
@@ -174,11 +180,12 @@ class SaertilskuddPeriodeImpl(private val saertilskuddberegning: SaertilskuddBer
                 beregnDatoTil = grunnlag.beregnDatoTil,
                 dataElement = "lopendeBidragPeriodeListe",
                 periodeListe = grunnlag.lopendeBidragPeriodeListe.map { it.getPeriode() },
-                sjekkOverlapp = false,
-                sjekkOpphold = false,
-                sjekkNull = true,
-                sjekkBeregnPeriode = true
-            )
+                sjekkOverlappendePerioder = false,
+                sjekkOppholdMellomPerioder = false,
+                sjekkDatoTilNull = true,
+                sjekkDatoStartSluttAvPerioden = true,
+                sjekkBeregnPeriode = true,
+            ),
         )
 
         avvikListe.addAll(
@@ -187,11 +194,12 @@ class SaertilskuddPeriodeImpl(private val saertilskuddberegning: SaertilskuddBer
                 beregnDatoTil = grunnlag.beregnDatoTil,
                 dataElement = "samvaersfradragGrunnlagPeriodeListe",
                 periodeListe = grunnlag.samvaersfradragGrunnlagPeriodeListe.map { it.getPeriode() },
-                sjekkOverlapp = false,
-                sjekkOpphold = false,
-                sjekkNull = true,
-                sjekkBeregnPeriode = true
-            )
+                sjekkOverlappendePerioder = false,
+                sjekkOppholdMellomPerioder = false,
+                sjekkDatoTilNull = true,
+                sjekkDatoStartSluttAvPerioden = true,
+                sjekkBeregnPeriode = true,
+            ),
         )
 
         return avvikListe

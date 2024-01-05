@@ -18,9 +18,9 @@ import no.nav.bidrag.beregn.samvaersfradrag.bo.SamvaersfradragGrunnlagPerBarn
 import no.nav.bidrag.beregn.samvaersfradrag.dto.BeregnSamvaersfradragGrunnlagCore
 import no.nav.bidrag.beregn.samvaersfradrag.dto.SamvaersklassePeriodeCore
 import no.nav.bidrag.beregn.samvaersfradrag.periode.SamvaersfradragPeriode
-import no.nav.bidrag.domain.enums.AvvikType
-import no.nav.bidrag.domain.enums.sjablon.SjablonInnholdNavn
-import no.nav.bidrag.domain.enums.sjablon.SjablonTallNavn
+import no.nav.bidrag.domene.enums.beregning.Avvikstype
+import no.nav.bidrag.domene.enums.sjablon.SjablonInnholdNavn
+import no.nav.bidrag.domene.enums.sjablon.SjablonTallNavn
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.BeforeEach
@@ -71,23 +71,23 @@ internal class SamvaersfradragCoreTest {
             Executable { assertThat(resultatCore.resultatPeriodeListe[0].periode.datoTil).isEqualTo(LocalDate.parse("2018-01-01")) },
             Executable {
                 assertThat(resultatCore.resultatPeriodeListe[0].resultatBeregningListe[0].belop).isEqualTo(
-                    BigDecimal.valueOf(666)
+                    BigDecimal.valueOf(666),
                 )
             },
             Executable { assertThat(resultatCore.resultatPeriodeListe[1].periode.datoFom).isEqualTo(LocalDate.parse("2018-01-01")) },
             Executable { assertThat(resultatCore.resultatPeriodeListe[1].periode.datoTil).isEqualTo(LocalDate.parse("2019-01-01")) },
             Executable {
                 assertThat(resultatCore.resultatPeriodeListe[1].resultatBeregningListe[0].belop).isEqualTo(
-                    BigDecimal.valueOf(667)
+                    BigDecimal.valueOf(667),
                 )
             },
             Executable { assertThat(resultatCore.resultatPeriodeListe[2].periode.datoFom).isEqualTo(LocalDate.parse("2019-01-01")) },
             Executable { assertThat(resultatCore.resultatPeriodeListe[2].periode.datoTil).isEqualTo(LocalDate.parse("2020-01-01")) },
             Executable {
                 assertThat(resultatCore.resultatPeriodeListe[2].resultatBeregningListe[0].belop).isEqualTo(
-                    BigDecimal.valueOf(668)
+                    BigDecimal.valueOf(668),
                 )
-            }
+            },
         )
     }
 
@@ -106,36 +106,36 @@ internal class SamvaersfradragCoreTest {
             Executable { assertThat(resultatCore.avvikListe).isNotEmpty() },
             Executable { assertThat(resultatCore.avvikListe).hasSize(1) },
             Executable { assertThat(resultatCore.avvikListe[0].avvikTekst).isEqualTo("beregnDatoTil må være etter beregnDatoFra") },
-            Executable { assertThat(resultatCore.avvikListe[0].avvikType).isEqualTo(AvvikType.DATO_FOM_ETTER_DATO_TIL.toString()) },
-            Executable { assertThat(resultatCore.resultatPeriodeListe).isEmpty() }
+            Executable { assertThat(resultatCore.avvikListe[0].avvikType).isEqualTo(Avvikstype.DATO_FOM_ETTER_DATO_TIL.toString()) },
+            Executable { assertThat(resultatCore.resultatPeriodeListe).isEmpty() },
         )
     }
 
     private fun byggSamvaersfradragPeriodeGrunnlagCore() {
         val samvaersklassePeriodeListe = listOf(
             SamvaersklassePeriodeCore(
-                referanse = TestUtil.SAMVAERSKLASSE_REFERANSE,
+                referanse = TestUtil.SAMVÆRSKLASSE_REFERANSE,
                 samvaersklassePeriodeDatoFraTil = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2020-01-01")),
                 barnPersonId = 1,
                 barnFodselsdato = LocalDate.parse("2017-01-01"),
-                samvaersklasse = "03"
-            )
+                samvaersklasse = "03",
+            ),
         )
 
         val sjablonPeriodeListe = listOf(
             SjablonPeriodeCore(
                 periode = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2020-01-01")),
-                navn = SjablonTallNavn.FORSKUDDSSATS_BELOP.navn,
+                navn = SjablonTallNavn.FORSKUDDSSATS_BELØP.navn,
                 nokkelListe = emptyList(),
-                innholdListe = listOf(SjablonInnholdCore(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(1600)))
-            )
+                innholdListe = listOf(SjablonInnholdCore(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(1600))),
+            ),
         )
 
         beregnSamvaersfradragGrunnlagCore = BeregnSamvaersfradragGrunnlagCore(
             beregnDatoFra = LocalDate.parse("2017-01-01"),
             beregnDatoTil = LocalDate.parse("2020-01-01"),
             samvaersklassePeriodeListe = samvaersklassePeriodeListe,
-            sjablonPeriodeListe = sjablonPeriodeListe
+            sjablonPeriodeListe = sjablonPeriodeListe,
         )
     }
 
@@ -152,32 +152,32 @@ internal class SamvaersfradragCoreTest {
                             SjablonPeriodeNavnVerdi(
                                 periode = Periode(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("9999-12-31")),
                                 navn = SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.navn,
-                                verdi = BigDecimal.valueOf(22)
-                            )
-                        )
-                    )
+                                verdi = BigDecimal.valueOf(22),
+                            ),
+                        ),
+                    ),
                 ),
                 resultatGrunnlag = GrunnlagBeregningPeriodisert(
                     samvaersfradragGrunnlagPerBarnListe = listOf(
                         SamvaersfradragGrunnlagPerBarn(
-                            referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                            referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                             barnPersonId = 1,
                             barnAlder = 4,
-                            samvaersklasse = "02"
-                        )
+                            samvaersklasse = "02",
+                        ),
                     ),
                     sjablonListe = listOf(
                         SjablonPeriode(
                             sjablonPeriode = Periode(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("9999-12-31")),
                             sjablon = Sjablon(
-                                navn = SjablonTallNavn.FORSKUDDSSATS_BELOP.navn,
+                                navn = SjablonTallNavn.FORSKUDDSSATS_BELØP.navn,
                                 nokkelListe = emptyList(),
-                                innholdListe = listOf(SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(1600)))
-                            )
-                        )
-                    )
-                )
-            )
+                                innholdListe = listOf(SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(1600))),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
         )
         periodeResultatListe.add(
             ResultatPeriode(
@@ -190,32 +190,32 @@ internal class SamvaersfradragCoreTest {
                             SjablonPeriodeNavnVerdi(
                                 periode = Periode(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("9999-12-31")),
                                 navn = SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.navn,
-                                verdi = BigDecimal.valueOf(22)
-                            )
-                        )
-                    )
+                                verdi = BigDecimal.valueOf(22),
+                            ),
+                        ),
+                    ),
                 ),
                 resultatGrunnlag = GrunnlagBeregningPeriodisert(
                     samvaersfradragGrunnlagPerBarnListe = listOf(
                         SamvaersfradragGrunnlagPerBarn(
-                            referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                            referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                             barnPersonId = 1,
                             barnAlder = 4,
-                            samvaersklasse = "02"
-                        )
+                            samvaersklasse = "02",
+                        ),
                     ),
                     sjablonListe = listOf(
                         SjablonPeriode(
                             sjablonPeriode = Periode(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("9999-12-31")),
                             sjablon = Sjablon(
-                                navn = SjablonTallNavn.FORSKUDDSSATS_BELOP.navn,
+                                navn = SjablonTallNavn.FORSKUDDSSATS_BELØP.navn,
                                 nokkelListe = emptyList(),
-                                innholdListe = listOf(SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(1600)))
-                            )
-                        )
-                    )
-                )
-            )
+                                innholdListe = listOf(SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(1600))),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
         )
         periodeResultatListe.add(
             ResultatPeriode(
@@ -228,32 +228,32 @@ internal class SamvaersfradragCoreTest {
                             SjablonPeriodeNavnVerdi(
                                 periode = Periode(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("9999-12-31")),
                                 navn = SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.navn,
-                                verdi = BigDecimal.valueOf(22)
-                            )
-                        )
-                    )
+                                verdi = BigDecimal.valueOf(22),
+                            ),
+                        ),
+                    ),
                 ),
                 resultatGrunnlag = GrunnlagBeregningPeriodisert(
                     samvaersfradragGrunnlagPerBarnListe = listOf(
                         SamvaersfradragGrunnlagPerBarn(
-                            referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                            referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                             barnPersonId = 1,
                             barnAlder = 4,
-                            samvaersklasse = "02"
-                        )
+                            samvaersklasse = "02",
+                        ),
                     ),
                     sjablonListe = listOf(
                         SjablonPeriode(
                             sjablonPeriode = Periode(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("9999-12-31")),
                             sjablon = Sjablon(
-                                navn = SjablonTallNavn.FORSKUDDSSATS_BELOP.navn,
+                                navn = SjablonTallNavn.FORSKUDDSSATS_BELØP.navn,
                                 nokkelListe = emptyList(),
-                                innholdListe = listOf(SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(1600)))
-                            )
-                        )
-                    )
-                )
-            )
+                                innholdListe = listOf(SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(1600))),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
         )
 
         samvaersfradragPeriodeResultat = BeregnSamvaersfradragResultat(periodeResultatListe)
@@ -261,7 +261,7 @@ internal class SamvaersfradragCoreTest {
 
     private fun byggAvvik() {
         avvikListe = listOf(
-            Avvik("beregnDatoTil må være etter beregnDatoFra", AvvikType.DATO_FOM_ETTER_DATO_TIL)
+            Avvik("beregnDatoTil må være etter beregnDatoFra", Avvikstype.DATO_FOM_ETTER_DATO_TIL),
         )
     }
 

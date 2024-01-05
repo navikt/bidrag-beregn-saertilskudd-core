@@ -9,9 +9,9 @@ import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.Sjablon
 import no.nav.bidrag.beregn.felles.bo.SjablonInnhold
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
-import no.nav.bidrag.domain.enums.AvvikType
-import no.nav.bidrag.domain.enums.sjablon.SjablonInnholdNavn
-import no.nav.bidrag.domain.enums.sjablon.SjablonTallNavn
+import no.nav.bidrag.domene.enums.beregning.Avvikstype
+import no.nav.bidrag.domene.enums.sjablon.SjablonInnholdNavn
+import no.nav.bidrag.domene.enums.sjablon.SjablonTallNavn
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.DisplayName
@@ -40,7 +40,7 @@ internal class BPsAndelSaertilskuddPeriodeTest {
             Executable { assertThat(resultat.resultatPeriodeListe[1].resultatDatoFraTil.datoFom).isEqualTo(LocalDate.parse("2019-07-01")) },
             Executable { assertThat(resultat.resultatPeriodeListe[1].resultatDatoFraTil.datoTil).isEqualTo(LocalDate.parse("2020-07-01")) },
             Executable { assertThat(resultat.resultatPeriodeListe[2].resultatDatoFraTil.datoFom).isEqualTo(LocalDate.parse("2020-07-01")) },
-            Executable { assertThat(resultat.resultatPeriodeListe[2].resultatDatoFraTil.datoTil).isNull() }
+            Executable { assertThat(resultat.resultatPeriodeListe[2].resultatDatoFraTil.datoTil).isNull() },
         )
     }
 
@@ -53,10 +53,18 @@ internal class BPsAndelSaertilskuddPeriodeTest {
         assertAll(
             Executable { assertThat(avvikListe).isNotEmpty() },
             Executable { assertThat(avvikListe).hasSize(8) },
-            Executable { assertThat(avvikListe[0].avvikTekst).isEqualTo("Første dato i nettoSaertilskuddPeriodeListe (2018-01-01) er etter beregnDatoFra (2016-01-01)") },
-            Executable { assertThat(avvikListe[0].avvikType).isEqualTo(AvvikType.PERIODE_MANGLER_DATA) },
-            Executable { assertThat(avvikListe[1].avvikTekst).isEqualTo("Siste dato i nettoSaertilskuddPeriodeListe (2020-08-01) er før beregnDatoTil (2021-01-01)") },
-            Executable { assertThat(avvikListe[1].avvikType).isEqualTo(AvvikType.PERIODE_MANGLER_DATA) }
+            Executable {
+                assertThat(
+                    avvikListe[0].avvikTekst,
+                ).isEqualTo("Første dato i nettoSaertilskuddPeriodeListe (2018-01-01) er etter beregnDatoFom (2016-01-01)")
+            },
+            Executable { assertThat(avvikListe[0].avvikType).isEqualTo(Avvikstype.PERIODE_MANGLER_DATA) },
+            Executable {
+                assertThat(
+                    avvikListe[1].avvikTekst,
+                ).isEqualTo("Siste dato i nettoSaertilskuddPeriodeListe (2020-08-01) er før beregnDatoTil (2021-01-01)")
+            },
+            Executable { assertThat(avvikListe[1].avvikType).isEqualTo(Avvikstype.PERIODE_MANGLER_DATA) },
         )
     }
 
@@ -65,8 +73,8 @@ internal class BPsAndelSaertilskuddPeriodeTest {
             NettoSaertilskuddPeriode(
                 referanse = TestUtil.NETTO_SAERTILSKUDD_REFERANSE,
                 periodeDatoFraTil = Periode(datoFom = LocalDate.parse("2018-01-01"), datoTil = LocalDate.parse("2020-08-01")),
-                nettoSaertilskuddBelop = BigDecimal.valueOf(1000)
-            )
+                nettoSaertilskuddBelop = BigDecimal.valueOf(1000),
+            ),
         )
         val inntektBPPeriodeListe = listOf(
             InntektPeriode(
@@ -75,8 +83,8 @@ internal class BPsAndelSaertilskuddPeriodeTest {
                 inntektType = "INNTEKTSOPPLYSNINGER_ARBEIDSGIVER",
                 inntektBelop = BigDecimal.valueOf(217666),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         val inntektBMPeriodeListe = listOf(
             InntektPeriode(
@@ -85,8 +93,8 @@ internal class BPsAndelSaertilskuddPeriodeTest {
                 inntektType = "INNTEKTSOPPLYSNINGER_ARBEIDSGIVER",
                 inntektBelop = BigDecimal.valueOf(400000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         val inntektBBPeriodeListe = listOf(
             InntektPeriode(
@@ -95,8 +103,8 @@ internal class BPsAndelSaertilskuddPeriodeTest {
                 inntektType = "INNTEKTSOPPLYSNINGER_ARBEIDSGIVER",
                 inntektBelop = BigDecimal.valueOf(40000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
 
         return BeregnBPsAndelSaertilskuddGrunnlag(
@@ -106,7 +114,7 @@ internal class BPsAndelSaertilskuddPeriodeTest {
             inntektBPPeriodeListe = inntektBPPeriodeListe,
             inntektBMPeriodeListe = inntektBMPeriodeListe,
             inntektBBPeriodeListe = inntektBBPeriodeListe,
-            sjablonPeriodeListe = lagSjablonGrunnlag()
+            sjablonPeriodeListe = lagSjablonGrunnlag(),
         )
     }
 
@@ -116,31 +124,31 @@ internal class BPsAndelSaertilskuddPeriodeTest {
             SjablonPeriode(
                 sjablonPeriode = Periode(datoFom = LocalDate.parse("2018-07-01"), datoTil = LocalDate.parse("2019-06-30")),
                 sjablon = Sjablon(
-                    navn = SjablonTallNavn.FORSKUDDSSATS_BELOP.navn,
+                    navn = SjablonTallNavn.FORSKUDDSSATS_BELØP.navn,
                     nokkelListe = emptyList(),
-                    innholdListe = listOf(SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(1600)))
-                )
-            )
+                    innholdListe = listOf(SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(1600))),
+                ),
+            ),
         )
         sjablonPeriodeListe.add(
             SjablonPeriode(
                 sjablonPeriode = Periode(datoFom = LocalDate.parse("2019-07-01"), datoTil = LocalDate.parse("2020-06-30")),
                 sjablon = Sjablon(
-                    navn = SjablonTallNavn.FORSKUDDSSATS_BELOP.navn,
+                    navn = SjablonTallNavn.FORSKUDDSSATS_BELØP.navn,
                     nokkelListe = emptyList(),
-                    innholdListe = listOf(SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(1640)))
-                )
-            )
+                    innholdListe = listOf(SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(1640))),
+                ),
+            ),
         )
         sjablonPeriodeListe.add(
             SjablonPeriode(
                 sjablonPeriode = Periode(datoFom = LocalDate.parse("2020-07-01"), datoTil = null),
                 sjablon = Sjablon(
-                    navn = SjablonTallNavn.FORSKUDDSSATS_BELOP.navn,
+                    navn = SjablonTallNavn.FORSKUDDSSATS_BELØP.navn,
                     nokkelListe = emptyList(),
-                    innholdListe = listOf(SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(1670)))
-                )
-            )
+                    innholdListe = listOf(SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(1670))),
+                ),
+            ),
         )
 
         return sjablonPeriodeListe

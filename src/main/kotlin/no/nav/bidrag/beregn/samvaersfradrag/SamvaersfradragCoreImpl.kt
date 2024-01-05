@@ -30,20 +30,18 @@ class SamvaersfradragCoreImpl(private val samvaersfradragPeriode: Samvaersfradra
         return mapFraBusinessObject(avvikListe = avvikListe, resultat = beregnSamvaersfradragResultat)
     }
 
-    private fun mapTilBusinessObject(grunnlag: BeregnSamvaersfradragGrunnlagCore) =
-        BeregnSamvaersfradragGrunnlag(
-            beregnDatoFra = grunnlag.beregnDatoFra,
-            beregnDatoTil = grunnlag.beregnDatoTil,
-            samvaersfradragGrunnlagPeriodeListe = mapSamvaersklassePeriodeListe(grunnlag.samvaersklassePeriodeListe),
-            sjablonPeriodeListe = mapSjablonPeriodeListe(grunnlag.sjablonPeriodeListe)
-        )
+    private fun mapTilBusinessObject(grunnlag: BeregnSamvaersfradragGrunnlagCore) = BeregnSamvaersfradragGrunnlag(
+        beregnDatoFra = grunnlag.beregnDatoFra,
+        beregnDatoTil = grunnlag.beregnDatoTil,
+        samvaersfradragGrunnlagPeriodeListe = mapSamvaersklassePeriodeListe(grunnlag.samvaersklassePeriodeListe),
+        sjablonPeriodeListe = mapSjablonPeriodeListe(grunnlag.sjablonPeriodeListe),
+    )
 
-    private fun mapFraBusinessObject(avvikListe: List<Avvik>, resultat: BeregnSamvaersfradragResultat) =
-        BeregnSamvaersfradragResultatCore(
-            resultatPeriodeListe = mapResultatPeriode(resultat.resultatPeriodeListe),
-            sjablonListe = mapSjablonGrunnlagListe(resultat.resultatPeriodeListe),
-            avvikListe = mapAvvik(avvikListe)
-        )
+    private fun mapFraBusinessObject(avvikListe: List<Avvik>, resultat: BeregnSamvaersfradragResultat) = BeregnSamvaersfradragResultatCore(
+        resultatPeriodeListe = mapResultatPeriode(resultat.resultatPeriodeListe),
+        sjablonListe = mapSjablonGrunnlagListe(resultat.resultatPeriodeListe),
+        avvikListe = mapAvvik(avvikListe),
+    )
 
     private fun mapSamvaersklassePeriodeListe(samvaersklassePeriodeListeCore: List<SamvaersklassePeriodeCore>): List<SamvaersfradragGrunnlagPeriode> {
         val samvaersklassePeriodeListe = mutableListOf<SamvaersfradragGrunnlagPeriode>()
@@ -53,12 +51,12 @@ class SamvaersfradragCoreImpl(private val samvaersfradragPeriode: Samvaersfradra
                     referanse = it.referanse,
                     samvaersfradragDatoFraTil = Periode(
                         datoFom = it.samvaersklassePeriodeDatoFraTil.datoFom,
-                        datoTil = it.samvaersklassePeriodeDatoFraTil.datoTil
+                        datoTil = it.samvaersklassePeriodeDatoFraTil.datoTil,
                     ),
                     barnPersonId = it.barnPersonId,
                     barnFodselsdato = it.barnFodselsdato,
-                    samvaersklasse = it.samvaersklasse
-                )
+                    samvaersklasse = it.samvaersklasse,
+                ),
             )
         }
         return samvaersklassePeriodeListe
@@ -71,8 +69,8 @@ class SamvaersfradragCoreImpl(private val samvaersfradragPeriode: Samvaersfradra
                 ResultatPeriodeCore(
                     periode = PeriodeCore(datoFom = it.resultatDatoFraTil.datoFom, datoTil = it.resultatDatoFraTil.datoTil),
                     resultatBeregningListe = mapResultatBeregning(it.resultatBeregningListe),
-                    grunnlagReferanseListe = mapReferanseListe(it)
-                )
+                    grunnlagReferanseListe = mapReferanseListe(it),
+                ),
             )
         }
         return resultatPeriodeCoreListe
@@ -87,7 +85,7 @@ class SamvaersfradragCoreImpl(private val samvaersfradragPeriode: Samvaersfradra
         referanseListe.addAll(
             sjablonListe
                 .map { lagSjablonReferanse(it) }
-                .distinct()
+                .distinct(),
         )
         return referanseListe.sorted()
     }
@@ -96,18 +94,17 @@ class SamvaersfradragCoreImpl(private val samvaersfradragPeriode: Samvaersfradra
         val resultatBeregningCoreListe = mutableListOf<ResultatBeregningCore>()
         resultatBeregningListe.forEach {
             resultatBeregningCoreListe.add(
-                ResultatBeregningCore(barnPersonId = it.barnPersonId, belop = it.belop)
+                ResultatBeregningCore(barnPersonId = it.barnPersonId, belop = it.belop),
             )
         }
         return resultatBeregningCoreListe
     }
 
-    private fun mapSjablonGrunnlagListe(resultatPeriodeListe: List<ResultatPeriode>) =
-        resultatPeriodeListe.stream()
-            .map { it.resultatBeregningListe }
-            .flatMap { it.stream() }
-            .map { mapSjablonListe(it.sjablonListe) }
-            .flatMap { it.stream() }
-            .distinct()
-            .toList()
+    private fun mapSjablonGrunnlagListe(resultatPeriodeListe: List<ResultatPeriode>) = resultatPeriodeListe.stream()
+        .map { it.resultatBeregningListe }
+        .flatMap { it.stream() }
+        .map { mapSjablonListe(it.sjablonListe) }
+        .flatMap { it.stream() }
+        .distinct()
+        .toList()
 }
