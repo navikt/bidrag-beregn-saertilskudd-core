@@ -69,7 +69,7 @@ Disse beregningene gjøres:
 
 | Versjon | Endringstype | Beskrivelse                                                                                                                                                                                           |
 |---------|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1.0.2   | Endret       | Oppdatert versjoner. Mye endringer pga ny versjon av bidrag-domene.                                                                                                                                   |
+| 1.0.3   | Endret       | Oppdatert versjoner. Mye endringer pga ny versjon av bidrag-domene.                                                                                                                                   |
 | 1.0.2   | Endret       | Opprettet FellesPeriode for merge av sluttperiode                                                                                                                                                     |
 | 1.0.1   | Endret       | Gjort om fra enum InntektType til String i domene-objekter for å unngå feil                                                                                                                           |
 | 1.0.0   | Endret       | Oppdatert major version og liten endring i workflow                                                                                                                                                   |
