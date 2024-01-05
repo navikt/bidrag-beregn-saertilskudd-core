@@ -6,9 +6,9 @@ import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.beregn.felles.util.SjablonUtil
 import no.nav.bidrag.beregn.samvaersfradrag.bo.GrunnlagBeregningPeriodisert
 import no.nav.bidrag.beregn.samvaersfradrag.bo.ResultatBeregning
-import no.nav.bidrag.domain.enums.sjablon.SjablonInnholdNavn
-import no.nav.bidrag.domain.enums.sjablon.SjablonNavn
-import no.nav.bidrag.domain.enums.sjablon.SjablonNokkelNavn
+import no.nav.bidrag.domene.enums.sjablon.SjablonInnholdNavn
+import no.nav.bidrag.domene.enums.sjablon.SjablonNavn
+import no.nav.bidrag.domene.enums.sjablon.SjablonNøkkelNavn
 import java.math.BigDecimal
 
 class SamvaersfradragBeregningImpl : FellesBeregning(), SamvaersfradragBeregning {
@@ -21,15 +21,15 @@ class SamvaersfradragBeregningImpl : FellesBeregning(), SamvaersfradragBeregning
             val sjablonNavnVerdiMap = hentSjablonVerdier(
                 sjablonPeriodeListe = grunnlag.sjablonListe,
                 samvaersklasse = it.samvaersklasse,
-                soknadBarnAlder = it.barnAlder
+                soknadBarnAlder = it.barnAlder,
             )
 
             resultatBeregningListe.add(
                 ResultatBeregning(
                     barnPersonId = it.barnPersonId,
-                    belop = sjablonNavnVerdiMap[SjablonNavn.SAMVAERSFRADRAG.navn]!!,
-                    sjablonListe = byggSjablonResultatListe(sjablonNavnVerdiMap = sjablonNavnVerdiMap, sjablonPeriodeListe = grunnlag.sjablonListe)
-                )
+                    belop = sjablonNavnVerdiMap[SjablonNavn.SAMVÆRSFRADRAG.navn]!!,
+                    sjablonListe = byggSjablonResultatListe(sjablonNavnVerdiMap = sjablonNavnVerdiMap, sjablonPeriodeListe = grunnlag.sjablonListe),
+                ),
             )
         }
 
@@ -43,13 +43,13 @@ class SamvaersfradragBeregningImpl : FellesBeregning(), SamvaersfradragBeregning
             .map { it.sjablon }
 
         // Samværsfradrag
-        sjablonNavnVerdiMap[SjablonNavn.SAMVAERSFRADRAG.navn] = SjablonUtil.hentSjablonverdi(
+        sjablonNavnVerdiMap[SjablonNavn.SAMVÆRSFRADRAG.navn] = SjablonUtil.hentSjablonverdi(
             sjablonListe = sjablonListe,
-            sjablonNavn = SjablonNavn.SAMVAERSFRADRAG,
-            sjablonNokkelListe = listOf(SjablonNokkel(navn = SjablonNokkelNavn.SAMVAERSKLASSE.navn, verdi = samvaersklasse)),
-            sjablonNokkelNavn = SjablonNokkelNavn.ALDER_TOM,
+            sjablonNavn = SjablonNavn.SAMVÆRSFRADRAG,
+            sjablonNokkelListe = listOf(SjablonNokkel(navn = SjablonNøkkelNavn.SAMVÆRSKLASSE.navn, verdi = samvaersklasse)),
+            sjablonNokkelNavn = SjablonNøkkelNavn.ALDER_TOM,
             sjablonNokkelVerdi = soknadBarnAlder,
-            sjablonInnholdNavn = SjablonInnholdNavn.FRADRAG_BELOP
+            sjablonInnholdNavn = SjablonInnholdNavn.FRADRAG_BELØP,
         )
 
         return sjablonNavnVerdiMap

@@ -25,8 +25,8 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(217666),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         val inntektBM = listOf(
             Inntekt(
@@ -34,8 +34,8 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(400000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         val inntektBB = listOf(
             Inntekt(
@@ -43,8 +43,8 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(40000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
 
         val beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
@@ -53,18 +53,20 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektBPListe = inntektBP,
                 inntektBMListe = inntektBM,
                 inntektBBListe = inntektBB,
-                sjablonListe = sjablonPeriodeListe
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert)
 
         assertAll(
             Executable { assertThat(resultat).isNotNull() },
-            Executable { assertThat(resultat.resultatAndelProsent).isEqualTo(BigDecimal.valueOf(35.2)) }
+            Executable { assertThat(resultat.resultatAndelProsent).isEqualTo(BigDecimal.valueOf(35.2)) },
         )
     }
 
-    @DisplayName("Beregning med flere inntekter for alle parter, tester også at det kalkuleres riktig etter fratrekk av 30 * forhøyet forskudd på barnets inntekt")
+    @DisplayName(
+        "Beregning med flere inntekter for alle parter, tester også at det kalkuleres riktig etter fratrekk av 30 * forhøyet forskudd på barnets inntekt",
+    )
     @Test
     fun testBeregningMedFlereInntekterForAlle() {
         val inntektBP = mutableListOf<Inntekt>()
@@ -74,8 +76,8 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(200000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         inntektBP.add(
             Inntekt(
@@ -83,8 +85,8 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(17666),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
 
         val inntektBM = mutableListOf<Inntekt>()
@@ -94,8 +96,8 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(100000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         inntektBM.add(
             Inntekt(
@@ -103,8 +105,8 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(200000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         inntektBM.add(
             Inntekt(
@@ -112,8 +114,8 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(100000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
 
         val inntektBB = mutableListOf<Inntekt>()
@@ -123,8 +125,8 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(10000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         inntektBB.add(
             Inntekt(
@@ -132,8 +134,8 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(10000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         inntektBB.add(
             Inntekt(
@@ -141,8 +143,8 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(10000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         inntektBB.add(
             Inntekt(
@@ -150,8 +152,8 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(10000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         inntektBB.add(
             Inntekt(
@@ -159,8 +161,8 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(10000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         inntektBB.add(
             Inntekt(
@@ -168,8 +170,8 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(10000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
 
         val beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
@@ -178,7 +180,7 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektBPListe = inntektBP,
                 inntektBMListe = inntektBM,
                 inntektBBListe = inntektBB,
-                sjablonListe = sjablonPeriodeListe
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert)
@@ -186,7 +188,7 @@ class BPsAndelSaertilskuddBeregningTest {
         assertAll(
             Executable { assertThat(resultat).isNotNull() },
             Executable { assertThat(resultat.resultatAndelProsent).isEqualTo(BigDecimal.valueOf(34.7)) },
-            Executable { assertThat(resultat.barnetErSelvforsorget).isFalse() }
+            Executable { assertThat(resultat.barnetErSelvforsorget).isFalse() },
         )
     }
 
@@ -199,8 +201,8 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(217666),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         val inntektBM = listOf(
             Inntekt(
@@ -208,8 +210,8 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(400000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         val inntektBB = listOf(
             Inntekt(
@@ -217,8 +219,8 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(400000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
 
         val beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
@@ -227,7 +229,7 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektBPListe = inntektBP,
                 inntektBMListe = inntektBM,
                 inntektBBListe = inntektBB,
-                sjablonListe = sjablonPeriodeListe
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert)
@@ -235,11 +237,13 @@ class BPsAndelSaertilskuddBeregningTest {
         assertAll(
             Executable { assertThat(resultat).isNotNull() },
             Executable { assertThat(resultat.resultatAndelProsent).isEqualTo(BigDecimal.ZERO) },
-            Executable { assertThat(resultat.barnetErSelvforsorget).isTrue() }
+            Executable { assertThat(resultat.barnetErSelvforsorget).isTrue() },
         )
     }
 
-    @DisplayName("Test at beregnet andel ikke settes høyere enn 5/6 (83,3333333333). Legger inn 10 desimaler for å få likt resultat som i Bidragskalkulator")
+    @DisplayName(
+        "Test at beregnet andel ikke settes høyere enn 5/6 (83,3333333333). Legger inn 10 desimaler for å få likt resultat som i Bidragskalkulator",
+    )
     @Test
     fun testAtMaksAndelSettes() {
         val inntektBP = listOf(
@@ -248,8 +252,8 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(1000000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         val inntektBM = listOf(
             Inntekt(
@@ -257,8 +261,8 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(40000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         val inntektBB = listOf(
             Inntekt(
@@ -266,8 +270,8 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(40000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
 
         // Beregnet andel skal da bli 92,6%, overstyres til 5/6 (83,3333333333%)
@@ -277,14 +281,14 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektBPListe = inntektBP,
                 inntektBMListe = inntektBM,
                 inntektBBListe = inntektBB,
-                sjablonListe = sjablonPeriodeListe
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert)
 
         assertAll(
             Executable { assertThat(resultat).isNotNull() },
-            Executable { assertThat(resultat.resultatAndelProsent).isEqualTo(BigDecimal.valueOf(83.3333333333)) }
+            Executable { assertThat(resultat.resultatAndelProsent).isEqualTo(BigDecimal.valueOf(83.3333333333)) },
         )
     }
 
@@ -297,8 +301,8 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(502000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         val inntektBM = listOf(
             Inntekt(
@@ -306,8 +310,8 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(500000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         val inntektBB = listOf(
             Inntekt(
@@ -315,8 +319,8 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.ZERO,
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
 
         val beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
@@ -325,14 +329,14 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektBPListe = inntektBP,
                 inntektBMListe = inntektBM,
                 inntektBBListe = inntektBB,
-                sjablonListe = sjablonPeriodeListe
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert)
 
         assertAll(
             Executable { assertThat(resultat).isNotNull() },
-            Executable { assertThat(resultat.resultatAndelProsent).isEqualTo(BigDecimal.valueOf(50.1)) }
+            Executable { assertThat(resultat.resultatAndelProsent).isEqualTo(BigDecimal.valueOf(50.1)) },
         )
     }
 
@@ -345,8 +349,8 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(550000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         val inntektBM = listOf(
             Inntekt(
@@ -354,8 +358,8 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.valueOf(300000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         val inntektBB = listOf(
             Inntekt(
@@ -363,8 +367,8 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektType = "LONN_SKE",
                 inntektBelop = BigDecimal.ZERO,
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
 
         val beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
@@ -373,7 +377,7 @@ class BPsAndelSaertilskuddBeregningTest {
                 inntektBPListe = inntektBP,
                 inntektBMListe = inntektBM,
                 inntektBBListe = inntektBB,
-                sjablonListe = sjablonPeriodeListe
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert)
@@ -381,7 +385,7 @@ class BPsAndelSaertilskuddBeregningTest {
         assertAll(
             Executable { assertThat(resultat).isNotNull() },
             Executable { assertThat(resultat.resultatAndelProsent).isEqualTo(BigDecimal.valueOf(64.7)) },
-            Executable { assertThat(resultat.resultatAndelBelop).isEqualTo(BigDecimal.valueOf(647)) }
+            Executable { assertThat(resultat.resultatAndelBelop).isEqualTo(BigDecimal.valueOf(647)) },
         )
     }
 }

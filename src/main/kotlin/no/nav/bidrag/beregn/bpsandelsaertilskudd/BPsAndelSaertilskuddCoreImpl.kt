@@ -34,41 +34,41 @@ class BPsAndelSaertilskuddCoreImpl(private val bPsAndelSaertilskuddPeriode: BPsA
         return mapFraBusinessObject(
             avvikListe = avvikListe,
             resultat = beregnBPsAndelSaertilskuddResultat,
-            grunnlag = beregnBPsAndelSaertilskuddGrunnlag
+            grunnlag = beregnBPsAndelSaertilskuddGrunnlag,
         )
     }
 
-    private fun mapTilBusinessObject(grunnlag: BeregnBPsAndelSaertilskuddGrunnlagCore) =
-        BeregnBPsAndelSaertilskuddGrunnlag(
-            beregnDatoFra = grunnlag.beregnDatoFra,
-            beregnDatoTil = grunnlag.beregnDatoTil,
-            nettoSaertilskuddPeriodeListe = mapNettoSaertilskuddPeriodeListe(grunnlag.nettoSaertilskuddPeriodeListe),
-            inntektBPPeriodeListe = mapInntektPeriodeListe(grunnlag.inntektBPPeriodeListe),
-            inntektBMPeriodeListe = mapInntektPeriodeListe(grunnlag.inntektBMPeriodeListe),
-            inntektBBPeriodeListe = mapInntektPeriodeListe(grunnlag.inntektBBPeriodeListe),
-            sjablonPeriodeListe = mapSjablonPeriodeListe(grunnlag.sjablonPeriodeListe)
-        )
+    private fun mapTilBusinessObject(grunnlag: BeregnBPsAndelSaertilskuddGrunnlagCore) = BeregnBPsAndelSaertilskuddGrunnlag(
+        beregnDatoFra = grunnlag.beregnDatoFra,
+        beregnDatoTil = grunnlag.beregnDatoTil,
+        nettoSaertilskuddPeriodeListe = mapNettoSaertilskuddPeriodeListe(grunnlag.nettoSaertilskuddPeriodeListe),
+        inntektBPPeriodeListe = mapInntektPeriodeListe(grunnlag.inntektBPPeriodeListe),
+        inntektBMPeriodeListe = mapInntektPeriodeListe(grunnlag.inntektBMPeriodeListe),
+        inntektBBPeriodeListe = mapInntektPeriodeListe(grunnlag.inntektBBPeriodeListe),
+        sjablonPeriodeListe = mapSjablonPeriodeListe(grunnlag.sjablonPeriodeListe),
+    )
 
     private fun mapFraBusinessObject(
         avvikListe: List<Avvik>,
         resultat: BeregnBPsAndelSaertilskuddResultat,
-        grunnlag: BeregnBPsAndelSaertilskuddGrunnlag
-    ) =
-        BeregnBPsAndelSaertilskuddResultatCore(
-            resultatPeriodeListe = mapResultatPeriode(resultatPeriodeListe = resultat.resultatPeriodeListe, grunnlag = grunnlag),
-            sjablonListe = mapSjablonGrunnlagListe(resultat.resultatPeriodeListe),
-            avvikListe = mapAvvik(avvikListe)
-        )
+        grunnlag: BeregnBPsAndelSaertilskuddGrunnlag,
+    ) = BeregnBPsAndelSaertilskuddResultatCore(
+        resultatPeriodeListe = mapResultatPeriode(resultatPeriodeListe = resultat.resultatPeriodeListe, grunnlag = grunnlag),
+        sjablonListe = mapSjablonGrunnlagListe(resultat.resultatPeriodeListe),
+        avvikListe = mapAvvik(avvikListe),
+    )
 
-    private fun mapNettoSaertilskuddPeriodeListe(nettoSaertilskuddPeriodeListeCore: List<NettoSaertilskuddPeriodeCore>): List<NettoSaertilskuddPeriode> {
+    private fun mapNettoSaertilskuddPeriodeListe(
+        nettoSaertilskuddPeriodeListeCore: List<NettoSaertilskuddPeriodeCore>,
+    ): List<NettoSaertilskuddPeriode> {
         val nettoSaertilskuddPeriodeListe = mutableListOf<NettoSaertilskuddPeriode>()
         nettoSaertilskuddPeriodeListeCore.forEach {
             nettoSaertilskuddPeriodeListe.add(
                 NettoSaertilskuddPeriode(
                     referanse = it.referanse,
                     periodeDatoFraTil = Periode(datoFom = it.periodeDatoFraTil.datoFom, datoTil = it.periodeDatoFraTil.datoTil),
-                    nettoSaertilskuddBelop = it.nettoSaertilskuddBelop
-                )
+                    nettoSaertilskuddBelop = it.nettoSaertilskuddBelop,
+                ),
             )
         }
         return nettoSaertilskuddPeriodeListe
@@ -84,8 +84,8 @@ class BPsAndelSaertilskuddCoreImpl(private val bPsAndelSaertilskuddPeriode: BPsA
                     inntektType = it.inntektType,
                     inntektBelop = it.inntektBelop,
                     deltFordel = it.deltFordel,
-                    skatteklasse2 = it.skatteklasse2
-                )
+                    skatteklasse2 = it.skatteklasse2,
+                ),
             )
         }
         return inntekterPeriodeListe
@@ -93,7 +93,7 @@ class BPsAndelSaertilskuddCoreImpl(private val bPsAndelSaertilskuddPeriode: BPsA
 
     private fun mapResultatPeriode(
         resultatPeriodeListe: List<ResultatPeriode>,
-        grunnlag: BeregnBPsAndelSaertilskuddGrunnlag
+        grunnlag: BeregnBPsAndelSaertilskuddGrunnlag,
     ): List<ResultatPeriodeCore> {
         val resultatPeriodeCoreListe = mutableListOf<ResultatPeriodeCore>()
         resultatPeriodeListe.forEach {
@@ -103,14 +103,14 @@ class BPsAndelSaertilskuddCoreImpl(private val bPsAndelSaertilskuddPeriode: BPsA
                     resultatBeregning = ResultatBeregningCore(
                         resultatAndelProsent = it.resultatBeregning.resultatAndelProsent,
                         resultatAndelBelop = it.resultatBeregning.resultatAndelBelop,
-                        barnetErSelvforsorget = it.resultatBeregning.barnetErSelvforsorget
+                        barnetErSelvforsorget = it.resultatBeregning.barnetErSelvforsorget,
                     ),
                     beregnedeGrunnlag = mapBeregnedeInntektGrunnlag(
                         grunnlagBeregning = it.resultatGrunnlagBeregning,
-                        beregnBPsAndelSaertilskuddGrunnlag = grunnlag
+                        beregnBPsAndelSaertilskuddGrunnlag = grunnlag,
                     ),
-                    grunnlagReferanseListe = mapReferanseListe(it)
-                )
+                    grunnlagReferanseListe = mapReferanseListe(it),
+                ),
             )
         }
         return resultatPeriodeCoreListe
@@ -118,43 +118,42 @@ class BPsAndelSaertilskuddCoreImpl(private val bPsAndelSaertilskuddPeriode: BPsA
 
     private fun mapBeregnedeInntektGrunnlag(
         grunnlagBeregning: GrunnlagBeregning,
-        beregnBPsAndelSaertilskuddGrunnlag: BeregnBPsAndelSaertilskuddGrunnlag
-    ) =
-        BeregnedeGrunnlagCore(
-            inntektBPListe = grunnlagBeregning.inntektBPListe
-                .filter { inntekt -> beregnBPsAndelSaertilskuddGrunnlag.inntektBPPeriodeListe.none { it.referanse == inntekt.referanse } }
-                .map {
-                    Inntekt(
-                        referanse = it.referanse,
-                        inntektType = it.inntektType,
-                        inntektBelop = it.inntektBelop,
-                        deltFordel = it.deltFordel,
-                        skatteklasse2 = it.skatteklasse2
-                    )
-                },
-            inntektBMListe = grunnlagBeregning.inntektBMListe
-                .filter { inntekt -> beregnBPsAndelSaertilskuddGrunnlag.inntektBMPeriodeListe.none { it.referanse == inntekt.referanse } }
-                .map {
-                    Inntekt(
-                        referanse = it.referanse,
-                        inntektType = it.inntektType,
-                        inntektBelop = it.inntektBelop,
-                        deltFordel = it.deltFordel,
-                        skatteklasse2 = it.skatteklasse2
-                    )
-                },
-            inntektBBListe = grunnlagBeregning.inntektBBListe
-                .filter { inntekt -> beregnBPsAndelSaertilskuddGrunnlag.inntektBBPeriodeListe.none { it.referanse == inntekt.referanse } }
-                .map {
-                    Inntekt(
-                        referanse = it.referanse,
-                        inntektType = it.inntektType,
-                        inntektBelop = it.inntektBelop,
-                        deltFordel = it.deltFordel,
-                        skatteklasse2 = it.skatteklasse2
-                    )
-                }
-        )
+        beregnBPsAndelSaertilskuddGrunnlag: BeregnBPsAndelSaertilskuddGrunnlag,
+    ) = BeregnedeGrunnlagCore(
+        inntektBPListe = grunnlagBeregning.inntektBPListe
+            .filter { inntekt -> beregnBPsAndelSaertilskuddGrunnlag.inntektBPPeriodeListe.none { it.referanse == inntekt.referanse } }
+            .map {
+                Inntekt(
+                    referanse = it.referanse,
+                    inntektType = it.inntektType,
+                    inntektBelop = it.inntektBelop,
+                    deltFordel = it.deltFordel,
+                    skatteklasse2 = it.skatteklasse2,
+                )
+            },
+        inntektBMListe = grunnlagBeregning.inntektBMListe
+            .filter { inntekt -> beregnBPsAndelSaertilskuddGrunnlag.inntektBMPeriodeListe.none { it.referanse == inntekt.referanse } }
+            .map {
+                Inntekt(
+                    referanse = it.referanse,
+                    inntektType = it.inntektType,
+                    inntektBelop = it.inntektBelop,
+                    deltFordel = it.deltFordel,
+                    skatteklasse2 = it.skatteklasse2,
+                )
+            },
+        inntektBBListe = grunnlagBeregning.inntektBBListe
+            .filter { inntekt -> beregnBPsAndelSaertilskuddGrunnlag.inntektBBPeriodeListe.none { it.referanse == inntekt.referanse } }
+            .map {
+                Inntekt(
+                    referanse = it.referanse,
+                    inntektType = it.inntektType,
+                    inntektBelop = it.inntektBelop,
+                    deltFordel = it.deltFordel,
+                    skatteklasse2 = it.skatteklasse2,
+                )
+            },
+    )
 
     private fun mapReferanseListe(resultatPeriode: ResultatPeriode): List<String> {
         val (_, inntektBPListe, inntektBMListe, inntektBBListe) = resultatPeriode.resultatGrunnlagBeregning
@@ -167,15 +166,14 @@ class BPsAndelSaertilskuddCoreImpl(private val bPsAndelSaertilskuddPeriode: BPsA
         referanseListe.addAll(
             sjablonListe
                 .map { lagSjablonReferanse(it) }
-                .distinct()
+                .distinct(),
         )
         return referanseListe.sorted()
     }
 
-    private fun mapSjablonGrunnlagListe(resultatPeriodeListe: List<ResultatPeriode>) =
-        resultatPeriodeListe.stream()
-            .map { mapSjablonListe(it.resultatBeregning.sjablonListe) }
-            .flatMap { it.stream() }
-            .distinct()
-            .toList()
+    private fun mapSjablonGrunnlagListe(resultatPeriodeListe: List<ResultatPeriode>) = resultatPeriodeListe.stream()
+        .map { mapSjablonListe(it.resultatBeregning.sjablonListe) }
+        .flatMap { it.stream() }
+        .distinct()
+        .toList()
 }

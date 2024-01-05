@@ -9,7 +9,7 @@ data class SamvaersfradragGrunnlagPeriode(
     val samvaersfradragDatoFraTil: Periode,
     val barnPersonId: Int,
     val barnFodselsdato: LocalDate,
-    val samvaersklasse: String
+    val samvaersklasse: String,
 ) : PeriodisertGrunnlag {
     constructor(samvaersfradragGrunnlagPeriode: SamvaersfradragGrunnlagPeriode) :
         this(
@@ -17,7 +17,7 @@ data class SamvaersfradragGrunnlagPeriode(
             samvaersfradragGrunnlagPeriode.samvaersfradragDatoFraTil.justerDatoer(),
             samvaersfradragGrunnlagPeriode.barnPersonId,
             samvaersfradragGrunnlagPeriode.barnFodselsdato,
-            samvaersfradragGrunnlagPeriode.samvaersklasse
+            samvaersfradragGrunnlagPeriode.samvaersklasse,
         )
 
     override fun getPeriode(): Periode {

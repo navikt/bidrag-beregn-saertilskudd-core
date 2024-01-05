@@ -5,7 +5,7 @@ import no.nav.bidrag.beregn.bpsandelsaertilskudd.bo.ResultatBeregning
 import no.nav.bidrag.beregn.felles.FellesBeregning
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.beregn.felles.util.SjablonUtil
-import no.nav.bidrag.domain.enums.sjablon.SjablonTallNavn
+import no.nav.bidrag.domene.enums.sjablon.SjablonTallNavn
 import java.math.BigDecimal
 import java.math.RoundingMode
 
@@ -24,10 +24,10 @@ class BPsAndelSaertilskuddBeregningImpl : FellesBeregning(), BPsAndelSaertilskud
         var inntektBB = grunnlag.inntektBBListe.sumOf { it.inntektBelop }
 
         // Tester om barnets inntekt er høyere enn 100 ganger sats for forhøyet forskudd. I så fall skal ikke BPs andel regnes ut.
-        if (inntektBB > sjablonNavnVerdiMap[SjablonTallNavn.FORSKUDDSSATS_BELOP.navn]!!.multiply(BigDecimal.valueOf(100))) {
+        if (inntektBB > sjablonNavnVerdiMap[SjablonTallNavn.FORSKUDDSSATS_BELØP.navn]!!.multiply(BigDecimal.valueOf(100))) {
             barnetErSelvforsorget = true
         } else {
-            inntektBB -= sjablonNavnVerdiMap[SjablonTallNavn.FORSKUDDSSATS_BELOP.navn]!!.multiply(BigDecimal.valueOf(30))
+            inntektBB -= sjablonNavnVerdiMap[SjablonTallNavn.FORSKUDDSSATS_BELØP.navn]!!.multiply(BigDecimal.valueOf(30))
             inntektBB = inntektBB.coerceAtLeast(BigDecimal.ZERO)
 
             andelProsent = (inntektBP * BigDecimal.valueOf(100))
@@ -44,7 +44,7 @@ class BPsAndelSaertilskuddBeregningImpl : FellesBeregning(), BPsAndelSaertilskud
             resultatAndelProsent = andelProsent,
             resultatAndelBelop = andelBelop,
             barnetErSelvforsorget = barnetErSelvforsorget,
-            sjablonListe = byggSjablonResultatListe(sjablonNavnVerdiMap, grunnlag.sjablonListe)
+            sjablonListe = byggSjablonResultatListe(sjablonNavnVerdiMap, grunnlag.sjablonListe),
         )
     }
 
@@ -55,8 +55,8 @@ class BPsAndelSaertilskuddBeregningImpl : FellesBeregning(), BPsAndelSaertilskud
             .map { it.sjablon }
 
         // Sjablontall
-        sjablonNavnVerdiMap[SjablonTallNavn.FORSKUDDSSATS_BELOP.navn] =
-            SjablonUtil.hentSjablonverdi(sjablonListe = sjablonListe, sjablonTallNavn = SjablonTallNavn.FORSKUDDSSATS_BELOP)
+        sjablonNavnVerdiMap[SjablonTallNavn.FORSKUDDSSATS_BELØP.navn] =
+            SjablonUtil.hentSjablonverdi(sjablonListe = sjablonListe, sjablonTallNavn = SjablonTallNavn.FORSKUDDSSATS_BELØP)
 
         return sjablonNavnVerdiMap
     }

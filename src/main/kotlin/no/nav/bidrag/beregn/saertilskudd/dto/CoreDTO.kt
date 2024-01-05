@@ -16,13 +16,13 @@ data class BeregnSaertilskuddGrunnlagCore(
     val bPsAndelSaertilskuddPeriodeListe: List<BPsAndelSaertilskuddPeriodeCore>,
     val lopendeBidragPeriodeListe: List<LopendeBidragPeriodeCore>,
     val samvaersfradragPeriodeListe: List<SamvaersfradragPeriodeCore>,
-    val sjablonPeriodeListe: List<SjablonPeriodeCore>
+    val sjablonPeriodeListe: List<SjablonPeriodeCore>,
 )
 
 data class BidragsevnePeriodeCore(
     val referanse: String,
     val periodeDatoFraTil: PeriodeCore,
-    val bidragsevneBelop: BigDecimal
+    val bidragsevneBelop: BigDecimal,
 )
 
 data class BPsAndelSaertilskuddPeriodeCore(
@@ -30,7 +30,7 @@ data class BPsAndelSaertilskuddPeriodeCore(
     val periodeDatoFraTil: PeriodeCore,
     val bPsAndelSaertilskuddProsent: BigDecimal,
     val bPsAndelSaertilskuddBelop: BigDecimal,
-    val barnetErSelvforsorget: Boolean
+    val barnetErSelvforsorget: Boolean,
 )
 
 data class LopendeBidragPeriodeCore(
@@ -40,30 +40,30 @@ data class LopendeBidragPeriodeCore(
     val lopendeBidragBelop: BigDecimal,
     val opprinneligBPsAndelUnderholdskostnadBelop: BigDecimal,
     val opprinneligBidragBelop: BigDecimal,
-    val opprinneligSamvaersfradragBelop: BigDecimal
+    val opprinneligSamvaersfradragBelop: BigDecimal,
 )
 
 data class SamvaersfradragPeriodeCore(
     val referanse: String,
     val periodeDatoFraTil: PeriodeCore,
     val barnPersonId: Int,
-    val samvaersfradragBelop: BigDecimal
+    val samvaersfradragBelop: BigDecimal,
 )
 
 // Resultatperiode
 data class BeregnSaertilskuddResultatCore(
     val resultatPeriodeListe: List<ResultatPeriodeCore>,
-    val avvikListe: List<AvvikCore>
+    val avvikListe: List<AvvikCore>,
 )
 
 data class ResultatPeriodeCore(
     override val periode: PeriodeCore,
     val soknadsbarnPersonId: Int,
     val resultatBeregning: ResultatBeregningCore,
-    override val grunnlagReferanseListe: List<String>
+    override val grunnlagReferanseListe: List<String>,
 ) : IResultatPeriode
 
 data class ResultatBeregningCore(
     val belop: BigDecimal,
-    val kode: String
+    val kode: String,
 )

@@ -3,7 +3,7 @@ package no.nav.bidrag.beregn.saertilskudd.beregning
 import no.nav.bidrag.beregn.felles.FellesBeregning
 import no.nav.bidrag.beregn.saertilskudd.bo.GrunnlagBeregning
 import no.nav.bidrag.beregn.saertilskudd.bo.ResultatBeregning
-import no.nav.bidrag.domain.enums.resultatkoder.ResultatKodeSaertilskudd
+import no.nav.bidrag.domene.enums.beregning.ResultatkodeSærtilskudd
 import java.math.BigDecimal
 
 class SaertilskuddBeregningImpl : FellesBeregning(), SaertilskuddBeregning {
@@ -22,15 +22,15 @@ class SaertilskuddBeregningImpl : FellesBeregning(), SaertilskuddBeregning {
         return when {
             grunnlag.bidragsevne.bidragsevneBelop < totaltBidragBelop -> ResultatBeregning(
                 resultatBelop = BigDecimal.ZERO,
-                resultatkode = ResultatKodeSaertilskudd.SAERTILSKUDD_IKKE_FULL_BIDRAGSEVNE
+                resultatkode = ResultatkodeSærtilskudd.SÆRTILSKUDD_IKKE_FULL_BIDRAGSEVNE,
             )
             grunnlag.bPsAndelSaertilskudd.barnetErSelvforsorget -> ResultatBeregning(
                 resultatBelop = BigDecimal.ZERO,
-                resultatkode = ResultatKodeSaertilskudd.BARNET_ER_SELVFORSORGET
+                resultatkode = ResultatkodeSærtilskudd.BARNET_ER_SELVFORSØRGET,
             )
             else -> ResultatBeregning(
                 resultatBelop = grunnlag.bPsAndelSaertilskudd.bPsAndelSaertilskuddBelop,
-                resultatkode = ResultatKodeSaertilskudd.SAERTILSKUDD_INNVILGET
+                resultatkode = ResultatkodeSærtilskudd.SÆRTILSKUDD_INNVILGET,
             )
         }
     }

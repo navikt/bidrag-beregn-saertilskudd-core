@@ -2,7 +2,7 @@ package no.nav.bidrag.beregn.saertilskudd.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
-import no.nav.bidrag.domain.enums.resultatkoder.ResultatKodeSaertilskudd
+import no.nav.bidrag.domene.enums.beregning.ResultatkodeSærtilskudd
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -15,25 +15,25 @@ data class BeregnSaertilskuddGrunnlag(
     val bPsAndelSaertilskuddPeriodeListe: List<BPsAndelSaertilskuddPeriode>,
     val lopendeBidragPeriodeListe: List<LopendeBidragPeriode>,
     val samvaersfradragGrunnlagPeriodeListe: List<SamvaersfradragGrunnlagPeriode>,
-    val sjablonPeriodeListe: List<SjablonPeriode>
+    val sjablonPeriodeListe: List<SjablonPeriode>,
 
 )
 
 // Resultat
 data class BeregnSaertilskuddResultat(
-    val resultatPeriodeListe: List<ResultatPeriode>
+    val resultatPeriodeListe: List<ResultatPeriode>,
 )
 
 data class ResultatPeriode(
     val periode: Periode,
     val soknadsbarnPersonId: Int,
     val resultat: ResultatBeregning,
-    val grunnlag: GrunnlagBeregning
+    val grunnlag: GrunnlagBeregning,
 )
 
 data class ResultatBeregning(
     val resultatBelop: BigDecimal,
-    val resultatkode: ResultatKodeSaertilskudd
+    val resultatkode: ResultatkodeSærtilskudd,
 )
 
 // Grunnlag beregning
@@ -41,19 +41,19 @@ data class GrunnlagBeregning(
     val bidragsevne: Bidragsevne,
     val bPsAndelSaertilskudd: BPsAndelSaertilskudd,
     val lopendeBidragListe: List<LopendeBidrag>,
-    val samvaersfradragGrunnlagListe: List<SamvaersfradragGrunnlag>
+    val samvaersfradragGrunnlagListe: List<SamvaersfradragGrunnlag>,
 )
 
 data class Bidragsevne(
     val referanse: String,
-    val bidragsevneBelop: BigDecimal
+    val bidragsevneBelop: BigDecimal,
 )
 
 data class BPsAndelSaertilskudd(
     val referanse: String,
     val bPsAndelSaertilskuddProsent: BigDecimal,
     val bPsAndelSaertilskuddBelop: BigDecimal,
-    val barnetErSelvforsorget: Boolean
+    val barnetErSelvforsorget: Boolean,
 )
 
 data class LopendeBidrag(
@@ -62,13 +62,13 @@ data class LopendeBidrag(
     val lopendeBidragBelop: BigDecimal,
     val opprinneligBPsAndelUnderholdskostnadBelop: BigDecimal,
     val opprinneligBidragBelop: BigDecimal,
-    val opprinneligSamvaersfradragBelop: BigDecimal
+    val opprinneligSamvaersfradragBelop: BigDecimal,
 )
 
 data class SamvaersfradragGrunnlag(
     val referanse: String,
     val barnPersonId: Int,
-    val samvaersfradragBelop: BigDecimal
+    val samvaersfradragBelop: BigDecimal,
 )
 
 // Hjelpeklasser
@@ -78,5 +78,5 @@ data class BeregnSaertilskuddListeGrunnlag(
     var justertBPsAndelSaertilskuddPeriodeListe: List<BPsAndelSaertilskuddPeriode> = listOf(),
     var justertLopendeBidragPeriodeListe: List<LopendeBidragPeriode> = listOf(),
     var justertSamvaersfradragPeriodeListe: List<SamvaersfradragGrunnlagPeriode> = listOf(),
-    var bruddPeriodeListe: MutableList<Periode> = mutableListOf()
+    var bruddPeriodeListe: MutableList<Periode> = mutableListOf(),
 )

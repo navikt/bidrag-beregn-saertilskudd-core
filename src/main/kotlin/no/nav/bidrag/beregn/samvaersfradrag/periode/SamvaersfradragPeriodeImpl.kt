@@ -38,7 +38,7 @@ class SamvaersfradragPeriodeImpl(private val samvaersfradragBeregning: Samvaersf
 
     private fun justerDatoerGrunnlagslister(
         periodeGrunnlag: BeregnSamvaersfradragGrunnlag,
-        beregnSamvaersfradragListeGrunnlag: BeregnSamvaersfradragListeGrunnlag
+        beregnSamvaersfradragListeGrunnlag: BeregnSamvaersfradragListeGrunnlag,
     ) {
         // Justerer datoer på grunnlagslistene (blir gjort implisitt i xxxPeriode::new)
         beregnSamvaersfradragListeGrunnlag.justertSamvaersfradragPeriodeListe = periodeGrunnlag.samvaersfradragGrunnlagPeriodeListe
@@ -51,7 +51,7 @@ class SamvaersfradragPeriodeImpl(private val samvaersfradragBeregning: Samvaersf
     // Lagger bruddperioder ved å løpe gjennom alle periodelistene
     private fun lagBruddperioder(
         periodeGrunnlag: BeregnSamvaersfradragGrunnlag,
-        beregnSamvaersfradragListeGrunnlag: BeregnSamvaersfradragListeGrunnlag
+        beregnSamvaersfradragListeGrunnlag: BeregnSamvaersfradragListeGrunnlag,
     ) {
         // Bygger opp liste over perioder
         beregnSamvaersfradragListeGrunnlag.bruddPeriodeListe = Periodiserer()
@@ -73,7 +73,7 @@ class SamvaersfradragPeriodeImpl(private val samvaersfradragBeregning: Samvaersf
                         referanse = it.referanse,
                         barnPersonId = it.barnPersonId,
                         barnAlder = Period.between(it.barnFodselsdato, beregningsperiode.datoFom).years,
-                        samvaersklasse = it.samvaersklasse
+                        samvaersklasse = it.samvaersklasse,
                     )
                 }
 
@@ -84,15 +84,15 @@ class SamvaersfradragPeriodeImpl(private val samvaersfradragBeregning: Samvaersf
             val beregnSamvaersfradragGrunnlagPeriodisert =
                 GrunnlagBeregningPeriodisert(
                     samvaersfradragGrunnlagPerBarnListe = samvaersfradragGrunnnlagPerBarnliste,
-                    sjablonListe = sjablonliste
+                    sjablonListe = sjablonliste,
                 )
 
             grunnlag.periodeResultatListe.add(
                 ResultatPeriode(
                     resultatDatoFraTil = beregningsperiode,
                     resultatBeregningListe = samvaersfradragBeregning.beregn(beregnSamvaersfradragGrunnlagPeriodisert),
-                    resultatGrunnlag = beregnSamvaersfradragGrunnlagPeriodisert
-                )
+                    resultatGrunnlag = beregnSamvaersfradragGrunnlagPeriodisert,
+                ),
             )
         }
     }
@@ -107,11 +107,12 @@ class SamvaersfradragPeriodeImpl(private val samvaersfradragBeregning: Samvaersf
                 beregnDatoTil = grunnlag.beregnDatoTil,
                 dataElement = "samvaersfradragGrunnlagPeriodeListe",
                 periodeListe = grunnlag.samvaersfradragGrunnlagPeriodeListe.map { it.getPeriode() },
-                sjekkOverlapp = false,
-                sjekkOpphold = false,
-                sjekkNull = true,
-                sjekkBeregnPeriode = true
-            )
+                sjekkOverlappendePerioder = false,
+                sjekkOppholdMellomPerioder = false,
+                sjekkDatoTilNull = true,
+                sjekkDatoStartSluttAvPerioden = true,
+                sjekkBeregnPeriode = true,
+            ),
         )
 
         avvikListe.addAll(
@@ -120,11 +121,12 @@ class SamvaersfradragPeriodeImpl(private val samvaersfradragBeregning: Samvaersf
                 beregnDatoTil = grunnlag.beregnDatoTil,
                 dataElement = "sjablonPeriodeListe",
                 periodeListe = grunnlag.sjablonPeriodeListe.map { it.getPeriode() },
-                sjekkOverlapp = false,
-                sjekkOpphold = false,
-                sjekkNull = false,
-                sjekkBeregnPeriode = false
-            )
+                sjekkOverlappendePerioder = false,
+                sjekkOppholdMellomPerioder = false,
+                sjekkDatoTilNull = false,
+                sjekkDatoStartSluttAvPerioden = false,
+                sjekkBeregnPeriode = false,
+            ),
         )
 
         return avvikListe

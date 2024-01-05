@@ -20,20 +20,20 @@ internal class SamvaersfradragBeregningTest {
     fun testFireAar() {
         val samvaersfradragGrunnlagPerBarnListe = listOf(
             SamvaersfradragGrunnlagPerBarn(
-                referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                 barnPersonId = 1,
                 barnAlder = 4,
-                samvaersklasse = "03"
-            )
+                samvaersklasse = "03",
+            ),
         )
         val resultatGrunnlag = GrunnlagBeregningPeriodisert(
             samvaersfradragGrunnlagPerBarnListe = samvaersfradragGrunnlagPerBarnListe,
-            sjablonListe = sjablonPeriodeListe
+            sjablonListe = sjablonPeriodeListe,
         )
 
         assertAll(
             Executable { assertThat(samvaersfradragBeregning.beregn(resultatGrunnlag)[0].barnPersonId).isEqualTo(1) },
-            Executable { assertThat(samvaersfradragBeregning.beregn(resultatGrunnlag)[0].belop.toDouble()).isEqualTo(2272.0) }
+            Executable { assertThat(samvaersfradragBeregning.beregn(resultatGrunnlag)[0].belop.toDouble()).isEqualTo(2272.0) },
         )
     }
 
@@ -42,20 +42,20 @@ internal class SamvaersfradragBeregningTest {
     fun testSeksAar() {
         val samvaersfradragGrunnlagPerBarnListe = listOf(
             SamvaersfradragGrunnlagPerBarn(
-                referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                 barnPersonId = 1,
                 barnAlder = 6,
-                samvaersklasse = "03"
-            )
+                samvaersklasse = "03",
+            ),
         )
         val resultatGrunnlag = GrunnlagBeregningPeriodisert(
             samvaersfradragGrunnlagPerBarnListe = samvaersfradragGrunnlagPerBarnListe,
-            sjablonListe = sjablonPeriodeListe
+            sjablonListe = sjablonPeriodeListe,
         )
 
         assertAll(
             Executable { assertThat(samvaersfradragBeregning.beregn(resultatGrunnlag)[0].barnPersonId).isEqualTo(1) },
-            Executable { assertThat(samvaersfradragBeregning.beregn(resultatGrunnlag)[0].belop.toDouble()).isEqualTo(2716.0) }
+            Executable { assertThat(samvaersfradragBeregning.beregn(resultatGrunnlag)[0].belop.toDouble()).isEqualTo(2716.0) },
         )
     }
 
@@ -65,32 +65,32 @@ internal class SamvaersfradragBeregningTest {
         val samvaersfradragGrunnlagPerBarnListe = mutableListOf<SamvaersfradragGrunnlagPerBarn>()
         samvaersfradragGrunnlagPerBarnListe.add(
             SamvaersfradragGrunnlagPerBarn(
-                referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                 barnPersonId = 1,
                 barnAlder = 4,
-                samvaersklasse = "03"
-            )
+                samvaersklasse = "03",
+            ),
         )
         samvaersfradragGrunnlagPerBarnListe.add(
             SamvaersfradragGrunnlagPerBarn(
-                referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                 barnPersonId = 3,
                 barnAlder = 6,
-                samvaersklasse = "03"
-            )
+                samvaersklasse = "03",
+            ),
         )
         samvaersfradragGrunnlagPerBarnListe.add(
             SamvaersfradragGrunnlagPerBarn(
-                referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                 barnPersonId = 5,
                 barnAlder = 11,
-                samvaersklasse = "01"
-            )
+                samvaersklasse = "01",
+            ),
         )
 
         val resultatGrunnlag = GrunnlagBeregningPeriodisert(
             samvaersfradragGrunnlagPerBarnListe = samvaersfradragGrunnlagPerBarnListe,
-            sjablonListe = sjablonPeriodeListe
+            sjablonListe = sjablonPeriodeListe,
         )
 
         assertAll(
@@ -100,7 +100,7 @@ internal class SamvaersfradragBeregningTest {
             Executable { assertThat(samvaersfradragBeregning.beregn(resultatGrunnlag)[2].barnPersonId).isEqualTo(5) },
             Executable { assertThat(samvaersfradragBeregning.beregn(resultatGrunnlag)[0].belop.toDouble()).isEqualTo(2272.0) },
             Executable { assertThat(samvaersfradragBeregning.beregn(resultatGrunnlag)[1].belop.toDouble()).isEqualTo(2716.0) },
-            Executable { assertThat(samvaersfradragBeregning.beregn(resultatGrunnlag)[2].belop.toDouble()).isEqualTo(457.0) }
+            Executable { assertThat(samvaersfradragBeregning.beregn(resultatGrunnlag)[2].belop.toDouble()).isEqualTo(457.0) },
         )
     }
 
@@ -109,20 +109,20 @@ internal class SamvaersfradragBeregningTest {
     fun testFjortenAar() {
         val samvaersfradragGrunnlagPerBarnListe = mutableListOf(
             SamvaersfradragGrunnlagPerBarn(
-                referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                 barnPersonId = 2,
                 barnAlder = 14,
-                samvaersklasse = "01"
-            )
+                samvaersklasse = "01",
+            ),
         )
         val resultatGrunnlag = GrunnlagBeregningPeriodisert(
             samvaersfradragGrunnlagPerBarnListe = samvaersfradragGrunnlagPerBarnListe,
-            sjablonListe = sjablonPeriodeListe
+            sjablonListe = sjablonPeriodeListe,
         )
 
         assertAll(
             Executable { assertThat(samvaersfradragBeregning.beregn(resultatGrunnlag)[0].barnPersonId).isEqualTo(2) },
-            Executable { assertThat(samvaersfradragBeregning.beregn(resultatGrunnlag)[0].belop.toDouble()).isEqualTo(457.0) }
+            Executable { assertThat(samvaersfradragBeregning.beregn(resultatGrunnlag)[0].belop.toDouble()).isEqualTo(457.0) },
         )
     }
 }

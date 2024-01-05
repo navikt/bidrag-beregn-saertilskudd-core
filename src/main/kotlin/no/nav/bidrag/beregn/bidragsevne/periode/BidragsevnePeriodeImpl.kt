@@ -45,7 +45,7 @@ class BidragsevnePeriodeImpl(private val bidragsevneberegning: BidragsevneBeregn
 
     private fun justerDatoerGrunnlagslister(
         periodeGrunnlag: BeregnBidragsevneGrunnlag,
-        beregnBidragsevneListeGrunnlag: BeregnBidragsevneListeGrunnlag
+        beregnBidragsevneListeGrunnlag: BeregnBidragsevneListeGrunnlag,
     ) {
         // Justerer datoer på grunnlagslistene (blir gjort implisitt i xxxPeriode(it))
         beregnBidragsevneListeGrunnlag.justertInntektPeriodeListe = periodeGrunnlag.inntektPeriodeListe
@@ -106,7 +106,11 @@ class BidragsevnePeriodeImpl(private val bidragsevneberegning: BidragsevneBeregn
                 .filter { it.getPeriode().overlapperMed(beregningsperiode) }
                 .map { BarnIHusstand(referanse = it.referanse, antallBarn = it.antallBarn) }
                 .findFirst()
-                .orElseThrow { IllegalArgumentException("Grunnlagsobjekt BARN_I_HUSSTAND mangler data for periode: ${beregningsperiode.getPeriode()}") }
+                .orElseThrow {
+                    IllegalArgumentException(
+                        "Grunnlagsobjekt BARN_I_HUSSTAND mangler data for periode: ${beregningsperiode.getPeriode()}",
+                    )
+                }
 
             val saerfradrag = grunnlag.justertSaerfradragPeriodeListe.stream()
                 .filter { it.getPeriode().overlapperMed(beregningsperiode) }
@@ -125,15 +129,15 @@ class BidragsevnePeriodeImpl(private val bidragsevneberegning: BidragsevneBeregn
                     bostatus = bostatus,
                     barnIHusstand = barnIHusstand,
                     saerfradrag = saerfradrag,
-                    sjablonListe = sjablonliste
+                    sjablonListe = sjablonliste,
                 )
 
             grunnlag.periodeResultatListe.add(
                 ResultatPeriode(
                     resultatDatoFraTil = Periode(datoFom = beregningsperiode.datoFom, datoTil = beregningsperiode.datoTil),
                     resultatBeregning = bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert),
-                    resultatGrunnlagBeregning = beregnBidragsevneGrunnlagPeriodisert
-                )
+                    resultatGrunnlagBeregning = beregnBidragsevneGrunnlagPeriodisert,
+                ),
             )
         }
     }
@@ -141,7 +145,7 @@ class BidragsevnePeriodeImpl(private val bidragsevneberegning: BidragsevneBeregn
     // Validerer at input-verdier til bidragsevneberegning er gyldige
     override fun validerInput(grunnlag: BeregnBidragsevneGrunnlag): List<Avvik> {
         val avvikListe =
-            PeriodeUtil.validerBeregnPeriodeInput(beregnDatoFra = grunnlag.beregnDatoFra, beregnDatoTil = grunnlag.beregnDatoTil).toMutableList()
+            PeriodeUtil.validerBeregnPeriodeInput(beregnDatoFom = grunnlag.beregnDatoFra, beregnDatoTil = grunnlag.beregnDatoTil).toMutableList()
 
         avvikListe.addAll(
             PeriodeUtil.validerInputDatoer(
@@ -149,11 +153,12 @@ class BidragsevnePeriodeImpl(private val bidragsevneberegning: BidragsevneBeregn
                 beregnDatoTil = grunnlag.beregnDatoTil,
                 dataElement = "inntektPeriodeListe",
                 periodeListe = grunnlag.inntektPeriodeListe.map { it.getPeriode() },
-                sjekkOverlapp = false,
-                sjekkOpphold = true,
-                sjekkNull = false,
-                sjekkBeregnPeriode = true
-            )
+                sjekkOverlappendePerioder = false,
+                sjekkOppholdMellomPerioder = true,
+                sjekkDatoTilNull = false,
+                sjekkDatoStartSluttAvPerioden = true,
+                sjekkBeregnPeriode = true,
+            ),
         )
 
         avvikListe.addAll(
@@ -162,11 +167,12 @@ class BidragsevnePeriodeImpl(private val bidragsevneberegning: BidragsevneBeregn
                 beregnDatoTil = grunnlag.beregnDatoTil,
                 dataElement = "skatteklassePeriodeListe",
                 periodeListe = grunnlag.skatteklassePeriodeListe.map { it.getPeriode() },
-                sjekkOverlapp = true,
-                sjekkOpphold = true,
-                sjekkNull = true,
-                sjekkBeregnPeriode = true
-            )
+                sjekkOverlappendePerioder = true,
+                sjekkOppholdMellomPerioder = true,
+                sjekkDatoTilNull = true,
+                sjekkDatoStartSluttAvPerioden = true,
+                sjekkBeregnPeriode = true,
+            ),
         )
 
         avvikListe.addAll(
@@ -175,11 +181,12 @@ class BidragsevnePeriodeImpl(private val bidragsevneberegning: BidragsevneBeregn
                 beregnDatoTil = grunnlag.beregnDatoTil,
                 dataElement = "bostatusPeriodeListe",
                 periodeListe = grunnlag.bostatusPeriodeListe.map { it.getPeriode() },
-                sjekkOverlapp = true,
-                sjekkOpphold = true,
-                sjekkNull = true,
-                sjekkBeregnPeriode = true
-            )
+                sjekkOverlappendePerioder = true,
+                sjekkOppholdMellomPerioder = true,
+                sjekkDatoTilNull = true,
+                sjekkDatoStartSluttAvPerioden = true,
+                sjekkBeregnPeriode = true,
+            ),
         )
 
         avvikListe.addAll(
@@ -188,11 +195,12 @@ class BidragsevnePeriodeImpl(private val bidragsevneberegning: BidragsevneBeregn
                 beregnDatoTil = grunnlag.beregnDatoTil,
                 dataElement = "antallBarnIEgetHusholdPeriodeListe",
                 periodeListe = grunnlag.antallBarnIEgetHusholdPeriodeListe.map { it.getPeriode() },
-                sjekkOverlapp = false,
-                sjekkOpphold = false,
-                sjekkNull = false,
-                sjekkBeregnPeriode = true
-            )
+                sjekkOverlappendePerioder = false,
+                sjekkOppholdMellomPerioder = false,
+                sjekkDatoTilNull = false,
+                sjekkDatoStartSluttAvPerioden = true,
+                sjekkBeregnPeriode = true,
+            ),
         )
 
         avvikListe.addAll(
@@ -201,11 +209,12 @@ class BidragsevnePeriodeImpl(private val bidragsevneberegning: BidragsevneBeregn
                 beregnDatoTil = grunnlag.beregnDatoTil,
                 dataElement = "saerfradragPeriodeListe",
                 periodeListe = grunnlag.saerfradragPeriodeListe.map { it.getPeriode() },
-                sjekkOverlapp = true,
-                sjekkOpphold = true,
-                sjekkNull = true,
-                sjekkBeregnPeriode = true
-            )
+                sjekkOverlappendePerioder = true,
+                sjekkOppholdMellomPerioder = true,
+                sjekkDatoTilNull = true,
+                sjekkDatoStartSluttAvPerioden = true,
+                sjekkBeregnPeriode = true,
+            ),
         )
 
         avvikListe.addAll(
@@ -214,11 +223,12 @@ class BidragsevnePeriodeImpl(private val bidragsevneberegning: BidragsevneBeregn
                 beregnDatoTil = grunnlag.beregnDatoTil,
                 dataElement = "sjablonPeriodeListe",
                 periodeListe = grunnlag.sjablonPeriodeListe.map { it.getPeriode() },
-                sjekkOverlapp = false,
-                sjekkOpphold = false,
-                sjekkNull = false,
-                sjekkBeregnPeriode = false
-            )
+                sjekkOverlappendePerioder = false,
+                sjekkOppholdMellomPerioder = false,
+                sjekkDatoTilNull = false,
+                sjekkDatoStartSluttAvPerioden = false,
+                sjekkBeregnPeriode = false,
+            ),
         )
 
         return avvikListe

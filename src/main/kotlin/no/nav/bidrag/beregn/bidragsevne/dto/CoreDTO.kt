@@ -17,53 +17,53 @@ data class BeregnBidragsevneGrunnlagCore(
     val bostatusPeriodeListe: List<BostatusPeriodeCore>,
     val antallBarnIEgetHusholdPeriodeListe: List<AntallBarnIEgetHusholdPeriodeCore>,
     val saerfradragPeriodeListe: List<SaerfradragPeriodeCore>,
-    var sjablonPeriodeListe: List<SjablonPeriodeCore>
+    var sjablonPeriodeListe: List<SjablonPeriodeCore>,
 )
 
 data class InntektPeriodeCore(
     val referanse: String,
     val periodeDatoFraTil: PeriodeCore,
     val inntektType: String,
-    val inntektBelop: BigDecimal
+    val inntektBelop: BigDecimal,
 )
 
 data class SkatteklassePeriodeCore(
     val referanse: String,
     val periodeDatoFraTil: PeriodeCore,
-    val skatteklasse: Int
+    val skatteklasse: Int,
 )
 
 data class BostatusPeriodeCore(
     val referanse: String,
     val periodeDatoFraTil: PeriodeCore,
-    val bostatusKode: String
+    val bostatusKode: String,
 )
 
 data class AntallBarnIEgetHusholdPeriodeCore(
     val referanse: String,
     val periodeDatoFraTil: PeriodeCore,
-    val antallBarn: Double
+    val antallBarn: Double,
 )
 
 data class SaerfradragPeriodeCore(
     val referanse: String,
     val periodeDatoFraTil: PeriodeCore,
-    val saerfradragKode: String
+    val saerfradragKode: String,
 )
 
 // Resultatperiode
 data class BeregnBidragsevneResultatCore(
     val resultatPeriodeListe: List<ResultatPeriodeCore>,
     val sjablonListe: List<SjablonResultatGrunnlagCore>,
-    val avvikListe: List<AvvikCore>
+    val avvikListe: List<AvvikCore>,
 )
 
 data class ResultatPeriodeCore(
     override val periode: PeriodeCore,
     val resultatBeregning: ResultatBeregningCore,
-    override val grunnlagReferanseListe: List<String>
+    override val grunnlagReferanseListe: List<String>,
 ) : IResultatPeriode
 
 data class ResultatBeregningCore(
-    val belop: BigDecimal
+    val belop: BigDecimal,
 )

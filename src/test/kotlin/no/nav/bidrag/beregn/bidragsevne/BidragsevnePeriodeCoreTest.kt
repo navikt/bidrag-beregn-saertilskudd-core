@@ -26,11 +26,11 @@ import no.nav.bidrag.beregn.felles.bo.SjablonPeriodeNavnVerdi
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
 import no.nav.bidrag.beregn.felles.dto.SjablonInnholdCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
-import no.nav.bidrag.domain.enums.AvvikType
-import no.nav.bidrag.domain.enums.BostatusKode
-import no.nav.bidrag.domain.enums.SaerfradragKode
-import no.nav.bidrag.domain.enums.sjablon.SjablonInnholdNavn
-import no.nav.bidrag.domain.enums.sjablon.SjablonTallNavn
+import no.nav.bidrag.domene.enums.beregning.Avvikstype
+import no.nav.bidrag.domene.enums.beregning.Særfradragskode
+import no.nav.bidrag.domene.enums.person.Bostatuskode
+import no.nav.bidrag.domene.enums.sjablon.SjablonInnholdNavn
+import no.nav.bidrag.domene.enums.sjablon.SjablonTallNavn
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.BeforeEach
@@ -90,7 +90,7 @@ internal class BidragsevnePeriodeCoreTest {
             Executable { assertThat(resultatCore.resultatPeriodeListe[1].resultatBeregning.belop).isEqualTo(BigDecimal.valueOf(667)) },
             Executable { assertThat(resultatCore.resultatPeriodeListe[2].periode.datoFom).isEqualTo(LocalDate.parse("2019-01-01")) },
             Executable { assertThat(resultatCore.resultatPeriodeListe[2].periode.datoTil).isEqualTo(LocalDate.parse("2020-01-01")) },
-            Executable { assertThat(resultatCore.resultatPeriodeListe[2].resultatBeregning.belop).isEqualTo(BigDecimal.valueOf(668)) }
+            Executable { assertThat(resultatCore.resultatPeriodeListe[2].resultatBeregning.belop).isEqualTo(BigDecimal.valueOf(668)) },
         )
     }
 
@@ -109,8 +109,8 @@ internal class BidragsevnePeriodeCoreTest {
             Executable { assertThat(resultatCore.avvikListe).isNotEmpty() },
             Executable { assertThat(resultatCore.avvikListe).hasSize(1) },
             Executable { assertThat(resultatCore.avvikListe[0].avvikTekst).isEqualTo("beregnDatoTil må være etter beregnDatoFra") },
-            Executable { assertThat(resultatCore.avvikListe[0].avvikType).isEqualTo(AvvikType.DATO_FOM_ETTER_DATO_TIL.toString()) },
-            Executable { assertThat(resultatCore.resultatPeriodeListe).isEmpty() }
+            Executable { assertThat(resultatCore.avvikListe[0].avvikType).isEqualTo(Avvikstype.DATO_FOM_ETTER_DATO_TIL.toString()) },
+            Executable { assertThat(resultatCore.resultatPeriodeListe).isEmpty() },
         )
     }
 
@@ -120,40 +120,40 @@ internal class BidragsevnePeriodeCoreTest {
                 referanse = TestUtil.INNTEKT_REFERANSE,
                 periodeDatoFraTil = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = null),
                 inntektType = "LONN_SKE",
-                inntektBelop = BigDecimal.valueOf(666000)
-            )
+                inntektBelop = BigDecimal.valueOf(666000),
+            ),
         )
 
         val skatteklassePeriodeListe = listOf(
             SkatteklassePeriodeCore(
                 referanse = TestUtil.SKATTEKLASSE_REFERANSE,
                 periodeDatoFraTil = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = null),
-                skatteklasse = 1
-            )
+                skatteklasse = 1,
+            ),
         )
 
         val bostatusPeriodeListe = listOf(
             BostatusPeriodeCore(
                 referanse = TestUtil.BOSTATUS_REFERANSE,
                 periodeDatoFraTil = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2020-01-01")),
-                bostatusKode = BostatusKode.MED_ANDRE.toString()
-            )
+                bostatusKode = Bostatuskode.IKKE_MED_FORELDER.toString(),
+            ),
         )
 
         val antallEgneBarnIHusstandPeriodeListe = listOf(
             AntallBarnIEgetHusholdPeriodeCore(
                 referanse = TestUtil.BARN_I_HUSSTAND_REFERANSE,
                 periodeDatoFraTil = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = null),
-                antallBarn = 1.0
-            )
+                antallBarn = 1.0,
+            ),
         )
 
         val saerfradragPeriodeListe = listOf(
             SaerfradragPeriodeCore(
                 referanse = TestUtil.SAERFRADRAG_REFERANSE,
                 periodeDatoFraTil = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = null),
-                saerfradragKode = SaerfradragKode.HELT.toString()
-            )
+                saerfradragKode = Særfradragskode.HELT.toString(),
+            ),
         )
 
         val sjablonPeriodeListe = listOf(
@@ -161,8 +161,8 @@ internal class BidragsevnePeriodeCoreTest {
                 periode = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2020-01-01")),
                 navn = SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.navn,
                 nokkelListe = emptyList(),
-                innholdListe = listOf(SjablonInnholdCore(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(22)))
-            )
+                innholdListe = listOf(SjablonInnholdCore(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(22))),
+            ),
         )
 
         beregnBidragsevneGrunnlagCore = BeregnBidragsevneGrunnlagCore(
@@ -173,7 +173,7 @@ internal class BidragsevnePeriodeCoreTest {
             bostatusPeriodeListe = bostatusPeriodeListe,
             antallBarnIEgetHusholdPeriodeListe = antallEgneBarnIHusstandPeriodeListe,
             saerfradragPeriodeListe = saerfradragPeriodeListe,
-            sjablonPeriodeListe = sjablonPeriodeListe
+            sjablonPeriodeListe = sjablonPeriodeListe,
         )
     }
 
@@ -188,40 +188,40 @@ internal class BidragsevnePeriodeCoreTest {
                         SjablonPeriodeNavnVerdi(
                             periode = Periode(
                                 datoFom = LocalDate.parse("2017-01-01"),
-                                datoTil = LocalDate.parse("9999-12-31")
+                                datoTil = LocalDate.parse("9999-12-31"),
                             ),
                             navn = SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.navn,
-                            verdi = BigDecimal.valueOf(22)
-                        )
-                    )
+                            verdi = BigDecimal.valueOf(22),
+                        ),
+                    ),
                 ),
                 resultatGrunnlagBeregning = GrunnlagBeregning(
                     inntektListe = listOf(
                         Inntekt(
                             referanse = TestUtil.INNTEKT_REFERANSE,
                             inntektType = "LONN_SKE",
-                            inntektBelop = BigDecimal.valueOf(666000)
-                        )
+                            inntektBelop = BigDecimal.valueOf(666000),
+                        ),
                     ),
                     skatteklasse = Skatteklasse(referanse = TestUtil.SKATTEKLASSE_REFERANSE, skatteklasse = 1),
-                    bostatus = Bostatus(referanse = TestUtil.BOSTATUS_REFERANSE, kode = BostatusKode.MED_ANDRE),
+                    bostatus = Bostatus(referanse = TestUtil.BOSTATUS_REFERANSE, kode = Bostatuskode.IKKE_MED_FORELDER),
                     barnIHusstand = BarnIHusstand(referanse = TestUtil.BARN_I_HUSSTAND_REFERANSE, antallBarn = 1.0),
-                    saerfradrag = Saerfradrag(referanse = TestUtil.SAERFRADRAG_REFERANSE, kode = SaerfradragKode.HELT),
+                    saerfradrag = Saerfradrag(referanse = TestUtil.SAERFRADRAG_REFERANSE, kode = Særfradragskode.HELT),
                     sjablonListe = listOf(
                         SjablonPeriode(
                             sjablonPeriode = Periode(
                                 datoFom = LocalDate.parse("2017-01-01"),
-                                datoTil = LocalDate.parse("9999-12-31")
+                                datoTil = LocalDate.parse("9999-12-31"),
                             ),
                             sjablon = Sjablon(
                                 navn = SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.navn,
                                 nokkelListe = emptyList(),
-                                innholdListe = listOf(SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(22)))
-                            )
-                        )
-                    )
-                )
-            )
+                                innholdListe = listOf(SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(22))),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
         )
         periodeResultatListe.add(
             ResultatPeriode(
@@ -232,40 +232,40 @@ internal class BidragsevnePeriodeCoreTest {
                         SjablonPeriodeNavnVerdi(
                             periode = Periode(
                                 datoFom = LocalDate.parse("2017-01-01"),
-                                datoTil = LocalDate.parse("9999-12-31")
+                                datoTil = LocalDate.parse("9999-12-31"),
                             ),
                             navn = SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.navn,
-                            verdi = BigDecimal.valueOf(22)
-                        )
-                    )
+                            verdi = BigDecimal.valueOf(22),
+                        ),
+                    ),
                 ),
                 resultatGrunnlagBeregning = GrunnlagBeregning(
                     inntektListe = listOf(
                         Inntekt(
                             referanse = TestUtil.INNTEKT_REFERANSE,
                             inntektType = "LONN_SKE",
-                            inntektBelop = BigDecimal.valueOf(666000)
-                        )
+                            inntektBelop = BigDecimal.valueOf(666000),
+                        ),
                     ),
                     skatteklasse = Skatteklasse(referanse = TestUtil.SKATTEKLASSE_REFERANSE, skatteklasse = 1),
-                    bostatus = Bostatus(referanse = TestUtil.BOSTATUS_REFERANSE, kode = BostatusKode.MED_ANDRE),
+                    bostatus = Bostatus(referanse = TestUtil.BOSTATUS_REFERANSE, kode = Bostatuskode.IKKE_MED_FORELDER),
                     barnIHusstand = BarnIHusstand(referanse = TestUtil.BARN_I_HUSSTAND_REFERANSE, antallBarn = 1.0),
-                    saerfradrag = Saerfradrag(referanse = TestUtil.SAERFRADRAG_REFERANSE, kode = SaerfradragKode.HELT),
+                    saerfradrag = Saerfradrag(referanse = TestUtil.SAERFRADRAG_REFERANSE, kode = Særfradragskode.HELT),
                     sjablonListe = listOf(
                         SjablonPeriode(
                             sjablonPeriode = Periode(
                                 datoFom = LocalDate.parse("2017-01-01"),
-                                datoTil = LocalDate.parse("9999-12-31")
+                                datoTil = LocalDate.parse("9999-12-31"),
                             ),
                             sjablon = Sjablon(
                                 navn = SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.navn,
                                 nokkelListe = emptyList(),
-                                innholdListe = listOf(SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(22)))
-                            )
-                        )
-                    )
-                )
-            )
+                                innholdListe = listOf(SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(22))),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
         )
         periodeResultatListe.add(
             ResultatPeriode(
@@ -276,34 +276,34 @@ internal class BidragsevnePeriodeCoreTest {
                         SjablonPeriodeNavnVerdi(
                             periode = Periode(
                                 datoFom = LocalDate.parse("2017-01-01"),
-                                datoTil = LocalDate.parse("9999-12-31")
+                                datoTil = LocalDate.parse("9999-12-31"),
                             ),
                             navn = SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.navn,
-                            verdi = BigDecimal.valueOf(22)
-                        )
-                    )
+                            verdi = BigDecimal.valueOf(22),
+                        ),
+                    ),
                 ),
                 resultatGrunnlagBeregning = GrunnlagBeregning(
                     inntektListe = listOf(Inntekt(TestUtil.INNTEKT_REFERANSE, "LONN_SKE", BigDecimal.valueOf(666000))),
                     skatteklasse = Skatteklasse(referanse = TestUtil.SKATTEKLASSE_REFERANSE, skatteklasse = 1),
-                    bostatus = Bostatus(referanse = TestUtil.BOSTATUS_REFERANSE, kode = BostatusKode.MED_ANDRE),
+                    bostatus = Bostatus(referanse = TestUtil.BOSTATUS_REFERANSE, kode = Bostatuskode.IKKE_MED_FORELDER),
                     barnIHusstand = BarnIHusstand(referanse = TestUtil.BARN_I_HUSSTAND_REFERANSE, antallBarn = 1.0),
-                    saerfradrag = Saerfradrag(referanse = TestUtil.SAERFRADRAG_REFERANSE, kode = SaerfradragKode.HELT),
+                    saerfradrag = Saerfradrag(referanse = TestUtil.SAERFRADRAG_REFERANSE, kode = Særfradragskode.HELT),
                     sjablonListe = listOf(
                         SjablonPeriode(
                             sjablonPeriode = Periode(
                                 datoFom = LocalDate.parse("2017-01-01"),
-                                datoTil = LocalDate.parse("9999-12-31")
+                                datoTil = LocalDate.parse("9999-12-31"),
                             ),
                             sjablon = Sjablon(
                                 navn = SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.navn,
                                 nokkelListe = emptyList(),
-                                innholdListe = listOf(SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(22)))
-                            )
-                        )
-                    )
-                )
-            )
+                                innholdListe = listOf(SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(22))),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
         )
 
         bidragsevnePeriodeResultat = BeregnBidragsevneResultat(periodeResultatListe)
@@ -313,8 +313,8 @@ internal class BidragsevnePeriodeCoreTest {
         avvikListe = listOf(
             Avvik(
                 avvikTekst = "beregnDatoTil må være etter beregnDatoFra",
-                avvikType = AvvikType.DATO_FOM_ETTER_DATO_TIL
-            )
+                avvikType = Avvikstype.DATO_FOM_ETTER_DATO_TIL,
+            ),
         )
     }
 

@@ -25,7 +25,7 @@ open class FellesCore {
                     referanse = lagSjablonReferanse(it),
                     periode = PeriodeCore(datoFom = it.periode.datoFom, datoTil = it.periode.datoTil),
                     navn = it.navn,
-                    verdi = it.verdi
+                    verdi = it.verdi,
                 )
             }
     }
@@ -44,8 +44,8 @@ open class FellesCore {
             sjablonPeriodeListe.add(
                 SjablonPeriode(
                     sjablonPeriode = Periode(datoFom = it.periode.datoFom, datoTil = it.periode.datoTil),
-                    sjablon = Sjablon(navn = it.navn, nokkelListe = sjablonNokkelListe, innholdListe = sjablonInnholdListe)
-                )
+                    sjablon = Sjablon(navn = it.navn, nokkelListe = sjablonNokkelListe, innholdListe = sjablonInnholdListe),
+                ),
             )
         }
         return sjablonPeriodeListe

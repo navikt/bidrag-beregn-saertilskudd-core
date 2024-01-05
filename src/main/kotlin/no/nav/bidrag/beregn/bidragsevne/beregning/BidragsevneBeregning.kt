@@ -11,7 +11,7 @@ interface BidragsevneBeregning {
     fun beregnMinstefradrag(
         grunnlag: GrunnlagBeregning,
         minstefradragInntektSjablonBelop: BigDecimal,
-        minstefradragInntektSjablonProsent: BigDecimal
+        minstefradragInntektSjablonProsent: BigDecimal,
     ): BigDecimal
 
     fun beregnSkattetrinnBelop(grunnlag: GrunnlagBeregning): BigDecimal

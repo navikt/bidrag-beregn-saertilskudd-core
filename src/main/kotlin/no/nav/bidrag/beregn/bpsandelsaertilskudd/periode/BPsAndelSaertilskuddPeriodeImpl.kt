@@ -42,7 +42,7 @@ class BPsAndelSaertilskuddPeriodeImpl(private val bPsAndelSaertilskuddBeregning:
 
     private fun justerDatoerGrunnlagslister(
         periodeGrunnlag: BeregnBPsAndelSaertilskuddGrunnlag,
-        beregnBPsAndelSaertilskuddListeGrunnlag: BeregnBPsAndelSaertilskuddListeGrunnlag
+        beregnBPsAndelSaertilskuddListeGrunnlag: BeregnBPsAndelSaertilskuddListeGrunnlag,
     ) {
         // Justerer datoer på grunnlagslistene (blir gjort implisitt i xxxPeriode(it))
         beregnBPsAndelSaertilskuddListeGrunnlag.justertSjablonPeriodeListe = periodeGrunnlag.sjablonPeriodeListe
@@ -56,7 +56,7 @@ class BPsAndelSaertilskuddPeriodeImpl(private val bPsAndelSaertilskuddBeregning:
 
         beregnBPsAndelSaertilskuddListeGrunnlag.justertInntektBMPeriodeListe = behandlUtvidetBarnetrygd(
             inntektPeriodeListe = periodeGrunnlag.inntektBMPeriodeListe,
-            sjablonPeriodeListe = beregnBPsAndelSaertilskuddListeGrunnlag.justertSjablonPeriodeListe
+            sjablonPeriodeListe = beregnBPsAndelSaertilskuddListeGrunnlag.justertSjablonPeriodeListe,
         )
             .map { InntektPeriode(it) }
 
@@ -67,7 +67,7 @@ class BPsAndelSaertilskuddPeriodeImpl(private val bPsAndelSaertilskuddBeregning:
     // Lagger bruddperioder ved å løpe gjennom alle periodelistene
     private fun lagBruddperioder(
         periodeGrunnlag: BeregnBPsAndelSaertilskuddGrunnlag,
-        beregnBPsAndelSaertilskuddListeGrunnlag: BeregnBPsAndelSaertilskuddListeGrunnlag
+        beregnBPsAndelSaertilskuddListeGrunnlag: BeregnBPsAndelSaertilskuddListeGrunnlag,
     ) {
         // Regler for beregning av BPs andel ble endret fra 01.01.2009, alle perioder etter da skal beregnes på ny måte.
         // Det må derfor legges til brudd på denne datoen
@@ -104,7 +104,7 @@ class BPsAndelSaertilskuddPeriodeImpl(private val bPsAndelSaertilskuddBeregning:
                         inntektType = it.inntektType,
                         inntektBelop = it.inntektBelop,
                         deltFordel = false,
-                        skatteklasse2 = false
+                        skatteklasse2 = false,
                     )
                 }
 
@@ -116,7 +116,7 @@ class BPsAndelSaertilskuddPeriodeImpl(private val bPsAndelSaertilskuddBeregning:
                         inntektType = it.inntektType,
                         inntektBelop = it.inntektBelop,
                         deltFordel = it.deltFordel,
-                        skatteklasse2 = it.skatteklasse2
+                        skatteklasse2 = it.skatteklasse2,
                     )
                 }
 
@@ -128,7 +128,7 @@ class BPsAndelSaertilskuddPeriodeImpl(private val bPsAndelSaertilskuddBeregning:
                         inntektType = it.inntektType,
                         inntektBelop = it.inntektBelop,
                         deltFordel = false,
-                        skatteklasse2 = false
+                        skatteklasse2 = false,
                     )
                 }
 
@@ -142,15 +142,15 @@ class BPsAndelSaertilskuddPeriodeImpl(private val bPsAndelSaertilskuddBeregning:
                     inntektBPListe = inntektBPListe,
                     inntektBMListe = inntektBMListe,
                     inntektBBListe = inntektBBListe,
-                    sjablonListe = sjablonliste
+                    sjablonListe = sjablonliste,
                 )
 
             grunnlag.periodeResultatListe.add(
                 ResultatPeriode(
                     resultatDatoFraTil = beregningsperiode,
                     resultatBeregning = bPsAndelSaertilskuddBeregning.beregn(beregnBPsAndelSaertilskuddGrunnlagPeriodisert),
-                    resultatGrunnlagBeregning = beregnBPsAndelSaertilskuddGrunnlagPeriodisert
-                )
+                    resultatGrunnlagBeregning = beregnBPsAndelSaertilskuddGrunnlagPeriodisert,
+                ),
             )
         }
     }
@@ -170,10 +170,10 @@ class BPsAndelSaertilskuddPeriodeImpl(private val bPsAndelSaertilskuddBeregning:
                         type = it.inntektType,
                         belop = it.inntektBelop,
                         deltFordel = it.deltFordel,
-                        skatteklasse2 = it.skatteklasse2
+                        skatteklasse2 = it.skatteklasse2,
                     )
                 },
-            sjablonPeriodeListe = sjablonPeriodeListe
+            sjablonPeriodeListe = sjablonPeriodeListe,
         )
 
         return justertInntektPeriodeListe
@@ -184,7 +184,7 @@ class BPsAndelSaertilskuddPeriodeImpl(private val bPsAndelSaertilskuddBeregning:
                     inntektType = it.type,
                     inntektBelop = it.belop,
                     deltFordel = it.deltFordel,
-                    skatteklasse2 = it.skatteklasse2
+                    skatteklasse2 = it.skatteklasse2,
                 )
             }
             .sortedBy { it.periodeDatoFraTil.datoFom }
@@ -193,7 +193,7 @@ class BPsAndelSaertilskuddPeriodeImpl(private val bPsAndelSaertilskuddBeregning:
     // Validerer at input-verdier til BPsAndelSaertilskuddsberegning er gyldige
     override fun validerInput(grunnlag: BeregnBPsAndelSaertilskuddGrunnlag): List<Avvik> {
         val avvikListe =
-            PeriodeUtil.validerBeregnPeriodeInput(beregnDatoFra = grunnlag.beregnDatoFra, beregnDatoTil = grunnlag.beregnDatoTil).toMutableList()
+            PeriodeUtil.validerBeregnPeriodeInput(beregnDatoFom = grunnlag.beregnDatoFra, beregnDatoTil = grunnlag.beregnDatoTil).toMutableList()
 
         avvikListe.addAll(
             PeriodeUtil.validerInputDatoer(
@@ -201,11 +201,12 @@ class BPsAndelSaertilskuddPeriodeImpl(private val bPsAndelSaertilskuddBeregning:
                 beregnDatoTil = grunnlag.beregnDatoTil,
                 dataElement = "nettoSaertilskuddPeriodeListe",
                 periodeListe = grunnlag.nettoSaertilskuddPeriodeListe.map { it.getPeriode() },
-                sjekkOverlapp = true,
-                sjekkOpphold = true,
-                sjekkNull = true,
-                sjekkBeregnPeriode = true
-            )
+                sjekkOverlappendePerioder = true,
+                sjekkOppholdMellomPerioder = true,
+                sjekkDatoTilNull = true,
+                sjekkDatoStartSluttAvPerioden = true,
+                sjekkBeregnPeriode = true,
+            ),
         )
 
         avvikListe.addAll(
@@ -214,11 +215,12 @@ class BPsAndelSaertilskuddPeriodeImpl(private val bPsAndelSaertilskuddBeregning:
                 beregnDatoTil = grunnlag.beregnDatoTil,
                 dataElement = "inntektBPPeriodeListe",
                 periodeListe = grunnlag.inntektBPPeriodeListe.map { it.getPeriode() },
-                sjekkOverlapp = false,
-                sjekkOpphold = true,
-                sjekkNull = false,
-                sjekkBeregnPeriode = true
-            )
+                sjekkOverlappendePerioder = false,
+                sjekkOppholdMellomPerioder = true,
+                sjekkDatoTilNull = false,
+                sjekkDatoStartSluttAvPerioden = true,
+                sjekkBeregnPeriode = true,
+            ),
         )
 
         avvikListe.addAll(
@@ -227,11 +229,12 @@ class BPsAndelSaertilskuddPeriodeImpl(private val bPsAndelSaertilskuddBeregning:
                 beregnDatoTil = grunnlag.beregnDatoTil,
                 dataElement = "inntektBMPeriodeListe",
                 periodeListe = grunnlag.inntektBMPeriodeListe.map { it.getPeriode() },
-                sjekkOverlapp = false,
-                sjekkOpphold = true,
-                sjekkNull = false,
-                sjekkBeregnPeriode = true
-            )
+                sjekkOverlappendePerioder = false,
+                sjekkOppholdMellomPerioder = true,
+                sjekkDatoTilNull = false,
+                sjekkDatoStartSluttAvPerioden = true,
+                sjekkBeregnPeriode = true,
+            ),
         )
 
         avvikListe.addAll(
@@ -240,11 +243,12 @@ class BPsAndelSaertilskuddPeriodeImpl(private val bPsAndelSaertilskuddBeregning:
                 beregnDatoTil = grunnlag.beregnDatoTil,
                 dataElement = "inntektBBPeriodeListe",
                 periodeListe = grunnlag.inntektBBPeriodeListe.map { it.getPeriode() },
-                sjekkOverlapp = false,
-                sjekkOpphold = true,
-                sjekkNull = false,
-                sjekkBeregnPeriode = true
-            )
+                sjekkOverlappendePerioder = false,
+                sjekkOppholdMellomPerioder = true,
+                sjekkDatoTilNull = false,
+                sjekkDatoStartSluttAvPerioden = true,
+                sjekkBeregnPeriode = true,
+            ),
         )
 
         avvikListe.addAll(
@@ -253,11 +257,12 @@ class BPsAndelSaertilskuddPeriodeImpl(private val bPsAndelSaertilskuddBeregning:
                 beregnDatoTil = grunnlag.beregnDatoTil,
                 dataElement = "sjablonPeriodeListe",
                 periodeListe = grunnlag.sjablonPeriodeListe.map { it.getPeriode() },
-                sjekkOverlapp = false,
-                sjekkOpphold = false,
-                sjekkNull = false,
-                sjekkBeregnPeriode = false
-            )
+                sjekkOverlappendePerioder = false,
+                sjekkOppholdMellomPerioder = false,
+                sjekkDatoTilNull = false,
+                sjekkDatoStartSluttAvPerioden = false,
+                sjekkBeregnPeriode = false,
+            ),
         )
 
         return avvikListe

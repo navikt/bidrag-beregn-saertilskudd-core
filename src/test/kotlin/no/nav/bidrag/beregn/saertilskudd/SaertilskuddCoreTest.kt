@@ -26,8 +26,8 @@ import no.nav.bidrag.beregn.saertilskudd.dto.LopendeBidragPeriodeCore
 import no.nav.bidrag.beregn.saertilskudd.dto.SamvaersfradragPeriodeCore
 import no.nav.bidrag.beregn.saertilskudd.periode.SaertilskuddPeriode
 import no.nav.bidrag.beregn.saertilskudd.periode.SaertilskuddPeriodeImpl
-import no.nav.bidrag.domain.enums.AvvikType
-import no.nav.bidrag.domain.enums.resultatkoder.ResultatKodeSaertilskudd
+import no.nav.bidrag.domene.enums.beregning.Avvikstype
+import no.nav.bidrag.domene.enums.beregning.ResultatkodeSærtilskudd
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.BeforeEach
@@ -79,7 +79,7 @@ internal class SaertilskuddCoreTest {
             Executable { assertThat(resultatCore.resultatPeriodeListe).isNotEmpty() },
             Executable { assertThat(resultatCore.resultatPeriodeListe).hasSize(1) },
             Executable { assertThat(resultatCore.resultatPeriodeListe[0].periode.datoFom).isEqualTo(LocalDate.parse("2017-01-01")) },
-            Executable { assertThat(resultatCore.resultatPeriodeListe[0].periode.datoTil).isEqualTo(LocalDate.parse("2018-01-01")) }
+            Executable { assertThat(resultatCore.resultatPeriodeListe[0].periode.datoTil).isEqualTo(LocalDate.parse("2018-01-01")) },
         )
     }
 
@@ -97,7 +97,7 @@ internal class SaertilskuddCoreTest {
             Executable { assertThat(resultatCore.resultatPeriodeListe).hasSize(1) },
             Executable { assertThat(resultatCore.resultatPeriodeListe[0].periode.datoFom).isEqualTo(LocalDate.parse("2017-01-01")) },
             Executable { assertThat(resultatCore.resultatPeriodeListe[0].periode.datoTil).isEqualTo(LocalDate.parse("2020-01-01")) },
-            Executable { assertThat(resultatCore.resultatPeriodeListe[0].grunnlagReferanseListe).hasSize(4) }
+            Executable { assertThat(resultatCore.resultatPeriodeListe[0].grunnlagReferanseListe).hasSize(4) },
         )
     }
 
@@ -116,8 +116,8 @@ internal class SaertilskuddCoreTest {
             Executable { assertThat(resultatCore.avvikListe).isNotEmpty() },
             Executable { assertThat(resultatCore.avvikListe).hasSize(1) },
             Executable { assertThat(resultatCore.avvikListe[0].avvikTekst).isEqualTo("beregnDatoTil må være etter beregnDatoFra") },
-            Executable { assertThat(resultatCore.avvikListe[0].avvikType).isEqualTo(AvvikType.DATO_FOM_ETTER_DATO_TIL.toString()) },
-            Executable { assertThat(resultatCore.resultatPeriodeListe).isEmpty() }
+            Executable { assertThat(resultatCore.avvikListe[0].avvikType).isEqualTo(Avvikstype.DATO_FOM_ETTER_DATO_TIL.toString()) },
+            Executable { assertThat(resultatCore.resultatPeriodeListe).isEmpty() },
         )
     }
 
@@ -126,8 +126,8 @@ internal class SaertilskuddCoreTest {
             BidragsevnePeriodeCore(
                 referanse = TestUtil.BIDRAGSEVNE_REFERANSE,
                 periodeDatoFraTil = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2020-01-01")),
-                bidragsevneBelop = BigDecimal.valueOf(100000)
-            )
+                bidragsevneBelop = BigDecimal.valueOf(100000),
+            ),
         )
 
         val bPsAndelSaertilskuddPeriodeListe = listOf(
@@ -136,8 +136,8 @@ internal class SaertilskuddCoreTest {
                 periodeDatoFraTil = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2020-01-01")),
                 bPsAndelSaertilskuddProsent = BigDecimal.valueOf(100000),
                 bPsAndelSaertilskuddBelop = BigDecimal.valueOf(20000),
-                barnetErSelvforsorget = false
-            )
+                barnetErSelvforsorget = false,
+            ),
         )
 
         val lopendeBidragPeriodeListe = listOf(
@@ -148,17 +148,17 @@ internal class SaertilskuddCoreTest {
                 lopendeBidragBelop = BigDecimal.valueOf(1000),
                 opprinneligBPsAndelUnderholdskostnadBelop = BigDecimal.valueOf(1000),
                 opprinneligBidragBelop = BigDecimal.valueOf(1000),
-                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1000)
-            )
+                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1000),
+            ),
         )
 
         val samvaersfradragPeriodeListe = listOf(
             SamvaersfradragPeriodeCore(
-                referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE,
+                referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE,
                 periodeDatoFraTil = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2020-01-01")),
                 barnPersonId = 1,
-                samvaersfradragBelop = BigDecimal.valueOf(1000)
-            )
+                samvaersfradragBelop = BigDecimal.valueOf(1000),
+            ),
         )
 
         val sjablonPeriodeListe = mapSjablonSjablontall(TestUtil.byggSjablonPeriodeListe())
@@ -171,35 +171,34 @@ internal class SaertilskuddCoreTest {
             bPsAndelSaertilskuddPeriodeListe = bPsAndelSaertilskuddPeriodeListe,
             lopendeBidragPeriodeListe = lopendeBidragPeriodeListe,
             samvaersfradragPeriodeListe = samvaersfradragPeriodeListe,
-            sjablonPeriodeListe = sjablonPeriodeListe
+            sjablonPeriodeListe = sjablonPeriodeListe,
         )
     }
 
-    private fun mapSjablonSjablontall(sjablonPeriodeListe: List<SjablonPeriode>): MutableList<SjablonPeriodeCore> =
-        sjablonPeriodeListe.stream()
-            .map { sjablon: SjablonPeriode ->
-                SjablonPeriodeCore(
-                    periode = PeriodeCore(datoFom = sjablon.getPeriode().datoFom, datoTil = sjablon.getPeriode().datoTil),
-                    navn = sjablon.sjablon.navn,
-                    nokkelListe = sjablon.sjablon.nokkelListe!!.stream()
-                        .map { (navn, verdi): SjablonNokkel ->
-                            SjablonNokkelCore(
-                                navn = navn,
-                                verdi = verdi
-                            )
-                        }
-                        .toList(),
-                    innholdListe = sjablon.sjablon.innholdListe.stream()
-                        .map { (navn, verdi): SjablonInnhold ->
-                            SjablonInnholdCore(
-                                navn = navn,
-                                verdi = verdi
-                            )
-                        }
-                        .toList()
-                )
-            }
-            .toList()
+    private fun mapSjablonSjablontall(sjablonPeriodeListe: List<SjablonPeriode>): MutableList<SjablonPeriodeCore> = sjablonPeriodeListe.stream()
+        .map { sjablon: SjablonPeriode ->
+            SjablonPeriodeCore(
+                periode = PeriodeCore(datoFom = sjablon.getPeriode().datoFom, datoTil = sjablon.getPeriode().datoTil),
+                navn = sjablon.sjablon.navn,
+                nokkelListe = sjablon.sjablon.nokkelListe!!.stream()
+                    .map { (navn, verdi): SjablonNokkel ->
+                        SjablonNokkelCore(
+                            navn = navn,
+                            verdi = verdi,
+                        )
+                    }
+                    .toList(),
+                innholdListe = sjablon.sjablon.innholdListe.stream()
+                    .map { (navn, verdi): SjablonInnhold ->
+                        SjablonInnholdCore(
+                            navn = navn,
+                            verdi = verdi,
+                        )
+                    }
+                    .toList(),
+            )
+        }
+        .toList()
 
     private fun byggSaertilskuddPeriodeResultat() {
         val lopendeBidragListe = listOf(
@@ -209,31 +208,31 @@ internal class SaertilskuddCoreTest {
                 lopendeBidragBelop = BigDecimal.valueOf(100),
                 opprinneligBPsAndelUnderholdskostnadBelop = BigDecimal.valueOf(1000),
                 opprinneligBidragBelop = BigDecimal.valueOf(1000),
-                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1000)
-            )
+                opprinneligSamvaersfradragBelop = BigDecimal.valueOf(1000),
+            ),
         )
 
         val samvaersfradragListe = listOf(
-            SamvaersfradragGrunnlag(referanse = TestUtil.SAMVAERSFRADRAG_REFERANSE, barnPersonId = 1, samvaersfradragBelop = BigDecimal.valueOf(100))
+            SamvaersfradragGrunnlag(referanse = TestUtil.SAMVÆRSFRADRAG_REFERANSE, barnPersonId = 1, samvaersfradragBelop = BigDecimal.valueOf(100)),
         )
 
         val periodeResultatListe = listOf(
             ResultatPeriode(
                 periode = Periode(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2018-01-01")),
                 soknadsbarnPersonId = 1,
-                resultat = ResultatBeregning(resultatBelop = BigDecimal.valueOf(1000), resultatkode = ResultatKodeSaertilskudd.SAERTILSKUDD_INNVILGET),
+                resultat = ResultatBeregning(resultatBelop = BigDecimal.valueOf(1000), resultatkode = ResultatkodeSærtilskudd.SÆRTILSKUDD_INNVILGET),
                 grunnlag = GrunnlagBeregning(
                     bidragsevne = Bidragsevne(referanse = TestUtil.BIDRAGSEVNE_REFERANSE, bidragsevneBelop = BigDecimal.valueOf(1000)),
                     bPsAndelSaertilskudd = BPsAndelSaertilskudd(
                         referanse = TestUtil.BPS_ANDEL_SAERTILSKUDD_REFERANSE,
                         bPsAndelSaertilskuddProsent = BigDecimal.valueOf(60),
                         bPsAndelSaertilskuddBelop = BigDecimal.valueOf(8000),
-                        barnetErSelvforsorget = false
+                        barnetErSelvforsorget = false,
                     ),
                     lopendeBidragListe = lopendeBidragListe,
-                    samvaersfradragGrunnlagListe = samvaersfradragListe
-                )
-            )
+                    samvaersfradragGrunnlagListe = samvaersfradragListe,
+                ),
+            ),
         )
 
         beregnSaertilskuddPeriodeResultat = BeregnSaertilskuddResultat(periodeResultatListe)
@@ -241,7 +240,7 @@ internal class SaertilskuddCoreTest {
 
     private fun byggAvvik() {
         avvikListe = listOf(
-            Avvik(avvikTekst = "beregnDatoTil må være etter beregnDatoFra", avvikType = AvvikType.DATO_FOM_ETTER_DATO_TIL)
+            Avvik(avvikTekst = "beregnDatoTil må være etter beregnDatoFra", avvikType = Avvikstype.DATO_FOM_ETTER_DATO_TIL),
         )
     }
 

@@ -34,23 +34,21 @@ class SaertilskuddCoreImpl(private val saertilskuddPeriode: SaertilskuddPeriode)
         return mapFraBusinessObject(avvikListe = avvikListe, resultat = beregnSaertilskuddResultat)
     }
 
-    private fun mapTilBusinessObject(grunnlag: BeregnSaertilskuddGrunnlagCore) =
-        BeregnSaertilskuddGrunnlag(
-            beregnDatoFra = grunnlag.beregnDatoFra,
-            beregnDatoTil = grunnlag.beregnDatoTil,
-            soknadsbarnPersonId = grunnlag.soknadsbarnPersonId,
-            bidragsevnePeriodeListe = mapBidragsevnePeriodeListe(grunnlag.bidragsevnePeriodeListe),
-            bPsAndelSaertilskuddPeriodeListe = mapBPsAndelSaertilskuddPeriodeListe(grunnlag.bPsAndelSaertilskuddPeriodeListe),
-            lopendeBidragPeriodeListe = mapLopendeBidragPeriodeListe(grunnlag.lopendeBidragPeriodeListe),
-            samvaersfradragGrunnlagPeriodeListe = mapSamvaersfradragPeriodeListe(grunnlag.samvaersfradragPeriodeListe),
-            sjablonPeriodeListe = mapSjablonPeriodeListe(grunnlag.sjablonPeriodeListe)
-        )
+    private fun mapTilBusinessObject(grunnlag: BeregnSaertilskuddGrunnlagCore) = BeregnSaertilskuddGrunnlag(
+        beregnDatoFra = grunnlag.beregnDatoFra,
+        beregnDatoTil = grunnlag.beregnDatoTil,
+        soknadsbarnPersonId = grunnlag.soknadsbarnPersonId,
+        bidragsevnePeriodeListe = mapBidragsevnePeriodeListe(grunnlag.bidragsevnePeriodeListe),
+        bPsAndelSaertilskuddPeriodeListe = mapBPsAndelSaertilskuddPeriodeListe(grunnlag.bPsAndelSaertilskuddPeriodeListe),
+        lopendeBidragPeriodeListe = mapLopendeBidragPeriodeListe(grunnlag.lopendeBidragPeriodeListe),
+        samvaersfradragGrunnlagPeriodeListe = mapSamvaersfradragPeriodeListe(grunnlag.samvaersfradragPeriodeListe),
+        sjablonPeriodeListe = mapSjablonPeriodeListe(grunnlag.sjablonPeriodeListe),
+    )
 
-    private fun mapFraBusinessObject(avvikListe: List<Avvik>, resultat: BeregnSaertilskuddResultat) =
-        BeregnSaertilskuddResultatCore(
-            resultatPeriodeListe = mapResultatPeriode(resultat.resultatPeriodeListe),
-            avvikListe = mapAvvik(avvikListe)
-        )
+    private fun mapFraBusinessObject(avvikListe: List<Avvik>, resultat: BeregnSaertilskuddResultat) = BeregnSaertilskuddResultatCore(
+        resultatPeriodeListe = mapResultatPeriode(resultat.resultatPeriodeListe),
+        avvikListe = mapAvvik(avvikListe),
+    )
 
     private fun mapBidragsevnePeriodeListe(bidragsevnePeriodeListeCore: List<BidragsevnePeriodeCore>): List<BidragsevnePeriode> {
         val bidragsevnePeriodeListe = mutableListOf<BidragsevnePeriode>()
@@ -59,14 +57,16 @@ class SaertilskuddCoreImpl(private val saertilskuddPeriode: SaertilskuddPeriode)
                 BidragsevnePeriode(
                     referanse = it.referanse,
                     periodeDatoFraTil = Periode(datoFom = it.periodeDatoFraTil.datoFom, datoTil = it.periodeDatoFraTil.datoTil),
-                    bidragsevneBelop = it.bidragsevneBelop
-                )
+                    bidragsevneBelop = it.bidragsevneBelop,
+                ),
             )
         }
         return bidragsevnePeriodeListe
     }
 
-    private fun mapBPsAndelSaertilskuddPeriodeListe(bPsAndelSaertilskuddPeriodeListeCore: List<BPsAndelSaertilskuddPeriodeCore>): List<BPsAndelSaertilskuddPeriode> {
+    private fun mapBPsAndelSaertilskuddPeriodeListe(
+        bPsAndelSaertilskuddPeriodeListeCore: List<BPsAndelSaertilskuddPeriodeCore>,
+    ): List<BPsAndelSaertilskuddPeriode> {
         val bPsAndelSaertilskuddPeriodeListe = mutableListOf<BPsAndelSaertilskuddPeriode>()
         bPsAndelSaertilskuddPeriodeListeCore.forEach {
             bPsAndelSaertilskuddPeriodeListe.add(
@@ -75,8 +75,8 @@ class SaertilskuddCoreImpl(private val saertilskuddPeriode: SaertilskuddPeriode)
                     periodeDatoFraTil = Periode(datoFom = it.periodeDatoFraTil.datoFom, datoTil = it.periodeDatoFraTil.datoTil),
                     bPsAndelSaertilskuddProsent = it.bPsAndelSaertilskuddProsent,
                     bPsAndelSaertilskuddBelop = it.bPsAndelSaertilskuddBelop,
-                    barnetErSelvforsorget = it.barnetErSelvforsorget
-                )
+                    barnetErSelvforsorget = it.barnetErSelvforsorget,
+                ),
             )
         }
         return bPsAndelSaertilskuddPeriodeListe
@@ -93,14 +93,16 @@ class SaertilskuddCoreImpl(private val saertilskuddPeriode: SaertilskuddPeriode)
                     lopendeBidragBelop = it.lopendeBidragBelop,
                     opprinneligBPsAndelUnderholdskostnadBelop = it.opprinneligBPsAndelUnderholdskostnadBelop,
                     opprinneligBidragBelop = it.opprinneligBidragBelop,
-                    opprinneligSamvaersfradragBelop = it.opprinneligSamvaersfradragBelop
-                )
+                    opprinneligSamvaersfradragBelop = it.opprinneligSamvaersfradragBelop,
+                ),
             )
         }
         return lopendeBidragPeriodeListe
     }
 
-    private fun mapSamvaersfradragPeriodeListe(samvaersfradragPeriodeCoreListe: List<SamvaersfradragPeriodeCore>): List<SamvaersfradragGrunnlagPeriode> {
+    private fun mapSamvaersfradragPeriodeListe(
+        samvaersfradragPeriodeCoreListe: List<SamvaersfradragPeriodeCore>,
+    ): List<SamvaersfradragGrunnlagPeriode> {
         val samvaersfradragPeriodeListe = mutableListOf<SamvaersfradragGrunnlagPeriode>()
         samvaersfradragPeriodeCoreListe.forEach {
             samvaersfradragPeriodeListe.add(
@@ -108,8 +110,8 @@ class SaertilskuddCoreImpl(private val saertilskuddPeriode: SaertilskuddPeriode)
                     referanse = it.referanse,
                     barnPersonId = it.barnPersonId,
                     periodeDatoFraTil = Periode(datoFom = it.periodeDatoFraTil.datoFom, datoTil = it.periodeDatoFraTil.datoTil),
-                    samvaersfradragBelop = it.samvaersfradragBelop
-                )
+                    samvaersfradragBelop = it.samvaersfradragBelop,
+                ),
             )
         }
         return samvaersfradragPeriodeListe
@@ -123,8 +125,8 @@ class SaertilskuddCoreImpl(private val saertilskuddPeriode: SaertilskuddPeriode)
                     periode = PeriodeCore(datoFom = it.periode.datoFom, datoTil = it.periode.datoTil),
                     soknadsbarnPersonId = it.soknadsbarnPersonId,
                     resultatBeregning = ResultatBeregningCore(belop = it.resultat.resultatBelop, kode = it.resultat.resultatkode.toString()),
-                    grunnlagReferanseListe = mapReferanseListe(it)
-                )
+                    grunnlagReferanseListe = mapReferanseListe(it),
+                ),
             )
         }
         return resultatPeriodeCoreListe
